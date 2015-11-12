@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{76A9009C-FABC-4E23-A1A8-7D169666CD3D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ClassLibraryBBAuto</RootNamespace>
+    <AssemblyName>ClassLibraryBBAuto</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Car.cs" />
+    <Compile Include="Common\ImportFrom1C.cs" />
+    <Compile Include="Common\MyBuffer.cs" />
+    <Compile Include="Common\ColumnSize.cs" />
+    <Compile Include="Common\MyPrinter.cs" />
+    <Compile Include="Common\MyString.cs" />
+    <Compile Include="Common\MailPolicy.cs" />
+    <Compile Include="DataBase\DataBase.cs" />
+    <Compile Include="DataBase\IProvider.cs" />
+    <Compile Include="DataBase\MockProvider.cs" />
+    <Compile Include="DataBase\ProviderSQL.cs" />
+    <Compile Include="DataBase\ProviderWebService.cs" />
+    <Compile Include="Dictionary\CurrentStatusAfterDTPs.cs" />
+    <Compile Include="Dictionary\FuelCardTypes.cs" />
+    <Compile Include="Dictionary\Statuses.cs" />
+    <Compile Include="ForCar\CarInfo.cs" />
+    <Compile Include="ForDriver\FuelCard.cs" />
+    <Compile Include="ForDriver\FuelCardDriver.cs" />
+    <Compile Include="Interfaces\IActual.cs" />
+    <Compile Include="Lists\CarList.cs" />
+    <Compile Include="Lists\ColumnSizeList.cs" />
+    <Compile Include="Lists\FuelCardDriverList.cs" />
+    <Compile Include="Lists\FuelCardList.cs" />
+    <Compile Include="MainList.cs" />
+    <Compile Include="Common\eMail.cs" />
+    <Compile Include="Common\Employees.cs" />
+    <Compile Include="Common\Ldap.cs" />
+    <Compile Include="Common\MailText.cs" />
+    <Compile Include="Common\MyDictionary.cs" />
+    <Compile Include="Common\SuppyAddress.cs" />
+    <Compile Include="Dictionary\Roles.cs" />
+    <Compile Include="Dictionary\Depts.cs" />
+    <Compile Include="Dictionary\EngineTypes.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="ForCar\Account.cs" />
+    <Compile Include="Interfaces\IDictionary.cs" />
+    <Compile Include="Interfaces\INotificationList.cs" />
+    <Compile Include="Lists\AccountList.cs" />
+    <Compile Include="Lists\GradeList.cs" />
+    <Compile Include="Dictionary\Positions.cs" />
+    <Compile Include="Lists\MailTextList.cs" />
+    <Compile Include="Lists\ShipPartList.cs" />
+    <Compile Include="Lists\SsDTPList.cs" />
+    <Compile Include="Dictionary\ViolationTypes.cs" />
+    <Compile Include="ForCar\ShipPart.cs" />
+    <Compile Include="ForCar\SsDTP.cs" />
+    <Compile Include="ForDriver\UserAccess.cs" />
+    <Compile Include="Lists\CarDocList.cs" />
+    <Compile Include="Common\CreateDocument.cs" />
+    <Compile Include="Common\MyDateTime.cs" />
+    <Compile Include="Common\OfficeDoc.cs" />
+    <Compile Include="Common\Template.cs" />
+    <Compile Include="Dictionary\Colors.cs" />
+    <Compile Include="Dictionary\Comps.cs" />
+    <Compile Include="Dictionary\Culprits.cs" />
+    <Compile Include="Dictionary\Marks.cs" />
+    <Compile Include="Lists\ModelList.cs" />
+    <Compile Include="Dictionary\Owners.cs" />
+    <Compile Include="Dictionary\Regions.cs" />
+    <Compile Include="Dictionary\ServiceStantions.cs" />
+    <Compile Include="Dictionary\StatusAfterDTPs.cs" />
+    <Compile Include="DriverCar.cs" />
+    <Compile Include="Lists\CarSaleList.cs" />
+    <Compile Include="Lists\DiagCardList.cs" />
+    <Compile Include="Lists\DillerList.cs" />
+    <Compile Include="Lists\DriverCarList.cs" />
+    <Compile Include="Lists\DriverList.cs" />
+    <Compile Include="FileOpenTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FileOpenTextBox.Designer.cs">
+      <DependentUpon>FileOpenTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ForCar\CarDoc.cs" />
+    <Compile Include="Common\WorkWithFiles.cs" />
+    <Compile Include="ForCar\CarSale.cs" />
+    <Compile Include="ForCar\DiagCard.cs" />
+    <Compile Include="ForCar\Diller.cs" />
+    <Compile Include="Driver.cs" />
+    <Compile Include="ForCar\DTPFile.cs" />
+    <Compile Include="ForCar\Repair.cs" />
+    <Compile Include="Dictionary\RepairTypes.cs" />
+    <Compile Include="ForCar\TempMove.cs" />
+    <Compile Include="ForDriver\DriverLicense.cs" />
+    <Compile Include="ForCar\DTP.cs" />
+    <Compile Include="ForCar\Grade.cs" />
+    <Compile Include="ForDriver\Instraction.cs" />
+    <Compile Include="Interfaces\INotification.cs" />
+    <Compile Include="ForCar\Invoice.cs" />
+    <Compile Include="Lists\DTPFileList.cs" />
+    <Compile Include="Lists\DTPList.cs" />
+    <Compile Include="Dictionary\EmployeesNames.cs" />
+    <Compile Include="Lists\EmployeesList.cs" />
+    <Compile Include="Lists\InstractionList.cs" />
+    <Compile Include="Lists\InvoiceList.cs" />
+    <Compile Include="Lists\LicencesList.cs" />
+    <Compile Include="Lists\MedicalCertList.cs" />
+    <Compile Include="Lists\MileageList.cs" />
+    <Compile Include="Lists\PassportList.cs" />
+    <Compile Include="Lists\PTSList.cs" />
+    <Compile Include="Lists\RepairList.cs" />
+    <Compile Include="Lists\STSList.cs" />
+    <Compile Include="Lists\SuppyAddressList.cs" />
+    <Compile Include="Lists\TemplateList.cs" />
+    <Compile Include="Lists\TempMoveList.cs" />
+    <Compile Include="Lists\UserAccessList.cs" />
+    <Compile Include="Lists\ViolationList.cs" />
+    <Compile Include="MainDictionary.cs" />
+    <Compile Include="ForDriver\MedicalCert.cs" />
+    <Compile Include="ForCar\Mileage.cs" />
+    <Compile Include="ForCar\Model.cs" />
+    <Compile Include="DataBase\MockDataBase.cs" />
+    <Compile Include="OneStringDictionary.cs" />
+    <Compile Include="ForDriver\Passport.cs" />
+    <Compile Include="ForCar\Policy.cs" />
+    <Compile Include="Lists\PolicyList.cs" />
+    <Compile Include="Presenters\DictionaryPresenter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ForCar\PTS.cs" />
+    <Compile Include="ForCar\STS.cs" />
+    <Compile Include="Senders\DiagCardSender.cs" />
+    <Compile Include="Senders\NotificationSender.cs" />
+    <Compile Include="Senders\PolicyListSender.cs" />
+    <Compile Include="ForCar\Violation.cs" />
+    <Compile Include="Account\User.cs" />
+    <Compile Include="Service References\BBAutoWebService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IViewDictionary.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>4</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>6</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Word">
+      <Guid>{00020905-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>8</VersionMajor>
+      <VersionMinor>4</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FileOpenTextBox.resx">
+      <DependentUpon>FileOpenTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataLayer\DataLayer.csproj">
+      <Project>{7fcef0ec-8651-4d9e-9a1d-7dc7c92c2436}</Project>
+      <Name>DataLayer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Properties\DataSources\System.Data.DataSet.datasource" />
+    <None Include="Service References\BBAutoWebService\BBAutoService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\BBAutoWebService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\BBAutoWebService\BBAutoService.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\BBAutoWebService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\BBAutoWebService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\BBAutoWebService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
