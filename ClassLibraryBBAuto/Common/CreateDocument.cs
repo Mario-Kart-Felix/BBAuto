@@ -377,7 +377,7 @@ namespace ClassLibraryBBAuto
             string passportToString = "нет данных";
 
             if (passport != null)
-                passportToString = string.Concat("паспорт гражданина Российской Федерации, ", passport.number, ", выдан ", passport.giveDate.ToShortDateString(),
+                passportToString = string.Concat(passport.number, ", выдан ", passport.giveDate.ToShortDateString(),
                     ", ", passport.giveOrg, ", Адрес: ", passport.address);
 
             wordDoc.setValue("паспорт регионального представителя", passportToString);
