@@ -178,6 +178,9 @@ namespace ClassLibraryBBAuto
             else
                 throw new NotImplementedException("Не заданы бухгалтеры для данной фирмы.");
 
+            if (accountants.Count == 0)
+                throw new NullReferenceException("Не найдены e-mail адреса бухгалтеров");
+
             Driver boss = driverList.GetDriverListByRole(RolesList.Boss).First();
             
             Send(accountants, new string[] { boss.email }, new List<Attachment>() { new Attachment(account.File) });
