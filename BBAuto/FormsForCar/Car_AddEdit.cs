@@ -98,13 +98,7 @@ namespace BBAuto
                 tbBodyNumber.ReadOnly = true;
                 tbYear.ReadOnly = true;
                 cbColor.Enabled = false;
-                
-                mtbNumberPTS.ReadOnly = true;
-                dtpDatePTS.Enabled = false;
-                tbGiveOrgPTS.ReadOnly = true;
-                Button btnOpenPTS = ucFilePTS.Controls["btnBrowse"] as Button;
-                btnOpenPTS.Enabled = false;
-                
+                                
                 cbOwner.Enabled = false;
                 cbRegionBuy.Enabled = false;
                 cbRegionUsing.Enabled = false;
