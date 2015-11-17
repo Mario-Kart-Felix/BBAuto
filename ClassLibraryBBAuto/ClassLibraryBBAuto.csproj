@@ -67,6 +67,7 @@
     <Compile Include="Lists\ColumnSizeList.cs" />
     <Compile Include="Lists\FuelCardDriverList.cs" />
     <Compile Include="Lists\FuelCardList.cs" />
+    <Compile Include="Lists\PointList.cs" />
     <Compile Include="MainList.cs" />
     <Compile Include="Common\eMail.cs" />
     <Compile Include="Common\Employees.cs" />
@@ -174,6 +175,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Tables\Point.cs" />
     <Compile Include="Views\IViewDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
