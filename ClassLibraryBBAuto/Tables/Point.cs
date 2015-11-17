@@ -33,6 +33,11 @@ namespace ClassLibraryBBAuto
             pointList.Add(this);
         }
 
+        internal override void Delete()
+        {
+            _provider.Delete("Point", _id);
+        }
+
         internal override object[] getRow()
         {
             Regions regions = Regions.getInstance();
