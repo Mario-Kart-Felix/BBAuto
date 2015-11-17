@@ -96,7 +96,7 @@ namespace ClassLibraryBBAuto
 
                 if (_idPosition == 0)
                 {
-                    OneStringDictionary.save("Position", tempID, value);
+                    OneStringDictionary.save("Position", 0, value);
                     positions.ReLoad();
                     _idPosition = positions.getItem(value);
                 }
@@ -125,7 +125,7 @@ namespace ClassLibraryBBAuto
 
                 if (_idDept == 0)
                 {
-                    OneStringDictionary.save("Dept", tempID, value);
+                    OneStringDictionary.save("Dept", 0, value);
                     depts.ReLoad();
                     _idDept = depts.getItem(value);
                 }
@@ -156,7 +156,7 @@ namespace ClassLibraryBBAuto
 
                     if (_idOwner == 0)
                     {
-                        OneStringDictionary.save("Owner", tempID, value);
+                        OneStringDictionary.save("Owner", 0, value);
                         owners.ReLoad();
                         _idOwner = owners.getItem(value);
                     }
