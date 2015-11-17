@@ -34,8 +34,7 @@ namespace ClassLibraryBBAuto
                     driver.Position = fields[6];
                     driver.DateBirth = fields[7];
                     driver.Login = fields[9];
-                    if (!(string.IsNullOrEmpty(fields[10])))
-                        driver.email = fields[10];
+                    driver.email = fields[10];
 
                     driver.Decret = ((fields[15] == "Временно не работает") || (fields[15] == "В декретном отпуске"));
                     driver.Fired = (!string.IsNullOrEmpty(fields[15]) && (fields[15].Split(' ')[0] == "Уволен"));
