@@ -12,6 +12,24 @@ namespace ClassLibraryBBAuto
         private int _idMyPoint2;
         private int _distance;
 
+        public int MyPoint1ID
+        {
+            get { return _idMyPoint1; }
+            set { _idMyPoint1 = value; }
+        }
+
+        public int MyPoint2ID
+        {
+            get { return _idMyPoint2; }
+            set { _idMyPoint2 = value; }
+        }
+
+        public string Distance
+        {
+            get { return _distance.ToString(); }
+            set { int.TryParse(value, out _distance); }
+        }
+
         public Route()
         {
             _idMyPoint1 = 0;
