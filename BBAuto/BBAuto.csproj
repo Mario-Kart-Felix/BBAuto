@@ -99,6 +99,12 @@
     <Compile Include="AddEdit\Car_Sale.Designer.cs">
       <DependentUpon>Car_Sale.cs</DependentUpon>
     </Compile>
+    <Compile Include="CommonForms\formMyPointList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CommonForms\formMyPointList.Designer.cs">
+      <DependentUpon>formMyPointList.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormsForDriver\AddNewDriver.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -425,6 +431,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AddEdit\Car_Sale.resx">
       <DependentUpon>Car_Sale.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CommonForms\formMyPointList.resx">
+      <DependentUpon>formMyPointList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormsForDriver\AddNewDriver.resx">
       <DependentUpon>AddNewDriver.cs</DependentUpon>
