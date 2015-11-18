@@ -59,9 +59,11 @@
             this.dgv.Location = new System.Drawing.Point(12, 41);
             this.dgv.Name = "dgv";
             this.dgv.RowHeadersVisible = false;
+            this.dgv.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dgv.Size = new System.Drawing.Size(469, 294);
             this.dgv.TabIndex = 39;
             this.dgv.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_CellMouseDoubleClick);
+            this.dgv.Resize += new System.EventHandler(this.dgv_Resize);
             // 
             // btnDel
             // 
@@ -93,7 +95,8 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.dgv);
             this.Name = "formMyPointList";
-            this.Text = "formMyPointList";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Справочник \"Пункты назначения\"";
             this.Load += new System.EventHandler(this.formMyPointList_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.ResumeLayout(false);

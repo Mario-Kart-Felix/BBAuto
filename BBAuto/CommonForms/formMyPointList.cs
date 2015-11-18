@@ -28,6 +28,8 @@ namespace BBAuto
             loadData();
 
             _dgvMain = new MainDGV(dgv);
+
+            ResizeDGV();
         }
 
         private void loadData()
@@ -60,6 +62,17 @@ namespace BBAuto
             _myPointList.Delete(_dgvMain.GetID());
 
             loadData();
+        }
+
+        private void dgv_Resize(object sender, EventArgs e)
+        {
+            ResizeDGV();
+        }
+
+        private void ResizeDGV()
+        {
+            dgv.Columns[1].Width = dgv.Width / 2;
+            dgv.Columns[2].Width = dgv.Width / 2;
         }
     }
 }
