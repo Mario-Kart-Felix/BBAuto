@@ -28,37 +28,37 @@ namespace ClassLibraryBBAuto
 
         protected override void loadFromSql()
         {
-            DataTable dt = _provider.Select("Point");
+            DataTable dt = _provider.Select("MyPoint");
 
             foreach (DataRow row in dt.Rows)
             {
-                MyPoint point = new MyPoint(row);
-                Add(point);
+                MyPoint myPoint = new MyPoint(row);
+                Add(myPoint);
             }
         }
 
-        public void Add(MyPoint point)
+        public void Add(MyPoint myPoint)
         {
-            if (list.Exists(item => item == point))
+            if (list.Exists(item => item == myPoint))
                 return;
 
-            list.Add(point);
+            list.Add(myPoint);
         }
 
-        public void Delete(int idPoint)
+        public void Delete(int idMyPoint)
         {
-            MyPoint point = getItem(idPoint);
+            MyPoint myPoint = getItem(idMyPoint);
 
-            list.Remove(point);
+            list.Remove(myPoint);
 
-            point.Delete();
+            myPoint.Delete();
         }
 
         public MyPoint getItem(int id)
         {
-            var points = list.Where(item => item.IsEqualsID(id));
+            var myPoints = list.Where(item => item.IsEqualsID(id));
 
-            return (points.Count() > 0) ? points.First() : new MyPoint();
+            return (myPoints.Count() > 0) ? myPoints.First() : new MyPoint();
         }
 
         public DataTable ToDataTable()
@@ -66,15 +66,15 @@ namespace ClassLibraryBBAuto
             return CreateTable(list);
         }
 
-        private DataTable CreateTable(List<MyPoint> points)
+        private DataTable CreateTable(List<MyPoint> myPoints)
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("id");
-            dt.Columns.Add("Название");
             dt.Columns.Add("Регион");
+            dt.Columns.Add("Название");
 
-            foreach (MyPoint point in points)
-                dt.Rows.Add(point.getRow());
+            foreach (MyPoint myPoint in myPoints)
+                dt.Rows.Add(myPoint.getRow());
 
             return dt;
         }
