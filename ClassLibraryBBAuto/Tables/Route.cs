@@ -29,7 +29,10 @@ namespace ClassLibraryBBAuto
 
         public override void Save()
         {
-            base.Save();
+            _provider.Insert("Route", _id, _idPoint1, _idPoint2, _distance);
+
+            RouteList routeList = RouteList.getInstance();
+            routeList.Add(this);
         }
 
         internal override void Delete()
