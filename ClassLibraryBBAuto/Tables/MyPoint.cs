@@ -8,8 +8,8 @@ namespace ClassLibraryBBAuto
 {
     public class MyPoint : MainDictionary
     {
-        private string _name;
         private int _idRegion;
+        private string _name;
 
         public int RegionID
         {
@@ -33,13 +33,13 @@ namespace ClassLibraryBBAuto
         public MyPoint(DataRow row)
         {
             int.TryParse(row[0].ToString(), out _id);
-            _name = row[1].ToString();
-            int.TryParse(row[2].ToString(), out _idRegion);
+            int.TryParse(row[1].ToString(), out _idRegion);
+            _name = row[2].ToString();
         }
 
         public override void Save()
         {
-            _provider.Insert("MyPoint", _id, _name, _idRegion);
+            _provider.Insert("MyPoint", _id, _idRegion, _name);
 
             MyPointList pointList = MyPointList.getInstance();
             pointList.Add(this);
@@ -54,7 +54,7 @@ namespace ClassLibraryBBAuto
         {
             Regions regions = Regions.getInstance();
 
-            return new object[] { _id, _name, regions.getItem(_idRegion) };
+            return new object[] { _id, regions.getItem(_idRegion), _name };
         }
     }
 }
