@@ -67,7 +67,7 @@
     <Compile Include="Lists\ColumnSizeList.cs" />
     <Compile Include="Lists\FuelCardDriverList.cs" />
     <Compile Include="Lists\FuelCardList.cs" />
-    <Compile Include="Lists\PointList.cs" />
+    <Compile Include="Lists\MyPointList.cs" />
     <Compile Include="Lists\RouteList.cs" />
     <Compile Include="MainList.cs" />
     <Compile Include="Common\eMail.cs" />
