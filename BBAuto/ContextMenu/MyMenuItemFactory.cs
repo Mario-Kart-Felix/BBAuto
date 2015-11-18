@@ -153,6 +153,8 @@ namespace BBAuto
                     return CreateAddDriver();
                 case ContextMenuItem.DeleteDriver:
                     return CreateDeleteDriver();
+                case ContextMenuItem.MyPointList:
+                    return CreateMyPointList();
                 default:
                     throw new NotImplementedException();
             }
@@ -715,6 +717,13 @@ namespace BBAuto
         {
             ToolStripMenuItem item = CreateItem("Удалить водителя");
             item.Click += DeleteDriver_Click;
+            return item;
+        }
+
+        private ToolStripMenuItem CreateMyPointList()
+        {
+            ToolStripMenuItem item = CreateItem("Список пунктов назначения");
+            item.Click += MyPointList_Click;
             return item;
         }
 
@@ -1383,6 +1392,12 @@ namespace BBAuto
                     _mainStatus.Set(_mainStatus.Get());
                 }
             }
+        }
+
+        private void MyPointList_Click(object sender, EventArgs e)
+        {
+            formMyPointList myPointList = new formMyPointList();
+            myPointList.ShowDialog();
         }
     }
 }

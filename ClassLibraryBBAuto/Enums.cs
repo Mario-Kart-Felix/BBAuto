@@ -51,6 +51,8 @@
 
         Sort, Filter,
 
-        AddDriver, DeleteDriver
+        AddDriver, DeleteDriver,
+
+        MyPointList
     };
 }
