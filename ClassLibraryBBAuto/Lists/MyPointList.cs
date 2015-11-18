@@ -66,6 +66,11 @@ namespace ClassLibraryBBAuto
             return CreateTable(list);
         }
 
+        public DataTable ToDataTable(int idRegion)
+        {
+            return CreateTable(list.Where(item => item.RegionID == idRegion).ToList());
+        }
+
         private DataTable CreateTable(List<MyPoint> myPoints)
         {
             DataTable dt = new DataTable();
