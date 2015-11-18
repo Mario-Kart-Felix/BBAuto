@@ -69,6 +69,12 @@
     <Compile Include="AddEdit\FuelCard_AddEdit.Designer.cs">
       <DependentUpon>FuelCard_AddEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddEdit\MyPoint_AddEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddEdit\MyPoint_AddEdit.Designer.cs">
+      <DependentUpon>MyPoint_AddEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="AddEdit\SsDTP_AddEdit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -404,6 +410,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AddEdit\FuelCard_AddEdit.resx">
       <DependentUpon>FuelCard_AddEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddEdit\MyPoint_AddEdit.resx">
+      <DependentUpon>MyPoint_AddEdit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AddEdit\SsDTP_AddEdit.resx">
       <DependentUpon>SsDTP_AddEdit.cs</DependentUpon>
