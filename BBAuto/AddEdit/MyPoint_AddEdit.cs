@@ -54,7 +54,12 @@ namespace BBAuto
         {
             if (_workWithForm.IsEditMode())
             {
-                if (tbName.Text == string.Empty)
+                if (cbRegion.SelectedValue == null)
+                {
+                    MessageBox.Show("Выберите регион", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                else if (tbName.Text == string.Empty)
                 {
                     MessageBox.Show("Введите название", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
