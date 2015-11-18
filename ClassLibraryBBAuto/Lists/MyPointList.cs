@@ -6,22 +6,22 @@ using System.Data;
 
 namespace ClassLibraryBBAuto
 {
-    public class PointList : MainList
+    public class MyPointList : MainList
     {
-        private List<Point> list;
-        private static PointList uniqueInstance;
+        private List<MyPoint> list;
+        private static MyPointList uniqueInstance;
 
-        private PointList()
+        private MyPointList()
         {
-            list = new List<Point>();
+            list = new List<MyPoint>();
 
             loadFromSql();
         }
 
-        public static PointList getInstance()
+        public static MyPointList getInstance()
         {
             if (uniqueInstance == null)
-                uniqueInstance = new PointList();
+                uniqueInstance = new MyPointList();
 
             return uniqueInstance;
         }
@@ -32,12 +32,12 @@ namespace ClassLibraryBBAuto
 
             foreach (DataRow row in dt.Rows)
             {
-                Point point = new Point(row);
+                MyPoint point = new MyPoint(row);
                 Add(point);
             }
         }
 
-        public void Add(Point point)
+        public void Add(MyPoint point)
         {
             if (list.Exists(item => item == point))
                 return;
@@ -47,18 +47,18 @@ namespace ClassLibraryBBAuto
 
         public void Delete(int idPoint)
         {
-            Point point = getItem(idPoint);
+            MyPoint point = getItem(idPoint);
 
             list.Remove(point);
 
             point.Delete();
         }
 
-        public Point getItem(int id)
+        public MyPoint getItem(int id)
         {
             var points = list.Where(item => item.IsEqualsID(id));
 
-            return (points.Count() > 0) ? points.First() : new Point();
+            return (points.Count() > 0) ? points.First() : new MyPoint();
         }
 
         public DataTable ToDataTable()
@@ -66,14 +66,14 @@ namespace ClassLibraryBBAuto
             return CreateTable(list);
         }
 
-        private DataTable CreateTable(List<Point> points)
+        private DataTable CreateTable(List<MyPoint> points)
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("id");
             dt.Columns.Add("Название");
             dt.Columns.Add("Регион");
 
-            foreach (Point point in points)
+            foreach (MyPoint point in points)
                 dt.Rows.Add(point.getRow());
 
             return dt;

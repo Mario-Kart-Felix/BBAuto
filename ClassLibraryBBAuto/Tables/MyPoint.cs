@@ -6,19 +6,31 @@ using System.Data;
 
 namespace ClassLibraryBBAuto
 {
-    public class Point : MainDictionary
+    public class MyPoint : MainDictionary
     {
         private string _name;
         private int _idRegion;
 
-        public Point()
+        public int RegionID
+        {
+            get { return _idRegion; }
+            set { _idRegion = value; }
+        }
+
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+
+        public MyPoint()
         {
             _id = 0;
             _idRegion = 0;
             _name = string.Empty;
         }
 
-        public Point(DataRow row)
+        public MyPoint(DataRow row)
         {
             int.TryParse(row[0].ToString(), out _id);
             _name = row[1].ToString();
@@ -27,15 +39,15 @@ namespace ClassLibraryBBAuto
 
         public override void Save()
         {
-            _provider.Insert("Point", _id, _name, _idRegion);
+            _provider.Insert("MyPoint", _id, _name, _idRegion);
 
-            PointList pointList = PointList.getInstance();
+            MyPointList pointList = MyPointList.getInstance();
             pointList.Add(this);
         }
 
         internal override void Delete()
         {
-            _provider.Delete("Point", _id);
+            _provider.Delete("MyPoint", _id);
         }
 
         internal override object[] getRow()
