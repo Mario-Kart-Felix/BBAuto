@@ -61,16 +61,19 @@ namespace BBAuto
             if (cbRegion.SelectedValue == null)
                 return;
 
+            int idRegion;
+            int.TryParse(cbRegion.SelectedValue.ToString(), out idRegion);
+
             MyPointList myPointList = MyPointList.getInstance();
-            DataTable dt = myPointList.ToDataTable(Convert.ToInt32(cbRegion.SelectedValue));
+            DataTable dt = myPointList.ToDataTable(idRegion);
 
             cbMyPoint1.DataSource = dt;
             cbMyPoint1.ValueMember = dt.Columns[0].ColumnName;
-            cbMyPoint1.DisplayMember = dt.Columns[1].ColumnName;
+            cbMyPoint1.DisplayMember = dt.Columns[2].ColumnName;
 
             cbMyPoint2.DataSource = dt;
             cbMyPoint2.ValueMember = dt.Columns[0].ColumnName;
-            cbMyPoint2.DisplayMember = dt.Columns[1].ColumnName;
+            cbMyPoint2.DisplayMember = dt.Columns[2].ColumnName;
         }
 
         private void cbRegion_SelectedIndexChanged(object sender, EventArgs e)
