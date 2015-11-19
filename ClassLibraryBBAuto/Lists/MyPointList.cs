@@ -16,6 +16,8 @@ namespace ClassLibraryBBAuto
             list = new List<MyPoint>();
 
             loadFromSql();
+
+            list.Sort(Compare);
         }
 
         public static MyPointList getInstance()
@@ -82,6 +84,16 @@ namespace ClassLibraryBBAuto
                 dt.Rows.Add(myPoint.getRow());
 
             return dt;
+        }
+
+        private static int Compare(MyPoint point1, MyPoint point2)
+        {
+            Regions regions = Regions.getInstance();
+
+            string region1 = regions.getItem(point1.RegionID);
+            string region2 = regions.getItem(point2.RegionID);
+
+            return string.Compare(region1, region2);
         }
     }
 }
