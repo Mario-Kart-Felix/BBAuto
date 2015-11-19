@@ -1,4 +1,4 @@
-﻿namespace BBAuto.CommonForms
+﻿namespace BBAuto
 {
     partial class formRouteList
     {

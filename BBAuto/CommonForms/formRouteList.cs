@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using ClassLibraryBBAuto;
 
-namespace BBAuto.CommonForms
+namespace BBAuto
 {
     public partial class formRouteList : Form
     {
