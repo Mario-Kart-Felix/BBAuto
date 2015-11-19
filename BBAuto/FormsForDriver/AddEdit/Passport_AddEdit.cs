@@ -33,16 +33,16 @@ namespace BBAuto
 
         private void fillFields()
         {
-            tbFirstName.Text = _passport.name;
-            tbLastName.Text = _passport.lastName;
-            tbSecondName.Text = _passport.secondName;
-            mtbNumber.Text = _passport.number;
+            tbFirstName.Text = _passport.FirstName;
+            tbLastName.Text = _passport.LastName;
+            tbSecondName.Text = _passport.SecondName;
+            mtbNumber.Text = _passport.Number;
             mtbGiveDate.Text = _passport.GiveDate;
-            tbGiveOrg.Text = _passport.giveOrg;
-            tbAddress.Text = _passport.address;
+            tbGiveOrg.Text = _passport.GiveOrg;
+            tbAddress.Text = _passport.Address;
 
             TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
-            tbFile.Text = _passport.file;
+            tbFile.Text = _passport.File;
         }
         
         private void btnSave_Click(object sender, EventArgs e)
@@ -59,16 +59,16 @@ namespace BBAuto
 
         private void copyFields()
         {
-            _passport.name = tbFirstName.Text;
-            _passport.lastName = tbLastName.Text;
-            _passport.secondName = tbSecondName.Text;
-            _passport.number = mtbNumber.Text;
+            _passport.FirstName = tbFirstName.Text;
+            _passport.LastName = tbLastName.Text;
+            _passport.SecondName = tbSecondName.Text;
+            _passport.Number = mtbNumber.Text;
             _passport.GiveDate = mtbGiveDate.Text;
-            _passport.giveOrg = tbGiveOrg.Text;
-            _passport.address = tbAddress.Text;
+            _passport.GiveOrg = tbGiveOrg.Text;
+            _passport.Address = tbAddress.Text;
 
             TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
-            _passport.file = tbFile.Text;
+            _passport.File = tbFile.Text;
         }
     }
 }

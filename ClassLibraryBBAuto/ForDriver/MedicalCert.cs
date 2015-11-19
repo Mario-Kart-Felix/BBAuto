@@ -9,10 +9,17 @@ namespace ClassLibraryBBAuto
     public class MedicalCert : MainDictionary, INotification, IActual
     {
         private int _idDriver;
+        private string _number;
         private DateTime _dateBegin;
         private DateTime _dateEnd;
         private int _notifacationSent;
         private string _file;
+
+        public string Number
+        {
+            get { return _number; }
+            set { _number = value; }
+        }
 
         public DateTime DateBegin
         {
@@ -58,7 +65,7 @@ namespace ClassLibraryBBAuto
         private void fillFields(DataRow row)
         {
             int.TryParse(row.ItemArray[0].ToString(), out _id);
-            name = row.ItemArray[1].ToString();
+            _number = row.ItemArray[1].ToString();
             DateTime.TryParse(row.ItemArray[2].ToString(), out _dateBegin);
             DateTime.TryParse(row.ItemArray[3].ToString(), out _dateEnd);
             int.TryParse(row.ItemArray[4].ToString(), out _idDriver);
@@ -71,7 +78,7 @@ namespace ClassLibraryBBAuto
         {
             DeleteFile(File);
 
-            File = WorkWithFiles.fileCopyByID(File, "drivers", _idDriver, "MedicalCert", name);
+            File = WorkWithFiles.fileCopyByID(File, "drivers", _idDriver, "MedicalCert", _number);
             
             ExecSave();
 
@@ -81,7 +88,7 @@ namespace ClassLibraryBBAuto
 
         private void ExecSave()
         {
-            int.TryParse(_provider.Insert("MedicalCert", _id, _idDriver, name, _dateBegin, _dateEnd, File, _notifacationSent), out _id);
+            int.TryParse(_provider.Insert("MedicalCert", _id, _idDriver, _number, _dateBegin, _dateEnd, File, _notifacationSent), out _id);
         }
         
         internal override void Delete()
@@ -93,7 +100,7 @@ namespace ClassLibraryBBAuto
 
         internal override object[] getRow()
         {
-            return new object[3] { _id, name, _dateEnd.ToShortDateString() };
+            return new object[3] { _id, _number, _dateEnd.ToShortDateString() };
         }
 
         internal bool idEqualDriverID(Driver driver)
@@ -103,7 +110,7 @@ namespace ClassLibraryBBAuto
 
         public override string ToString()
         {
-            return _idDriver == 0 ? "нет данных" : string.Concat(name, " до ", _dateEnd.ToShortDateString());
+            return _idDriver == 0 ? "нет данных" : string.Concat(_number, " до ", _dateEnd.ToShortDateString());
         }
 
         public void SendNotification()

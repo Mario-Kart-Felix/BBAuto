@@ -56,7 +56,7 @@ namespace ClassLibraryBBAuto
         {
             var invoices = from invoice in list
                            where invoice.isEqualCarID(car) && invoice.DateMove != string.Empty
-                           orderby invoice.Date descending, invoice.name descending
+                           orderby invoice.Date descending, invoice.Number descending
                            select invoice;
 
             return (invoices.Count() > 0) ? invoices.First() : null;
@@ -65,7 +65,7 @@ namespace ClassLibraryBBAuto
         public DataTable ToDataTable()
         {
             var invoices = from invoice in list
-                           orderby invoice.Date descending, invoice.name descending
+                           orderby invoice.Date descending, invoice.Number descending
                            select invoice;
 
             return createTable(invoices.ToList());
@@ -75,7 +75,7 @@ namespace ClassLibraryBBAuto
         {
             var invoices = from invoice in list
                            where invoice.isEqualCarID(car)
-                           orderby invoice.Date descending, invoice.name descending
+                           orderby invoice.Date descending, invoice.Number descending
                            select invoice;
 
             return createTable(invoices.ToList());
@@ -112,9 +112,9 @@ namespace ClassLibraryBBAuto
 
         internal int GetNextNumber()
         {
-            var invoices = list.Where(item => item.Date.Year == DateTime.Today.Year).OrderByDescending(item => Convert.ToInt32(item.name));
+            var invoices = list.Where(item => item.Date.Year == DateTime.Today.Year).OrderByDescending(item => Convert.ToInt32(item.Number));
 
-            return (invoices.Count() == 0) ? 1 : Convert.ToInt32(invoices.First().name) + 1;
+            return (invoices.Count() == 0) ? 1 : Convert.ToInt32(invoices.First().Number) + 1;
         }
     }
 }

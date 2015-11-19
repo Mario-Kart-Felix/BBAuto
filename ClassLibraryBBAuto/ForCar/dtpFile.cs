@@ -9,13 +9,26 @@ namespace ClassLibraryBBAuto
     public class DTPFile : MainDictionary
     {
         private int idDTP;
-        public string file;
+        private string _name;
+        private string _file;
+
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+
+        public string File
+        {
+            get { return _file; }
+            set { _file = value; }
+        }
 
         public DTPFile(int idDTP)
         {
             this.idDTP = idDTP;
 
-            file = string.Empty;
+            _file = string.Empty;
         }
 
         public DTPFile(DataRow row)
@@ -27,31 +40,31 @@ namespace ClassLibraryBBAuto
         {
             int.TryParse(row.ItemArray[0].ToString(), out _id);
             int.TryParse(row.ItemArray[1].ToString(), out idDTP);
-            name = row.ItemArray[2].ToString();
-            file = row.ItemArray[3].ToString();
-            _fileBegin = file;
+            _name = row.ItemArray[2].ToString();
+            _file = row.ItemArray[3].ToString();
+            _fileBegin = _file;
         }
 
         public override void Save()
         {
             if (IsNotSaved())
-                int.TryParse(_provider.Insert("dtpFile", _id, idDTP, name, file), out _id);
+                int.TryParse(_provider.Insert("dtpFile", _id, idDTP, _name, _file), out _id);
 
-            DeleteFile(file);
+            DeleteFile(_file);
 
-            file = WorkWithFiles.fileCopyByID(file, "DTP", idDTP, string.Empty, name);
+            _file = WorkWithFiles.fileCopyByID(_file, "DTP", idDTP, string.Empty, _name);
 
-            int.TryParse(_provider.Insert("dtpFile", _id, idDTP, name, file), out _id);
+            int.TryParse(_provider.Insert("dtpFile", _id, idDTP, _name, _file), out _id);
         }
 
         internal override object[] getRow()
         {
-            return new object[3] { _id, name, file == string.Empty ? string.Empty : "Просмотр" };
+            return new object[3] { _id, _name, _file == string.Empty ? string.Empty : "Просмотр" };
         }
 
         internal override void Delete()
         {
-            DeleteFile(file);
+            DeleteFile(_file);
 
             _provider.Delete("DtpFile", _id);
         }

@@ -88,7 +88,7 @@ namespace ClassLibraryBBAuto
 
         internal bool Exists(string name)
         {
-            return list.Exists(item => item.name == name);
+            return list.Exists(item => item.Number == name);
         }
     }
 }

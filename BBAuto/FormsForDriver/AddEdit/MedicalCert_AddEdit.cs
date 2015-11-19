@@ -33,7 +33,7 @@ namespace BBAuto
 
         private void fillFields()
         {
-            tbNumber.Text = _medicalCert.name;
+            tbNumber.Text = _medicalCert.Number;
             dtpDateBegin.Value = Convert.ToDateTime(_medicalCert.DateBegin);
             dtpDateEnd.Value = Convert.ToDateTime(_medicalCert.DateEnd);
 
@@ -48,7 +48,7 @@ namespace BBAuto
         {
             if (_workWithForm.IsEditMode())
             {
-                _medicalCert.name = tbNumber.Text;
+                _medicalCert.Number = tbNumber.Text;
 
                 _medicalCert.DateBegin = dtpDateBegin.Value.Date;
                 _medicalCert.DateEnd = dtpDateEnd.Value.Date;

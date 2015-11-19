@@ -30,7 +30,7 @@ namespace ClassLibraryBBAuto
             get
             {
                 ModelList models = ModelList.getInstance();
-                return models.getItem(Convert.ToInt32(_car.ModelID)).name;
+                return models.getItem(Convert.ToInt32(_car.ModelID)).Name;
             }
         }
 

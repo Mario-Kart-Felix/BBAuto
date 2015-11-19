@@ -95,7 +95,7 @@ namespace BBAuto
 
                 DTPFile dtpFile = dtpFileList.getItem(id);
 
-                if (dtpFile.file != string.Empty)
+                if (dtpFile.File != string.Empty)
                     row.DefaultCellStyle.BackColor = BBColors.bbGreen3;
             }
         }
@@ -167,8 +167,8 @@ namespace BBAuto
                 {
                     DTPFile dtpFile = _dtp.createFile();
 
-                    dtpFile.name = Path.GetFileNameWithoutExtension(file);
-                    dtpFile.file = file;
+                    dtpFile.Name = Path.GetFileNameWithoutExtension(file);
+                    dtpFile.File = file;
                     dtpFile.Save();
 
                     dtpFileList.Add(dtpFile);
@@ -187,8 +187,8 @@ namespace BBAuto
 
                 DTPFile dtpFile = dtpFileList.getItem(idDTPFile);
 
-                if ((e.ColumnIndex == 2) && (dtpFile.file != string.Empty))
-                    WorkWithFiles.openFile(dtpFile.file);
+                if ((e.ColumnIndex == 2) && (dtpFile.File != string.Empty))
+                    WorkWithFiles.openFile(dtpFile.File);
                 else
                 {
                     DTPFile_AddEdit dtpFAE = new DTPFile_AddEdit(dtpFile);

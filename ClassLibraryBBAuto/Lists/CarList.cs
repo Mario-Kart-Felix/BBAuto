@@ -188,7 +188,7 @@ namespace ClassLibraryBBAuto
         {
             if (list.Count > 0)
             {
-                int maxNumber = list.Max(item => item.number);
+                int maxNumber = list.Max(item => item.BBNumberInt);
 
                 return maxNumber + 1;
             }

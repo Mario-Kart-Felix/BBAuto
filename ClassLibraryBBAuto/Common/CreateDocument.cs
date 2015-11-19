@@ -139,14 +139,13 @@ namespace ClassLibraryBBAuto
 
             _excelDoc.setValue(7, 2, _car.info.Owner);
 
-            _excelDoc.setValue(16, 82, _invoice.name);
+            _excelDoc.setValue(16, 82, _invoice.Number);
             _excelDoc.setValue(16, 98, _invoice.Date.ToShortDateString());
 
             string fullNameAuto = string.Concat("Автомобиль ", _car.info.Mark, " ", _car.info.Model, ", ", _car.grz);
 
             _excelDoc.setValue(22, 10, fullNameAuto);
             _excelDoc.setValue(22, 53, _car.dateGet.ToShortDateString());
-            _excelDoc.setValue(22, 71, _car.name);
 
             GradeList grades = GradeList.getInstance();
 
@@ -165,11 +164,11 @@ namespace ClassLibraryBBAuto
 
             _excelDoc.setValue(9, 10, driver1.Dept);
             _excelDoc.setValue(56, 11, driver1.Position);
-            _excelDoc.setValue(56, 63, driver1.name);
+            _excelDoc.setValue(56, 63, driver1.GetName(NameType.Full));
 
             _excelDoc.setValue(11, 13, driver2.Dept);
             _excelDoc.setValue(60, 11, driver2.Position);
-            _excelDoc.setValue(60, 63, driver2.name);
+            _excelDoc.setValue(60, 63, driver2.GetName(NameType.Full));
 
             _excelDoc.Show();
         }
@@ -190,15 +189,15 @@ namespace ClassLibraryBBAuto
             PassportList passportList = PassportList.getInstance();
             Passport passport = passportList.getLastPassport(driver);
 
-            if (passport.number != string.Empty)
+            if (passport.Number != string.Empty)
             {
-                string number = passport.number;
+                string number = passport.Number;
                 string[] numbers = number.Split(' ');
 
                 _excelDoc.setValue(11, 2, numbers[0]);
                 _excelDoc.setValue(11, 5, numbers[1]);
 
-                _excelDoc.setValue(12, 2, passport.giveOrg);
+                _excelDoc.setValue(12, 2, passport.GiveOrg);
                 _excelDoc.setValue(13, 3, passport.GiveDate);
             }
 
@@ -271,7 +270,7 @@ namespace ClassLibraryBBAuto
             LicenseList licencesList = LicenseList.getInstance();
             DriverLicense driverLicense = licencesList.getItem(driver);
 
-            _excelDoc.setValue(14, 10, driverLicense.name);
+            _excelDoc.setValue(14, 10, driverLicense.Number);
 
             _excelDoc.setValue(20, 9, owner);
 
@@ -287,12 +286,12 @@ namespace ClassLibraryBBAuto
                 SuppyAddress suppyAddress = suppyAddressList.getItem(driver.RegionID);
 
                 if (suppyAddress != null)
-                    suppyAddressName = suppyAddress.name;
+                    suppyAddressName = suppyAddress.Point.Name;
                 else
                 {
                     PassportList passportList = PassportList.getInstance();
                     Passport passport = passportList.getLastPassport(driver);
-                    suppyAddressName = passport.address;
+                    suppyAddressName = passport.Address;
                 }
             }
 
@@ -354,7 +353,7 @@ namespace ClassLibraryBBAuto
 
             Driver driver = driverList.getItem(Convert.ToInt32(_invoice.DriverToID));
 
-            _excelDoc.setValue(18, 4, driver.name);
+            _excelDoc.setValue(18, 4, driver.GetName(NameType.Full));
             _excelDoc.setValue(18, 5, driver.Position);
 
             _excelDoc.Show();
@@ -369,7 +368,7 @@ namespace ClassLibraryBBAuto
             MyDateTime myDate = new MyDateTime(DateTime.Today.ToShortDateString());
             wordDoc.setValue("текущая дата", myDate.ToLongString());
 
-            wordDoc.setValue("ФИО регионального представителя", driver.name);
+            wordDoc.setValue("ФИО регионального представителя", driver.GetName(NameType.Full));
 
             PassportList passportList = PassportList.getInstance();
             Passport passport = passportList.getLastPassport(driver);
@@ -377,8 +376,7 @@ namespace ClassLibraryBBAuto
             string passportToString = "нет данных";
 
             if (passport != null)
-                passportToString = string.Concat(passport.number, ", выдан ", passport.giveDate.ToShortDateString(),
-                    ", ", passport.giveOrg, ", Адрес: ", passport.address);
+                passportToString = string.Concat(passport.Number, ", выдан ", passport.GiveDate, ", ", passport.GiveOrg, ", Адрес: ", passport.Address);
 
             wordDoc.setValue("паспорт регионального представителя", passportToString);
 
@@ -418,8 +416,8 @@ namespace ClassLibraryBBAuto
 
             foreach (FuelCardDriver fuelCardDriver in list)
             {
-                wordDoc.AddRowInTable(1, i.ToString(), driverTo.name, regionName, fuelCardDriver.fuelCard.Number);
-                wordDoc.AddRowInTable(2, i.ToString(), driverTo.name, regionName, fuelCardDriver.fuelCard.Number, fuelCardDriver.fuelCard.Pin);
+                wordDoc.AddRowInTable(1, i.ToString(), driverTo.GetName(NameType.Full), regionName, fuelCardDriver.fuelCard.Number);
+                wordDoc.AddRowInTable(2, i.ToString(), driverTo.GetName(NameType.Full), regionName, fuelCardDriver.fuelCard.Number, fuelCardDriver.fuelCard.Pin);
                 
                 i++;
             }
@@ -468,8 +466,8 @@ namespace ClassLibraryBBAuto
 
                 DiagCard diagCard = diagCardList.getItem(car);
 
-                _excelDoc.setValue(rowIndex, 12, diagCard.date.ToShortDateString());
-                _excelDoc.setValue(rowIndex, 13, diagCard.name);
+                _excelDoc.setValue(rowIndex, 12, diagCard.Date.ToShortDateString());
+                _excelDoc.setValue(rowIndex, 13, diagCard.Number);
 
                 rowIndex++;
             }

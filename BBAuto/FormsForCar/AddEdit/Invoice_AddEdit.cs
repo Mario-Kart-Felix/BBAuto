@@ -42,7 +42,7 @@ namespace BBAuto
         {
             loadData();
 
-            this.Text = "Перемещение №" + _invoice.name;
+            this.Text = "Перемещение №" + _invoice.Number;
 
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
             _workWithForm.EditModeChanged += EditModeChanged;
@@ -63,7 +63,7 @@ namespace BBAuto
         {
             loadDictionary();
             
-            lbNumber.Text = "Накладная №" + _invoice.name;
+            lbNumber.Text = "Накладная №" + _invoice.Number;
 
             cbRegionFrom.SelectedValue = _invoice.RegionFromID;
             cbRegionTo.SelectedValue = _invoice.RegionToID;
@@ -74,7 +74,7 @@ namespace BBAuto
             mtbDateMove.Text = _invoice.DateMove;
 
             TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
-            tbFile.Text = _invoice.file;
+            tbFile.Text = _invoice.File;
         }
 
         private void loadDictionary()
@@ -118,7 +118,7 @@ namespace BBAuto
                 _invoice.DateMove = mtbDateMove.Text;
 
                 TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
-                _invoice.file = tbFile.Text;
+                _invoice.File = tbFile.Text;
 
                 _invoice.Save();
 

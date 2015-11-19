@@ -9,11 +9,12 @@ namespace ClassLibraryBBAuto
     public class Diler : MainDictionary, IDictionaryMVC
     {
         private string _contacts;
+        private string _name;
 
         public string Name
         {
-            get { return name; }
-            set { name = value; }
+            get { return _name; }
+            set { _name = value; }
         }
 
         public string Text
@@ -31,13 +32,13 @@ namespace ClassLibraryBBAuto
         public Diler(DataRow row)
         {
             int.TryParse(row.ItemArray[0].ToString(), out _id);
-            name = row.ItemArray[1].ToString();
+            _name = row.ItemArray[1].ToString();
             _contacts = row.ItemArray[2].ToString();
         }
 
         public override void Save()
         {
-            _provider.Insert("Diller", _id, name, _contacts);
+            _provider.Insert("Diller", _id, _name, _contacts);
         }
 
         internal override void Delete()
@@ -47,7 +48,7 @@ namespace ClassLibraryBBAuto
 
         internal override object[] getRow()
         {
-            return new object[3] { _id, name, _contacts };
+            return new object[3] { _id, _name, _contacts };
         }
     }
 }

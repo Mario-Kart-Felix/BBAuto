@@ -33,11 +33,11 @@ namespace BBAuto
 
         private void FillFields()
         {
-            tbNumber.Text = _diagCard.name;
-            dtpDate.Value = _diagCard.date;
+            tbNumber.Text = _diagCard.Number;
+            dtpDate.Value = _diagCard.Date;
 
             TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
-            tbFile.Text = _diagCard.file;
+            tbFile.Text = _diagCard.File;
 
             lbCarInfo.Text = _diagCard.GetCar().ToString();
         }
@@ -46,11 +46,11 @@ namespace BBAuto
         {
             if (_workWithForm.IsEditMode())
             {
-                _diagCard.name = tbNumber.Text;
-                _diagCard.date = dtpDate.Value.Date;
+                _diagCard.Number = tbNumber.Text;
+                _diagCard.Date = dtpDate.Value.Date;
 
                 TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
-                _diagCard.file = tbFile.Text;
+                _diagCard.File = tbFile.Text;
 
                 _diagCard.Save();
 

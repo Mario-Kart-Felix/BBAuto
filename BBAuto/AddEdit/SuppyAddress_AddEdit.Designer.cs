@@ -31,9 +31,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cbRegion = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.tbAddress = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
+            this.cbMyPoint = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label1
@@ -63,17 +63,10 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Адрес подачи:";
             // 
-            // tbAddress
-            // 
-            this.tbAddress.Location = new System.Drawing.Point(12, 75);
-            this.tbAddress.Name = "tbAddress";
-            this.tbAddress.Size = new System.Drawing.Size(284, 20);
-            this.tbAddress.TabIndex = 3;
-            // 
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(124, 105);
+            this.btnSave.Location = new System.Drawing.Point(186, 107);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(95, 23);
             this.btnSave.TabIndex = 4;
@@ -85,12 +78,21 @@
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(225, 105);
+            this.btnClose.Location = new System.Drawing.Point(287, 107);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 5;
             this.btnClose.Text = "Закрыть";
             this.btnClose.UseVisualStyleBackColor = true;
+            // 
+            // cbMyPoint
+            // 
+            this.cbMyPoint.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbMyPoint.FormattingEnabled = true;
+            this.cbMyPoint.Location = new System.Drawing.Point(12, 75);
+            this.cbMyPoint.Name = "cbMyPoint";
+            this.cbMyPoint.Size = new System.Drawing.Size(323, 21);
+            this.cbMyPoint.TabIndex = 6;
             // 
             // SuppyAddress_AddEdit
             // 
@@ -98,10 +100,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(312, 140);
+            this.ClientSize = new System.Drawing.Size(374, 142);
+            this.Controls.Add(this.cbMyPoint);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.tbAddress);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cbRegion);
             this.Controls.Add(this.label1);
@@ -122,8 +124,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cbRegion;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox tbAddress;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.ComboBox cbMyPoint;
     }
 }

@@ -9,6 +9,7 @@ namespace ClassLibraryBBAuto
 {
     public sealed class Policy : MainDictionary, IActual
     {
+        private string _number;
         private double _pay;
         private int _idOwner;
         private int _idComp;
@@ -23,8 +24,13 @@ namespace ClassLibraryBBAuto
         private DateTime _dateEnd;
         private int _notifacationSent;
         private string _comment;
-
-        public string file;
+        private string _file;
+        
+        public string File
+        {
+            get { return _file; }
+            set { _file = value; }
+        }
 
         public string Pay
         {
@@ -48,8 +54,8 @@ namespace ClassLibraryBBAuto
 
         public string Number
         {
-            get { return name == string.Empty ? "нет данных" : name; }
-            set { name = value; }
+            get { return _number == string.Empty ? "нет данных" : _number; }
+            set { _number = value; }
         }
         
         public bool IsCarSale
@@ -57,7 +63,6 @@ namespace ClassLibraryBBAuto
             get
             {
                 Car car = GetCar();
-
                 return car.info.IsSale;
             }
         }
@@ -156,12 +161,12 @@ namespace ClassLibraryBBAuto
             int.TryParse(row.ItemArray[2].ToString(), out _idPolicyType);
             IdOwner = row.ItemArray[3].ToString();
             IdComp = row.ItemArray[4].ToString();
-            name = row.ItemArray[5].ToString();
+            _number = row.ItemArray[5].ToString();
             DateTime.TryParse(row.ItemArray[6].ToString(), out _dateBegin);
             DateTime.TryParse(row.ItemArray[7].ToString(), out _dateEnd);
             Pay = row.ItemArray[8].ToString();
-            file = row.ItemArray[9].ToString();
-            _fileBegin = file;
+            _file = row.ItemArray[9].ToString();
+            _fileBegin = _file;
 
             LimitCost = row.ItemArray[10].ToString();
             Pay2 = row.ItemArray[11].ToString();
@@ -185,17 +190,17 @@ namespace ClassLibraryBBAuto
                 execSave();
             }
 
-            DeleteFile(file);
+            DeleteFile(_file);
 
-            file = WorkWithFiles.fileCopyByID(file, "cars", _idCar, "Policy", name);
-            _fileBegin = file;
+            _file = WorkWithFiles.fileCopyByID(_file, "cars", _idCar, "Policy", _number);
+            _fileBegin = _file;
 
             execSave();
         }
 
         private void execSave()
         {
-            int.TryParse(_provider.Insert("Policy", _id, _idPolicyType, _idCar, IdOwner, IdComp, name, _dateBegin, _dateEnd, Pay, LimitCost, Pay2, DatePay2ForSQL, file, _notifacationSent, _comment), out _id);
+            int.TryParse(_provider.Insert("Policy", _id, _idPolicyType, _idCar, IdOwner, IdComp, _number, _dateBegin, _dateEnd, Pay, LimitCost, Pay2, DatePay2ForSQL, _file, _notifacationSent, _comment), out _id);
         }
         
         public bool isEqualCarID(Car car)
@@ -205,7 +210,7 @@ namespace ClassLibraryBBAuto
 
         internal override void Delete()
         {
-            DeleteFile(file);
+            DeleteFile(_file);
 
             _provider.Delete("Policy", _id);
         }

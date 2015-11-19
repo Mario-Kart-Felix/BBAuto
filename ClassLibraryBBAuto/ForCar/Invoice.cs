@@ -10,6 +10,7 @@ namespace ClassLibraryBBAuto
     {
         private const int DEFAULT_DRIVER_MEDIATOR = 2;
 
+        private string _number;
         private int _idCar;
         private int _idDriverFrom;
         private int _idDriverTo;
@@ -18,7 +19,19 @@ namespace ClassLibraryBBAuto
         private DateTime _dateMove;
         private DateTime _date;
 
-        public string file;
+        private string _file;
+
+        public string Number
+        {
+            get { return _number; }
+            set { _number = value; }
+        }
+
+        public string File
+        {
+            get { return _file; }
+            set { _file = value; }
+        }
         
         public string DriverFromID
         {
@@ -75,7 +88,7 @@ namespace ClassLibraryBBAuto
         {
             this._idCar = idCar;
             this._id = 0;
-            name = getNextNumber();
+            _number = getNextNumber();
             _date = DateTime.Today;
 
             fillNewInvoice();
@@ -90,15 +103,15 @@ namespace ClassLibraryBBAuto
         {
             int.TryParse(row.ItemArray[0].ToString(), out _id);
             int.TryParse(row.ItemArray[1].ToString(), out _idCar);
-            name = row.ItemArray[2].ToString();
+            _number = row.ItemArray[2].ToString();
             int.TryParse(row.ItemArray[3].ToString(), out _idDriverFrom);
             int.TryParse(row.ItemArray[4].ToString(), out _idDriverTo);
             DateTime.TryParse(row.ItemArray[5].ToString(), out _date);
             DateMove = row.ItemArray[6].ToString();
             int.TryParse(row.ItemArray[7].ToString(), out _idRegionFrom);
             int.TryParse(row.ItemArray[8].ToString(), out _idRegionTo);
-            file = row.ItemArray[9].ToString();
-            _fileBegin = file;
+            _file = row.ItemArray[9].ToString();
+            _fileBegin = _file;
         }
 
         private void fillNewInvoice()
@@ -134,11 +147,11 @@ namespace ClassLibraryBBAuto
 
         public override void Save()
         {
-            DeleteFile(file);
+            DeleteFile(_file);
 
-            file = WorkWithFiles.fileCopyByID(file, "cars", _idCar, "Invoices", name);
+            _file = WorkWithFiles.fileCopyByID(_file, "cars", _idCar, "Invoices", _number);
 
-            int.TryParse(_provider.Insert("Invoice", _id, _idCar, name, DriverFromID, DriverToID, _date, DateMoveForSQL, RegionFromID, RegionToID, file), out _id);
+            int.TryParse(_provider.Insert("Invoice", _id, _idCar, _number, DriverFromID, DriverToID, _date, DateMoveForSQL, RegionFromID, RegionToID, _file), out _id);
         }
 
         internal override object[] getRow()
@@ -153,13 +166,13 @@ namespace ClassLibraryBBAuto
             CarList carList = CarList.getInstance();
             Car car = carList.getItem(_idCar);
 
-            return new object[11] { _id, _idCar, car.BBNumber, car.grz, name, regions.getItem(_idRegionFrom), driverFrom.GetName(NameType.Full),
+            return new object[11] { _id, _idCar, car.BBNumber, car.grz, _number, regions.getItem(_idRegionFrom), driverFrom.GetName(NameType.Full),
                 regions.getItem(_idRegionTo), driverTo.GetName(NameType.Full), _date, _dateMove };
         }
 
         internal override void Delete()
         {
-            DeleteFile(file);
+            DeleteFile(_file);
 
             _provider.Delete("Invoice", _id);
         }

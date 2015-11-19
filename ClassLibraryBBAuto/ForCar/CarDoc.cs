@@ -9,7 +9,20 @@ namespace ClassLibraryBBAuto
     public class CarDoc : MainDictionary
     {
         private int idCar;
-        public string file;
+        private string _name;
+        private string _file;
+
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+
+        public string File
+        {
+            get { return _file; }
+            set { _file = value; }
+        }
 
         public CarDoc(int idCar)
         {
@@ -26,32 +39,28 @@ namespace ClassLibraryBBAuto
         {
             int.TryParse(row.ItemArray[0].ToString(), out _id);
             int.TryParse(row.ItemArray[1].ToString(), out idCar);
-            name = row.ItemArray[2].ToString();
-            file = row.ItemArray[3].ToString();
-            _fileBegin = file;
+            _name = row.ItemArray[2].ToString();
+            _file = row.ItemArray[3].ToString();
+            _fileBegin = _file;
         }
 
         public override void Save()
         {
-            DeleteFile(file);
+            DeleteFile(_file);
 
-            file = WorkWithFiles.fileCopyByID(file, "cars", idCar, "Documents", name);
+            _file = WorkWithFiles.fileCopyByID(_file, "cars", idCar, "Documents", _name);
 
-            int.TryParse(_provider.Insert("CarDoc", _id, idCar, name, file), out _id);
+            int.TryParse(_provider.Insert("CarDoc", _id, idCar, _name, _file), out _id);
         }
 
         internal override object[] getRow()
         {
-            string show = "";
-            if (file != string.Empty)
-                show = "Показать";
-
-            return new object[3] { _id, name, show };
+            return new object[3] { _id, _name, (_file == string.Empty) ? string.Empty : "Показать" };
         }
 
         internal override void Delete()
         {
-            DeleteFile(file);
+            DeleteFile(_file);
 
             _provider.Delete("CarDoc", _id);
         }

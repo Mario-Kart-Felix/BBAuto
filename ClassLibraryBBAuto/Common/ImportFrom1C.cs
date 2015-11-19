@@ -25,7 +25,7 @@ namespace ClassLibraryBBAuto
                     DriverList driverList = DriverList.getInstance();
                     Driver driver = driverList.getItemByNumber(fields[1]);
                     
-                    driver.name = fields[0];
+                    driver.Fio = fields[0];
                     driver.Number = fields[1];
                     driver.Sex = fields[2];
                     driver.Region = fields[3];
@@ -50,16 +50,16 @@ namespace ClassLibraryBBAuto
                         PassportList passportList = PassportList.getInstance();
                         Passport passport;
                         passport = passportList.GetPassport(driver, passportNumber);
-                        passport.number = passportNumber;
+                        passport.Number = passportNumber;
 
                         string[] fio = fields[0].Split(' ');
-                        passport.name = fio[0];
-                        passport.lastName = fio[1];
-                        passport.secondName = fio[2];
+                        passport.LastName = fio[0];
+                        passport.FirstName = fio[1];
+                        passport.SecondName = fio[2];
 
                         passport.GiveDate = fields[12];
-                        passport.giveOrg = fields[13];
-                        passport.address = fields[14];
+                        passport.GiveOrg = fields[13];
+                        passport.Address = fields[14];
                         passport.Save();
                     }
 

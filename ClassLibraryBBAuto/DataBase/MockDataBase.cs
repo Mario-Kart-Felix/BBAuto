@@ -138,9 +138,9 @@ namespace ClassLibraryBBAuto
 
             foreach (var item in _cars)
             {
-                Car carItem = item as Car;
-                object[] row = carItem.getRow();
-                dt.Rows.Add(row[0], carItem.number);
+                Car car = item as Car;
+                object[] row = car.getRow();
+                dt.Rows.Add(row[0], car.BBNumber);
             }
 
             return dt;

@@ -28,7 +28,7 @@ namespace ClassLibraryBBAuto
         public string vin;
         public string grz;
 
-        internal int number;
+        private int _number;
 
         public string eNumber;
         public string bodyNumber;        
@@ -119,7 +119,16 @@ namespace ClassLibraryBBAuto
             set { _isGet = Convert.ToInt32(value); }
         }
 
-        public string BBNumber { get { return number < 100 ? "АМ-0" + number.ToString() : "АМ-" + number.ToString(); } }
+        public string BBNumber
+        {
+            get { return _number < 100 ? "АМ-0" + _number.ToString() : "АМ-" + _number.ToString(); }
+        }
+
+        public int BBNumberInt
+        {
+            get { return _number; }
+            set { _number = value; }
+        }
 
         public string Lising
         {
@@ -147,7 +156,7 @@ namespace ClassLibraryBBAuto
             _id = 0;
 
             CarList carList = CarList.getInstance();
-            number = carList.getNextBBNumber();
+            _number = carList.getNextBBNumber();
             dateOrder = DateTime.Today;
             dateGet = DateTime.Today;
             _year = DateTime.Today.Year;
@@ -170,7 +179,7 @@ namespace ClassLibraryBBAuto
         private void fillField(DataRow row)
         {
             int.TryParse(row.ItemArray[0].ToString(), out _id);
-            int.TryParse(row.ItemArray[1].ToString(), out number);
+            int.TryParse(row.ItemArray[1].ToString(), out _number);
             grz = row.ItemArray[2].ToString();
             vin = row.ItemArray[3].ToString();
             Year = row.ItemArray[4].ToString();
@@ -212,7 +221,7 @@ namespace ClassLibraryBBAuto
 
         public override void Save()
         {
-            int.TryParse(_provider.Insert("Car", _id, number, grz, vin, Year, eNumber, bodyNumber, GradeID, ColorID, _isLising, _lisingDate, _invertoryNumber), out _id);
+            int.TryParse(_provider.Insert("Car", _id, _number, grz, vin, Year, eNumber, bodyNumber, GradeID, ColorID, _isLising, _lisingDate, _invertoryNumber), out _id);
 
             CarList carList = CarList.getInstance();
             carList.Add(this);
@@ -334,8 +343,8 @@ namespace ClassLibraryBBAuto
         public CarDoc createCarDoc(string file)
         {
             CarDoc carDoc = new CarDoc(_id);
-            carDoc.file = file;
-            carDoc.name = System.IO.Path.GetFileNameWithoutExtension(file);
+            carDoc.File = file;
+            carDoc.Name = System.IO.Path.GetFileNameWithoutExtension(file);
 
             return carDoc;
         }

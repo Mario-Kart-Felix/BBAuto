@@ -962,8 +962,8 @@ namespace BBAuto
             PolicyList policyList = PolicyList.getInstance();
             Policy kasko = policyList.getItem(car, PolicyType.КАСКО);
 
-            if (!string.IsNullOrEmpty(kasko.file))
-                WorkWithFiles.openFile(kasko.file);
+            if (!string.IsNullOrEmpty(kasko.File))
+                WorkWithFiles.openFile(kasko.File);
         }
 
         private void ShowActFuelCard_Click(object sender, EventArgs e)

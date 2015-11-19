@@ -9,11 +9,18 @@ namespace ClassLibraryBBAuto
     public class DriverLicense : MainDictionary, INotification, IActual
     {
         private int _idDriver;
+        private string _number;
         private DateTime _dateBegin;
         private DateTime _dateEnd;
         private int _notificationSent;
 
         private string _file;
+
+        public string Number
+        {
+            get { return _number; }
+            set { _number = value; }
+        }
 
         public DateTime DateBegin
         {
@@ -61,7 +68,7 @@ namespace ClassLibraryBBAuto
         {
             int.TryParse(row.ItemArray[0].ToString(), out _id);
             int.TryParse(row.ItemArray[1].ToString(), out _idDriver);
-            name = row.ItemArray[2].ToString();
+            _number = row.ItemArray[2].ToString();
             DateTime.TryParse(row.ItemArray[3].ToString(), out _dateBegin);
             DateTime.TryParse(row.ItemArray[4].ToString(), out _dateEnd);
             _file = row.ItemArray[5].ToString();
@@ -73,7 +80,7 @@ namespace ClassLibraryBBAuto
         {
             DeleteFile(_file);
 
-            _file = WorkWithFiles.fileCopyByID(_file, "drivers", _idDriver, "DriverLicense", name);
+            _file = WorkWithFiles.fileCopyByID(_file, "drivers", _idDriver, "DriverLicense", _number);
 
             ExecSave();
 
@@ -83,12 +90,12 @@ namespace ClassLibraryBBAuto
 
         private void ExecSave()
         {
-            int.TryParse(_provider.Insert("DriverLicense", _id, _idDriver, name, _dateBegin, _dateEnd, _file, _notificationSent), out _id);
+            int.TryParse(_provider.Insert("DriverLicense", _id, _idDriver, _number, _dateBegin, _dateEnd, _file, _notificationSent), out _id);
         }
 
         internal override object[] getRow()
         {
-            return new object[3] { _id, name, _dateEnd.ToShortDateString() };
+            return new object[3] { _id, _number, _dateEnd.ToShortDateString() };
         }
 
         internal override void Delete()
@@ -105,7 +112,7 @@ namespace ClassLibraryBBAuto
 
         public override string ToString()
         {
-            return _idDriver == 0 ? "нет данных" : string.Concat("№", name, " до ", _dateEnd.ToShortDateString());
+            return _idDriver == 0 ? "нет данных" : string.Concat("№", _number, " до ", _dateEnd.ToShortDateString());
         }
 
         public DateTime getDateEnd()

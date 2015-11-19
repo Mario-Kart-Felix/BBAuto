@@ -8,7 +8,14 @@ namespace ClassLibraryBBAuto
 {
     public class Template : MainDictionary
     {
+        private string _name;
         private string _file;
+
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
 
         public string Path
         {
@@ -29,7 +36,7 @@ namespace ClassLibraryBBAuto
         private void fillFields(DataRow row)
         {
             int.TryParse(row.ItemArray[0].ToString(), out _id);
-            name = row.ItemArray[1].ToString();
+            _name = row.ItemArray[1].ToString();
             _file = row.ItemArray[2].ToString();
             _fileBegin = _file;
         }
@@ -38,9 +45,9 @@ namespace ClassLibraryBBAuto
         {
             DeleteFile(_file);
 
-            _file = WorkWithFiles.fileCopy(_file, "Template", name);
+            _file = WorkWithFiles.fileCopy(_file, "Template", _name);
 
-            _provider.Insert("Template", _id, name, _file);
+            _provider.Insert("Template", _id, _name, _file);
         }
                 
         internal override void Delete()
@@ -52,7 +59,7 @@ namespace ClassLibraryBBAuto
 
         internal override object[] getRow()
         {
-            return new object[] { _id, name, _file };
+            return new object[] { _id, _name, _file };
         }
     }
 }

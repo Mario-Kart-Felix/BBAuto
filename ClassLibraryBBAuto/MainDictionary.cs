@@ -11,7 +11,6 @@ namespace ClassLibraryBBAuto
         protected int _id;
         protected string _fileBegin;
         protected static IProvider _provider;
-        public string name;
 
         internal abstract object[] getRow();
 

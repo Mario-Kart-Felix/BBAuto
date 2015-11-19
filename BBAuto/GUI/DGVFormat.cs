@@ -112,7 +112,7 @@ namespace BBAuto
                     row.Cells["Дата передачи"].Style.BackColor = Color.MediumPurple;
 
 
-                if (invoice.file != string.Empty)
+                if (invoice.File != string.Empty)
                     row.Cells["№ накладной"].Style.BackColor = Color.MediumPurple;
             }
         }
@@ -140,7 +140,7 @@ namespace BBAuto
 
                 Policy policy = policyList.getItem(id);
 
-                if (policy.file != string.Empty)
+                if (policy.File != string.Empty)
                     row.Cells["Номер полиса"].Style.BackColor = Color.MediumPurple;
 
                 if ((policy.Type == PolicyType.КАСКО) && (policy.IsAgreed(2)))
@@ -152,7 +152,7 @@ namespace BBAuto
                 if (policy.DateEnd < DateTime.Today)
                     row.DefaultCellStyle.BackColor = BBColors.bbGray5;
 
-                if (policy.file != string.Empty)
+                if (policy.File != string.Empty)
                     row.Cells["Тип полиса"].Style.BackColor = BBColors.bbGreen3;
             }
         }
@@ -213,7 +213,7 @@ namespace BBAuto
                 int.TryParse(row.Cells[0].Value.ToString(), out id);
                 DiagCard diagCard = diagCardList.getItem(id);
 
-                if (diagCard.file != string.Empty)
+                if (diagCard.File != string.Empty)
                     row.Cells["№ ДК"].Style.BackColor = Color.MediumPurple;
             }
         }
