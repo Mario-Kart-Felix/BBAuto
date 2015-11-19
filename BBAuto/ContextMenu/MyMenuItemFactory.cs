@@ -155,6 +155,8 @@ namespace BBAuto
                     return CreateDeleteDriver();
                 case ContextMenuItem.MyPointList:
                     return CreateMyPointList();
+                case ContextMenuItem.RouteList:
+                    return CreateRouteList();
                 default:
                     throw new NotImplementedException();
             }
@@ -724,6 +726,13 @@ namespace BBAuto
         {
             ToolStripMenuItem item = CreateItem("Список пунктов назначения");
             item.Click += MyPointList_Click;
+            return item;
+        }
+
+        private ToolStripMenuItem CreateRouteList()
+        {
+            ToolStripMenuItem item = CreateItem("Список маршрутов");
+            item.Click += RouteList_Click;
             return item;
         }
 
@@ -1398,6 +1407,12 @@ namespace BBAuto
         {
             formMyPointList myPointList = new formMyPointList();
             myPointList.ShowDialog();
+        }
+
+        private void RouteList_Click(object sender, EventArgs e)
+        {
+            formRouteList routeList = new formRouteList();
+            routeList.ShowDialog();
         }
     }
 }

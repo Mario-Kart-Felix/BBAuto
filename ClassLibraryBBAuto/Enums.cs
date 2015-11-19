@@ -53,6 +53,6 @@
 
         AddDriver, DeleteDriver,
 
-        MyPointList
+        MyPointList, RouteList
     };
 }

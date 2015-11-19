@@ -138,6 +138,7 @@ namespace BBAuto
             itemDriverAndEmployee.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.SuppyAddress));
             itemDriverAndEmployee.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Employee));
             itemDriverAndEmployee.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.MyPointList));
+            itemDriverAndEmployee.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.RouteList));
 
             itemMarkModel.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Mark));
             itemMarkModel.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Model));
