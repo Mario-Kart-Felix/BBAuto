@@ -286,7 +286,7 @@ namespace ClassLibraryBBAuto
                 SuppyAddress suppyAddress = suppyAddressList.getItem(driver.RegionID);
 
                 if (suppyAddress != null)
-                    suppyAddressName = suppyAddress.Point.Name;
+                    suppyAddressName = suppyAddress.ToString();
                 else
                 {
                     PassportList passportList = PassportList.getInstance();

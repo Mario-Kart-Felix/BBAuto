@@ -14,7 +14,7 @@ namespace ClassLibraryBBAuto
             set { int.TryParse(value, out _id); }
         }
 
-        public MyPoint Point
+        private MyPoint Point
         {
             get
             {
@@ -58,6 +58,11 @@ namespace ClassLibraryBBAuto
 
             SuppyAddressList suppyAddressList = SuppyAddressList.getInstance();
             suppyAddressList.Add(this);
+        }
+
+        public override string ToString()
+        {
+            return string.Concat("г. ", Region, " ", Point.Name);
         }
     }
 }
