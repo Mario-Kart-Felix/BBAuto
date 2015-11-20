@@ -23,10 +23,10 @@ namespace ClassLibraryBBAuto
             set { _name = value; }
         }
 
-        public MyPoint()
+        public MyPoint(int idRegion)
         {
             _id = 0;
-            _idRegion = 0;
+            _idRegion = idRegion;
             _name = string.Empty;
         }
 
@@ -39,7 +39,7 @@ namespace ClassLibraryBBAuto
 
         public override void Save()
         {
-            _provider.Insert("MyPoint", _id, _idRegion, _name);
+            int.TryParse(_provider.Insert("MyPoint", _id, _idRegion, _name), out _id);
 
             MyPointList pointList = MyPointList.getInstance();
             pointList.Add(this);
@@ -54,7 +54,7 @@ namespace ClassLibraryBBAuto
         {
             Regions regions = Regions.getInstance();
 
-            return new object[] { _id, regions.getItem(_idRegion), _name };
+            return new object[] { _id, _name };
         }
     }
 }

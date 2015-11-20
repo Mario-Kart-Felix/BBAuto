@@ -25,41 +25,20 @@ namespace BBAuto
 
         private void Point_AddEdit_Load(object sender, EventArgs e)
         {
-            loadDictionary();
+            Regions regions = Regions.getInstance();
 
-            FillFields();
+            lbRegion.Text = string.Concat("Регион: ", regions.getItem(_mypoint.RegionID));
+            tbName.Text = _mypoint.Name;
 
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
             _workWithForm.SetEditMode(_mypoint.IsEqualsID(0));
-        }
-
-        private void loadDictionary()
-        {
-            Regions regions = Regions.getInstance();
-
-            DataTable dt = regions.ToDataTable();
-
-            cbRegion.DataSource = dt;
-            cbRegion.ValueMember = dt.Columns[0].ColumnName;
-            cbRegion.DisplayMember = dt.Columns[1].ColumnName;
-        }
-        
-        private void FillFields()
-        {
-            cbRegion.SelectedValue = _mypoint.RegionID;
-            tbName.Text = _mypoint.Name;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (_workWithForm.IsEditMode())
             {
-                if (cbRegion.SelectedValue == null)
-                {
-                    MessageBox.Show("Выберите регион", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                else if (tbName.Text == string.Empty)
+                if (tbName.Text == string.Empty)
                 {
                     MessageBox.Show("Введите название", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -67,7 +46,6 @@ namespace BBAuto
                 else
                 {
                     _mypoint.Name = tbName.Text;
-                    _mypoint.RegionID = Convert.ToInt32(cbRegion.SelectedValue);
                     _mypoint.Save();
                 }
 

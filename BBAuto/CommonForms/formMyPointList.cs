@@ -25,6 +25,8 @@ namespace BBAuto
 
         private void formMyPointList_Load(object sender, EventArgs e)
         {
+            loadRegions();
+
             loadData();
 
             _dgvMain = new MainDGV(dgv);
@@ -34,15 +36,35 @@ namespace BBAuto
 
         private void loadData()
         {
-            dgv.DataSource = _myPointList.ToDataTable();
+            if (cbRegion.SelectedValue == null)
+                return;
+
+            int idRegion;
+            int.TryParse(cbRegion.SelectedValue.ToString(), out idRegion);
+
+            dgv.DataSource = _myPointList.ToDataTable(idRegion);
 
             if (dgv.Columns.Count > 0)
                 dgv.Columns[0].Visible = false;
         }
 
+        private void loadRegions()
+        {
+            Regions regions = Regions.getInstance();
+            DataTable dt = regions.ToDataTable();
+
+            cbRegion.DataSource = dt;
+            cbRegion.ValueMember = dt.Columns[0].ColumnName;
+            cbRegion.DisplayMember = dt.Columns[1].ColumnName;
+        }
+
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            openAddEdit(new MyPoint());
+            int idRegion;
+            int.TryParse(cbRegion.SelectedValue.ToString(), out idRegion);
+
+            if (idRegion != 0)
+                openAddEdit(new MyPoint(idRegion));
         }
 
         private void dgv_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -59,9 +81,16 @@ namespace BBAuto
 
         private void btnDel_Click(object sender, EventArgs e)
         {
-            _myPointList.Delete(_dgvMain.GetID());
+            try
+            {
+                _myPointList.Delete(_dgvMain.GetID());
 
-            loadData();
+                loadData();
+            }
+            catch (NotSupportedException ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void dgv_Resize(object sender, EventArgs e)
@@ -71,8 +100,13 @@ namespace BBAuto
 
         private void ResizeDGV()
         {
-            dgv.Columns[1].Width = dgv.Width / 2;
-            dgv.Columns[2].Width = dgv.Width / 2;
+            if (dgv.Columns.Count > 0)
+                dgv.Columns[1].Width = dgv.Width;
+        }
+
+        private void cbRegion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            loadData();
         }
     }
 }

@@ -30,9 +30,9 @@ namespace ClassLibraryBBAuto
             set { int.TryParse(value, out _distance); }
         }
 
-        public Route()
+        public Route(int idMyPoint1)
         {
-            _idMyPoint1 = 0;
+            _idMyPoint1 = idMyPoint1;
             _idMyPoint2 = 0;
             _distance = 0;
         }
@@ -47,7 +47,7 @@ namespace ClassLibraryBBAuto
 
         public override void Save()
         {
-            _provider.Insert("Route", _id, _idMyPoint1, _idMyPoint2, _distance);
+            int.TryParse(_provider.Insert("Route", _id, _idMyPoint1, _idMyPoint2, _distance), out _id);
 
             RouteList routeList = RouteList.getInstance();
             routeList.Add(this);
@@ -61,8 +61,18 @@ namespace ClassLibraryBBAuto
         internal override object[] getRow()
         {
             MyPointList pointList = MyPointList.getInstance();
+            MyPoint myPoint = pointList.getItem(_idMyPoint2);
 
-            return new object[] { _id, pointList.getItem(_idMyPoint1), pointList.getItem(_idMyPoint2), _distance };
+            return new object[] { _id, myPoint.Name, _distance };
+        }
+
+        internal object[] getRow(int idMyPoint1)
+        {
+            MyPointList pointList = MyPointList.getInstance();
+
+            MyPoint myPoint = (_idMyPoint1 == idMyPoint1) ? pointList.getItem(_idMyPoint2) : pointList.getItem(_idMyPoint1);
+
+            return new object[] { _id, myPoint.Name, _distance };
         }
     }
 }

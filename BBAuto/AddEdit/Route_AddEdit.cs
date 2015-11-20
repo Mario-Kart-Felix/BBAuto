@@ -13,20 +13,24 @@ namespace BBAuto
     public partial class Route_AddEdit : Form
     {
         private Route _route;
-
         private WorkWithForm _workWithForm;
+        private int _idRegion;
 
-        public Route_AddEdit(Route route)
+        public Route_AddEdit(Route route, int idRegion)
         {
             InitializeComponent();
 
             _route = route;
+            _idRegion = idRegion;
+
+            Regions regions = Regions.getInstance();
+            lbRegion.Text = string.Concat("Регион: ", regions.getItem(_idRegion));
+
+            loadPoints();
         }
 
         private void Route_AddEdit_Load(object sender, EventArgs e)
         {
-            loadRegions();
-
             FillFields();
 
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
@@ -35,67 +39,29 @@ namespace BBAuto
 
         private void FillFields()
         {
-            if (!_route.IsEqualsID(0))
-            {
-                MyPointList myPointList = MyPointList.getInstance();
-                MyPoint myPoint = myPointList.getItem(_route.MyPoint1ID);
-                cbRegion.SelectedValue = myPoint.RegionID;
-                loadPoints();
-                cbMyPoint1.SelectedValue = _route.MyPoint1ID;
-                cbMyPoint2.SelectedValue = _route.MyPoint2ID;
-                tbDistance.Text = _route.Distance;
-            }
-        }
+            MyPointList myPointList = MyPointList.getInstance();
+            MyPoint myPoint = myPointList.getItem(_route.MyPoint1ID);
 
-        private void loadRegions()
-        {
-            Regions regions = Regions.getInstance();
-            DataTable dt = regions.ToDataTable();
-            cbRegion.DataSource = dt;
-            cbRegion.ValueMember = dt.Columns[0].ColumnName;
-            cbRegion.DisplayMember = dt.Columns[1].ColumnName;
+            lbMyPoint1.Text = string.Concat("Пункт отправления: ", myPoint.Name);
+            cbMyPoint2.SelectedValue = _route.MyPoint2ID;
+            tbDistance.Text = _route.Distance;
         }
-
+        
         private void loadPoints()
         {
-            if (cbRegion.SelectedValue == null)
-                return;
-
-            int idRegion;
-            int.TryParse(cbRegion.SelectedValue.ToString(), out idRegion);
-
             MyPointList myPointList = MyPointList.getInstance();
-            DataTable dt = myPointList.ToDataTable(idRegion);
-
-            cbMyPoint1.DataSource = dt;
-            cbMyPoint1.ValueMember = dt.Columns[0].ColumnName;
-            cbMyPoint1.DisplayMember = dt.Columns[2].ColumnName;
+            DataTable dt = (_route.MyPoint2ID == 0) ? myPointList.ToDataTableWithoutExists(_idRegion, _route.MyPoint1ID) : myPointList.ToDataTable(_idRegion);
 
             cbMyPoint2.DataSource = dt;
             cbMyPoint2.ValueMember = dt.Columns[0].ColumnName;
-            cbMyPoint2.DisplayMember = dt.Columns[2].ColumnName;
-        }
-
-        private void cbRegion_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            loadPoints();
+            cbMyPoint2.DisplayMember = dt.Columns[1].ColumnName;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (_workWithForm.IsEditMode())
             {
-                if (cbRegion.SelectedValue == null)
-                {
-                    MessageBox.Show("Выберите регион", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                else if (cbMyPoint1.SelectedValue == null)
-                {
-                    MessageBox.Show("Выберите пункт отправления", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                else if (cbMyPoint2.SelectedValue == null)
+                if (cbMyPoint2.SelectedValue == null)
                 {
                     MessageBox.Show("Выберите пункт назначения", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -107,7 +73,6 @@ namespace BBAuto
                 }
                 else
                 {
-                    _route.MyPoint1ID = Convert.ToInt32(cbMyPoint1.SelectedValue);
                     _route.MyPoint2ID = Convert.ToInt32(cbMyPoint2.SelectedValue);
                     _route.Distance = tbDistance.Text;
                     _route.Save();

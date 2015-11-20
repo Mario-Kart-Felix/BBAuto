@@ -30,8 +30,7 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.tbName = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.cbRegion = new System.Windows.Forms.ComboBox();
+            this.lbRegion = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -39,7 +38,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 49);
+            this.label1.Location = new System.Drawing.Point(12, 37);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(97, 13);
             this.label1.TabIndex = 0;
@@ -47,33 +46,25 @@
             // 
             // tbName
             // 
-            this.tbName.Location = new System.Drawing.Point(12, 65);
+            this.tbName.Location = new System.Drawing.Point(12, 53);
             this.tbName.Name = "tbName";
             this.tbName.Size = new System.Drawing.Size(377, 20);
             this.tbName.TabIndex = 1;
             // 
-            // label2
+            // lbRegion
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 9);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(46, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Регион:";
-            // 
-            // cbRegion
-            // 
-            this.cbRegion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbRegion.FormattingEnabled = true;
-            this.cbRegion.Location = new System.Drawing.Point(12, 25);
-            this.cbRegion.Name = "cbRegion";
-            this.cbRegion.Size = new System.Drawing.Size(209, 21);
-            this.cbRegion.TabIndex = 3;
+            this.lbRegion.AutoSize = true;
+            this.lbRegion.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbRegion.Location = new System.Drawing.Point(9, 9);
+            this.lbRegion.Name = "lbRegion";
+            this.lbRegion.Size = new System.Drawing.Size(54, 17);
+            this.lbRegion.TabIndex = 2;
+            this.lbRegion.Text = "Регион";
             // 
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(231, 94);
+            this.btnSave.Location = new System.Drawing.Point(231, 87);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(95, 23);
             this.btnSave.TabIndex = 4;
@@ -85,7 +76,7 @@
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(332, 94);
+            this.btnClose.Location = new System.Drawing.Point(332, 87);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 5;
@@ -98,11 +89,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(419, 129);
+            this.ClientSize = new System.Drawing.Size(419, 122);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.cbRegion);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lbRegion);
             this.Controls.Add(this.tbName);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -121,8 +111,7 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox tbName;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox cbRegion;
+        private System.Windows.Forms.Label lbRegion;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnClose;
     }

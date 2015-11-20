@@ -16,8 +16,6 @@ namespace ClassLibraryBBAuto
             list = new List<MyPoint>();
 
             loadFromSql();
-
-            list.Sort(Compare);
         }
 
         public static MyPointList getInstance()
@@ -51,6 +49,11 @@ namespace ClassLibraryBBAuto
         {
             MyPoint myPoint = getItem(idMyPoint);
 
+            RouteList routeList = RouteList.getInstance();
+
+            if (routeList.Exists(myPoint))
+                throw new NotSupportedException("Невозможно удалить пункт, так как существует маршрут");
+
             list.Remove(myPoint);
 
             myPoint.Delete();
@@ -60,24 +63,32 @@ namespace ClassLibraryBBAuto
         {
             var myPoints = list.Where(item => item.IsEqualsID(id));
 
-            return (myPoints.Count() > 0) ? myPoints.First() : new MyPoint();
+            return (myPoints.Count() > 0) ? myPoints.First() : null;
         }
-
-        public DataTable ToDataTable()
-        {
-            return CreateTable(list);
-        }
-
+        
         public DataTable ToDataTable(int idRegion)
         {
-            return CreateTable(list.Where(item => item.RegionID == idRegion).ToList());
+            var listNew = list.Where(item => item.RegionID == idRegion).ToList();
+            listNew.Sort(Compare);
+
+            return CreateTable(listNew);
+        }
+
+        public DataTable ToDataTableWithoutExists(int idRegion, int idMyPoint1)
+        {
+            RouteList routeList = RouteList.getInstance();
+
+            var listNew = list.Where(item => item.RegionID == idRegion && !routeList.Exists(idMyPoint1, item) && !item.IsEqualsID(idMyPoint1)).ToList();
+            
+            listNew.Sort(Compare);
+
+            return CreateTable(listNew);
         }
 
         private DataTable CreateTable(List<MyPoint> myPoints)
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("id");
-            dt.Columns.Add("Регион");
             dt.Columns.Add("Название");
 
             foreach (MyPoint myPoint in myPoints)
@@ -88,12 +99,7 @@ namespace ClassLibraryBBAuto
 
         private static int Compare(MyPoint point1, MyPoint point2)
         {
-            Regions regions = Regions.getInstance();
-
-            string region1 = regions.getItem(point1.RegionID);
-            string region2 = regions.getItem(point2.RegionID);
-
-            return string.Compare(region1, region2);
+            return string.Compare(point1.Name, point2.Name);
         }
     }
 }
