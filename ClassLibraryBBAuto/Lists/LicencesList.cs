@@ -47,12 +47,11 @@ namespace ClassLibraryBBAuto
 
         public DataTable ToDataTable(Driver driver)
         {
-            var driverLicenses = from driverLicense in _list
-                                 where driverLicense.idEqualDriverID(driver)
-                                 orderby driverLicense.getDateEnd() descending
-                                 select driverLicense;
+            var driverLicenses = _list.Where(item => item.idEqualDriverID(driver)).ToList();
 
-            return createTable(driverLicenses.ToList());
+            driverLicenses.Sort(Compare);
+
+            return createTable(driverLicenses);
         }
 
         private DataTable createTable(List<DriverLicense> driverLicenses)
@@ -70,21 +69,18 @@ namespace ClassLibraryBBAuto
 
         public DriverLicense getItem(int id)
         {
-            var driverLicenses = from driverLicense in _list
-                                 where driverLicense.IsEqualsID(id)
-                                 select driverLicense;
+            var driverLicenses = _list.Where(item => item.IsEqualsID(id));
 
-            return (driverLicenses.Count() > 0) ? driverLicenses.First() as DriverLicense : null;
+            return (driverLicenses.Count() > 0) ? driverLicenses.First() : null;
         }
 
         public DriverLicense getItem(Driver driver)
         {
-            var driverLicenses = from driverLicense in _list
-                                 where driverLicense.idEqualDriverID(driver)
-                                 orderby driverLicense.getDateEnd() descending
-                                 select driverLicense;
+            var driverLicenses = _list.Where(item => item.idEqualDriverID(driver)).ToList();
 
-            return (driverLicenses.Count() > 0) ? driverLicenses.First() as DriverLicense : driver.createDriverLicense();
+            driverLicenses.Sort(Compare);
+
+            return (driverLicenses.Count() > 0) ? driverLicenses.First() : driver.createDriverLicense();
         }
 
         public List<INotification> ToList()
@@ -106,6 +102,14 @@ namespace ClassLibraryBBAuto
             _list.Remove(licence);
 
             licence.Delete();
+        }
+
+        private int Compare(DriverLicense license1, DriverLicense license2)
+        {
+            if (license1.DateEnd == license2.DateEnd)
+                return DateTime.Compare(license1.DateBegin, license2.DateBegin) * -1;
+
+            return DateTime.Compare(license1.DateEnd, license2.DateEnd) * -1;
         }
     }
 }

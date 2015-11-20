@@ -115,11 +115,6 @@ namespace ClassLibraryBBAuto
             return _idDriver == 0 ? "нет данных" : string.Concat("№", _number, " до ", _dateEnd.ToShortDateString());
         }
 
-        public DateTime getDateEnd()
-        {
-            return _dateEnd;
-        }
-
         public void SendNotification()
         {
             DriverList driverList = DriverList.getInstance();
