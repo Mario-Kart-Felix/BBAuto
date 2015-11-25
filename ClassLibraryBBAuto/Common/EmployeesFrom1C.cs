@@ -6,11 +6,11 @@ using System.Text;
 
 namespace ClassLibraryBBAuto
 {
-    public class ImportFrom1C
+    public class EmployeesFrom1C : IFrom1C
     {
         private const string FILE_PATH = @"\\bbmru08\1cv77\Autoexchange\Lotus\BBAuto";
-
-        public void Start()
+        
+        public void StartImport()
         {
             string[] files = Directory.GetFiles(FILE_PATH, "*.txt");
 
