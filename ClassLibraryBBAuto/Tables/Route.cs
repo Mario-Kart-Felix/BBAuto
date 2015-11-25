@@ -37,6 +37,13 @@ namespace ClassLibraryBBAuto
             _distance = 0;
         }
 
+        public Route(int idMyPoint1, int idMyPoint2, string distance)
+        {
+            _idMyPoint1 = idMyPoint1;
+            _idMyPoint2 = idMyPoint2;
+            int.TryParse(distance, out _distance);
+        }
+
         public Route(DataRow row)
         {
             int.TryParse(row[0].ToString(), out _id);

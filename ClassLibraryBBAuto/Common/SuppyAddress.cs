@@ -14,7 +14,7 @@ namespace ClassLibraryBBAuto
             set { int.TryParse(value, out _id); }
         }
 
-        private MyPoint Point
+        public MyPoint Point
         {
             get
             {
@@ -31,7 +31,7 @@ namespace ClassLibraryBBAuto
                 return regions.getItem(Point.RegionID);
             }
         }
-
+        
         public SuppyAddress()
         {
             _id = 0;

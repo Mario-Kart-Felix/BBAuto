@@ -340,6 +340,33 @@ namespace ClassLibraryBBAuto
             _excelDoc.setValue(35, 18, dispatcherName);
 
             _excelDoc.setValue(43, 72, accountant.Name);
+
+            AddRouteInWayBill(date);
+        }
+
+        public void AddRouteInWayBill(DateTime date)
+        {
+            WayBillDaily wayBillDaily = new WayBillDaily(_car, date);
+            wayBillDaily.Create();
+
+            MyPointList myPointList = MyPointList.getInstance();
+
+            foreach (WayBillDay wayBillDay in wayBillDaily)
+            {
+                int i = 6;
+                foreach (Route route in wayBillDay)
+                {
+                    MyPoint pointBegin = myPointList.getItem(route.MyPoint1ID);
+                    MyPoint pointEnd = myPointList.getItem(route.MyPoint2ID);
+
+                    _excelDoc.setValue(i, 59, pointBegin.Name);
+                    _excelDoc.setValue(i, 64, pointEnd.Name);
+                    _excelDoc.setValue(i, 78, route.Distance);
+                    i += 2;
+                }
+                _excelDoc.setValue(41, 59, wayBillDay.Distance);
+                return;
+            }
         }
 
         public void ShowAttacheToOrder()

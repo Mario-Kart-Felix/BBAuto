@@ -48,7 +48,7 @@ namespace ClassLibraryBBAuto
         internal List<int> GetDays(Driver driver, DateTime date)
         {
             var listNew = from item in _list
-                          where item.driver == driver && item.Date == date
+                          where item.driver == driver && item.Date.Year == date.Year && item.Date.Month == date.Month
                           orderby item.Date.Day
                           select item.Date.Day;
 

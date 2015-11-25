@@ -90,5 +90,36 @@ namespace ClassLibraryBBAuto
         {
             return list.Exists(item => myPoint.IsEqualsID(item.MyPoint1ID) || myPoint.IsEqualsID(item.MyPoint2ID));
         }
+
+        internal Route GetRandomItem(Random random, MyPoint mainPoint)
+        {
+            var listNew = (from item in list
+                           where mainPoint.IsEqualsID(item.MyPoint1ID) || mainPoint.IsEqualsID(item.MyPoint2ID)
+                           select item).ToList();
+
+            int rand = random.Next(0, listNew.Count - 1);
+
+            return (mainPoint.IsEqualsID(listNew[rand].MyPoint1ID)) ? new Route(listNew[rand].MyPoint1ID, listNew[rand].MyPoint2ID, listNew[rand].Distance) : new Route(listNew[rand].MyPoint2ID, listNew[rand].MyPoint1ID, listNew[rand].Distance);
+        }
+
+        internal Route GetRandomItem(Random random, MyPoint mainPoint, MyPoint toPoint)
+        {
+            var listNew = (from item in list
+                           where (toPoint.IsEqualsID(item.MyPoint1ID) || toPoint.IsEqualsID(item.MyPoint2ID)) && !mainPoint.IsEqualsID(item.MyPoint1ID) && !mainPoint.IsEqualsID(item.MyPoint2ID)
+                           select item).ToList();
+
+            int rand = random.Next(0, listNew.Count - 1);
+
+            return (toPoint.IsEqualsID(listNew[rand].MyPoint1ID)) ? new Route(listNew[rand].MyPoint1ID, listNew[rand].MyPoint2ID, listNew[rand].Distance) : new Route(listNew[rand].MyPoint2ID, listNew[rand].MyPoint1ID, listNew[rand].Distance);
+        }
+
+        internal Route GetItem(MyPoint point1, MyPoint point2)
+        {
+            var listNew = (from item in list
+                           where (point1.IsEqualsID(item.MyPoint1ID) || point1.IsEqualsID(item.MyPoint2ID)) && (point2.IsEqualsID(item.MyPoint1ID) || point2.IsEqualsID(item.MyPoint2ID))
+                           select item).ToList();
+
+            return (point1.IsEqualsID(listNew.First().MyPoint1ID)) ? listNew.First() : new Route(listNew.First().MyPoint2ID, listNew.First().MyPoint1ID, listNew.First().Distance);
+        }
     }
 }

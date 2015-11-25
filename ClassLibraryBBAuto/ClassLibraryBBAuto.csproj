@@ -45,12 +45,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Car.cs" />
-    <Compile Include="Common\ImportFrom1C.cs" />
+    <Compile Include="Common\IFrom1C.cs" />
+    <Compile Include="Common\EmployeesFrom1C.cs" />
     <Compile Include="Common\MyBuffer.cs" />
     <Compile Include="Common\ColumnSize.cs" />
     <Compile Include="Common\MyPrinter.cs" />
     <Compile Include="Common\MyString.cs" />
     <Compile Include="Common\MailPolicy.cs" />
+    <Compile Include="Common\Tabel.cs" />
+    <Compile Include="Common\TabelFrom1C.cs" />
+    <Compile Include="Common\WayBillDaily.cs" />
+    <Compile Include="Common\WayBillDay.cs" />
     <Compile Include="DataBase\DataBase.cs" />
     <Compile Include="DataBase\IProvider.cs" />
     <Compile Include="DataBase\MockProvider.cs" />
@@ -69,6 +74,7 @@
     <Compile Include="Lists\FuelCardList.cs" />
     <Compile Include="Lists\MyPointList.cs" />
     <Compile Include="Lists\RouteList.cs" />
+    <Compile Include="Lists\TabelList.cs" />
     <Compile Include="MainList.cs" />
     <Compile Include="Common\eMail.cs" />
     <Compile Include="Common\Employees.cs" />
