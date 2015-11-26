@@ -24,6 +24,8 @@ namespace ClassLibraryBBAuto
             _list = new List<WayBillDay>();
         }
 
+        public int Count { get { return _list.Count; } }
+
         public void Create()
         {
             TabelList tabelList = TabelList.GetInstance();
@@ -34,15 +36,29 @@ namespace ClassLibraryBBAuto
                 throw new NullReferenceException("Водитель не работал в выбранном месяце");
 
             MileageList mileageList = MileageList.getInstance();
-            int count = 1000;//mileageList.GetDistance(_car, _date);
-            int everyDayCount = count / days.Count;
+            int count = 2000;//mileageList.GetDistance(_car, _date);
+
+            Random random = new Random();
 
             foreach (var day in days)
             {
+                count -= GetDistance();
+                int everyDayCount = count / (days.Count - _list.Count);
+
                 WayBillDay wayBillDay = new WayBillDay(_car, _driver, day, everyDayCount);
-                wayBillDay.Create();
+                wayBillDay.Create(random);
                 _list.Add(wayBillDay);
             }
+        }
+
+        private int GetDistance()
+        {
+            int count = 0;
+
+            foreach (WayBillDay item in this)
+                count += Convert.ToInt32(item.Distance);
+
+            return count;
         }
 
         public IEnumerator GetEnumerator()

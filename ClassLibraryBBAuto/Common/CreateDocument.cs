@@ -245,7 +245,7 @@ namespace ClassLibraryBBAuto
             }
 
             _excelDoc = openDocumentExcel("Путевой лист");
-
+            
             _excelDoc.setValue(4, 28, _car.BBNumber.ToString());
 
             MyDateTime myDate = new MyDateTime(date.ToShortDateString());
@@ -351,9 +351,13 @@ namespace ClassLibraryBBAuto
 
             MyPointList myPointList = MyPointList.getInstance();
 
+            CopyWayBill(wayBillDaily);
+
+            int k = 0;
+
             foreach (WayBillDay wayBillDay in wayBillDaily)
             {
-                int i = 6;
+                int i = 6 + (46 * k);
                 foreach (Route route in wayBillDay)
                 {
                     MyPoint pointBegin = myPointList.getItem(route.MyPoint1ID);
@@ -364,8 +368,22 @@ namespace ClassLibraryBBAuto
                     _excelDoc.setValue(i, 78, route.Distance);
                     i += 2;
                 }
-                _excelDoc.setValue(41, 59, wayBillDay.Distance);
-                return;
+                _excelDoc.setValue(41 + (46 * k), 59, wayBillDay.Distance);
+                k++;
+            }
+        }
+
+        private void CopyWayBill(WayBillDaily wayBillDaily)
+        {
+            int i = 0;
+            foreach (WayBillDay item in wayBillDaily)
+            {
+                if (i > 0)
+                    _excelDoc.CopyRange("A1", "CF46", "A" + ((46 * i) + 1).ToString());
+
+                _excelDoc.setValue(6 + (46 * i), 15, item.Day);
+
+                i++;
             }
         }
 

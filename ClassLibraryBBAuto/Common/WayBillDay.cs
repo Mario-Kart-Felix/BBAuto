@@ -24,6 +24,8 @@ namespace ClassLibraryBBAuto
             _routes = new List<Route>();
         }
 
+        public string Day { get { return _day.ToString(); } }
+
         public string Distance
         {
             get
@@ -36,7 +38,7 @@ namespace ClassLibraryBBAuto
             }
         }
 
-        public void Create()
+        public void Create(Random random)
         {
             SuppyAddressList suppyAddressList = SuppyAddressList.getInstance();
             SuppyAddress suppyAddress = suppyAddressList.getItem(_driver.RegionID);
@@ -44,9 +46,7 @@ namespace ClassLibraryBBAuto
             MyPoint currentPoint = suppyAddress.Point;
 
             RouteList routeList = RouteList.getInstance();
-
-            Random random = new Random();
-
+            
             MyPointList myPointList = MyPointList.getInstance();
 
             int residue = _count;
@@ -63,8 +63,11 @@ namespace ClassLibraryBBAuto
 
             } while (residue > 10);
 
-            route = routeList.GetItem(currentPoint, suppyAddress.Point);
-            _routes.Add(route);
+            if (currentPoint != suppyAddress.Point)
+            {
+                route = routeList.GetItem(currentPoint, suppyAddress.Point);
+                _routes.Add(route);
+            }
         }
 
         public IEnumerator GetEnumerator()

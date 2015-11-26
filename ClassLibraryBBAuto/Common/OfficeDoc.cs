@@ -150,6 +150,14 @@ namespace ClassLibraryBBAuto
         {
             xlSh.PageSetup.LeftHeader = text + "\n" + DateTime.Today.ToShortDateString();
         }
+
+        internal void CopyRange(string copingCell1, string copingCell2, string pastingCell)
+        {
+            xlSh.Range[copingCell1, copingCell2].Copy();
+            xlSh.Range[pastingCell, System.Type.Missing].Select();
+            xlSh.Paste();
+            xlApp.CutCopyMode = 0;
+        }
     }
 
     internal class OfficeDoc
