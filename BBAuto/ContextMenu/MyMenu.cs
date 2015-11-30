@@ -279,7 +279,9 @@ namespace BBAuto
                         return CreateContextMenuDTP();
                     case Status.Sale:
                         return CreateContextMenuSale();
-                    case Status.TempMove: case Status.Policy: case Status.Violation: case Status.DiagCard: case Status.ShipPart: case Status.Account: case Status.FuelCard:
+                    case Status.Policy:
+                        return CreateContextMenuPolicy();
+                    case Status.TempMove: case Status.Violation: case Status.DiagCard: case Status.ShipPart: case Status.Account: case Status.FuelCard:
                         return CreateContextMenuSortAndFilter();
                     case Status.Driver:
                         return CreateContextMenuDriver();
@@ -386,6 +388,18 @@ namespace BBAuto
 
             menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Filter));
             menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Sort));
+
+            return menuStrip;
+        }
+
+        private ContextMenuStrip CreateContextMenuPolicy()
+        {
+            ContextMenuStrip menuStrip = new ContextMenuStrip();
+
+            menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Filter));
+            menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Sort));
+            menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.SendPolicyKasko));
+            menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.SendPolicyOsago));
 
             return menuStrip;
         }
