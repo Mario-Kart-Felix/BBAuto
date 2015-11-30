@@ -14,13 +14,15 @@ namespace BBAuto
     {
         private MainDGV _dgvMain;
         private Actions _action;
+        private WayBillType _type;
 
-        public InputDate(MainDGV dgvMain, Actions action)
+        public InputDate(MainDGV dgvMain, Actions action, WayBillType type)
         {
             InitializeComponent();
 
             _dgvMain = dgvMain;
             _action = action;
+            _type = type;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -36,12 +38,8 @@ namespace BBAuto
 
                 DateTime date = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, 1);
 
-                CreateDocument excelWayBill;
-                if (status == Status.Invoice)
-                    excelWayBill = CreateWayBill(idCar, date, _dgvMain.GetID(cell.RowIndex));
-                else
-                    excelWayBill = CreateWayBill(idCar, date);
-
+                CreateDocument excelWayBill = (status == Status.Invoice) ? CreateWayBill(idCar, date, _dgvMain.GetID(cell.RowIndex)) : CreateWayBill(idCar, date);
+                
                 if (_action == Actions.Print)
                     excelWayBill.Print();
                 else
@@ -72,6 +70,17 @@ namespace BBAuto
             }
 
             waybill.createWaybill(date, driver);
+
+            try
+            {
+                if (_type == WayBillType.Day)
+                    waybill.AddRouteInWayBill(date);
+            }
+            catch (NullReferenceException ex)
+            {
+                MessageBox.Show(ex.Message, "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                waybill.Exit();
+            }
 
             return waybill;
         }

@@ -132,7 +132,7 @@ namespace ClassLibraryBBAuto
 
             releaseObject(xlSh);
             releaseObject(xlWorkBook);
-            releaseObject(xlApp);            
+            releaseObject(xlApp);
         }
 
         internal void Print()

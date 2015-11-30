@@ -340,8 +340,6 @@ namespace ClassLibraryBBAuto
             _excelDoc.setValue(35, 18, dispatcherName);
 
             _excelDoc.setValue(43, 72, accountant.Name);
-
-            AddRouteInWayBill(date);
         }
 
         public void AddRouteInWayBill(DateTime date)

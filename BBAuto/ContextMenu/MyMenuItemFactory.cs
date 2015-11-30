@@ -60,6 +60,8 @@ namespace BBAuto
                     return CreatePrintWayBill();
                 case ContextMenuItem.ShowWayBill:
                     return CreateShowWayBill();
+                case ContextMenuItem.ShowWayBillDaily:
+                    return CreateShowWayBillDaily();
                 //------------------------------
                 case ContextMenuItem.ShowInvoice:
                     return CreateShowInvoice();
@@ -313,6 +315,13 @@ namespace BBAuto
         {
             ToolStripMenuItem item = CreateItem("Просмотр путевого листа");
             item.Click += ShowWayBill_Click;
+            return item;
+        }
+
+        private ToolStripMenuItem CreateShowWayBillDaily()
+        {
+            ToolStripMenuItem item = CreateItem("Просмотр путевых листов на каждый день");
+            item.Click += ShowWayBillDaily_Click;
             return item;
         }
 
@@ -910,13 +919,19 @@ namespace BBAuto
 
         private void PrintWayBill_Click(object sender, EventArgs e)
         {
-            InputDate inputDate = new InputDate(_dgvMain, Actions.Print);
+            InputDate inputDate = new InputDate(_dgvMain, Actions.Print, WayBillType.Month);
             inputDate.ShowDialog();
         }
 
         private void ShowWayBill_Click(object sender, EventArgs e)
         {
-            InputDate inputDate = new InputDate(_dgvMain, Actions.Show);
+            InputDate inputDate = new InputDate(_dgvMain, Actions.Show, WayBillType.Month);
+            inputDate.ShowDialog();
+        }
+
+        private void ShowWayBillDaily_Click(object sender, EventArgs e)
+        {
+            InputDate inputDate = new InputDate(_dgvMain, Actions.Show, WayBillType.Day);
             inputDate.ShowDialog();
         }
 

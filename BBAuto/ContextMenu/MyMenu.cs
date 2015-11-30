@@ -318,6 +318,7 @@ namespace BBAuto
             menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Separator));
             menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.PrintWayBill));
             menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowWayBill));
+            menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowWayBillDaily));
 
             return menuStrip;
         }
