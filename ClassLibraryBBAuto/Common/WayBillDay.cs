@@ -41,7 +41,7 @@ namespace ClassLibraryBBAuto
         public void Create(Random random)
         {
             SuppyAddressList suppyAddressList = SuppyAddressList.getInstance();
-            SuppyAddress suppyAddress = suppyAddressList.getItem(_driver.RegionID);
+            SuppyAddress suppyAddress = suppyAddressList.getItemByRegion(_driver.RegionID);
 
             MyPoint currentPoint = suppyAddress.Point;
 

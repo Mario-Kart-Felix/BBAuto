@@ -36,7 +36,7 @@ namespace ClassLibraryBBAuto
                 Add(suppyAddress);
             }
         }
-
+        
         public void Add(SuppyAddress suppyAddress)
         {
             if (list.Exists(item => item == suppyAddress))
@@ -52,19 +52,32 @@ namespace ClassLibraryBBAuto
             list.Remove(suppyAddress);
 
             suppyAddress.Delete();
-
         }
 
-        public SuppyAddress getItem(int idRegion)
+        public SuppyAddress getItemByRegion(int idRegion)
         {
-            var suppyAddresses = getList(idRegion);
+            var suppyAddresses = getListByRegion(idRegion);
             
             return (suppyAddresses.Count() > 0) ? suppyAddresses.First() : null;
         }
 
-        private List<SuppyAddress> getList(int idRegion)
+        private List<SuppyAddress> getListByRegion(int idRegion)
         {
-            var suppyAddresses = list.Where(item => item.IsEqualsID(idRegion));
+            var suppyAddresses = list.Where(item => item.IsEqualsRegionID(idRegion));
+
+            return suppyAddresses.ToList();
+        }
+
+        public SuppyAddress getItem(int idSuppyAddress)
+        {
+            var suppyAddresses = getList(idSuppyAddress);
+
+            return (suppyAddresses.Count() > 0) ? suppyAddresses.First() : null;
+        }
+
+        private List<SuppyAddress> getList(int idSuppyAddress)
+        {
+            var suppyAddresses = list.Where(item => item.IsEqualsID(idSuppyAddress));
 
             return suppyAddresses.ToList();
         }

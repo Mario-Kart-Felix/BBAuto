@@ -50,7 +50,7 @@ namespace BBAuto
         {            
             if (User.GetRole() == RolesList.AccountantWayBill)
             {
-                this.Size = new Size(410, 430);
+                this.Size = new Size(410, 486);
                 _workWithForm.SetEnableValue(btnSave, true);
             }
             

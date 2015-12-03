@@ -64,5 +64,10 @@ namespace ClassLibraryBBAuto
         {
             return string.Concat("г. ", Region, " ", Point.Name);
         }
+
+        public bool IsEqualsRegionID(int idRegion)
+        {
+            return Point.RegionID == idRegion;
+        }
     }
 }

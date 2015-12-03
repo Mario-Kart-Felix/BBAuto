@@ -205,6 +205,7 @@ namespace BBAuto
             itemCar.DropDownItems.Add(_factory.CreateItem(Status.Sale));
 
             itemMainDictionary.DropDownItems.Add(itemCar);
+            itemMainDictionary.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Driver));
             itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.Invoice));
             itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.TempMove));
             itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.Policy));
@@ -216,9 +217,10 @@ namespace BBAuto
             itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.Account));
             itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.FuelCard));
 
-            itemExtraDictionary.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Driver));
             itemExtraDictionary.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.SuppyAddress));
             itemExtraDictionary.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Employee));
+            itemExtraDictionary.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.MyPointList));
+            itemExtraDictionary.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.RouteList));
 
             menuStrip.Items.Add(itemAction);
             menuStrip.Items.Add(itemMainDictionary);
@@ -378,6 +380,7 @@ namespace BBAuto
             
             menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.PrintWayBill));
             menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowWayBill));
+            menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowWayBillDaily));
 
             return menuStrip;
         }

@@ -116,11 +116,15 @@ namespace BBAuto
         
         private void _dgvCar_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (User.GetRole() == RolesList.AccountantWayBill)
-                return;
-
             Point point = new Point(e.ColumnIndex, e.RowIndex);
 
+            if (User.GetRole() == RolesList.AccountantWayBill)
+            {
+                if (mainStatus.Get() == Status.Driver)
+                    DoubleClickDriver(point);
+                return;
+            }
+            
             if (isCellNoHeader(e.RowIndex))
             {
                 if (_dgvCar.Columns[e.ColumnIndex].HeaderText == COLUMN_BBNUMBER)

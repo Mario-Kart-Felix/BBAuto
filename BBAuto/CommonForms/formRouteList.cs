@@ -75,6 +75,11 @@ namespace BBAuto
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            if (cbMyPoint1.SelectedValue == null)
+            {
+                return;
+            }
+
             int idMyPoint1;
             int.TryParse(cbMyPoint1.SelectedValue.ToString(), out idMyPoint1);
                         

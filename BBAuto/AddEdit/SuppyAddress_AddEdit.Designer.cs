@@ -53,6 +53,7 @@
             this.cbRegion.Name = "cbRegion";
             this.cbRegion.Size = new System.Drawing.Size(174, 21);
             this.cbRegion.TabIndex = 1;
+            this.cbRegion.SelectedIndexChanged += new System.EventHandler(this.cbRegion_SelectedIndexChanged);
             // 
             // label2
             // 

@@ -31,7 +31,17 @@ namespace BBAuto
             tbName.Text = _mypoint.Name;
 
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
+            _workWithForm.EditModeChanged += SetEnable;
             _workWithForm.SetEditMode(_mypoint.IsEqualsID(0));
+            
+        }
+
+        private void SetEnable(Object sender, EditModeEventArgs e)
+        {
+            if (User.GetRole() == RolesList.AccountantWayBill)
+            {
+                _workWithForm.SetEnableValue(btnSave, true);
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e)

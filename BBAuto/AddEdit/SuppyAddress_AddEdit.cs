@@ -52,8 +52,8 @@ namespace BBAuto
             DataTable dt = regions.ToDataTable();
 
             cbRegion.DataSource = dt;
-            cbRegion.DisplayMember = dt.Columns[0].ColumnName;
-            cbRegion.ValueMember = dt.Columns[1].ColumnName;
+            cbRegion.ValueMember = dt.Columns[0].ColumnName;
+            cbRegion.DisplayMember = dt.Columns[1].ColumnName;
         }
 
         private void loadMyPoints()
@@ -68,9 +68,9 @@ namespace BBAuto
 
             DataTable dt = myPointList.ToDataTable(idRegion);
 
-            cbRegion.DataSource = dt;
-            cbRegion.DisplayMember = dt.Columns[0].ColumnName;
-            cbRegion.ValueMember = dt.Columns[2].ColumnName;
+            cbMyPoint.DataSource = dt;
+            cbMyPoint.ValueMember = dt.Columns[0].ColumnName;
+            cbMyPoint.DisplayMember = dt.Columns[1].ColumnName;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -91,6 +91,11 @@ namespace BBAuto
             }
             else
                 _workWithForm.SetEditMode(true);
+        }
+
+        private void cbRegion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            loadMyPoints();
         }
     }
 }

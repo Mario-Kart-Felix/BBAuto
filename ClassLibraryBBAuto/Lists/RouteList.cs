@@ -49,6 +49,9 @@ namespace ClassLibraryBBAuto
         {
             Route route = getItem(idRoute);
 
+            if (route == null)
+                return;
+
             list.Remove(route);
 
             route.Delete();

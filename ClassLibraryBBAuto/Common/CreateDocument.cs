@@ -283,7 +283,7 @@ namespace ClassLibraryBBAuto
             else
             {
                 SuppyAddressList suppyAddressList = SuppyAddressList.getInstance();
-                SuppyAddress suppyAddress = suppyAddressList.getItem(driver.RegionID);
+                SuppyAddress suppyAddress = suppyAddressList.getItemByRegion(driver.RegionID);
 
                 if (suppyAddress != null)
                     suppyAddressName = suppyAddress.ToString();
