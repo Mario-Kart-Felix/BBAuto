@@ -109,6 +109,7 @@ namespace BBAuto
             itemPrint.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.PrintWayBill));
             itemPrint.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.PrintAllTable));
             itemPrint.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.ShowAllTable));
+            itemPrint.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.PrintProxyOnSTO));
 
             ToolStripMenuItem itemCar = new ToolStripMenuItem("Автомобили");
             itemCar.DropDownItems.Add(_factory.CreateItem(Status.Actual));

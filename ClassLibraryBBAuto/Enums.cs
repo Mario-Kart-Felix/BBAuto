@@ -35,7 +35,7 @@
         Separator, NewInvoice, NewDTP, NewViolation, NewPolicy, NewDiagCard, NewMileage, NewTempMove, ToSale, DeleteFromSale,
         LotusMail, SendPolicyOsago, SendPolicyKasko, Copy, Print, PrintWayBill, ShowWayBill, ShowWayBillDaily,
 
-        ShowInvoice, ShowAttacheToOrder, ShowProxyOnSTO, ShowPolicyKasko, ShowActFuelCard,
+        ShowInvoice, ShowAttacheToOrder, ShowProxyOnSTO, PrintProxyOnSTO, ShowPolicyKasko, ShowActFuelCard,
 
         ShowNotice, ShowSTS, ShowDriverLicense,
 

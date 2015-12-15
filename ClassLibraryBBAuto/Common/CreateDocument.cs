@@ -18,22 +18,12 @@ namespace ClassLibraryBBAuto
         {
             Init();
         }
-
-        public CreateDocument(Car car)
+        
+        public CreateDocument(Car car, Invoice invoice = null)
         {
             Init();
             _car = car;
-        }
-
-        public CreateDocument(int idCar, int idInvoice)
-        {
-            Init();
-
-            CarList carList = CarList.getInstance();
-            _car = carList.getItem(Convert.ToInt32(idCar));
-
-            InvoiceList invoiceList = InvoiceList.getInstance();
-            _invoice = invoiceList.getItem(idInvoice);
+            _invoice = invoice;
         }
 
         private void Init()
@@ -404,9 +394,27 @@ namespace ClassLibraryBBAuto
 
         public void ShowProxyOnSTO()
         {
+            WordDoc wordDoc = CreateProxyOnSTO();
+
+            wordDoc.Show();
+        }
+
+        public void PrintProxyOnSTO()
+        {
+            WordDoc wordDoc = CreateProxyOnSTO();
+
+            wordDoc.setValue("до 31 декабря 2015 года", "до 31 декабря 2016 года");
+
+            wordDoc.Print();
+        }
+
+        private WordDoc CreateProxyOnSTO()
+        {
             WordDoc wordDoc = openDocumentWord("Доверенность на предоставление интересов на СТО");
 
-            Driver driver = driverList.getItem(Convert.ToInt32(_invoice.DriverToID));
+            DriverCarList driverCarList = DriverCarList.getInstance();
+
+            Driver driver = (_invoice == null) ? driverCarList.GetDriver(_car) : driverList.getItem(Convert.ToInt32(_invoice.DriverToID));
 
             MyDateTime myDate = new MyDateTime(DateTime.Today.ToShortDateString());
             wordDoc.setValue("текущая дата", myDate.ToLongString());
@@ -440,7 +448,7 @@ namespace ClassLibraryBBAuto
             wordDoc.setValue("ГРЗ автомобиля", _car.grz);
             wordDoc.setValue("текущий год", DateTime.Today.Year.ToString());
 
-            wordDoc.Show();
+            return wordDoc;
         }
 
         public void ShowActFuelCard()

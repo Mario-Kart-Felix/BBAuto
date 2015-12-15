@@ -29,9 +29,18 @@ namespace ClassLibraryBBAuto
             wordApp.Visible = true;
         }
 
+        public void Print()
+        {
+            wordApp.PrintOut();
+
+            Dispose();   
+        }
+
         public void Dispose()
         {
-            //wordApp.Quit();
+            wordApp.DisplayAlerts = Word.WdAlertLevel.wdAlertsNone;
+
+            wordApp.Quit(false, false, false);
 
             releaseObject(wordDoc);
             releaseObject(wordApp);

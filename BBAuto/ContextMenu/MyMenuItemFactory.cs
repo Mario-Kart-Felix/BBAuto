@@ -69,6 +69,8 @@ namespace BBAuto
                     return CreateShowAttacheToOrder();
                 case ContextMenuItem.ShowProxyOnSTO:
                     return CreateShowProxyOnSTO();
+                case ContextMenuItem.PrintProxyOnSTO:
+                    return CreatePrintProxyOnSTO();
                 case ContextMenuItem.ShowPolicyKasko:
                     return CreateShowPolicyKasko();
                 case ContextMenuItem.ShowActFuelCard:
@@ -343,6 +345,13 @@ namespace BBAuto
         {
             ToolStripMenuItem item = CreateItem("Доверенность на предоставление интересов на СТО");
             item.Click += ShowProxyOnSTO_Click;
+            return item;
+        }
+
+        private ToolStripMenuItem CreatePrintProxyOnSTO()
+        {
+            ToolStripMenuItem item = CreateItem("Печать доверенности на предоставление интересов на СТО (2016 год)");
+            item.Click += PrintProxyOnSTO_Click;
             return item;
         }
 
@@ -937,7 +946,7 @@ namespace BBAuto
 
         private void ShowInvoice_Click(object sender, EventArgs e)
         {
-            CreateDocument doc = createDocument();
+            CreateDocument doc = createDocument(_dgvMain.CurrentCell);
 
             if (doc != null)
                 doc.ShowInvoice();
@@ -945,7 +954,7 @@ namespace BBAuto
 
         private void ShowAttacheToOrder_Click(object sender, EventArgs e)
         {
-            CreateDocument doc = createDocument();
+            CreateDocument doc = createDocument(_dgvMain.CurrentCell);
 
             if (doc != null)
                 doc.ShowAttacheToOrder();
@@ -953,18 +962,44 @@ namespace BBAuto
 
         private void ShowProxyOnSTO_Click(object sender, EventArgs e)
         {
-            CreateDocument doc = createDocument();
+            CreateDocument doc = createDocument(_dgvMain.CurrentCell);
 
             if (doc != null)
                 doc.ShowProxyOnSTO();
         }
 
-        private CreateDocument createDocument()
+        private void PrintProxyOnSTO_Click(object sender, EventArgs e)
         {
-            if (_dgvMain.GetCarID() == 0)
+            foreach (DataGridViewCell cell in _dgvMain.SelectedCells)
+            {
+                CreateDocument doc = createDocument(cell);
+
+                if (doc != null)
+                    doc.PrintProxyOnSTO();
+            }
+        }
+
+        private CreateDocument createDocument(DataGridViewCell cell)
+        {
+            int carID = _dgvMain.GetCarID(cell.RowIndex);
+
+            if (carID == 0)
                 return null;
 
-            return new CreateDocument(_dgvMain.GetCarID(), _dgvMain.GetID());
+            CarList carList = CarList.getInstance();
+            Car car = carList.getItem(carID);
+
+            Invoice invoice = null;
+
+            if (_mainStatus.Get() == Status.Invoice)
+            {
+                int invoiceID = _dgvMain.GetID(cell.RowIndex);
+
+                InvoiceList invoiceList = InvoiceList.getInstance();
+                invoice = invoiceList.getItem(invoiceID);
+            }
+
+            return new CreateDocument(car, invoice);
         }
 
         private void ShowPolicyKasko_Click(object sender, EventArgs e)
@@ -987,7 +1022,13 @@ namespace BBAuto
                 MessageBox.Show("Для формирования акта выберите ячейку в таблице", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             else
             {
-                CreateDocument doc = new CreateDocument(_dgvMain.GetCarID(), _dgvMain.GetID());
+                CarList carList = CarList.getInstance();
+                Car car = carList.getItem(_dgvMain.GetCarID());
+
+                InvoiceList invoiceList = InvoiceList.getInstance();
+                Invoice invoice = invoiceList.getItem(_dgvMain.GetID());
+
+                CreateDocument doc = new CreateDocument(car, invoice);
                 doc.ShowActFuelCard();
             }
         }
