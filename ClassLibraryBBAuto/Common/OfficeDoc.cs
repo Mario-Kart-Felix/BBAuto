@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Word = Microsoft.Office.Interop.Word;
 using Excel = Microsoft.Office.Interop.Excel;
+using System.Threading;
 
 namespace ClassLibraryBBAuto
 {
@@ -40,7 +41,8 @@ namespace ClassLibraryBBAuto
         {
             wordApp.DisplayAlerts = Word.WdAlertLevel.wdAlertsNone;
 
-            wordApp.Quit(false, false, false);
+            wordDoc.Close(Word.WdSaveOptions.wdDoNotSaveChanges, Word.WdOriginalFormat.wdWordDocument);
+            wordApp.Quit(Word.WdSaveOptions.wdDoNotSaveChanges, Word.WdOriginalFormat.wdWordDocument);
 
             releaseObject(wordDoc);
             releaseObject(wordApp);
