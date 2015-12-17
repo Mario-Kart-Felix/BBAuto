@@ -150,6 +150,9 @@ namespace BBAuto
         {
             Save();
 
+            if (GetPolicyType() != PolicyType.КАСКО)
+                cbPayment.SelectedIndex = 0;
+
             formPolicyList fPolicyList = new formPolicyList(_account, GetPolicyType(), cbPayment.SelectedIndex, cbOwner.SelectedValue.ToString());
             if (fPolicyList.ShowDialog() == DialogResult.OK)
                 FillTable();
