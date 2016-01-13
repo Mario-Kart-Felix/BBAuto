@@ -327,7 +327,7 @@ namespace ClassLibraryBBAuto
 
         public bool IsActual()
         {
-            return _dateEnd > DateTime.Today;
+            return _dateEnd >= DateTime.Today;
         }
     }
 }

@@ -47,7 +47,7 @@ namespace ClassLibraryBBAuto
 
         public DataTable ToDataTable()
         {
-            var diagCards = list.Where(item => item.Date >= (DateTime.Today.AddYears(-1))).OrderByDescending(item => item.Date);
+            var diagCards = list.Where(item => item.Date >= (DateTime.Today.AddYears(-1)) && !item.GetCar().info.IsSale).OrderByDescending(item => item.Date);
 
             return createTable(diagCards.ToList());
         }
