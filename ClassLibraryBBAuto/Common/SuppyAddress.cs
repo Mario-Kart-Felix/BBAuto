@@ -67,7 +67,7 @@ namespace ClassLibraryBBAuto
 
         public bool IsEqualsRegionID(int idRegion)
         {
-            return Point.RegionID == idRegion;
+            return ((Point != null) && (Point.RegionID == idRegion));
         }
     }
 }
