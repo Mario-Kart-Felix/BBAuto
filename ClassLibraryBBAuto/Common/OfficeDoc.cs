@@ -125,6 +125,11 @@ namespace ClassLibraryBBAuto
         {
             return xlSh.get_Range(rowCell, columnCell).Value2;
         }
+
+        public void SetList(string pageName)
+        {
+            xlSh = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(pageName);
+        }
         
         public void Show()
         {

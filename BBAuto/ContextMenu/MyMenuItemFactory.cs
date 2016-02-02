@@ -161,6 +161,8 @@ namespace BBAuto
                     return CreateMyPointList();
                 case ContextMenuItem.RouteList:
                     return CreateRouteList();
+                case ContextMenuItem.MileageFill:
+                    return CreateMileageFill();
                 default:
                     throw new NotImplementedException();
             }
@@ -751,6 +753,13 @@ namespace BBAuto
         {
             ToolStripMenuItem item = CreateItem("Список маршрутов");
             item.Click += RouteList_Click;
+            return item;
+        }
+
+        private ToolStripMenuItem CreateMileageFill()
+        {
+            ToolStripMenuItem item = CreateItem("Загрузить пробеги");
+            item.Click += MileageFill_Click;
             return item;
         }
 
@@ -1469,6 +1478,12 @@ namespace BBAuto
         {
             formRouteList routeList = new formRouteList();
             routeList.ShowDialog();
+        }
+
+        private void MileageFill_Click(object sender, EventArgs e)
+        {
+            FormMileageFill formMileageFill = new FormMileageFill();
+            formMileageFill.ShowDialog();
         }
     }
 }

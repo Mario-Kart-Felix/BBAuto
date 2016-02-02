@@ -55,6 +55,8 @@
 
         AddDriver, DeleteDriver,
 
-        MyPointList, RouteList
+        MyPointList, RouteList,
+
+        MileageFill
     };
 }

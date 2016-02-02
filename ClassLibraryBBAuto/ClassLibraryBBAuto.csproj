@@ -47,6 +47,7 @@
     <Compile Include="Car.cs" />
     <Compile Include="Common\IFrom1C.cs" />
     <Compile Include="Common\EmployeesFrom1C.cs" />
+    <Compile Include="Common\MileAgeFill.cs" />
     <Compile Include="Common\MyBuffer.cs" />
     <Compile Include="Common\ColumnSize.cs" />
     <Compile Include="Common\MyPrinter.cs" />

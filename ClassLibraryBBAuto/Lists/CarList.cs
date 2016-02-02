@@ -111,6 +111,13 @@ namespace ClassLibraryBBAuto
             return cars.Count() > 0 ? cars.First() as Car : null;
         }
 
+        public Car getItem(string grz)
+        {
+            var cars = list.Where(car => car.grz == grz);
+
+            return cars.Count() > 0 ? cars.First() as Car : null;
+        }
+
         public DataTable ToDataTable(Status status)
         {
             switch (status)
