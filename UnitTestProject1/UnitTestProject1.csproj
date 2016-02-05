@@ -79,6 +79,7 @@
     <Compile Include="ProviderTest.cs" />
     <Compile Include="DiagCardTest.cs" />
     <Compile Include="PolicyTest.cs" />
+    <Compile Include="PassportTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ClassLibraryBBAuto\ClassLibraryBBAuto.csproj">
