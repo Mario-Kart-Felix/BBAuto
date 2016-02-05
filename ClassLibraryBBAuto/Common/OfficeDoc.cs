@@ -41,8 +41,8 @@ namespace ClassLibraryBBAuto
         {
             wordApp.DisplayAlerts = Word.WdAlertLevel.wdAlertsNone;
 
-            wordDoc.Close(Word.WdSaveOptions.wdDoNotSaveChanges, Word.WdOriginalFormat.wdWordDocument);
-            wordApp.Quit(Word.WdSaveOptions.wdDoNotSaveChanges, Word.WdOriginalFormat.wdWordDocument);
+            ((Word._Document)wordDoc).Close(Word.WdSaveOptions.wdDoNotSaveChanges, Word.WdOriginalFormat.wdWordDocument);
+            ((Word._Application)wordApp).Quit(Word.WdSaveOptions.wdDoNotSaveChanges, Word.WdOriginalFormat.wdWordDocument);
 
             releaseObject(wordDoc);
             releaseObject(wordApp);
@@ -125,10 +125,22 @@ namespace ClassLibraryBBAuto
         {
             return xlSh.get_Range(rowCell, columnCell).Value2;
         }
-
+        
         public void SetList(string pageName)
         {
-            xlSh = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(pageName);
+            try
+            {
+                xlSh = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(pageName);
+            }
+            catch
+            {
+                throw new IndexOutOfRangeException();
+            }
+        }
+
+        public void SetList(int pageIndex)
+        {
+            xlSh = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(pageIndex);
         }
         
         public void Show()
@@ -143,8 +155,16 @@ namespace ClassLibraryBBAuto
 
         public void Dispose()
         {
+            object misValue = System.Reflection.Missing.Value;
+            
             xlApp.DisplayAlerts = false;
+            xlApp.EnableEvents = false;
+            
+            xlWorkBook.Close(false, misValue, misValue);
+            
             xlApp.Quit();
+
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp);
 
             releaseObject(xlSh);
             releaseObject(xlWorkBook);
@@ -180,9 +200,7 @@ namespace ClassLibraryBBAuto
     {
         protected string name;
 
-        protected OfficeDoc()
-        {
-        }
+        protected OfficeDoc() { }
 
         protected OfficeDoc(string name)
         {

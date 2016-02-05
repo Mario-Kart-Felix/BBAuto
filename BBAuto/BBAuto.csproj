@@ -117,6 +117,12 @@
     <Compile Include="CommonForms\formMyPointList.Designer.cs">
       <DependentUpon>formMyPointList.cs</DependentUpon>
     </Compile>
+    <Compile Include="CommonForms\FormReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CommonForms\FormReport.Designer.cs">
+      <DependentUpon>FormReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="CommonForms\formRouteList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -458,6 +464,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CommonForms\formMyPointList.resx">
       <DependentUpon>formMyPointList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CommonForms\FormReport.resx">
+      <DependentUpon>FormReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CommonForms\formRouteList.resx">
       <DependentUpon>formRouteList.cs</DependentUpon>

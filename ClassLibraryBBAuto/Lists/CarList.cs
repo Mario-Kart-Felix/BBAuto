@@ -113,9 +113,20 @@ namespace ClassLibraryBBAuto
 
         public Car getItem(string grz)
         {
-            var cars = list.Where(car => car.grz == grz);
+            var cars = list.Where(item => ((item.grz.Replace(" ", "") != string.Empty) && (item.grz.Replace(" ", "") == grz.Replace(" ", ""))));
 
-            return cars.Count() > 0 ? cars.First() as Car : null;
+            if (cars.Count() > 0)
+                return cars.First();
+
+            if (grz.Replace(" ", "").Length >= 6)
+            {
+                cars = list.Where(item => ((item.grz.Replace(" ", "") != string.Empty) && (item.grz.Replace(" ", "").Substring(0, 6) == grz.Replace(" ", "").Substring(0, 6))));
+
+                if (cars.Count() == 1)
+                    return cars.First();
+            }
+
+            return null;
         }
 
         public DataTable ToDataTable(Status status)

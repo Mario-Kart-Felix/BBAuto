@@ -406,7 +406,7 @@ namespace ClassLibraryBBAuto
             wordDoc.setValue("до 31 декабря 2015 года", "до 31 декабря 2016 года");
 
             MyDateTime myDate = new MyDateTime(DateTime.Today.ToShortDateString());
-            wordDoc.setValue(myDate.ToLongString(), "01 января 2016");
+            wordDoc.setValue(myDate.ToLongString(), "01 февраля 2016");
 
             wordDoc.Print();
         }

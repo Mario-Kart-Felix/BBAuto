@@ -97,7 +97,7 @@ namespace ClassLibraryBBAuto
 
         public Passport GetPassport(Driver driver, string number)
         {
-            var newList = list.Where(item => item.Number == number).ToList();
+            var newList = list.Where(item => item.Number.Replace(" ", "") == number.Replace(" ", "")).ToList();
 
             return (newList.Count == 0) ? driver.createPassport() : newList.First();
         }

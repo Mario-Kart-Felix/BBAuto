@@ -43,9 +43,8 @@ namespace ClassLibraryBBAuto
                     if (!string.IsNullOrEmpty(fields[11]))
                     {
                         string passportNumber = fields[11].Replace(" ", "");
-                        if (passportNumber.Length < 10)
+                        if (passportNumber.Length == 0)
                             continue;
-                        passportNumber = string.Concat(passportNumber.Substring(0, 2), " ", passportNumber.Substring(2, 2), " ", passportNumber.Substring(4, 6));
 
                         PassportList passportList = PassportList.getInstance();
                         Passport passport;
@@ -62,7 +61,6 @@ namespace ClassLibraryBBAuto
                         passport.Address = fields[14];
                         passport.Save();
                     }
-
                 }
                 
                 File.Move(file, FILE_PATH + @"\processed\" + DateTime.Today.ToShortDateString() + " " + Path.GetFileName(file));

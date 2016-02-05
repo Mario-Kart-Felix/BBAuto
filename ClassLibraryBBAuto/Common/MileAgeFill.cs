@@ -6,49 +6,111 @@ using System.IO;
 
 namespace ClassLibraryBBAuto
 {
-    public static class MileageFill
+    public class MileageFill
     {
-        private static DateTime _date;
+        private string[,] literal = new string[,] { { "A", "А" }, { "B", "В" }, { "E", "Е" }, { "K", "К" }, { "M", "М" }, { "H", "Н" }, { "O", "О" }, { "P", "Р" }, { "C", "С" }, { "T", "Т" }, { "Y", "У" }, { "X", "Х" }, { "RUS", "" }, { "/", "" } };
 
-        public static void Begin(string folder, DateTime date)
+        private DateTime _date;
+        private MileageReportList _mileageReportList;
+
+        private string _folder;
+
+        public MileageFill(string folder, DateTime date)
         {
+            _mileageReportList = new MileageReportList();
+
+            _folder = folder;
             _date = date;
+        }
 
-            string[] filenames = Directory.GetFiles(folder);
-
+        public void Begin()
+        {
+            string[] filenames = Directory.GetFiles(_folder);
+            
             foreach (string fileName in filenames)
             {
                 ReadFile(fileName);
             }
         }
 
-        private static void ReadFile(string path)
+        private void ReadFile(string filename)
         {
-            ExcelDoc excelDoc = new ExcelDoc(path);
-            excelDoc.SetList("Расходы по а-м");
-
-            string grz = excelDoc.getValue("4", "2").ToString();
-
-            Car car = GetCar(grz);
-
-            if (car != null)
+            try
             {
-                string value = excelDoc.getValue("8", "3").ToString();
+                using (ExcelDoc excelDoc = new ExcelDoc(filename))
+                {
+                    try
+                    {
+                        excelDoc.SetList("Расходы по а-м");
 
-                SetMileage(car, value);
+
+                        string grz = (excelDoc.getValue("B4", "B4") != null) ? excelDoc.getValue("B4", "B4").ToString() : string.Empty;
+
+                        Car car = GetCar(grz);
+
+                        if (car == null)
+                        {
+                            string driverFIO = (excelDoc.getValue("B5", "B5") != null) ? excelDoc.getValue("B5", "B5").ToString() : string.Empty;
+
+                            DriverList driverList = DriverList.getInstance();
+                            Driver driver = driverList.getItemByFIO(driverFIO);
+
+                            if (driver != null)
+                            {
+                                DriverCarList driverCarList = DriverCarList.getInstance();
+                                car = driverCarList.GetCar(driver);
+                            }
+
+                            if (car == null)
+                                _mileageReportList.Add(new MileageReport(null, string.Concat("Не найден автомобиль: ", grz, " сотрудник: ", driverFIO, ". Файл: ", filename)));
+                        }
+
+                        if (car != null)
+                        {
+                            string value = (excelDoc.getValue("C8", "C8") != null) ? excelDoc.getValue("C8", "C8").ToString() : string.Empty;
+
+                            SetMileage(car, value);
+                        }
+                    }
+
+                    catch (IndexOutOfRangeException)
+                    {
+                        _mileageReportList.Add(new MileageReport(null, string.Concat("Ошибка при чтении файла: ", filename)));
+                    }
+                    catch (OverflowException)
+                    {
+                        _mileageReportList.Add(new MileageReport(null, string.Concat("Указан слишком большой пробег в файле: ", filename)));
+                    }
+                }
+            }
+            catch
+            {
+                _mileageReportList.Add(new MileageReport(null, string.Concat("Ошибка при чтении файла: ", filename)));
             }
         }
 
-        private static Car GetCar(string grz)
+        private Car GetCar(string grz)
         {
             if (grz == string.Empty)
                 return null;
 
             CarList carList = CarList.getInstance();
-            return carList.getItem(grz);
+            return carList.getItem(FormatGRZ(grz));
         }
 
-        private static void SetMileage(Car car, string value)
+        private string FormatGRZ(string value)
+        {
+            value = value.ToUpper();
+
+            for (int i = 0; i < 14; i++)
+            {
+                value = value.Replace(literal[i, 0], literal[i, 1]);
+            }
+
+            return value;
+        }
+
+        private void SetMileage(Car car, string value)
         {
             int count;
             int.TryParse(value, out count);
@@ -68,7 +130,22 @@ namespace ClassLibraryBBAuto
 
                 mileage.Date = new DateTime(_date.Year, _date.Month, DateTime.DaysInMonth(_date.Year, _date.Month));
                 mileage.SetCount(value);
+                mileage.Save();
+                _mileageReportList.Add(new MileageReport(car, "Пробег загружен"));
             }
+            else if (count < Convert.ToInt32(mileage.Count))
+            {
+                _mileageReportList.Add(new MileageReport(car, "Значение пробега меньше, чем уже внесён в систему."));
+            }
+            else
+            {
+                _mileageReportList.Add(new MileageReport(car, "Новое значение пробега равно значению пробега уже внесённому в систему."));
+            }
+        }
+
+        public MileageReportList GetMileageReportList()
+        {
+            return _mileageReportList;
         }
     }
 }

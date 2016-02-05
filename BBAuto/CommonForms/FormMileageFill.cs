@@ -24,7 +24,11 @@ namespace BBAuto
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            MileageFill.Begin(@"\\bbmru0021\data\aesculap\current reports", dateTimePicker1.Value);
+            MileageFill mileageFill = new MileageFill(@"\\bbmru0021\data\aesculap\current reports", dateTimePicker1.Value);
+            mileageFill.Begin();
+
+            FormReport formReport = new FormReport(mileageFill.GetMileageReportList());
+            formReport.ShowDialog();
         }
     }
 }

@@ -39,8 +39,8 @@ namespace ClassLibraryBBAuto
 
         public string Number
         {
-            get { return _number; }
-            set { _number = value; }
+            get { return (_number.Length == 10) ? _number.Substring(0, 4) + " " + _number.Substring(4, 6) : (_number.Length == 9) ? _number.Substring(0, 2) + " " + _number.Substring(2, 7) : _number; }
+            set { _number = value.Replace(" ", ""); }
         }
 
         public string GiveOrg
@@ -140,7 +140,7 @@ namespace ClassLibraryBBAuto
             if (_idDriver == 0)
                 return "нет данных";
             else
-                return string.Concat("номер ", _number, " выдан ", _giveDate.ToShortDateString());
+                return string.Concat("номер ", Number, "  выдан ", _giveDate.ToShortDateString());
         }
     }
 }

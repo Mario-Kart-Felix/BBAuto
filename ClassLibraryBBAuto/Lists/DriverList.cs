@@ -106,6 +106,13 @@ namespace ClassLibraryBBAuto
             return (drivers.Count() > 0) ? drivers.First() : new Driver();
         }
 
+        public Driver getItemByFIO(string fio)
+        {
+            List<Driver> drivers = _list.Where(item => item.GetName(NameType.Short).Replace(" ", "") == fio.Replace(" ", "") && item.IsDriver).ToList();
+
+            return (drivers.Count() == 1) ? drivers.First() : null;
+        }
+
         public List<Driver> GetDriverListByRole(RolesList role)
         {
             UserAccessList userAccessList = UserAccessList.getInstance();
