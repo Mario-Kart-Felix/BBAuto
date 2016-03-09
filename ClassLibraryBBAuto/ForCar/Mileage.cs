@@ -107,7 +107,7 @@ namespace ClassLibraryBBAuto
             Car car = carList.getItem(_idCar);
 
             MileageList mileageList = MileageList.getInstance();
-            return mileageList.getItem(car);
+            return mileageList.getItem(car, this);
         }
 
         public override string ToString()

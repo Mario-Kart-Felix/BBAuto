@@ -104,7 +104,6 @@ namespace BBAuto
                 cbRegionUsing.Enabled = false;
                 cbDriver.Enabled = false;
                 dtpDateOrder.Enabled = false;
-                chbIsGet.Enabled = false;
                 dtpDateGet.Enabled = false;
                 tbCost.ReadOnly = true;
                 tbDOP.ReadOnly = true;

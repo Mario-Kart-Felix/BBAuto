@@ -59,6 +59,13 @@ namespace ClassLibraryBBAuto
             return getItem(mileages.ToList());
         }
 
+        public Mileage getItem(Car car, Mileage current)
+        {
+            var mileages = list.Where(item => item.isEqualCarID(car) && item != current).OrderByDescending(item => item.Date);
+
+            return getItem(mileages.ToList());
+        }
+
         private Mileage getItem(List<Mileage> mileages)
         {
             return (mileages.Count() > 0) ? mileages.First() : new Mileage(0);
