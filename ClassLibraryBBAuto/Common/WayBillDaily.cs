@@ -36,18 +36,37 @@ namespace ClassLibraryBBAuto
                 throw new NullReferenceException("Водитель не работал в выбранном месяце");
 
             MileageList mileageList = MileageList.getInstance();
-            int count = 2000;//mileageList.GetDistance(_car, _date);
+            int count = mileageList.GetDistance(_car, _date);
 
             Random random = new Random();
 
+            int countDays = days.Count;
+
+            if ((count / countDays) < 100)
+                countDays /= 2;
+
+            int i = 0;
+
             foreach (var day in days)
             {
-                count -= GetDistance();
-                int everyDayCount = count / (days.Count - _list.Count);
+                if ((countDays < days.Count) && ((i % 2) > 0))
+                {
+                    i++;
+                    continue;
+                }
+
+                int curCount = count - GetDistance();
+                int everyDayCount = curCount / (countDays - _list.Count);
 
                 WayBillDay wayBillDay = new WayBillDay(_car, _driver, day, everyDayCount);
                 wayBillDay.Create(random);
-                _list.Add(wayBillDay);
+                if (wayBillDay.Distance > 100)
+                    _list.Add(wayBillDay);
+
+                i++;
+
+                if (curCount < 10)
+                    break;
             }
         }
 
@@ -56,7 +75,7 @@ namespace ClassLibraryBBAuto
             int count = 0;
 
             foreach (WayBillDay item in this)
-                count += Convert.ToInt32(item.Distance);
+                count += item.Distance;
 
             return count;
         }

@@ -28,7 +28,7 @@ namespace ClassLibraryBBAuto
         public string email;
         public string suppyAddress;
 
-        public int DriverID
+        public int ID
         {
             get { return _id; }
             set { _id = value; }

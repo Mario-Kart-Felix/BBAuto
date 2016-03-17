@@ -24,10 +24,10 @@ namespace ClassLibraryBBAuto
             set { _idMyPoint2 = value; }
         }
 
-        public string Distance
+        public int Distance
         {
-            get { return _distance.ToString(); }
-            set { int.TryParse(value, out _distance); }
+            get { return _distance; }
+            set { _distance = value; }
         }
 
         public Route(int idMyPoint1)

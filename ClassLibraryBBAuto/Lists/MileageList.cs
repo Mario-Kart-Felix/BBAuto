@@ -104,24 +104,19 @@ namespace ClassLibraryBBAuto
 
         internal int GetDistance(Car car, DateTime date)
         {
-            DateTime datePrev;
-
-            datePrev = (date.Month == 12) ? new DateTime(date.Year - 1, 11, 1) : new DateTime(date.Year, date.Month - 1, 1);
-
+            DateTime datePrev = (date.Month == 12) ? new DateTime(date.Year - 1, 11, 1) : (date.Month == 1) ? new DateTime(date.Year - 1, 12, 1) : new DateTime(date.Year, date.Month - 1, 1);
 
             var listNew = (from item in list
                            where item.isEqualCarID(car) && ((item.Date.Year == date.Year && item.Date.Month == date.Month) || (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month))
                            orderby item.Count
                            select Convert.ToInt32(item.Count)).ToList();
-
-            if (listNew.Count == 2)
-                return listNew[1] - listNew[0];
-            else if (listNew.Count == 1)
-                return listNew[0];
+            
+            if (listNew.Count == 1)
+                return listNew.First();
             else if (listNew.Count == 0)
                 throw new NullReferenceException("Показания одометра не найдены");
             else
-                throw new OverflowException("Найдено больше двух показаний одометра");
+                return listNew.Last() - listNew.First();
         }
     }
 }

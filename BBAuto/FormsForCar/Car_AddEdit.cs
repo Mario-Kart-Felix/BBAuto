@@ -1031,7 +1031,7 @@ namespace BBAuto
         {
             Driver driver = driverCarList.GetDriver(_car);
 
-            if (driver.DriverID == 0)
+            if (driver.ID == 0)
                 return;
 
             Driver_AddEdit driverAE = new Driver_AddEdit(driver);

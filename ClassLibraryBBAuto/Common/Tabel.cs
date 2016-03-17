@@ -39,7 +39,7 @@ namespace ClassLibraryBBAuto
 
         public void Save()
         {
-            _provider.Insert("Tabel", _driver.DriverID, _date);
+            _provider.Insert("Tabel", _driver.ID, _date);
 
             TabelList tabelList = TabelList.GetInstance();
 

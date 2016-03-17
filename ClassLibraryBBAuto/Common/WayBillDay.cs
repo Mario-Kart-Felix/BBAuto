@@ -26,15 +26,15 @@ namespace ClassLibraryBBAuto
 
         public string Day { get { return _day.ToString(); } }
 
-        public string Distance
+        public int Distance
         {
             get
             {
                 int distance = 0;
                 foreach (Route route in this)
-                    distance += Convert.ToInt32(route.Distance);
+                    distance += route.Distance;
 
-                return distance.ToString();
+                return distance;
             }
         }
 
@@ -61,7 +61,7 @@ namespace ClassLibraryBBAuto
 
                 currentPoint = myPointList.getItem(route.MyPoint2ID);
 
-            } while (residue > 10);
+            } while ((residue > 20) && (_routes.Count < 16));
 
             if (currentPoint != suppyAddress.Point)
             {

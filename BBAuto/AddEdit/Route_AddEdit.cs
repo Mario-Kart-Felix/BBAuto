@@ -53,7 +53,7 @@ namespace BBAuto
 
             lbMyPoint1.Text = string.Concat("Пункт отправления: ", myPoint.Name);
             cbMyPoint2.SelectedValue = _route.MyPoint2ID;
-            tbDistance.Text = _route.Distance;
+            tbDistance.Text = _route.Distance.ToString();
         }
         
         private void loadPoints()
@@ -83,7 +83,9 @@ namespace BBAuto
                 else
                 {
                     _route.MyPoint2ID = Convert.ToInt32(cbMyPoint2.SelectedValue);
-                    _route.Distance = tbDistance.Text;
+                    int distance;
+                    int.TryParse(tbDistance.Text, out distance);
+                    _route.Distance = distance;
                     _route.Save();
                 }
 

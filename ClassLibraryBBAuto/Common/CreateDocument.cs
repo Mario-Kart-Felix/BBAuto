@@ -240,7 +240,7 @@ namespace ClassLibraryBBAuto
 
             MyDateTime myDate = new MyDateTime(date.ToShortDateString());
 
-            _excelDoc.setValue(4, 39, myDate.MonthSlashYear());
+            _excelDoc.setValue(4, 39, driver.ID.ToString() + "/01/" + myDate.MonthSlashYear());
             _excelDoc.setValue(6, 15, myDate.DaysRange);
             _excelDoc.setValue(6, 19, myDate.MonthToStringNominative());
             _excelDoc.setValue(6, 32, date.Year.ToString());
@@ -353,10 +353,10 @@ namespace ClassLibraryBBAuto
 
                     _excelDoc.setValue(i, 59, pointBegin.Name);
                     _excelDoc.setValue(i, 64, pointEnd.Name);
-                    _excelDoc.setValue(i, 78, route.Distance);
+                    _excelDoc.setValue(i, 78, route.Distance.ToString());
                     i += 2;
                 }
-                _excelDoc.setValue(41 + (46 * k), 59, wayBillDay.Distance);
+                _excelDoc.setValue(41 + (46 * k), 59, wayBillDay.Distance.ToString());
                 k++;
             }
         }
@@ -371,8 +371,30 @@ namespace ClassLibraryBBAuto
 
                 _excelDoc.setValue(6 + (46 * i), 15, item.Day);
 
+                _excelDoc.setValue(4 + (46 * i), 39, GetWaBillFullNumber(i + 1));
+
                 i++;
             }
+        }
+
+        private string GetWaBillFullNumber(int currentNumber)
+        {
+            string[] wayBillFullNumber = _excelDoc.getValue("AM4", "AM4").ToString().Split('/');
+
+            wayBillFullNumber[1] = (currentNumber < 10) ? "0" : string.Empty;
+            wayBillFullNumber[1] += currentNumber;
+
+            StringBuilder sb = new StringBuilder();
+
+            foreach (string item in wayBillFullNumber)
+            {
+                if (sb.Length > 0)
+                    sb.Append("/");
+
+                sb.Append(item);
+            }
+
+            return sb.ToString();
         }
 
         public void ShowAttacheToOrder()

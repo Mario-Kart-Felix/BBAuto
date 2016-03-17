@@ -102,7 +102,7 @@ namespace ClassLibraryBBAuto
 
             int rand = random.Next(0, listNew.Count - 1);
 
-            return (mainPoint.IsEqualsID(listNew[rand].MyPoint1ID)) ? new Route(listNew[rand].MyPoint1ID, listNew[rand].MyPoint2ID, listNew[rand].Distance) : new Route(listNew[rand].MyPoint2ID, listNew[rand].MyPoint1ID, listNew[rand].Distance);
+            return (mainPoint.IsEqualsID(listNew[rand].MyPoint1ID)) ? new Route(listNew[rand].MyPoint1ID, listNew[rand].MyPoint2ID, listNew[rand].Distance.ToString()) : new Route(listNew[rand].MyPoint2ID, listNew[rand].MyPoint1ID, listNew[rand].Distance.ToString());
         }
 
         internal Route GetRandomItem(Random random, MyPoint mainPoint, MyPoint toPoint)
@@ -113,7 +113,7 @@ namespace ClassLibraryBBAuto
 
             int rand = random.Next(0, listNew.Count - 1);
 
-            return (toPoint.IsEqualsID(listNew[rand].MyPoint1ID)) ? new Route(listNew[rand].MyPoint1ID, listNew[rand].MyPoint2ID, listNew[rand].Distance) : new Route(listNew[rand].MyPoint2ID, listNew[rand].MyPoint1ID, listNew[rand].Distance);
+            return (toPoint.IsEqualsID(listNew[rand].MyPoint1ID)) ? new Route(listNew[rand].MyPoint1ID, listNew[rand].MyPoint2ID, listNew[rand].Distance.ToString()) : new Route(listNew[rand].MyPoint2ID, listNew[rand].MyPoint1ID, listNew[rand].Distance.ToString());
         }
 
         internal Route GetItem(MyPoint point1, MyPoint point2)
@@ -122,7 +122,7 @@ namespace ClassLibraryBBAuto
                            where (point1.IsEqualsID(item.MyPoint1ID) || point1.IsEqualsID(item.MyPoint2ID)) && (point2.IsEqualsID(item.MyPoint1ID) || point2.IsEqualsID(item.MyPoint2ID))
                            select item).ToList();
 
-            return (point1.IsEqualsID(listNew.First().MyPoint1ID)) ? listNew.First() : new Route(listNew.First().MyPoint2ID, listNew.First().MyPoint1ID, listNew.First().Distance);
+            return (point1.IsEqualsID(listNew.First().MyPoint1ID)) ? listNew.First() : new Route(listNew.First().MyPoint2ID, listNew.First().MyPoint1ID, listNew.First().Distance.ToString());
         }
     }
 }
