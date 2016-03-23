@@ -20,7 +20,7 @@ namespace ClassLibraryBBAuto
 
             DriverCarList driverCarList = DriverCarList.getInstance();
 
-            _driver = driverCarList.GetDriver(_car);
+            _driver = driverCarList.GetDriver(_car, _date);
             _list = new List<WayBillDay>();
         }
 
@@ -54,7 +54,7 @@ namespace ClassLibraryBBAuto
                     i++;
                     continue;
                 }
-
+                
                 int curCount = count - GetDistance();
                 int everyDayCount = curCount / (countDays - _list.Count);
 
@@ -65,7 +65,7 @@ namespace ClassLibraryBBAuto
 
                 i++;
 
-                if (curCount < 10)
+                if ((curCount < 10) || ((countDays - _list.Count) == 0))
                     break;
             }
         }

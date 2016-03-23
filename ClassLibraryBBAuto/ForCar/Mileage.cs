@@ -85,7 +85,7 @@ namespace ClassLibraryBBAuto
             int prevCount;
             int.TryParse(mileage.Count, out prevCount);
 
-            if (count < prevCount)
+            if ((count < prevCount) && (Date > mileage.Date))
                 throw new InvalidConstraintException();
 
             if (count >= 1000000)
