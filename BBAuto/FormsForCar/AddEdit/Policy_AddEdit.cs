@@ -68,7 +68,7 @@ namespace BBAuto
             tbComment.Text = _policy.Comment;
 
             TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
-            tbFile.Text = _policy.file;
+            tbFile.Text = _policy.File;
 
             if ((_policy.Type == PolicyType.ДСАГО) || (_policy.Type == PolicyType.GAP))
                 tbLimitCost.Text = _policy.LimitCost;
@@ -145,7 +145,7 @@ namespace BBAuto
             _policy.Comment = tbComment.Text;
 
             TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
-            _policy.file = tbFile.Text;
+            _policy.File = tbFile.Text;
 
             if ((_policy.Type == PolicyType.ДСАГО) || (_policy.Type == PolicyType.GAP))
                 _policy.LimitCost = tbLimitCost.Text;

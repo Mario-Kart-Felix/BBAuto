@@ -77,6 +77,8 @@ namespace BBAuto
             itemCreate.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.NewPolicy));
             itemCreate.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Separator));
             itemCreate.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.ShowPolicyList));
+            itemCreate.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Separator));
+            itemCreate.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.MileageFill));
 
             ToolStripItem itemShowDriverLicense = _factory.CreateItem(ContextMenuItem.ShowDriverLicense);
             ToolStripItem itemShowWayBill = _factory.CreateItem(ContextMenuItem.ShowWayBill);
@@ -109,6 +111,7 @@ namespace BBAuto
             itemPrint.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.PrintWayBill));
             itemPrint.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.PrintAllTable));
             itemPrint.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.ShowAllTable));
+            itemPrint.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.PrintProxyOnSTO));
 
             ToolStripMenuItem itemCar = new ToolStripMenuItem("Автомобили");
             itemCar.DropDownItems.Add(_factory.CreateItem(Status.Actual));
@@ -137,6 +140,8 @@ namespace BBAuto
             itemDriverAndEmployee.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Region));
             itemDriverAndEmployee.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.SuppyAddress));
             itemDriverAndEmployee.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Employee));
+            itemDriverAndEmployee.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.MyPointList));
+            itemDriverAndEmployee.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.RouteList));
 
             itemMarkModel.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Mark));
             itemMarkModel.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Model));
@@ -203,6 +208,7 @@ namespace BBAuto
             itemCar.DropDownItems.Add(_factory.CreateItem(Status.Sale));
 
             itemMainDictionary.DropDownItems.Add(itemCar);
+            itemMainDictionary.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Driver));
             itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.Invoice));
             itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.TempMove));
             itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.Policy));
@@ -214,9 +220,10 @@ namespace BBAuto
             itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.Account));
             itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.FuelCard));
 
-            itemExtraDictionary.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Driver));
             itemExtraDictionary.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.SuppyAddress));
             itemExtraDictionary.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Employee));
+            itemExtraDictionary.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.MyPointList));
+            itemExtraDictionary.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.RouteList));
 
             menuStrip.Items.Add(itemAction);
             menuStrip.Items.Add(itemMainDictionary);
@@ -277,7 +284,9 @@ namespace BBAuto
                         return CreateContextMenuDTP();
                     case Status.Sale:
                         return CreateContextMenuSale();
-                    case Status.TempMove: case Status.Policy: case Status.Violation: case Status.DiagCard: case Status.ShipPart: case Status.Account: case Status.FuelCard:
+                    case Status.Policy:
+                        return CreateContextMenuPolicy();
+                    case Status.TempMove: case Status.Violation: case Status.DiagCard: case Status.ShipPart: case Status.Account: case Status.FuelCard:
                         return CreateContextMenuSortAndFilter();
                     case Status.Driver:
                         return CreateContextMenuDriver();
@@ -316,6 +325,7 @@ namespace BBAuto
             menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Separator));
             menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.PrintWayBill));
             menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowWayBill));
+            menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowWayBillDaily));
 
             return menuStrip;
         }
@@ -373,6 +383,7 @@ namespace BBAuto
             
             menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.PrintWayBill));
             menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowWayBill));
+            menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowWayBillDaily));
 
             return menuStrip;
         }
@@ -383,6 +394,18 @@ namespace BBAuto
 
             menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Filter));
             menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Sort));
+
+            return menuStrip;
+        }
+
+        private ContextMenuStrip CreateContextMenuPolicy()
+        {
+            ContextMenuStrip menuStrip = new ContextMenuStrip();
+
+            menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Filter));
+            menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Sort));
+            menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.SendPolicyKasko));
+            menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.SendPolicyOsago));
 
             return menuStrip;
         }

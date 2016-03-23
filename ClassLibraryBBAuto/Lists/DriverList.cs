@@ -94,7 +94,7 @@ namespace ClassLibraryBBAuto
 
         public Driver getItem(string login)
         {
-            List<Driver> drivers = _list.Where(item => item.Login == login).ToList();
+            List<Driver> drivers = _list.Where(item => item.Login == login).OrderBy(item => item.ID).ToList();
 
             return (drivers.Count() > 0) ? drivers.First() : null;
         }
@@ -104,6 +104,13 @@ namespace ClassLibraryBBAuto
             List<Driver> drivers = _list.Where(item => item.Number == number).ToList();
 
             return (drivers.Count() > 0) ? drivers.First() : new Driver();
+        }
+
+        public Driver getItemByFIO(string fio)
+        {
+            List<Driver> drivers = _list.Where(item => item.GetName(NameType.Short).Replace(" ", "") == fio.Replace(" ", "") && item.IsDriver).ToList();
+
+            return (drivers.Count() == 1) ? drivers.First() : null;
         }
 
         public List<Driver> GetDriverListByRole(RolesList role)

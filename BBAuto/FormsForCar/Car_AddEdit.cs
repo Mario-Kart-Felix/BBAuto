@@ -104,7 +104,6 @@ namespace BBAuto
                 cbRegionUsing.Enabled = false;
                 cbDriver.Enabled = false;
                 dtpDateOrder.Enabled = false;
-                chbIsGet.Enabled = false;
                 dtpDateGet.Enabled = false;
                 tbCost.ReadOnly = true;
                 tbDOP.ReadOnly = true;
@@ -319,8 +318,6 @@ namespace BBAuto
             sts.File = tbFileSTS.Text;
             sts.Save();
 
-            _car.name = tbBbNumber.Text;
-
             _car.Lising = (chbLising.Checked) ? mtbLising.Text : string.Empty;
 
             _car.InvertoryNumber = tbInvertoryNumber.Text;
@@ -489,8 +486,8 @@ namespace BBAuto
 
             Invoice invoice = invoiceList.getItem(idInvoice);
 
-            if ((e.ColumnIndex == 4) && (invoice.file != string.Empty))
-                WorkWithFiles.openFile(invoice.file);
+            if ((e.ColumnIndex == 4) && (invoice.File != string.Empty))
+                WorkWithFiles.openFile(invoice.File);
             else if (openAddEditDialog(invoice))
                     loadInvoice();
         }
@@ -539,9 +536,9 @@ namespace BBAuto
 
             Policy policy = policyList.getItem(idPolicy);
 
-            if ((e.ColumnIndex == 4) && (policy.file != string.Empty))
+            if ((e.ColumnIndex == 4) && (policy.File != string.Empty))
             {
-                WorkWithFiles.openFile(policy.file);
+                WorkWithFiles.openFile(policy.File);
             }
             else
             {
@@ -657,8 +654,8 @@ namespace BBAuto
             DiagCard diagCard = diagCardList.getItem(idDiagCard);
 
 
-            if ((e.ColumnIndex == 4) && (diagCard.file != string.Empty))
-                WorkWithFiles.openFile(diagCard.file);
+            if ((e.ColumnIndex == 4) && (diagCard.File != string.Empty))
+                WorkWithFiles.openFile(diagCard.File);
             else
             {
                 DiagCard_AddEdit diagcardAE = new DiagCard_AddEdit(diagCard);
@@ -833,7 +830,7 @@ namespace BBAuto
             {
                 Policy policy = policyList.getItem(_car, PolicyType.КАСКО);
 
-                WorkWithFiles.openFile(policy.file);
+                WorkWithFiles.openFile(policy.File);
             }
             catch (Exception ex)
             {
@@ -924,7 +921,7 @@ namespace BBAuto
 
                 if (e.ColumnIndex == 2)
                 {
-                    WorkWithFiles.openFile(carDoc.file);
+                    WorkWithFiles.openFile(carDoc.File);
                 }
                 else
                 {
@@ -1034,7 +1031,7 @@ namespace BBAuto
         {
             Driver driver = driverCarList.GetDriver(_car);
 
-            if (driver.DriverID == 0)
+            if (driver.ID == 0)
                 return;
 
             Driver_AddEdit driverAE = new Driver_AddEdit(driver);

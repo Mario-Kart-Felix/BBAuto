@@ -60,6 +60,8 @@ namespace BBAuto
                     return CreatePrintWayBill();
                 case ContextMenuItem.ShowWayBill:
                     return CreateShowWayBill();
+                case ContextMenuItem.ShowWayBillDaily:
+                    return CreateShowWayBillDaily();
                 //------------------------------
                 case ContextMenuItem.ShowInvoice:
                     return CreateShowInvoice();
@@ -67,6 +69,8 @@ namespace BBAuto
                     return CreateShowAttacheToOrder();
                 case ContextMenuItem.ShowProxyOnSTO:
                     return CreateShowProxyOnSTO();
+                case ContextMenuItem.PrintProxyOnSTO:
+                    return CreatePrintProxyOnSTO();
                 case ContextMenuItem.ShowPolicyKasko:
                     return CreateShowPolicyKasko();
                 case ContextMenuItem.ShowActFuelCard:
@@ -153,6 +157,12 @@ namespace BBAuto
                     return CreateAddDriver();
                 case ContextMenuItem.DeleteDriver:
                     return CreateDeleteDriver();
+                case ContextMenuItem.MyPointList:
+                    return CreateMyPointList();
+                case ContextMenuItem.RouteList:
+                    return CreateRouteList();
+                case ContextMenuItem.MileageFill:
+                    return CreateMileageFill();
                 default:
                     throw new NotImplementedException();
             }
@@ -312,6 +322,13 @@ namespace BBAuto
             return item;
         }
 
+        private ToolStripMenuItem CreateShowWayBillDaily()
+        {
+            ToolStripMenuItem item = CreateItem("Просмотр путевых листов на каждый день");
+            item.Click += ShowWayBillDaily_Click;
+            return item;
+        }
+
         private ToolStripMenuItem CreateShowInvoice()
         {
             ToolStripMenuItem item = CreateItem("Накладная на перемещение");
@@ -330,6 +347,13 @@ namespace BBAuto
         {
             ToolStripMenuItem item = CreateItem("Доверенность на предоставление интересов на СТО");
             item.Click += ShowProxyOnSTO_Click;
+            return item;
+        }
+
+        private ToolStripMenuItem CreatePrintProxyOnSTO()
+        {
+            ToolStripMenuItem item = CreateItem("Печать доверенности на предоставление интересов на СТО (2016 год)");
+            item.Click += PrintProxyOnSTO_Click;
             return item;
         }
 
@@ -718,6 +742,27 @@ namespace BBAuto
             return item;
         }
 
+        private ToolStripMenuItem CreateMyPointList()
+        {
+            ToolStripMenuItem item = CreateItem("Список пунктов назначения");
+            item.Click += MyPointList_Click;
+            return item;
+        }
+
+        private ToolStripMenuItem CreateRouteList()
+        {
+            ToolStripMenuItem item = CreateItem("Список маршрутов");
+            item.Click += RouteList_Click;
+            return item;
+        }
+
+        private ToolStripMenuItem CreateMileageFill()
+        {
+            ToolStripMenuItem item = CreateItem("Загрузить пробеги");
+            item.Click += MileageFill_Click;
+            return item;
+        }
+
         private ToolStripMenuItem CreateItem(string name)
         {
             return new ToolStripMenuItem(name);
@@ -892,19 +937,25 @@ namespace BBAuto
 
         private void PrintWayBill_Click(object sender, EventArgs e)
         {
-            InputDate inputDate = new InputDate(_dgvMain, Actions.Print);
+            InputDate inputDate = new InputDate(_dgvMain, Actions.Print, WayBillType.Month);
             inputDate.ShowDialog();
         }
 
         private void ShowWayBill_Click(object sender, EventArgs e)
         {
-            InputDate inputDate = new InputDate(_dgvMain, Actions.Show);
+            InputDate inputDate = new InputDate(_dgvMain, Actions.Show, WayBillType.Month);
+            inputDate.ShowDialog();
+        }
+
+        private void ShowWayBillDaily_Click(object sender, EventArgs e)
+        {
+            InputDate inputDate = new InputDate(_dgvMain, Actions.Show, WayBillType.Day);
             inputDate.ShowDialog();
         }
 
         private void ShowInvoice_Click(object sender, EventArgs e)
         {
-            CreateDocument doc = createDocument();
+            CreateDocument doc = createDocument(_dgvMain.CurrentCell);
 
             if (doc != null)
                 doc.ShowInvoice();
@@ -912,7 +963,7 @@ namespace BBAuto
 
         private void ShowAttacheToOrder_Click(object sender, EventArgs e)
         {
-            CreateDocument doc = createDocument();
+            CreateDocument doc = createDocument(_dgvMain.CurrentCell);
 
             if (doc != null)
                 doc.ShowAttacheToOrder();
@@ -920,18 +971,44 @@ namespace BBAuto
 
         private void ShowProxyOnSTO_Click(object sender, EventArgs e)
         {
-            CreateDocument doc = createDocument();
+            CreateDocument doc = createDocument(_dgvMain.CurrentCell);
 
             if (doc != null)
                 doc.ShowProxyOnSTO();
         }
 
-        private CreateDocument createDocument()
+        private void PrintProxyOnSTO_Click(object sender, EventArgs e)
         {
-            if (_dgvMain.GetCarID() == 0)
+            foreach (DataGridViewCell cell in _dgvMain.SelectedCells)
+            {
+                CreateDocument doc = createDocument(cell);
+
+                if (doc != null)
+                    doc.PrintProxyOnSTO();
+            }
+        }
+
+        private CreateDocument createDocument(DataGridViewCell cell)
+        {
+            int carID = _dgvMain.GetCarID(cell.RowIndex);
+
+            if (carID == 0)
                 return null;
 
-            return new CreateDocument(_dgvMain.GetCarID(), _dgvMain.GetID());
+            CarList carList = CarList.getInstance();
+            Car car = carList.getItem(carID);
+
+            Invoice invoice = null;
+
+            if (_mainStatus.Get() == Status.Invoice)
+            {
+                int invoiceID = _dgvMain.GetID(cell.RowIndex);
+
+                InvoiceList invoiceList = InvoiceList.getInstance();
+                invoice = invoiceList.getItem(invoiceID);
+            }
+
+            return new CreateDocument(car, invoice);
         }
 
         private void ShowPolicyKasko_Click(object sender, EventArgs e)
@@ -944,8 +1021,8 @@ namespace BBAuto
             PolicyList policyList = PolicyList.getInstance();
             Policy kasko = policyList.getItem(car, PolicyType.КАСКО);
 
-            if (!string.IsNullOrEmpty(kasko.file))
-                WorkWithFiles.openFile(kasko.file);
+            if (!string.IsNullOrEmpty(kasko.File))
+                WorkWithFiles.openFile(kasko.File);
         }
 
         private void ShowActFuelCard_Click(object sender, EventArgs e)
@@ -954,7 +1031,13 @@ namespace BBAuto
                 MessageBox.Show("Для формирования акта выберите ячейку в таблице", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             else
             {
-                CreateDocument doc = new CreateDocument(_dgvMain.GetCarID(), _dgvMain.GetID());
+                CarList carList = CarList.getInstance();
+                Car car = carList.getItem(_dgvMain.GetCarID());
+
+                InvoiceList invoiceList = InvoiceList.getInstance();
+                Invoice invoice = invoiceList.getItem(_dgvMain.GetID());
+
+                CreateDocument doc = new CreateDocument(car, invoice);
                 doc.ShowActFuelCard();
             }
         }
@@ -1383,6 +1466,24 @@ namespace BBAuto
                     _mainStatus.Set(_mainStatus.Get());
                 }
             }
+        }
+
+        private void MyPointList_Click(object sender, EventArgs e)
+        {
+            formMyPointList myPointList = new formMyPointList();
+            myPointList.ShowDialog();
+        }
+
+        private void RouteList_Click(object sender, EventArgs e)
+        {
+            formRouteList routeList = new formRouteList();
+            routeList.ShowDialog();
+        }
+
+        private void MileageFill_Click(object sender, EventArgs e)
+        {
+            FormMileageFill formMileageFill = new FormMileageFill();
+            formMileageFill.ShowDialog();
         }
     }
 }

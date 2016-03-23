@@ -64,7 +64,7 @@ namespace ClassLibraryBBAuto
 
         public DataTable ToDataTable()
         {
-            var violations = list.OrderByDescending(item => item.date);
+            var violations = list.OrderByDescending(item => item.Date);
 
             return createTable(violations.ToList());
         }
@@ -73,7 +73,7 @@ namespace ClassLibraryBBAuto
         {
             var violations = from violation in list
                              where violation.isEqualCarID(car)
-                             orderby violation.date descending
+                             orderby violation.Date descending
                              select violation;
 
             return createTable(violations.ToList());
@@ -86,7 +86,7 @@ namespace ClassLibraryBBAuto
 
             var violations = from violation in list
                              where violation.isEqualDriverID(driver)
-                             orderby violation.date descending
+                             orderby violation.Date descending
                              select violation;
 
             return createTable(violations.ToList());

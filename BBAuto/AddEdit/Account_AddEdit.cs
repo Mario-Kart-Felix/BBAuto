@@ -55,7 +55,7 @@ namespace BBAuto
         
         private void loadData()
         {
-            tbNumber.Text = _account.name;
+            tbNumber.Text = _account.Number;
             cbOwner.SelectedValue = _account.IDOwner;
             cbPolicyType.SelectedValue = _account.IDPolicyType;
             cbPayment.SelectedIndex = _account.PaymentIndex;
@@ -104,7 +104,7 @@ namespace BBAuto
                 int idPolicy = Convert.ToInt32(row.Cells[0].Value);
                 Policy policy = policyList.getItem(idPolicy);
 
-                if (policy.file != string.Empty)
+                if (policy.File != string.Empty)
                     row.Cells[1].Style.BackColor = Color.Purple;
             }
         }
@@ -150,6 +150,9 @@ namespace BBAuto
         {
             Save();
 
+            if (GetPolicyType() != PolicyType.КАСКО)
+                cbPayment.SelectedIndex = 0;
+
             formPolicyList fPolicyList = new formPolicyList(_account, GetPolicyType(), cbPayment.SelectedIndex, cbOwner.SelectedValue.ToString());
             if (fPolicyList.ShowDialog() == DialogResult.OK)
                 FillTable();
@@ -180,7 +183,7 @@ namespace BBAuto
 
         private void CopyFields()
         {
-            _account.name = tbNumber.Text;
+            _account.Number = tbNumber.Text;
             _account.IDOwner = cbOwner.SelectedValue.ToString();
             _account.IDPolicyType = cbPolicyType.SelectedValue.ToString();
             _account.PaymentIndex = cbPayment.SelectedIndex;
@@ -246,8 +249,8 @@ namespace BBAuto
             PolicyList policyList = PolicyList.getInstance();
             Policy policy = policyList.getItem(idPolicy);
 
-            if ((e.ColumnIndex == 1) && (policy.file != string.Empty))
-                WorkWithFiles.openFile(policy.file);
+            if ((e.ColumnIndex == 1) && (policy.File != string.Empty))
+                WorkWithFiles.openFile(policy.File);
             else
             {
                 Policy_AddEdit policyAE = new Policy_AddEdit(policy);

@@ -13,10 +13,13 @@ namespace BBAuto
     public partial class formTemplateList : Form
     {
         private MainDGV _dgvMain;
+        private TemplateList _templateList;
 
         public formTemplateList()
         {
             InitializeComponent();
+
+            _templateList = TemplateList.getInstance();
         }
 
         private void TemplateList_Load(object sender, EventArgs e)
@@ -30,8 +33,7 @@ namespace BBAuto
 
         private void loadData()
         {
-            TemplateList templateList = TemplateList.getInstance();
-            _dgvTemplate.DataSource = templateList.ToDataTable();
+            _dgvTemplate.DataSource = _templateList.ToDataTable();
 
             if (_dgvTemplate.Columns.Count > 0)
                 _dgvTemplate.Columns[0].Visible = false;
@@ -44,24 +46,19 @@ namespace BBAuto
 
         private void _dgvTemplate_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            TemplateList templateList = TemplateList.getInstance();
-
-            openAddEdit(templateList.getItem(_dgvMain.GetID()));
+            openAddEdit(_templateList.getItem(_dgvMain.GetID()));
         }
 
         private void openAddEdit(Template template)
         {
             TemplateAddEdit templateAE = new TemplateAddEdit(template);
-            templateAE.ShowDialog();
-
-            loadData();
+            if (templateAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                loadData();
         }
 
         private void btnDel_Click(object sender, EventArgs e)
         {
-            TemplateList templateList = TemplateList.getInstance();
-
-            templateList.Delete(_dgvMain.GetID());
+            _templateList.Delete(_dgvMain.GetID());
 
             loadData();
         }

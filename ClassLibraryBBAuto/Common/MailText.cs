@@ -8,12 +8,13 @@ namespace ClassLibraryBBAuto
 {
     public class MailText : MainDictionary, IDictionaryMVC
     {
+        private string _name;
         private string _text;
 
         public string Name
         {
-            get { return name; }
-            set { name = value; }
+            get { return _name; }
+            set { _name = value; }
         }
 
         public string Text
@@ -56,7 +57,7 @@ namespace ClassLibraryBBAuto
 
         internal override object[] getRow()
         {
-            return new object[2] { _id, name };
+            return new object[2] { _id, Name };
         }
     }
 }

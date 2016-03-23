@@ -33,10 +33,10 @@ namespace BBAuto
 
         private void fillFields()
         {
-            tbNumber.Text = _instraction.name;
+            tbNumber.Text = _instraction.Name;
             dtpDate.Value = Convert.ToDateTime(_instraction.Date);
             TextBox tbFile = (TextBox)ucFile.Controls["tbFile"];
-            tbFile.Text = _instraction.file;
+            tbFile.Text = _instraction.File;
         }
 
         private void save_Click(object sender, EventArgs e)
@@ -44,10 +44,10 @@ namespace BBAuto
             if (_workWithForm.IsEditMode())
             {
                 _instraction.Date = dtpDate.Value.Date.ToShortDateString();
-                _instraction.name = tbNumber.Text;
+                _instraction.Name = tbNumber.Text;
 
                 TextBox tbFile = (TextBox)ucFile.Controls["tbFile"];
-                _instraction.file = tbFile.Text;
+                _instraction.File = tbFile.Text;
 
                 _instraction.Save();
             }

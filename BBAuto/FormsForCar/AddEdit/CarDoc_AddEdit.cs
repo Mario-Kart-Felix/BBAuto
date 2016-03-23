@@ -33,18 +33,18 @@ namespace BBAuto
 
         private void fillFields()
         {
-            tbName.Text = _carDoc.name;
+            tbName.Text = _carDoc.Name;
             TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
-            tbFile.Text = _carDoc.file;
+            tbFile.Text = _carDoc.File;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (_workWithForm.IsEditMode())
             {
-                _carDoc.name = tbName.Text;
+                _carDoc.Name = tbName.Text;
                 TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
-                _carDoc.file = tbFile.Text;
+                _carDoc.File = tbFile.Text;
 
                 _carDoc.Save();
 

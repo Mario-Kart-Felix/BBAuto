@@ -116,11 +116,15 @@ namespace BBAuto
         
         private void _dgvCar_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (User.GetRole() == RolesList.AccountantWayBill)
-                return;
-
             Point point = new Point(e.ColumnIndex, e.RowIndex);
 
+            if (User.GetRole() == RolesList.AccountantWayBill)
+            {
+                if (mainStatus.Get() == Status.Driver)
+                    DoubleClickDriver(point);
+                return;
+            }
+            
             if (isCellNoHeader(e.RowIndex))
             {
                 if (_dgvCar.Columns[e.ColumnIndex].HeaderText == COLUMN_BBNUMBER)
@@ -208,8 +212,8 @@ namespace BBAuto
             InvoiceList invoiceList = InvoiceList.getInstance();
             Invoice invoice = invoiceList.getItem(_dgvMain.GetID());
             
-            if ((_dgvCar.Columns[point.X].HeaderText == "№ накладной") && (!string.IsNullOrEmpty(invoice.file)))
-                WorkWithFiles.openFile(invoice.file);
+            if ((_dgvCar.Columns[point.X].HeaderText == "№ накладной") && (!string.IsNullOrEmpty(invoice.File)))
+                WorkWithFiles.openFile(invoice.File);
             else
             {                
                 if (InvoiceDialog.Open(invoice))
@@ -229,8 +233,8 @@ namespace BBAuto
 
             string columnName = _dgvCar.Columns[point.X].HeaderText;
 
-            if ((_dgvCar.Columns[point.X].HeaderText == "Номер полиса") && (!string.IsNullOrEmpty(policy.file)))
-                WorkWithFiles.openFile(policy.file);
+            if ((_dgvCar.Columns[point.X].HeaderText == "Номер полиса") && (!string.IsNullOrEmpty(policy.File)))
+                WorkWithFiles.openFile(policy.File);
             else if (DGVSpecialColumn.CanFiltredPolicy(columnName)) // (labelList.Where(item => item.Text == columnName).Count() == 1)
                 _myFilter.SetFilterValue(string.Concat(columnName, ":"), point);
             else
@@ -288,8 +292,8 @@ namespace BBAuto
             DiagCardList diagCardList = DiagCardList.getInstance();
             DiagCard diagCard = diagCardList.getItem(_dgvMain.GetID());
 
-            if ((_dgvCar.Columns[point.X].HeaderText == "№ ДК") && (!string.IsNullOrEmpty(diagCard.file)))
-                WorkWithFiles.openFile(diagCard.file);
+            if ((_dgvCar.Columns[point.X].HeaderText == "№ ДК") && (!string.IsNullOrEmpty(diagCard.File)))
+                WorkWithFiles.openFile(diagCard.File);
             else
             {
                 DiagCard_AddEdit diagCardAE = new DiagCard_AddEdit(diagCard);

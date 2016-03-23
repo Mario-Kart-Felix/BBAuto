@@ -85,7 +85,7 @@ namespace ClassLibraryBBAuto
             int prevCount;
             int.TryParse(mileage.Count, out prevCount);
 
-            if (count < prevCount)
+            if ((count < prevCount) && (Date > mileage.Date))
                 throw new InvalidConstraintException();
 
             if (count >= 1000000)
@@ -107,7 +107,7 @@ namespace ClassLibraryBBAuto
             Car car = carList.getItem(_idCar);
 
             MileageList mileageList = MileageList.getInstance();
-            return mileageList.getItem(car);
+            return mileageList.getItem(car, this);
         }
 
         public override string ToString()

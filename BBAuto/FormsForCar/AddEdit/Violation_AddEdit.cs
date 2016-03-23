@@ -35,8 +35,8 @@ namespace BBAuto
 
         private void fillFields()
         {
-            dtpDate.Value = _violation.date;
-            tbNumber.Text = _violation.name;
+            dtpDate.Value = _violation.Date;
+            tbNumber.Text = _violation.Number;
             chbPaid.Checked = _violation.IsPaid;
 
             TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
@@ -91,10 +91,10 @@ namespace BBAuto
 
         private void Save()
         {
-            _violation.date = dtpDate.Value.Date;
-            _violation.name = tbNumber.Text;
+            _violation.Date = dtpDate.Value.Date;
+            _violation.Number = tbNumber.Text;
             _violation.IsPaid = chbPaid.Checked;
-            _violation.datePay = dtpDatePaid.Value.Date;
+            _violation.DatePay = dtpDatePaid.Value.Date;
 
             TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
             _violation.File = tbFile.Text;

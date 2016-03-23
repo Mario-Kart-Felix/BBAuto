@@ -42,7 +42,7 @@ namespace BBAuto
 
         private void fillFields()
         {
-            tbName.Text = _grade.name;
+            tbName.Text = _grade.Name;
             tbEPower.Text = _grade.ePower;
             tbEVol.Text = _grade.eVol;
             tbMaxLoad.Text = _grade.maxLoad;
@@ -57,7 +57,7 @@ namespace BBAuto
                 if (!isFill())
                     return;
 
-                _grade.name = tbName.Text;
+                _grade.Name = tbName.Text;
                 _grade.ePower = tbEPower.Text;
                 _grade.eVol = tbEVol.Text;
                 _grade.maxLoad = tbMaxLoad.Text;

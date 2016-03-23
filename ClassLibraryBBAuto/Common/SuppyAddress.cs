@@ -14,15 +14,24 @@ namespace ClassLibraryBBAuto
             set { int.TryParse(value, out _id); }
         }
 
+        public MyPoint Point
+        {
+            get
+            {
+                MyPointList myPointList = MyPointList.getInstance();
+                return myPointList.getItem(_id);
+            }
+        }
+
         public string Region
         {
             get
             {
                 Regions regions = Regions.getInstance();
-                return regions.getItem(_id);
+                return regions.getItem(Point.RegionID);
             }
         }
-
+        
         public SuppyAddress()
         {
             _id = 0;
@@ -30,13 +39,7 @@ namespace ClassLibraryBBAuto
 
         public SuppyAddress(DataRow row)
         {
-            fillFields(row);
-        }
-
-        private void fillFields(DataRow row)
-        {
             int.TryParse(row.ItemArray[0].ToString(), out _id);
-            name = row.ItemArray[1].ToString();
         }
 
         internal override void Delete()
@@ -46,12 +49,25 @@ namespace ClassLibraryBBAuto
 
         internal override object[] getRow()
         {
-            return new object[] { _id, Region, name};
+            return new object[] { _id, Region, Point.Name};
         }
 
         public override void Save()
         {
-            _provider.Insert("SuppyAddress", _id, name);
+            _provider.Insert("SuppyAddress", _id);
+
+            SuppyAddressList suppyAddressList = SuppyAddressList.getInstance();
+            suppyAddressList.Add(this);
+        }
+
+        public override string ToString()
+        {
+            return string.Concat("г. ", Region, " ", Point.Name);
+        }
+
+        public bool IsEqualsRegionID(int idRegion)
+        {
+            return ((Point != null) && (Point.RegionID == idRegion));
         }
     }
 }

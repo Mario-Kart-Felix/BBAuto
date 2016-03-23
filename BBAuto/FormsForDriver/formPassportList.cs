@@ -48,7 +48,7 @@ namespace BBAuto
 
                 Passport passport = passportList.getPassport(id);
 
-                if (passport.file != string.Empty)
+                if (passport.File != string.Empty)
                     row.DefaultCellStyle.BackColor = BBColors.bbGreen3;
             }
         }
@@ -70,8 +70,8 @@ namespace BBAuto
 
             Passport passport = passportList.getPassport(idPassport);
 
-            if ((e.ColumnIndex == 1) && (passport.file != string.Empty))
-                tryOpenFile(passport.file);
+            if ((e.ColumnIndex == 1) && (passport.File != string.Empty))
+                tryOpenFile(passport.File);
             else
                 openAddEditDialog(passport);
         }

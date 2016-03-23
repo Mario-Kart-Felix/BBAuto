@@ -27,13 +27,15 @@
     }
 
     public enum Actions { Show, Print };
+
+    public enum WayBillType { Day, Month };
     
     public enum ContextMenuItem
     {
         Separator, NewInvoice, NewDTP, NewViolation, NewPolicy, NewDiagCard, NewMileage, NewTempMove, ToSale, DeleteFromSale,
-        LotusMail, SendPolicyOsago, SendPolicyKasko, Copy, Print, PrintWayBill, ShowWayBill,
+        LotusMail, SendPolicyOsago, SendPolicyKasko, Copy, Print, PrintWayBill, ShowWayBill, ShowWayBillDaily,
 
-        ShowInvoice, ShowAttacheToOrder, ShowProxyOnSTO, ShowPolicyKasko, ShowActFuelCard,
+        ShowInvoice, ShowAttacheToOrder, ShowProxyOnSTO, PrintProxyOnSTO, ShowPolicyKasko, ShowActFuelCard,
 
         ShowNotice, ShowSTS, ShowDriverLicense,
 
@@ -51,6 +53,10 @@
 
         Sort, Filter,
 
-        AddDriver, DeleteDriver
+        AddDriver, DeleteDriver,
+
+        MyPointList, RouteList,
+
+        MileageFill
     };
 }

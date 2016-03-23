@@ -8,6 +8,7 @@ namespace ClassLibraryBBAuto
 {
     public class Driver : MainDictionary
     {
+        private string _fio;
         private DateTime _dateBirth;        
         private string _mobile;
         private int _fired;
@@ -27,10 +28,15 @@ namespace ClassLibraryBBAuto
         public string email;
         public string suppyAddress;
 
-        public int DriverID
+        public int ID
         {
             get { return _id; }
             set { _id = value; }
+        }
+
+        public string Fio
+        {
+            set { _fio = value.Trim(); }
         }
 
         public string DateBirth
@@ -285,7 +291,7 @@ namespace ClassLibraryBBAuto
         public Driver(DataRow row)
         {
             int.TryParse(row.ItemArray[0].ToString(), out _id);
-            name = row.ItemArray[1].ToString();
+            _fio = row.ItemArray[1].ToString();
             int.TryParse(row.ItemArray[2].ToString(), out _idRegion);
             DateTime.TryParse(row.ItemArray[3].ToString(), out _dateBirth);
             _mobile = row.ItemArray[4].ToString();
@@ -308,9 +314,7 @@ namespace ClassLibraryBBAuto
         public override void Save()
         {
             DriverList driverList = DriverList.getInstance();
-
-            name = name.Trim();
-            
+                        
             string dateBirthSql = string.Empty;
             if (DateBirth != string.Empty)
                 dateBirthSql = string.Concat(_dateBirth.Year.ToString(), "-", _dateBirth.Month.ToString(), "-", _dateBirth.Day.ToString());
@@ -319,7 +323,7 @@ namespace ClassLibraryBBAuto
             if (DateStopNotification.Year != 1)
                 dateStopNotificationSql = string.Concat(DateStopNotification.Year.ToString(), "-", DateStopNotification.Month.ToString(), "-", DateStopNotification.Day.ToString());
 
-            int.TryParse(_provider.Insert("Driver", _id, name, _idRegion, dateBirthSql, _mobile, email, _fired, _expSince, _idPosition, _idDept, _login, _idOwner, suppyAddress, SexIndex, _decret,
+            int.TryParse(_provider.Insert("Driver", _id, GetName(NameType.Full), _idRegion, dateBirthSql, _mobile, email, _fired, _expSince, _idPosition, _idDept, _login, _idOwner, suppyAddress, SexIndex, _decret,
                 dateStopNotificationSql, _number, _isDriver, _from1C), out _id);
 
             driverList.Add(this);
@@ -361,7 +365,7 @@ namespace ClassLibraryBBAuto
             DriverCarList driverCarList = DriverCarList.getInstance();
             Car car = driverCarList.GetCar(this);
             
-            return new object[] { _id, 0, name, (license.IsActual()) ? "есть" : "нет", (medicalCert.IsActual()) ? "есть" : "нет",
+            return new object[] { _id, 0, GetName(NameType.Full), (license.IsActual()) ? "есть" : "нет", (medicalCert.IsActual()) ? "есть" : "нет",
                 (car == null) ? "нет автомобиля" : car.ToString(), Region, CompanyName, Status };
         }
         
@@ -378,7 +382,7 @@ namespace ClassLibraryBBAuto
         
         public string GetName(NameType nameType)
         {
-            if (FieldIsEmpty(name))
+            if (FieldIsEmpty(_fio))
                 return "(нет водителя)";
 
             if (nameType == NameType.Short)
@@ -386,18 +390,18 @@ namespace ClassLibraryBBAuto
             if (nameType == NameType.Genetive)
                 return GetNameGenetive();
 
-            return name;
+            return _fio;
         }
 
         private string GetNameShort()
         {
-            string[] list = name.Split(' ');
-            return (list.Count() == 3) ? string.Concat(list[0], " ", list[1][0].ToString(), ".", list[2][0].ToString(), ".") : name;
+            string[] list = _fio.Split(' ');
+            return (list.Count() == 3) ? string.Concat(list[0], " ", list[1][0].ToString(), ".", list[2][0].ToString(), ".") : _fio;
         }
 
         private string GetNameGenetive()
         {
-            string[] list = name.Split(' ');
+            string[] list = _fio.Split(' ');
             if (list.Count() == 3)
             {
                 string SecondName = list[0];
@@ -416,7 +420,7 @@ namespace ClassLibraryBBAuto
                 return string.Concat(SecondName, " ", list[1][0].ToString(), ".", list[2][0].ToString(), ".");
             }
             else
-                return name;
+                return _fio;
         }
 
         private bool FieldIsEmpty(string field)

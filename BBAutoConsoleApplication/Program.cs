@@ -12,9 +12,12 @@ namespace BBAutoConsoleApplication
         {
             DataBase.InitDataBase();
             Provider.InitSQLProvider();
-            
-            ImportFrom1C importFrom1C = new ImportFrom1C();
-            importFrom1C.Start();
+
+            IFrom1C employeesFrom1C = new EmployeesFrom1C();
+            employeesFrom1C.StartImport();
+
+            IFrom1C tabelFrom1C = new TabelFrom1C();
+            tabelFrom1C.StartImport();
             
             MedicalCertList medicalCertList = MedicalCertList.getInstance();
             NotificationSender medicalCertSender = new NotificationSender(medicalCertList);

@@ -18,22 +18,12 @@ namespace ClassLibraryBBAuto
         {
             Init();
         }
-
-        public CreateDocument(Car car)
+        
+        public CreateDocument(Car car, Invoice invoice = null)
         {
             Init();
             _car = car;
-        }
-
-        public CreateDocument(int idCar, int idInvoice)
-        {
-            Init();
-
-            CarList carList = CarList.getInstance();
-            _car = carList.getItem(Convert.ToInt32(idCar));
-
-            InvoiceList invoiceList = InvoiceList.getInstance();
-            _invoice = invoiceList.getItem(idInvoice);
+            _invoice = invoice;
         }
 
         private void Init()
@@ -139,14 +129,13 @@ namespace ClassLibraryBBAuto
 
             _excelDoc.setValue(7, 2, _car.info.Owner);
 
-            _excelDoc.setValue(16, 82, _invoice.name);
+            _excelDoc.setValue(16, 82, _invoice.Number);
             _excelDoc.setValue(16, 98, _invoice.Date.ToShortDateString());
 
             string fullNameAuto = string.Concat("Автомобиль ", _car.info.Mark, " ", _car.info.Model, ", ", _car.grz);
 
             _excelDoc.setValue(22, 10, fullNameAuto);
             _excelDoc.setValue(22, 53, _car.dateGet.ToShortDateString());
-            _excelDoc.setValue(22, 71, _car.name);
 
             GradeList grades = GradeList.getInstance();
 
@@ -165,11 +154,11 @@ namespace ClassLibraryBBAuto
 
             _excelDoc.setValue(9, 10, driver1.Dept);
             _excelDoc.setValue(56, 11, driver1.Position);
-            _excelDoc.setValue(56, 63, driver1.name);
+            _excelDoc.setValue(56, 63, driver1.GetName(NameType.Full));
 
             _excelDoc.setValue(11, 13, driver2.Dept);
             _excelDoc.setValue(60, 11, driver2.Position);
-            _excelDoc.setValue(60, 63, driver2.name);
+            _excelDoc.setValue(60, 63, driver2.GetName(NameType.Full));
 
             _excelDoc.Show();
         }
@@ -190,15 +179,15 @@ namespace ClassLibraryBBAuto
             PassportList passportList = PassportList.getInstance();
             Passport passport = passportList.getLastPassport(driver);
 
-            if (passport.number != string.Empty)
+            if (passport.Number != string.Empty)
             {
-                string number = passport.number;
+                string number = passport.Number;
                 string[] numbers = number.Split(' ');
 
                 _excelDoc.setValue(11, 2, numbers[0]);
                 _excelDoc.setValue(11, 5, numbers[1]);
 
-                _excelDoc.setValue(12, 2, passport.giveOrg);
+                _excelDoc.setValue(12, 2, passport.GiveOrg);
                 _excelDoc.setValue(13, 3, passport.GiveDate);
             }
 
@@ -246,12 +235,12 @@ namespace ClassLibraryBBAuto
             }
 
             _excelDoc = openDocumentExcel("Путевой лист");
-
+            
             _excelDoc.setValue(4, 28, _car.BBNumber.ToString());
 
             MyDateTime myDate = new MyDateTime(date.ToShortDateString());
 
-            _excelDoc.setValue(4, 39, myDate.MonthSlashYear());
+            _excelDoc.setValue(4, 39, driver.ID.ToString() + "/01/" + myDate.MonthSlashYear());
             _excelDoc.setValue(6, 15, myDate.DaysRange);
             _excelDoc.setValue(6, 19, myDate.MonthToStringNominative());
             _excelDoc.setValue(6, 32, date.Year.ToString());
@@ -271,7 +260,7 @@ namespace ClassLibraryBBAuto
             LicenseList licencesList = LicenseList.getInstance();
             DriverLicense driverLicense = licencesList.getItem(driver);
 
-            _excelDoc.setValue(14, 10, driverLicense.name);
+            _excelDoc.setValue(14, 10, driverLicense.Number);
 
             _excelDoc.setValue(20, 9, owner);
 
@@ -284,15 +273,15 @@ namespace ClassLibraryBBAuto
             else
             {
                 SuppyAddressList suppyAddressList = SuppyAddressList.getInstance();
-                SuppyAddress suppyAddress = suppyAddressList.getItem(driver.RegionID);
+                SuppyAddress suppyAddress = suppyAddressList.getItemByRegion(driver.RegionID);
 
                 if (suppyAddress != null)
-                    suppyAddressName = suppyAddress.name;
+                    suppyAddressName = suppyAddress.ToString();
                 else
                 {
                     PassportList passportList = PassportList.getInstance();
                     Passport passport = passportList.getLastPassport(driver);
-                    suppyAddressName = passport.address;
+                    suppyAddressName = passport.Address;
                 }
             }
 
@@ -343,6 +332,71 @@ namespace ClassLibraryBBAuto
             _excelDoc.setValue(43, 72, accountant.Name);
         }
 
+        public void AddRouteInWayBill(DateTime date)
+        {
+            WayBillDaily wayBillDaily = new WayBillDaily(_car, date);
+            wayBillDaily.Create();
+
+            MyPointList myPointList = MyPointList.getInstance();
+
+            CopyWayBill(wayBillDaily);
+
+            int k = 0;
+
+            foreach (WayBillDay wayBillDay in wayBillDaily)
+            {
+                int i = 6 + (46 * k);
+                foreach (Route route in wayBillDay)
+                {
+                    MyPoint pointBegin = myPointList.getItem(route.MyPoint1ID);
+                    MyPoint pointEnd = myPointList.getItem(route.MyPoint2ID);
+
+                    _excelDoc.setValue(i, 59, pointBegin.Name);
+                    _excelDoc.setValue(i, 64, pointEnd.Name);
+                    _excelDoc.setValue(i, 78, route.Distance.ToString());
+                    i += 2;
+                }
+                _excelDoc.setValue(41 + (46 * k), 59, wayBillDay.Distance.ToString());
+                k++;
+            }
+        }
+
+        private void CopyWayBill(WayBillDaily wayBillDaily)
+        {
+            int i = 0;
+            foreach (WayBillDay item in wayBillDaily)
+            {
+                if (i > 0)
+                    _excelDoc.CopyRange("A1", "CF46", "A" + ((46 * i) + 1).ToString());
+
+                _excelDoc.setValue(6 + (46 * i), 15, item.Day);
+
+                _excelDoc.setValue(4 + (46 * i), 39, GetWaBillFullNumber(i + 1));
+
+                i++;
+            }
+        }
+
+        private string GetWaBillFullNumber(int currentNumber)
+        {
+            string[] wayBillFullNumber = _excelDoc.getValue("AM4", "AM4").ToString().Split('/');
+
+            wayBillFullNumber[1] = (currentNumber < 10) ? "0" : string.Empty;
+            wayBillFullNumber[1] += currentNumber;
+
+            StringBuilder sb = new StringBuilder();
+
+            foreach (string item in wayBillFullNumber)
+            {
+                if (sb.Length > 0)
+                    sb.Append("/");
+
+                sb.Append(item);
+            }
+
+            return sb.ToString();
+        }
+
         public void ShowAttacheToOrder()
         {
             _excelDoc = openDocumentExcel("Приложение к приказу");
@@ -354,7 +408,7 @@ namespace ClassLibraryBBAuto
 
             Driver driver = driverList.getItem(Convert.ToInt32(_invoice.DriverToID));
 
-            _excelDoc.setValue(18, 4, driver.name);
+            _excelDoc.setValue(18, 4, driver.GetName(NameType.Full));
             _excelDoc.setValue(18, 5, driver.Position);
 
             _excelDoc.Show();
@@ -362,14 +416,35 @@ namespace ClassLibraryBBAuto
 
         public void ShowProxyOnSTO()
         {
+            WordDoc wordDoc = CreateProxyOnSTO();
+
+            wordDoc.Show();
+        }
+
+        public void PrintProxyOnSTO()
+        {
+            WordDoc wordDoc = CreateProxyOnSTO();
+
+            wordDoc.setValue("до 31 декабря 2015 года", "до 31 декабря 2016 года");
+
+            MyDateTime myDate = new MyDateTime(DateTime.Today.ToShortDateString());
+            wordDoc.setValue(myDate.ToLongString(), "01 февраля 2016");
+
+            wordDoc.Print();
+        }
+
+        private WordDoc CreateProxyOnSTO()
+        {
             WordDoc wordDoc = openDocumentWord("Доверенность на предоставление интересов на СТО");
 
-            Driver driver = driverList.getItem(Convert.ToInt32(_invoice.DriverToID));
+            DriverCarList driverCarList = DriverCarList.getInstance();
+
+            Driver driver = (_invoice == null) ? driverCarList.GetDriver(_car) : driverList.getItem(Convert.ToInt32(_invoice.DriverToID));
 
             MyDateTime myDate = new MyDateTime(DateTime.Today.ToShortDateString());
             wordDoc.setValue("текущая дата", myDate.ToLongString());
 
-            wordDoc.setValue("ФИО регионального представителя", driver.name);
+            wordDoc.setValue("ФИО регионального представителя", driver.GetName(NameType.Full));
 
             PassportList passportList = PassportList.getInstance();
             Passport passport = passportList.getLastPassport(driver);
@@ -377,8 +452,7 @@ namespace ClassLibraryBBAuto
             string passportToString = "нет данных";
 
             if (passport != null)
-                passportToString = string.Concat(passport.number, ", выдан ", passport.giveDate.ToShortDateString(),
-                    ", ", passport.giveOrg, ", Адрес: ", passport.address);
+                passportToString = string.Concat(passport.Number, ", выдан ", passport.GiveDate, ", ", passport.GiveOrg, ", Адрес: ", passport.Address);
 
             wordDoc.setValue("паспорт регионального представителя", passportToString);
 
@@ -399,7 +473,7 @@ namespace ClassLibraryBBAuto
             wordDoc.setValue("ГРЗ автомобиля", _car.grz);
             wordDoc.setValue("текущий год", DateTime.Today.Year.ToString());
 
-            wordDoc.Show();
+            return wordDoc;
         }
 
         public void ShowActFuelCard()
@@ -418,8 +492,8 @@ namespace ClassLibraryBBAuto
 
             foreach (FuelCardDriver fuelCardDriver in list)
             {
-                wordDoc.AddRowInTable(1, i.ToString(), driverTo.name, regionName, fuelCardDriver.fuelCard.Number);
-                wordDoc.AddRowInTable(2, i.ToString(), driverTo.name, regionName, fuelCardDriver.fuelCard.Number, fuelCardDriver.fuelCard.Pin);
+                wordDoc.AddRowInTable(1, i.ToString(), driverTo.GetName(NameType.Full), regionName, fuelCardDriver.fuelCard.Number);
+                wordDoc.AddRowInTable(2, i.ToString(), driverTo.GetName(NameType.Full), regionName, fuelCardDriver.fuelCard.Number, fuelCardDriver.fuelCard.Pin);
                 
                 i++;
             }
@@ -468,8 +542,8 @@ namespace ClassLibraryBBAuto
 
                 DiagCard diagCard = diagCardList.getItem(car);
 
-                _excelDoc.setValue(rowIndex, 12, diagCard.date.ToShortDateString());
-                _excelDoc.setValue(rowIndex, 13, diagCard.name);
+                _excelDoc.setValue(rowIndex, 12, diagCard.Date.ToShortDateString());
+                _excelDoc.setValue(rowIndex, 13, diagCard.Number);
 
                 rowIndex++;
             }

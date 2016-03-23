@@ -67,7 +67,7 @@ namespace ClassLibraryBBAuto
         {
             var passports = from passport in list
                             where passport.isEqualDriverID(driver)
-                            orderby passport.giveDate descending
+                            orderby passport.GiveDate descending
                             select passport;
 
             DataTable dt = createTable();
@@ -90,14 +90,14 @@ namespace ClassLibraryBBAuto
 
         public Passport getLastPassport(Driver driver)
         {
-            var passports = list.Where(item => item.isEqualDriverID(driver)).OrderByDescending(item => item.giveDate).ToList();
+            var passports = list.Where(item => item.isEqualDriverID(driver)).OrderByDescending(item => item.GiveDate).ToList();
 
             return (passports.Count() > 0) ? passports.First() : new Passport(0);
         }
 
         public Passport GetPassport(Driver driver, string number)
         {
-            var newList = list.Where(item => item.number == number).ToList();
+            var newList = list.Where(item => item.Number.Replace(" ", "") == number.Replace(" ", "")).ToList();
 
             return (newList.Count == 0) ? driver.createPassport() : newList.First();
         }

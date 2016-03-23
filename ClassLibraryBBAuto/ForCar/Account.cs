@@ -11,12 +11,19 @@ namespace ClassLibraryBBAuto
     {
         private const int NOT_SAVE_ID = 0;
 
+        private string _number;
         private int _agreed;
         private int _idPolicyType;
         private int _idOwner;
         private int _paymentIndex;
         private int _businessTrip;
         private string _file;
+
+        public string Number
+        {
+            get { return _number; }
+            set { _number = value; }
+        }
 
         public bool Agreed { get { return Convert.ToBoolean(_agreed); } }
 
@@ -88,7 +95,7 @@ namespace ClassLibraryBBAuto
         private void fillFields(DataRow row)
         {
             int.TryParse(row.ItemArray[0].ToString(), out _id);
-            name = row.ItemArray[1].ToString();
+            _number = row.ItemArray[1].ToString();
             int.TryParse(row.ItemArray[2].ToString(), out _agreed);
             int.TryParse(row.ItemArray[3].ToString(), out _idPolicyType);
             int.TryParse(row.ItemArray[4].ToString(), out _idOwner);
@@ -110,7 +117,7 @@ namespace ClassLibraryBBAuto
             if (File != string.Empty)
                 btnFile = "Просмотр";
 
-            return new object[8] { _id, idCar, name, policyType, Owner, Sum, btnName, btnFile};
+            return new object[8] { _id, idCar, _number, policyType, Owner, Sum, btnName, btnFile };
         }
 
         private int GetIDCar()
@@ -181,8 +188,8 @@ namespace ClassLibraryBBAuto
             {
                 AccountList accountList = AccountList.getInstance();
 
-                if (accountList.Exists(name))
-                    throw new Exception("Счёт с таким номер уже существует");
+                if (accountList.Exists(_number))
+                    throw new Exception("Счёт с таким номером уже существует");
 
                 ExecQuery();                
                 accountList.Add(this);
@@ -197,7 +204,7 @@ namespace ClassLibraryBBAuto
 
         private void ExecQuery()
         {
-            int.TryParse(_provider.Insert("Account", _id, name, _agreed, _idPolicyType, _idOwner, _paymentIndex, _businessTrip, _file), out _id);
+            int.TryParse(_provider.Insert("Account", _id, _number, _agreed, _idPolicyType, _idOwner, _paymentIndex, _businessTrip, _file), out _id);
         }
 
         public bool IsPolicyKaskoAndPayment2()

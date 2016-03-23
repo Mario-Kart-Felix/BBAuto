@@ -9,25 +9,42 @@ namespace ClassLibraryBBAuto
     public class Violation : MainDictionary
     {
         private int _idCar;
+        private string _number;
         private int _isPaid;
         private int _sum;
         private int _idViolationType;
         private int _sent;
         private string _fileBeginPay;
 
-        public DateTime date;
-        public DateTime datePay;
+        private DateTime _date;
+        private DateTime _datePay;
         private string _file;
         private string _filePay;
         private int _noDeduction;
-        
+
+        public string Number
+        {
+            get { return _number; }
+            set { _number = value; }
+        }
+
         public bool IsPaid
         {
             get { return Convert.ToBoolean(_isPaid); }
             set { _isPaid = Convert.ToInt32(value); }
         }
 
-        public DateTime DatePay { get { return IsPaid ? datePay.Date : new DateTime(1, 1, 1); } }
+        public DateTime Date
+        {
+            get { return _date; }
+            set { _date = value; }
+        }
+
+        public DateTime DatePay
+        {
+            get { return IsPaid ? _datePay : new DateTime(1, 1, 1); }
+            set { _datePay = value; }
+        }
 
         public string Sum
         {
@@ -68,8 +85,8 @@ namespace ClassLibraryBBAuto
         public Violation(int idCar)
         {
             this._idCar = idCar;
-            date = DateTime.Today;
-            datePay = DateTime.Today;
+            _date = DateTime.Today;
+            _datePay = DateTime.Today;
             _file = string.Empty;
             _filePay = string.Empty;
         }
@@ -83,21 +100,21 @@ namespace ClassLibraryBBAuto
         {
             int.TryParse(row.ItemArray[0].ToString(), out _id);
             int.TryParse(row.ItemArray[1].ToString(), out _idCar);
-            DateTime.TryParse(row.ItemArray[2].ToString(), out date);
-            name = row.ItemArray[3].ToString();
+            DateTime.TryParse(row.ItemArray[2].ToString(), out _date);
+            _number = row.ItemArray[3].ToString();
             _file = row.ItemArray[4].ToString();
             _fileBegin = _file;
 
             if (row.ItemArray[5].ToString() == string.Empty)
             {
                 IsPaid = false;
-                datePay = DateTime.Today;
+                _datePay = DateTime.Today;
                 _filePay = string.Empty;
             }
             else
             {
                 IsPaid = true;
-                DateTime.TryParse(row.ItemArray[5].ToString(), out datePay);
+                DateTime.TryParse(row.ItemArray[5].ToString(), out _datePay);
                 _filePay = row.ItemArray[6].ToString();
             }
 
@@ -114,10 +131,10 @@ namespace ClassLibraryBBAuto
             DeleteFile(_file);
             deleteFilePay();
 
-            _file = WorkWithFiles.fileCopyByID(_file, "cars", _idCar, "Violation", name);
-            _filePay = WorkWithFiles.fileCopyByID(_filePay, "cars", _idCar, "ViolationPay", name);
+            _file = WorkWithFiles.fileCopyByID(_file, "cars", _idCar, "Violation", _number);
+            _filePay = WorkWithFiles.fileCopyByID(_filePay, "cars", _idCar, "ViolationPay", _number);
 
-            int.TryParse(_provider.Insert("Violation", _id, _idCar, date, name, _isPaid, _file, datePay, _filePay, _idViolationType, _sum, _sent, _noDeduction), out _id);
+            int.TryParse(_provider.Insert("Violation", _id, _idCar, _date, _number, _isPaid, _file, _datePay, _filePay, _idViolationType, _sum, _sent, _noDeduction), out _id);
         }
         
         internal override void Delete()
@@ -140,7 +157,7 @@ namespace ClassLibraryBBAuto
             Regions regions = Regions.getInstance();
             string regionName = (invoice == null) ? regions.getItem(Convert.ToInt32(car.regionUsingID)) : regions.getItem(Convert.ToInt32(invoice.RegionToID));
 
-            return new object[] { _id, _idCar, car.BBNumber, car.grz, regionName, date, driver.GetName(NameType.Full), name, DatePay, 
+            return new object[] { _id, _idCar, car.BBNumber, car.grz, regionName, _date, driver.GetName(NameType.Full), _number, DatePay, 
                 violationType.getItem(_idViolationType), _sum };
         }
 
@@ -156,14 +173,14 @@ namespace ClassLibraryBBAuto
             DriverList driverList = DriverList.getInstance();
 
             DriverCarList driverCarList = DriverCarList.getInstance();
-            Driver driverDTP = driverCarList.GetDriver(car, date);
+            Driver driverDTP = driverCarList.GetDriver(car, _date);
 
             return driver.Equals(driverDTP);
         }
 
         public override string ToString()
         {
-            return (_idCar == 0) ? "нет данных" : string.Concat("№", name, " от ", date.ToShortDateString());
+            return (_idCar == 0) ? "нет данных" : string.Concat("№", _number, " от ", _date.ToShortDateString());
         }
 
         public Car getCar()
@@ -179,7 +196,7 @@ namespace ClassLibraryBBAuto
             Car car = getCar();
             
             DriverCarList driverCarList = DriverCarList.getInstance();
-            Driver driver = driverCarList.GetDriver(car, date);
+            Driver driver = driverCarList.GetDriver(car, _date);
 
             return driver;
         }

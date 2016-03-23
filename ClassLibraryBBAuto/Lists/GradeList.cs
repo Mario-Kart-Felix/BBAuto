@@ -67,7 +67,7 @@ namespace ClassLibraryBBAuto
         {
             var grades = from grade in _list
                          where grade.isEqualModelID(idModel)
-                         orderby grade.name
+                         orderby grade.Name
                          select grade;
 
             return createTable(grades.ToList());

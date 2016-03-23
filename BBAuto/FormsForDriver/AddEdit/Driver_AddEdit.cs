@@ -50,7 +50,7 @@ namespace BBAuto
         {            
             if (User.GetRole() == RolesList.AccountantWayBill)
             {
-                this.Size = new Size(410, 430);
+                this.Size = new Size(410, 486);
                 _workWithForm.SetEnableValue(btnSave, true);
             }
             
@@ -290,7 +290,7 @@ namespace BBAuto
         {
             if (!_driver.From1C)
             {
-                _driver.name = tbFio.Text;
+                _driver.Fio = tbFio.Text;
                 _driver.RegionID = (cbRegion.SelectedValue == null) ? 0 : Convert.ToInt32(cbRegion.SelectedValue.ToString());
                 _driver.CompanyName = tbCompany.Text;
                 _driver.Position = tbPosition.Text;

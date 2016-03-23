@@ -14,6 +14,8 @@ namespace BBAuto
         
         public DataGridViewSelectedCellCollection SelectedCells { get { return _dgv.SelectedCells; } }
 
+        public DataGridViewCell CurrentCell { get { return _dgv.CurrentCell; } }
+
         public MainDGV(DataGridView dgv)
         {
             _dgv = dgv;

@@ -78,7 +78,7 @@ namespace ClassLibraryBBAuto
         {
             var models = from model in list
                          where model.isEqualMarkID(idMark)
-                         orderby model.name
+                         orderby model.Name
                          select model;
 
             DataTable dt = new DataTable();

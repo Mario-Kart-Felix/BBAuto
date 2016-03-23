@@ -50,12 +50,12 @@ namespace BBAuto
         {
             cbCar.SelectedValue = shipPart.IDCar;
             cbDriver.SelectedValue = shipPart.IDDriver;
-            tbNumber.Text = shipPart.name;
+            tbNumber.Text = shipPart.Number;
             mtbDateRequest.Text = shipPart.DateRequest;
             mtbDateSent.Text = shipPart.DateSent;
 
             TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
-            tbFile.Text = shipPart.file;
+            tbFile.Text = shipPart.File;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -64,12 +64,12 @@ namespace BBAuto
             {
                 shipPart.IDCar = cbCar.SelectedValue.ToString();
                 shipPart.IDDriver = cbDriver.SelectedValue.ToString();
-                shipPart.name = tbNumber.Text;
+                shipPart.Number = tbNumber.Text;
                 shipPart.DateRequest = mtbDateRequest.Text;
                 shipPart.DateSent = mtbDateSent.Text;
 
                 TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
-                shipPart.file = tbFile.Text;
+                shipPart.File = tbFile.Text;
 
                 shipPart.Save();
             }

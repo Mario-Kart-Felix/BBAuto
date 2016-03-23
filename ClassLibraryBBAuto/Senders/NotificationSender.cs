@@ -84,7 +84,7 @@ namespace ClassLibraryBBAuto
             List<INotification> list = _list.ToList();
 
             List<Driver> listNotExist = (from itemDriver in listDriver
-                                    join itemMC in list on itemDriver.DriverID equals itemMC.DriverID into table1
+                                    join itemMC in list on itemDriver.ID equals itemMC.DriverID into table1
                                     from itemRes in table1.DefaultIfEmpty()
                                     where itemRes == null
                                     select itemDriver).ToList();
@@ -94,9 +94,9 @@ namespace ClassLibraryBBAuto
             foreach (Driver item in listNotExist)
             {
                 if (list.First() is MedicalCert)
-                    listNotification.Add(new MedicalCert(item.DriverID));
+                    listNotification.Add(new MedicalCert(item.ID));
                 else if (list.First() is DriverLicense)
-                    listNotification.Add(new DriverLicense(item.DriverID));
+                    listNotification.Add(new DriverLicense(item.ID));
             }
 
             return listNotification;
@@ -110,7 +110,7 @@ namespace ClassLibraryBBAuto
             List<INotification> list = _list.ToList();
 
             List<INotification> listExist = (from itemMC in list
-                                         join itemDriver in listDriver on itemMC.DriverID equals itemDriver.DriverID into table1
+                                         join itemDriver in listDriver on itemMC.DriverID equals itemDriver.ID into table1
                                          from itemRes in table1.DefaultIfEmpty()
                                          where itemRes != null
                                          select itemMC).ToList();

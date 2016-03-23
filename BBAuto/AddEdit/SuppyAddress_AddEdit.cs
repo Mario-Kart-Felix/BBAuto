@@ -25,7 +25,7 @@ namespace BBAuto
 
         private void aeSuppyAddress_Load(object sender, EventArgs e)
         {
-            loadDictionary();
+            loadRegions();
 
             loadData();
 
@@ -43,24 +43,47 @@ namespace BBAuto
         private void loadData()
         {
             cbRegion.SelectedValue = _suppyAddress.ID;
-            tbAddress.Text = _suppyAddress.name;
         }
 
-        private void loadDictionary()
+        private void loadRegions()
         {
             Regions regions = Regions.getInstance();
 
-            cbRegion.DataSource = regions.ToDataTable();
-            cbRegion.DisplayMember = "Название";
-            cbRegion.ValueMember = "id";
+            DataTable dt = regions.ToDataTable();
+
+            cbRegion.DataSource = dt;
+            cbRegion.ValueMember = dt.Columns[0].ColumnName;
+            cbRegion.DisplayMember = dt.Columns[1].ColumnName;
+        }
+
+        private void loadMyPoints()
+        {
+            if (cbRegion.SelectedValue == null)
+                return;
+
+            MyPointList myPointList = MyPointList.getInstance();
+
+            int idRegion;
+            int.TryParse(cbRegion.SelectedValue.ToString(), out idRegion);
+
+            DataTable dt = myPointList.ToDataTable(idRegion);
+
+            cbMyPoint.DataSource = dt;
+            cbMyPoint.ValueMember = dt.Columns[0].ColumnName;
+            cbMyPoint.DisplayMember = dt.Columns[1].ColumnName;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (_workWithForm.IsEditMode())
             {
-                _suppyAddress.ID = cbRegion.SelectedValue.ToString();
-                _suppyAddress.name = tbAddress.Text;
+                if (cbMyPoint.SelectedValue == null)
+                {
+                    MessageBox.Show("Выберите адрес подачи", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                _suppyAddress.ID = cbMyPoint.SelectedValue.ToString();
 
                 _suppyAddress.Save();
 
@@ -68,6 +91,11 @@ namespace BBAuto
             }
             else
                 _workWithForm.SetEditMode(true);
+        }
+
+        private void cbRegion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            loadMyPoints();
         }
     }
 }

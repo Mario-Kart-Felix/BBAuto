@@ -124,7 +124,7 @@ namespace ClassLibraryBBAuto
             PolicyList policyList = PolicyList.getInstance();
             Policy policy = policyList.getItem(car, type);
             
-            if (string.IsNullOrEmpty(policy.file))
+            if (string.IsNullOrEmpty(policy.File))
                 throw new Exception("Не найден файл полиса");
             else
             {
@@ -135,7 +135,7 @@ namespace ClassLibraryBBAuto
                 DriverCarList driverCarList = DriverCarList.getInstance();
                 Driver driver = driverCarList.GetDriver(car);
                 
-                Send(new List<Driver> { driver }, new string[] { _authorEmail }, new List<Attachment>() { new Attachment(policy.file) });
+                Send(new List<Driver> { driver }, new string[] { _authorEmail }, new List<Attachment>() { new Attachment(policy.File) });
             }
         }
 
@@ -159,7 +159,7 @@ namespace ClassLibraryBBAuto
         
         internal void sendMailAccount(Account account)
         {
-            _subject = "Согласование счета " + account.name;
+            _subject = "Согласование счета " + account.Number;
 
             createMailAndSendAccount(account);
         }
@@ -219,7 +219,7 @@ namespace ClassLibraryBBAuto
             else
             {
                 sb.Append("Прошу оплатить счёт № ");
-                sb.AppendLine(account.name);
+                sb.AppendLine(account.Number);
 
                 sb.Append("Cумма оплаты ");
             }

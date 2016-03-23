@@ -23,13 +23,13 @@ namespace BBAuto
 
         private void TemplateAddEdit_Load(object sender, EventArgs e)
         {
-            tbName.Text = template.name;
+            tbName.Text = template.Name;
             tbPath.Text = template.Path;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            template.name = tbName.Text;
+            template.Name = tbName.Text;
             template.Path = tbPath.Text;
 
             template.Save();

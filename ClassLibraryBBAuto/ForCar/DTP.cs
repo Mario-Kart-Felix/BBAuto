@@ -8,8 +8,7 @@ namespace ClassLibraryBBAuto
 {
     public class DTP : MainDictionary
     {
-        private int idCar;        
-                
+        private int idCar;
         private int _idStatusAfterDTP;
         private int _idRegion;
         private int _idCulprit;
@@ -22,8 +21,8 @@ namespace ClassLibraryBBAuto
         public string facts;
         public string damage;
         public string comm;        
-        public string numberLoss;        
-
+        public string numberLoss;
+        
         public string IDStatusAfterDTP
         {
             get { return _idStatusAfterDTP.ToString(); }
@@ -157,7 +156,7 @@ namespace ClassLibraryBBAuto
 
         public override string ToString()
         {
-            return (idCar == 0) ? "нет данных" : string.Concat("№", name, " дата ", _date.ToShortDateString());
+            return (idCar == 0) ? "нет данных" : string.Concat("№", _number, " дата ", _date.ToShortDateString());
         }
 
         public DTPFile createFile()

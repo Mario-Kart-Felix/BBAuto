@@ -111,6 +111,24 @@ namespace ClassLibraryBBAuto
             return cars.Count() > 0 ? cars.First() as Car : null;
         }
 
+        public Car getItem(string grz)
+        {
+            var cars = list.Where(item => ((item.grz.Replace(" ", "") != string.Empty) && (item.grz.Replace(" ", "") == grz.Replace(" ", ""))));
+
+            if (cars.Count() > 0)
+                return cars.First();
+
+            if (grz.Replace(" ", "").Length >= 6)
+            {
+                cars = list.Where(item => ((item.grz.Replace(" ", "") != string.Empty) && (item.grz.Replace(" ", "").Substring(0, 6) == grz.Replace(" ", "").Substring(0, 6))));
+
+                if (cars.Count() == 1)
+                    return cars.First();
+            }
+
+            return null;
+        }
+
         public DataTable ToDataTable(Status status)
         {
             switch (status)
@@ -188,7 +206,7 @@ namespace ClassLibraryBBAuto
         {
             if (list.Count > 0)
             {
-                int maxNumber = list.Max(item => item.number);
+                int maxNumber = list.Max(item => item.BBNumberInt);
 
                 return maxNumber + 1;
             }

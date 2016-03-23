@@ -79,8 +79,8 @@ namespace BBAuto
 
         private void tbCount_TextChanged(object sender, EventArgs e)
         {
-            tbCount.Text = MyString.GetFormatedDigitInteger(tbCount.Text);
-            tbCount.SelectionStart = tbCount.Text.Length;
+            //tbCount.Text = MyString.GetFormatedDigitInteger(tbCount.Text);
+            //tbCount.SelectionStart = tbCount.Text.Length;
         }
     }
 }

@@ -10,10 +10,22 @@ namespace ClassLibraryBBAuto
     {
         private int _idCar;
         private int _idDriver;
+        private string _number;
         private DateTime _dateRequest;
         private DateTime _dateSent;
+        private string _file;
 
-        public string file;
+        public string Number
+        {
+            get { return _number; }
+            set { _number = value; }
+        }
+
+        public string File
+        {
+            get { return _file; }
+            set { _file = value; }
+        }
 
         public string IDCar
         {
@@ -82,16 +94,16 @@ namespace ClassLibraryBBAuto
             int.TryParse(row.ItemArray[0].ToString(), out _id);
             int.TryParse(row.ItemArray[1].ToString(), out _idCar);
             int.TryParse(row.ItemArray[2].ToString(), out _idDriver);
-            name = row.ItemArray[3].ToString();
+            _number = row.ItemArray[3].ToString();
             DateRequest = row.ItemArray[4].ToString();
             DateSent = row.ItemArray[5].ToString();
-            file = row.ItemArray[6].ToString();
-            _fileBegin = file;
+            _file = row.ItemArray[6].ToString();
+            _fileBegin = _file;
         }
 
         internal override object[] getRow()
         {
-            return new object[] { _id, _idCar, car.BBNumber, car.grz, driver.GetName(NameType.Full), name, _dateRequest, _dateSent };
+            return new object[] { _id, _idCar, car.BBNumber, car.grz, driver.GetName(NameType.Full), _number, _dateRequest, _dateSent };
         }
 
         internal override void Delete()
@@ -106,11 +118,11 @@ namespace ClassLibraryBBAuto
 
         public override void Save()
         {
-            DeleteFile(file);
+            DeleteFile(_file);
 
-            file = WorkWithFiles.fileCopyByID(file, "cars", _idCar, "ShipPart", name);
+            _file = WorkWithFiles.fileCopyByID(_file, "cars", _idCar, "ShipPart", _number);
 
-            int.TryParse(_provider.Insert("ShipPart", _id, _idCar, _idDriver, name, DateRequestForSQL, DateSentForSQL, file).ToString(), out _id);
+            int.TryParse(_provider.Insert("ShipPart", _id, _idCar, _idDriver, _number, DateRequestForSQL, DateSentForSQL, _file).ToString(), out _id);
         }
     }
 }

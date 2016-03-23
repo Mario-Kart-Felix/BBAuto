@@ -47,14 +47,14 @@ namespace ClassLibraryBBAuto
 
         public DataTable ToDataTable()
         {
-            var diagCards = list.Where(item => item.date >= (DateTime.Today.AddYears(-1))).OrderByDescending(item => item.date);
+            var diagCards = list.Where(item => item.Date >= (DateTime.Today.AddYears(-1)) && !item.GetCar().info.IsSale).OrderByDescending(item => item.Date);
 
             return createTable(diagCards.ToList());
         }
 
         public DataTable ToDataTable(Car car)
         {
-            var diagCards = list.Where(item => item.isEqualsCarID(car)).OrderByDescending(item => item.date);
+            var diagCards = list.Where(item => item.isEqualsCarID(car)).OrderByDescending(item => item.Date);
 
             return createTable(diagCards.ToList());
         }
@@ -84,7 +84,7 @@ namespace ClassLibraryBBAuto
 
         public DiagCard getItem(Car car)
         {
-            var diagCards = list.Where(item => item.isEqualsCarID(car)).OrderByDescending(item => item.date);
+            var diagCards = list.Where(item => item.isEqualsCarID(car)).OrderByDescending(item => item.Date);
 
             return diagCards.Count() == 0 ? new DiagCard(0) : diagCards.First() as DiagCard;
         }
@@ -100,7 +100,7 @@ namespace ClassLibraryBBAuto
 
         public List<DiagCard> GetDiagCardList(DateTime date)
         {
-            return list.Where(item => (item.date.Year == date.Year && item.date.Month == date.Month)).ToList();
+            return list.Where(item => (item.Date.Year == date.Year && item.Date.Month == date.Month)).ToList();
         }
         
         internal List<DiagCard> GetDiagCardEnds()

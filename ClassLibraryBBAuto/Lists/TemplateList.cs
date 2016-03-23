@@ -64,7 +64,7 @@ namespace ClassLibraryBBAuto
 
         public Template getItem(string name)
         {
-            var templates = list.Where(item => item.name == name);
+            var templates = list.Where(item => item.Name == name);
 
             return (templates.Count() > 0) ? templates.First() : null;
         }

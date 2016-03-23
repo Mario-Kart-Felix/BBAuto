@@ -33,7 +33,7 @@ namespace BBAuto
 
         private void fillFields()
         {
-            mtbNumber.Text = _license.name;
+            mtbNumber.Text = _license.Number;
             dateBegin.Value = Convert.ToDateTime(_license.DateBegin);
             dateEnd.Value = Convert.ToDateTime(_license.DateEnd);
 
@@ -48,7 +48,7 @@ namespace BBAuto
         {
             if (_workWithForm.IsEditMode())
             {
-                _license.name = mtbNumber.Text;
+                _license.Number = mtbNumber.Text;
                 _license.DateBegin = dateBegin.Value.Date;
                 _license.DateEnd = dateEnd.Value.Date;
                 TextBox tbFile = (TextBox)ucFile.Controls["tbFile"];

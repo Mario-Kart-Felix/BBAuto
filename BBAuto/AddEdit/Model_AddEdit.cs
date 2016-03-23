@@ -33,7 +33,7 @@ namespace BBAuto
 
         private void fillFields()
         {
-            tbName.Text = _model.name;
+            tbName.Text = _model.Name;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -47,7 +47,7 @@ namespace BBAuto
                 }
                 else
                 {
-                    _model.name = tbName.Text;
+                    _model.Name = tbName.Text;
                     _model.Save();
                 }
 

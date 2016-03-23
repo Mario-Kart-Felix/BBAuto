@@ -42,7 +42,7 @@ namespace BBAuto
 
                 Instraction instraction = instractionList.getItem(id);
 
-                if (instraction.file != string.Empty)
+                if (instraction.File != string.Empty)
                     row.DefaultCellStyle.BackColor = BBColors.bbGreen3;
             }
         }
@@ -75,9 +75,9 @@ namespace BBAuto
                 int idInstraction = Convert.ToInt32(dgvInstractions.Rows[e.RowIndex].Cells[0].Value);
                 Instraction instraction = instractionList.getItem(idInstraction);
 
-                if ((dgvInstractions.Columns[e.ColumnIndex].HeaderText == "Номер") && (instraction.file != string.Empty))
+                if ((dgvInstractions.Columns[e.ColumnIndex].HeaderText == "Номер") && (instraction.File != string.Empty))
                 {
-                    WorkWithFiles.openFile(instraction.file);
+                    WorkWithFiles.openFile(instraction.File);
                 }
                 else
                 {

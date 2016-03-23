@@ -6,11 +6,11 @@ using System.Text;
 
 namespace ClassLibraryBBAuto
 {
-    public class ImportFrom1C
+    public class EmployeesFrom1C : IFrom1C
     {
         private const string FILE_PATH = @"\\bbmru08\1cv77\Autoexchange\Lotus\BBAuto";
-
-        public void Start()
+        
+        public void StartImport()
         {
             string[] files = Directory.GetFiles(FILE_PATH, "*.txt");
 
@@ -25,7 +25,7 @@ namespace ClassLibraryBBAuto
                     DriverList driverList = DriverList.getInstance();
                     Driver driver = driverList.getItemByNumber(fields[1]);
                     
-                    driver.name = fields[0];
+                    driver.Fio = fields[0];
                     driver.Number = fields[1];
                     driver.Sex = fields[2];
                     driver.Region = fields[3];
@@ -43,26 +43,24 @@ namespace ClassLibraryBBAuto
                     if (!string.IsNullOrEmpty(fields[11]))
                     {
                         string passportNumber = fields[11].Replace(" ", "");
-                        if (passportNumber.Length < 10)
+                        if (passportNumber.Length == 0)
                             continue;
-                        passportNumber = string.Concat(passportNumber.Substring(0, 2), " ", passportNumber.Substring(2, 2), " ", passportNumber.Substring(4, 6));
 
                         PassportList passportList = PassportList.getInstance();
                         Passport passport;
                         passport = passportList.GetPassport(driver, passportNumber);
-                        passport.number = passportNumber;
+                        passport.Number = passportNumber;
 
                         string[] fio = fields[0].Split(' ');
-                        passport.name = fio[0];
-                        passport.lastName = fio[1];
-                        passport.secondName = fio[2];
+                        passport.LastName = fio[0];
+                        passport.FirstName = fio[1];
+                        passport.SecondName = fio[2];
 
                         passport.GiveDate = fields[12];
-                        passport.giveOrg = fields[13];
-                        passport.address = fields[14];
+                        passport.GiveOrg = fields[13];
+                        passport.Address = fields[14];
                         passport.Save();
                     }
-
                 }
                 
                 File.Move(file, FILE_PATH + @"\processed\" + DateTime.Today.ToShortDateString() + " " + Path.GetFileName(file));

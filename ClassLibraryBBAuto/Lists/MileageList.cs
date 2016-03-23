@@ -59,6 +59,13 @@ namespace ClassLibraryBBAuto
             return getItem(mileages.ToList());
         }
 
+        public Mileage getItem(Car car, Mileage current)
+        {
+            var mileages = list.Where(item => item.isEqualCarID(car) && item != current).OrderByDescending(item => item.Date);
+
+            return getItem(mileages.ToList());
+        }
+
         private Mileage getItem(List<Mileage> mileages)
         {
             return (mileages.Count() > 0) ? mileages.First() : new Mileage(0);
@@ -93,6 +100,30 @@ namespace ClassLibraryBBAuto
             dt.Columns.Add("Пробег", Type.GetType("System.Int32"));
 
             return dt;
+        }
+
+        internal int GetDistance(Car car, DateTime date)
+        {
+            DateTime datePrev = (date.Month == 12) ? new DateTime(date.Year - 1, 11, 1) : (date.Month == 1) ? new DateTime(date.Year - 1, 12, 1) : new DateTime(date.Year, date.Month - 1, 1);
+
+            var listPrev = (from item in list
+                           where item.isEqualCarID(car) && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
+                           orderby item.Count descending
+                           select Convert.ToInt32(item.Count)).ToList();
+
+            var listCurrent = (from item in list
+                           where item.isEqualCarID(car) && (item.Date.Year == date.Year && item.Date.Month == date.Month)
+                           orderby item.Count descending
+                           select Convert.ToInt32(item.Count)).ToList();
+            
+            if ((listCurrent.Count == 0) && (listPrev.Count == 0))
+                throw new NullReferenceException("Показания одометра не найдены");
+            else if (listCurrent.Count > 1)
+                return listCurrent.First() - listCurrent.Last();
+            else if ((listCurrent.Count == 1) && (listPrev.Count == 0))
+                return listCurrent.First();
+            else
+                return listCurrent.First() - listPrev.First();
         }
     }
 }
