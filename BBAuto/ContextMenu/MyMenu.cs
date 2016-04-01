@@ -294,7 +294,7 @@ namespace BBAuto
                         return null;
                 }
             }
-            else if ((User.GetRole() == RolesList.AccountantWayBill) && (_mainStatus.Get() == Status.Actual))
+            else if ((User.GetRole() == RolesList.AccountantWayBill) && ((_mainStatus.Get() == Status.Actual) || (_mainStatus.Get() == Status.Sale)))
                 return CreateContextMenuWayBill();
             else
                 return null;
@@ -373,6 +373,9 @@ namespace BBAuto
             menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Filter));
             menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.Sort));
             menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.DeleteFromSale));
+            menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.PrintWayBill));
+            menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowWayBill));
+            menuStrip.Items.Add(_factory.CreateItem(ContextMenuItem.ShowWayBillDaily));
 
             return menuStrip;
         }
