@@ -38,8 +38,17 @@ namespace BBAuto
 
                 DateTime date = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, 1);
 
-                CreateDocument excelWayBill = (status == Status.Invoice) ? CreateWayBill(idCar, date, _dgvMain.GetID(cell.RowIndex)) : CreateWayBill(idCar, date);
-                
+                CreateDocument excelWayBill;
+
+                try
+                {
+                    excelWayBill = (status == Status.Invoice) ? CreateWayBill(idCar, date, _dgvMain.GetID(cell.RowIndex)) : CreateWayBill(idCar, date);
+                }
+                catch (NullReferenceException)
+                {
+                    continue;
+                }
+
                 if (_action == Actions.Print)
                     excelWayBill.Print();
                 else
@@ -80,6 +89,7 @@ namespace BBAuto
             {
                 MessageBox.Show(ex.Message, "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 waybill.Exit();
+                throw;
             }
 
             return waybill;

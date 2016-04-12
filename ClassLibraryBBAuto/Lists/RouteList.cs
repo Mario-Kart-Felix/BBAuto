@@ -100,6 +100,9 @@ namespace ClassLibraryBBAuto
                            where mainPoint.IsEqualsID(item.MyPoint1ID) || mainPoint.IsEqualsID(item.MyPoint2ID)
                            select item).ToList();
 
+            if (listNew.Count == 0)
+                throw new NullReferenceException("Отсутствуют маршруты для данного города");
+
             int rand = random.Next(0, listNew.Count - 1);
 
             return (mainPoint.IsEqualsID(listNew[rand].MyPoint1ID)) ? new Route(listNew[rand].MyPoint1ID, listNew[rand].MyPoint2ID, listNew[rand].Distance.ToString()) : new Route(listNew[rand].MyPoint2ID, listNew[rand].MyPoint1ID, listNew[rand].Distance.ToString());

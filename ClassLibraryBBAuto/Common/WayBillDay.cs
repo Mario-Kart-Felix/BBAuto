@@ -8,23 +8,32 @@ namespace ClassLibraryBBAuto
 {
     public class WayBillDay : IEnumerable
     {
-        private Driver _driver;
         private Car _car;
-        private int _day;
+        private DateTime _date;
         private int _count;
         private List<Route> _routes;
 
-        public WayBillDay(Car car, Driver driver, int day, int count)
+        public WayBillDay(Car car, DateTime date, int count)
         {
             _car = car;
-            _driver = driver;
-            _day = day;
+            _date = date;
             _count = count;
 
             _routes = new List<Route>();
         }
 
-        public string Day { get { return _day.ToString(); } }
+        public string Day { get { return _date.Day.ToString(); } }
+        public string Date { get { return _date.ToShortDateString(); } }
+
+        public Driver Driver
+        {
+            get
+            {
+                DriverCarList driverCarList = DriverCarList.getInstance();
+
+                return driverCarList.GetDriver(_car, _date);
+            }
+        }
 
         public int Distance
         {
@@ -41,7 +50,10 @@ namespace ClassLibraryBBAuto
         public void Create(Random random)
         {
             SuppyAddressList suppyAddressList = SuppyAddressList.getInstance();
-            SuppyAddress suppyAddress = suppyAddressList.getItemByRegion(_driver.RegionID);
+            SuppyAddress suppyAddress = suppyAddressList.getItemByRegion(Driver.RegionID);
+
+            if (suppyAddress == null)
+                throw new NullReferenceException("Не задан адрес подачи");
 
             MyPoint currentPoint = suppyAddress.Point;
 

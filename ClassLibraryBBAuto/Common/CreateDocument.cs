@@ -342,10 +342,14 @@ namespace ClassLibraryBBAuto
             CopyWayBill(wayBillDaily);
 
             int k = 0;
+            int beginDistance = wayBillDaily.BeginDistance;
+            int endDistance = wayBillDaily.EndDistance;
+
+            int curDistance = beginDistance;
 
             foreach (WayBillDay wayBillDay in wayBillDaily)
             {
-                int i = 6 + (46 * k);
+                int i = 6 + (47 * k);
                 foreach (Route route in wayBillDay)
                 {
                     MyPoint pointBegin = myPointList.getItem(route.MyPoint1ID);
@@ -356,9 +360,17 @@ namespace ClassLibraryBBAuto
                     _excelDoc.setValue(i, 78, route.Distance.ToString());
                     i += 2;
                 }
-                _excelDoc.setValue(41 + (46 * k), 59, wayBillDay.Distance.ToString());
+                _excelDoc.setValue(41 + (47 * k), 59, wayBillDay.Distance.ToString());
+
+                _excelDoc.setValue(29 + (47 * k), 20, wayBillDay.Date);
+                _excelDoc.setValue(33 + (47 * k), 20, wayBillDay.Date);
+                _excelDoc.setValue(19 + (47 * k), 39, curDistance.ToString());
+                curDistance += wayBillDay.Distance;
+                _excelDoc.setValue(43 + (47 * k), 39, curDistance.ToString());
                 k++;
             }
+
+            _excelDoc.setValue(43 + (47 * (k - 1)), 39, endDistance.ToString());
         }
 
         private void CopyWayBill(WayBillDaily wayBillDaily)
@@ -367,11 +379,11 @@ namespace ClassLibraryBBAuto
             foreach (WayBillDay item in wayBillDaily)
             {
                 if (i > 0)
-                    _excelDoc.CopyRange("A1", "CF46", "A" + ((46 * i) + 1).ToString());
+                    _excelDoc.CopyRange("A1", "CF46", "A" + ((47 * i) + 1).ToString());
 
-                _excelDoc.setValue(6 + (46 * i), 15, item.Day);
+                _excelDoc.setValue(6 + (47 * i), 15, item.Day);
 
-                _excelDoc.setValue(4 + (46 * i), 39, GetWaBillFullNumber(i + 1));
+                _excelDoc.setValue(4 + (47 * i), 39, GetWaBillFullNumber(i + 1));
 
                 i++;
             }

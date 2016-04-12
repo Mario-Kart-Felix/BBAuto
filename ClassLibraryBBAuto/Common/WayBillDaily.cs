@@ -13,18 +13,24 @@ namespace ClassLibraryBBAuto
         private DateTime _date;
         private List<WayBillDay> _list;
 
+        private MileageList _mileageList;
+        
         public WayBillDaily(Car car, DateTime date)
         {
             _car = car;
             _date = date;
 
             DriverCarList driverCarList = DriverCarList.getInstance();
+            _mileageList = MileageList.getInstance();
 
             _driver = driverCarList.GetDriver(_car, _date);
             _list = new List<WayBillDay>();
         }
 
         public int Count { get { return _list.Count; } }
+
+        public int BeginDistance { get { return _mileageList.GetBeginDistance(_car, _date); } }
+        public int EndDistance { get { return _mileageList.GetEndDistance(_car, _date); } }
 
         public void Create()
         {
@@ -33,10 +39,9 @@ namespace ClassLibraryBBAuto
             List<int> days = tabelList.GetDays(_driver, _date);
 
             if (days.Count == 0)
-                throw new NullReferenceException("Водитель не работал в выбранном месяце");
-
-            MileageList mileageList = MileageList.getInstance();
-            int count = mileageList.GetDistance(_car, _date);
+                throw new NullReferenceException("Нет табельных листов на выбранный месяц");
+                        
+            int count = _mileageList.GetDistance(_car, _date);
 
             Random random = new Random();
 
@@ -58,9 +63,9 @@ namespace ClassLibraryBBAuto
                 int curCount = count - GetDistance();
                 int everyDayCount = curCount / (countDays - _list.Count);
 
-                WayBillDay wayBillDay = new WayBillDay(_car, _driver, day, everyDayCount);
+                WayBillDay wayBillDay = new WayBillDay(_car, new DateTime(_date.Year, _date.Month, day), everyDayCount);
                 wayBillDay.Create(random);
-                if (wayBillDay.Distance > 100)
+                if (wayBillDay.Distance > 0)
                     _list.Add(wayBillDay);
 
                 i++;
