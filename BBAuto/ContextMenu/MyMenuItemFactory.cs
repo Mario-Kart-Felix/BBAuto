@@ -949,8 +949,12 @@ namespace BBAuto
 
         private void ShowWayBillDaily_Click(object sender, EventArgs e)
         {
+            FormWayBillDaily formWayBillDaily = new FormWayBillDaily(_dgvMain);
+            formWayBillDaily.ShowDialog();
+            /*
             InputDate inputDate = new InputDate(_dgvMain, Actions.Show, WayBillType.Day);
             inputDate.ShowDialog();
+            */
         }
 
         private void ShowInvoice_Click(object sender, EventArgs e)

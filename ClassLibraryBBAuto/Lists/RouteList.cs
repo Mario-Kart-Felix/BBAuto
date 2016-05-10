@@ -64,14 +64,14 @@ namespace ClassLibraryBBAuto
             return (routes.Count() > 0) ? routes.First() : null;
         }
 
-        public DataTable ToDataTable(int idMyPoint1)
+        public DataTable ToDataTable(MyPoint myPoint1)
         {
-            var listNew = list.Where(item => (item.MyPoint1ID == idMyPoint1) || (item.MyPoint2ID == idMyPoint1)).ToList();
+            var listNew = list.Where(item => (item.MyPoint1 == myPoint1) || (item.MyPoint2 == myPoint1)).ToList();
 
-            return CreateTable(listNew, idMyPoint1);
+            return CreateTable(listNew, myPoint1);
         }
 
-        private DataTable CreateTable(List<Route> routes, int idMyPoint1)
+        private DataTable CreateTable(List<Route> routes, MyPoint myPoint1)
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("id");
@@ -79,25 +79,25 @@ namespace ClassLibraryBBAuto
             dt.Columns.Add("Дистанция");
 
             foreach (Route route in routes)
-                dt.Rows.Add(route.getRow(idMyPoint1));
+                dt.Rows.Add(route.getRow(myPoint1));
 
             return dt;
         }
 
-        public bool Exists(int idMyPoint1, MyPoint myPoint)
+        public bool Exists(MyPoint myPoint1, MyPoint myPoint2)
         {
-            return list.Exists(item => ((item.MyPoint1ID == idMyPoint1 && myPoint.IsEqualsID(item.MyPoint2ID))) || ((item.MyPoint2ID == idMyPoint1 && myPoint.IsEqualsID(item.MyPoint1ID))));
+            return list.Exists(item => ((item.MyPoint1 == myPoint1 && myPoint2 == item.MyPoint2)) || ((item.MyPoint2 == myPoint1 && myPoint2 == item.MyPoint1)));
         }
 
         public bool Exists(MyPoint myPoint)
         {
-            return list.Exists(item => myPoint.IsEqualsID(item.MyPoint1ID) || myPoint.IsEqualsID(item.MyPoint2ID));
+            return list.Exists(item => myPoint == item.MyPoint1 || myPoint == item.MyPoint2);
         }
 
         internal Route GetRandomItem(Random random, MyPoint mainPoint)
         {
             var listNew = (from item in list
-                           where mainPoint.IsEqualsID(item.MyPoint1ID) || mainPoint.IsEqualsID(item.MyPoint2ID)
+                           where mainPoint == item.MyPoint1 || mainPoint == item.MyPoint2
                            select item).ToList();
 
             if (listNew.Count == 0)
@@ -105,27 +105,27 @@ namespace ClassLibraryBBAuto
 
             int rand = random.Next(0, listNew.Count - 1);
 
-            return (mainPoint.IsEqualsID(listNew[rand].MyPoint1ID)) ? new Route(listNew[rand].MyPoint1ID, listNew[rand].MyPoint2ID, listNew[rand].Distance.ToString()) : new Route(listNew[rand].MyPoint2ID, listNew[rand].MyPoint1ID, listNew[rand].Distance.ToString());
+            return (mainPoint == listNew[rand].MyPoint1) ? new Route(listNew[rand].MyPoint1, listNew[rand].MyPoint2, listNew[rand].Distance.ToString()) : new Route(listNew[rand].MyPoint2, listNew[rand].MyPoint1, listNew[rand].Distance.ToString());
         }
 
         internal Route GetRandomItem(Random random, MyPoint mainPoint, MyPoint toPoint)
         {
             var listNew = (from item in list
-                           where (toPoint.IsEqualsID(item.MyPoint1ID) || toPoint.IsEqualsID(item.MyPoint2ID)) && !mainPoint.IsEqualsID(item.MyPoint1ID) && !mainPoint.IsEqualsID(item.MyPoint2ID)
+                           where (toPoint == item.MyPoint1 || toPoint == item.MyPoint2) && mainPoint != item.MyPoint1 && mainPoint != item.MyPoint2
                            select item).ToList();
 
             int rand = random.Next(0, listNew.Count - 1);
 
-            return (toPoint.IsEqualsID(listNew[rand].MyPoint1ID)) ? new Route(listNew[rand].MyPoint1ID, listNew[rand].MyPoint2ID, listNew[rand].Distance.ToString()) : new Route(listNew[rand].MyPoint2ID, listNew[rand].MyPoint1ID, listNew[rand].Distance.ToString());
+            return (toPoint == listNew[rand].MyPoint1) ? new Route(listNew[rand].MyPoint1, listNew[rand].MyPoint2, listNew[rand].Distance.ToString()) : new Route(listNew[rand].MyPoint2, listNew[rand].MyPoint1, listNew[rand].Distance.ToString());
         }
 
         internal Route GetItem(MyPoint point1, MyPoint point2)
         {
             var listNew = (from item in list
-                           where (point1.IsEqualsID(item.MyPoint1ID) || point1.IsEqualsID(item.MyPoint2ID)) && (point2.IsEqualsID(item.MyPoint1ID) || point2.IsEqualsID(item.MyPoint2ID))
+                           where (point1 == item.MyPoint1 || point1 == item.MyPoint2) && (point2 == item.MyPoint1 || point2 == item.MyPoint2)
                            select item).ToList();
 
-            return (point1.IsEqualsID(listNew.First().MyPoint1ID)) ? listNew.First() : new Route(listNew.First().MyPoint2ID, listNew.First().MyPoint1ID, listNew.First().Distance.ToString());
+            return (point1 == listNew.First().MyPoint1) ? listNew.First() : new Route(listNew.First().MyPoint2, listNew.First().MyPoint1, listNew.First().Distance.ToString());
         }
     }
 }

@@ -17,7 +17,7 @@ namespace ClassLibraryBBAuto
         private int _sex;
         private int _decret;
         private DateTime _dateStopNotification;                
-        private int _idRegion;
+        private Region _region;
         private string _number;
         private int _idPosition;
         private int _idDept;
@@ -27,13 +27,7 @@ namespace ClassLibraryBBAuto
 
         public string email;
         public string suppyAddress;
-
-        public int ID
-        {
-            get { return _id; }
-            set { _id = value; }
-        }
-
+        
         public string Fio
         {
             set { _fio = value.Trim(); }
@@ -195,7 +189,7 @@ namespace ClassLibraryBBAuto
             get
             {
                 DriverList driverList = DriverList.getInstance();
-                return driverList.CountDriversInRegion(RegionID) == 1;
+                return driverList.CountDriversInRegion(Region) == 1;
             }
         }
 
@@ -210,32 +204,11 @@ namespace ClassLibraryBBAuto
             get { return _sex == 0 ? "мужской" : "женский"; }
             set { _sex = (value == "Мужской") ? 0 : 1; }
         }
-
-        public int RegionID
+        
+        public Region Region
         {
-            get { return _idRegion; }
-            set { _idRegion = value; }
-        }
-
-        public string Region
-        {
-            get
-            {
-                Regions regions = Regions.getInstance();
-                return regions.getItem(_idRegion);
-            }
-            set
-            {
-                Regions regions = Regions.getInstance();
-                _idRegion = regions.getItem(value);
-
-                if (_idRegion == 0)
-                {
-                    OneStringDictionary.save("Region", 0, value);
-                    regions.ReLoad();
-                    _idRegion = regions.getItem(value);
-                }
-            }
+            get { return _region; }
+            set { _region = value; }
         }
 
         public bool IsDriver
@@ -292,7 +265,12 @@ namespace ClassLibraryBBAuto
         {
             int.TryParse(row.ItemArray[0].ToString(), out _id);
             _fio = row.ItemArray[1].ToString();
-            int.TryParse(row.ItemArray[2].ToString(), out _idRegion);
+
+            RegionList regionList = RegionList.getInstance();
+            int idRegion;
+            int.TryParse(row.ItemArray[2].ToString(), out idRegion);
+            _region = regionList.getItem(idRegion);
+
             DateTime.TryParse(row.ItemArray[3].ToString(), out _dateBirth);
             _mobile = row.ItemArray[4].ToString();
             email = row.ItemArray[5].ToString();
@@ -323,7 +301,7 @@ namespace ClassLibraryBBAuto
             if (DateStopNotification.Year != 1)
                 dateStopNotificationSql = string.Concat(DateStopNotification.Year.ToString(), "-", DateStopNotification.Month.ToString(), "-", DateStopNotification.Day.ToString());
 
-            int.TryParse(_provider.Insert("Driver", _id, GetName(NameType.Full), _idRegion, dateBirthSql, _mobile, email, _fired, _expSince, _idPosition, _idDept, _login, _idOwner, suppyAddress, SexIndex, _decret,
+            int.TryParse(_provider.Insert("Driver", _id, GetName(NameType.Full), Region.ID, dateBirthSql, _mobile, email, _fired, _expSince, _idPosition, _idDept, _login, _idOwner, suppyAddress, SexIndex, _decret,
                 dateStopNotificationSql, _number, _isDriver, _from1C), out _id);
 
             driverList.Add(this);

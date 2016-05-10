@@ -16,7 +16,7 @@ namespace ClassLibraryBBAuto
             string login = WindowsIdentity.GetCurrent().Name.Replace("\\", "-");
             String[] s2 = login.Split('-');
             login = s2[1];
-            //login = "milyanru";
+            //login = "trubtaru";
             DriverList driverList = DriverList.getInstance();
             _driver = driverList.getItem(login);
             

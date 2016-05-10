@@ -83,7 +83,7 @@ namespace BBAuto
             try
             {
                 if (_type == WayBillType.Day)
-                    waybill.AddRouteInWayBill(date);
+                    waybill.AddRouteInWayBill(date, Fields.All);
             }
             catch (NullReferenceException ex)
             {

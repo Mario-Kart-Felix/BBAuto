@@ -115,7 +115,7 @@ namespace ClassLibraryBBAuto
                            where item.isEqualCarID(car) && (item.Date.Year == date.Year && item.Date.Month == date.Month)
                            orderby item.Count descending
                            select Convert.ToInt32(item.Count)).ToList();
-            
+
             if ((listCurrent.Count == 0) && (listPrev.Count == 0))
                 throw new NullReferenceException("Показания одометра не найдены");
             else if (listCurrent.Count > 1)
@@ -141,7 +141,7 @@ namespace ClassLibraryBBAuto
                                select Convert.ToInt32(item.Count)).ToList();
 
             if ((listCurrent.Count == 0) && (listPrev.Count == 0))
-                throw new NullReferenceException("Показания одометра не найдены");
+                throw new NullReferenceException("Показания спидометра не найдены");
             else if (listCurrent.Count > 1)
                 return listCurrent.Last();
             else if ((listCurrent.Count == 1) && (listPrev.Count == 0))
@@ -165,7 +165,7 @@ namespace ClassLibraryBBAuto
                                select Convert.ToInt32(item.Count)).ToList();
 
             if ((listCurrent.Count == 0) && (listPrev.Count == 0))
-                throw new NullReferenceException("Показания одометра не найдены");
+                throw new NullReferenceException("Показания спидометра не найдены");
             else if (listCurrent.Count > 1)
                 return listCurrent.First();
             else if ((listCurrent.Count == 1) && (listPrev.Count == 0))

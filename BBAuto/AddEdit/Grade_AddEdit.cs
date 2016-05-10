@@ -47,7 +47,7 @@ namespace BBAuto
             tbEVol.Text = _grade.eVol;
             tbMaxLoad.Text = _grade.maxLoad;
             tbNoLoad.Text = _grade.noLoad;
-            cbEngineType.SelectedValue = _grade.IDEngineType;
+            cbEngineType.SelectedValue = _grade.EngineType.ID;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -62,7 +62,13 @@ namespace BBAuto
                 _grade.eVol = tbEVol.Text;
                 _grade.maxLoad = tbMaxLoad.Text;
                 _grade.noLoad = tbNoLoad.Text;
-                _grade.IDEngineType = cbEngineType.SelectedValue.ToString();
+
+                int idEngineType;
+                int.TryParse(cbEngineType.SelectedValue.ToString(), out idEngineType);
+                EngineTypeList engineTypeList = EngineTypeList.getInstance();
+                EngineType engineType = engineTypeList.getItem(idEngineType);
+
+                _grade.EngineType = engineType;
 
                 _grade.Save();
 

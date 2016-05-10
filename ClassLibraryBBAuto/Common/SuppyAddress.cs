@@ -8,19 +8,12 @@ namespace ClassLibraryBBAuto
 {
     public class SuppyAddress : MainDictionary
     {
-        public string ID
-        {
-            get { return _id.ToString(); }
-            set { int.TryParse(value, out _id); }
-        }
+        private MyPoint _point;
 
         public MyPoint Point
         {
-            get
-            {
-                MyPointList myPointList = MyPointList.getInstance();
-                return myPointList.getItem(_id);
-            }
+            get { return _point; }
+            set { _point = value; }
         }
 
         public string Region
@@ -39,7 +32,10 @@ namespace ClassLibraryBBAuto
 
         public SuppyAddress(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
+            int idPoint;
+            MyPointList myPointList = MyPointList.getInstance();
+            int.TryParse(row.ItemArray[0].ToString(), out idPoint);
+            Point = myPointList.getItem(idPoint);
         }
 
         internal override void Delete()
@@ -49,12 +45,12 @@ namespace ClassLibraryBBAuto
 
         internal override object[] getRow()
         {
-            return new object[] { _id, Region, Point.Name};
+            return new object[] { _point.ID, Region, Point.Name };
         }
 
         public override void Save()
         {
-            _provider.Insert("SuppyAddress", _id);
+            _provider.Insert("SuppyAddress", _point.ID);
 
             SuppyAddressList suppyAddressList = SuppyAddressList.getInstance();
             suppyAddressList.Add(this);

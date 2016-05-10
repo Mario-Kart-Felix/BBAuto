@@ -74,11 +74,17 @@
     <Compile Include="Interfaces\IActual.cs" />
     <Compile Include="Lists\CarList.cs" />
     <Compile Include="Lists\ColumnSizeList.cs" />
+    <Compile Include="Lists\EngineTypeList.cs" />
     <Compile Include="Lists\FuelCardDriverList.cs" />
     <Compile Include="Lists\FuelCardList.cs" />
+    <Compile Include="Lists\FuelList.cs" />
+    <Compile Include="Lists\MarkList.cs" />
     <Compile Include="Lists\MyPointList.cs" />
+    <Compile Include="Lists\RegionList.cs" />
     <Compile Include="Lists\RouteList.cs" />
     <Compile Include="Lists\TabelList.cs" />
+    <Compile Include="Lists\WayBillDayList.cs" />
+    <Compile Include="Lists\WayBillRouteList.cs" />
     <Compile Include="MainList.cs" />
     <Compile Include="Common\eMail.cs" />
     <Compile Include="Common\Employees.cs" />
@@ -186,8 +192,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Tables\EngineType.cs" />
+    <Compile Include="Tables\Fuel.cs" />
+    <Compile Include="Tables\Mark.cs" />
     <Compile Include="Tables\MyPoint.cs" />
+    <Compile Include="Tables\Region.cs" />
     <Compile Include="Tables\Route.cs" />
+    <Compile Include="Tables\WayBillRoute.cs" />
     <Compile Include="Views\IViewDictionary.cs" />
   </ItemGroup>
   <ItemGroup>

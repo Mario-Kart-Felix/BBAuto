@@ -3,38 +3,48 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Data;
 
 namespace ClassLibraryBBAuto
 {
-    public class WayBillDay : IEnumerable
+    public class WayBillDay : MainDictionary, IEnumerable
     {
         private Car _car;
+        private Driver _driver;
         private DateTime _date;
         private int _count;
         private List<Route> _routes;
 
-        public WayBillDay(Car car, DateTime date, int count)
+        public WayBillDay(DataRow row)
+        {
+            int.TryParse(row[0].ToString(), out _id);
+
+            int idCar;
+            int.TryParse(row[1].ToString(), out idCar);
+            CarList carList = CarList.getInstance();
+            _car = carList.getItem(idCar);
+
+            int idDriver;
+            int.TryParse(row[2].ToString(), out idDriver);
+            DriverList driverList = DriverList.getInstance();
+            _driver = driverList.getItem(idDriver);
+
+            DateTime.TryParse(row[3].ToString(), out _date);
+        }
+
+        public WayBillDay(Car car, Driver driver, DateTime date, int count)
         {
             _car = car;
+            _driver = driver;
             _date = date;
             _count = count;
-
-            _routes = new List<Route>();
         }
-
+        
         public string Day { get { return _date.Day.ToString(); } }
-        public string Date { get { return _date.ToShortDateString(); } }
-
-        public Driver Driver
-        {
-            get
-            {
-                DriverCarList driverCarList = DriverCarList.getInstance();
-
-                return driverCarList.GetDriver(_car, _date);
-            }
-        }
-
+        public DateTime Date { get { return _date; } }
+        public Driver Driver { get { return _driver; } }
+        public Car Car { get { return _car; } }
+        
         public int Distance
         {
             get
@@ -47,10 +57,29 @@ namespace ClassLibraryBBAuto
             }
         }
 
-        public void Create(Random random)
+        public void ReadRoute(Random random)
+        {
+            if (_routes == null)
+                GetRouteList();
+
+            if (_routes.Count == 0)
+                Create(random);
+        }
+
+        private void GetRouteList()
+        {
+            WayBillRouteList wayBillRouteList = WayBillRouteList.getInstance();
+
+            _routes = wayBillRouteList.GetList(this);
+
+            if (_routes == null)
+                _routes = new List<Route>();
+        }
+
+        private void Create(Random random)
         {
             SuppyAddressList suppyAddressList = SuppyAddressList.getInstance();
-            SuppyAddress suppyAddress = suppyAddressList.getItemByRegion(Driver.RegionID);
+            SuppyAddress suppyAddress = suppyAddressList.getItemByRegion(_driver.Region.ID);
 
             if (suppyAddress == null)
                 throw new NullReferenceException("Не задан адрес подачи");
@@ -58,32 +87,65 @@ namespace ClassLibraryBBAuto
             MyPoint currentPoint = suppyAddress.Point;
 
             RouteList routeList = RouteList.getInstance();
-            
-            MyPointList myPointList = MyPointList.getInstance();
 
             int residue = _count;
             Route route;
 
             do
             {
-                route = routeList.GetRandomItem(random, currentPoint);
-                                
-                _routes.Add(route);
+                int i = 0;
+
+                do
+                {
+                    route = routeList.GetRandomItem(random, currentPoint);
+
+                    if (i == 10)
+                        break;
+                    i++;
+                }
+                while (residue - route.Distance < 10);
+
+                Add(route);
                 residue -= Convert.ToInt32(route.Distance);
 
-                currentPoint = myPointList.getItem(route.MyPoint2ID);
+                currentPoint = route.MyPoint2;
 
-            } while ((residue > 20) && (_routes.Count < 16));
+            } while ((residue > 10) && (_routes.Count < 16));
 
             if (currentPoint != suppyAddress.Point)
             {
                 route = routeList.GetItem(currentPoint, suppyAddress.Point);
-                _routes.Add(route);
+                Add(route);
             }
         }
 
+        private void Add(Route route)
+        {
+            _routes.Add(route);
+
+            WayBillRoute wayBillRoute = new WayBillRoute(this);
+            wayBillRoute.Route = route;
+            wayBillRoute.Save();
+        }
+
+        public override void Save()
+        {
+            int.TryParse(_provider.Insert("WayBillDay", ID, Car.ID, Driver.ID, _date), out _id);
+
+            WayBillDayList wayBillDayList = WayBillDayList.getInstance();
+            wayBillDayList.Add(this);
+        }
+        
+        internal override object[] getRow()
+        {
+            return new object[] { _date.ToShortDateString(), _driver.GetName(NameType.Short) };
+        }
+                
         public IEnumerator GetEnumerator()
         {
+            if (_routes == null)
+                GetRouteList();
+
             return new WayBillDayEnumerator(this);
         }
 

@@ -32,5 +32,7 @@ namespace ClassLibraryBBAuto
             if ((_fileBegin != string.Empty) && (_fileBegin != newFile))
                 WorkWithFiles.Delete(_fileBegin);
         }
+
+        public int ID { get { return _id; } }
     }
 }

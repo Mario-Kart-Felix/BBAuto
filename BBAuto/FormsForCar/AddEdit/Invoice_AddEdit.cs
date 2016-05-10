@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -29,7 +28,7 @@ namespace BBAuto
 
             if (_invoice.IsEqualsID(0))
             {
-                _check.Location = new Point(12, 225);
+                _check.Location = new System.Drawing.Point(12, 225);
                 _check.Width = 250;
                 _check.Text = "удалить сдающего из списка Водителей";
                 this.Controls.Add(_check);
@@ -145,11 +144,21 @@ namespace BBAuto
         {
             if (isRegionToNotNull())
             {
+                Region region = getRegion();
+
                 DriverList driverList = DriverList.getInstance();
-                cbDriverTo.DataSource = driverList.ToDataTableByRegion(Convert.ToInt32(cbRegionTo.SelectedValue), !_invoice.IsEqualsID(0));
+                cbDriverTo.DataSource = driverList.ToDataTableByRegion(region, !_invoice.IsEqualsID(0));
                 cbDriverTo.DisplayMember = "ФИО";
                 cbDriverTo.ValueMember = "id";
             }
+        }
+
+        private Region getRegion()
+        {
+            int idRegion = 0;
+            int.TryParse(cbRegionTo.SelectedValue.ToString(), out idRegion);
+            RegionList regionList = RegionList.getInstance();
+            return regionList.getItem(idRegion);
         }
 
         private bool isRegionToNotNull()
@@ -168,7 +177,7 @@ namespace BBAuto
             if (int.TryParse(cbDriverTo.SelectedValue.ToString(), out idDriver))
             {
                 Driver driver = driverList.getItem(idDriver);
-                cbRegionTo.SelectedValue = driver.RegionID;
+                cbRegionTo.SelectedValue = driver.Region.ID;
             }
         }
     }

@@ -82,8 +82,10 @@ namespace BBAuto
 
             int idMyPoint1;
             int.TryParse(cbMyPoint1.SelectedValue.ToString(), out idMyPoint1);
-                        
-            openAddEdit(new Route(idMyPoint1));
+            MyPointList myPointList = MyPointList.getInstance();
+            MyPoint myPoint1 = myPointList.getItem(idMyPoint1);
+
+            openAddEdit(new Route(myPoint1));
         }
         
         private void dgv_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -113,10 +115,12 @@ namespace BBAuto
             if (cbMyPoint1.SelectedValue == null)
                 return;
 
-            int idMyPoint;
-            int.TryParse(cbMyPoint1.SelectedValue.ToString(), out idMyPoint);
+            int idMyPoint1;
+            int.TryParse(cbMyPoint1.SelectedValue.ToString(), out idMyPoint1);
+            MyPointList myPointList = MyPointList.getInstance();
+            MyPoint myPoint1 = myPointList.getItem(idMyPoint1);
 
-            dgv.DataSource = _routeList.ToDataTable(idMyPoint);
+            dgv.DataSource = _routeList.ToDataTable(myPoint1);
 
             if (dgv.Columns.Count > 0)
                 dgv.Columns[0].Visible = false;

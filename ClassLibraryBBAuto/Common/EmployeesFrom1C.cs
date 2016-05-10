@@ -28,7 +28,21 @@ namespace ClassLibraryBBAuto
                     driver.Fio = fields[0];
                     driver.Number = fields[1];
                     driver.Sex = fields[2];
-                    driver.Region = fields[3];
+
+                    string regionName = fields[3];
+                    RegionList regionList = RegionList.getInstance();
+                    Region region = regionList.getItem(regionName);
+
+                    if (region == null)
+                    {
+                        region = new Region(fields[3]);
+                        region.Save();
+                        region = regionList.getItem(regionName);
+                    }
+
+                    driver.Region = region;
+
+
                     driver.CompanyName = fields[4];
                     driver.Dept = fields[5];
                     driver.Position = fields[6];

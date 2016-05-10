@@ -48,18 +48,15 @@ namespace BBAuto
 
         private void FillFields()
         {
-            MyPointList myPointList = MyPointList.getInstance();
-            MyPoint myPoint = myPointList.getItem(_route.MyPoint1ID);
-
-            lbMyPoint1.Text = string.Concat("Пункт отправления: ", myPoint.Name);
-            cbMyPoint2.SelectedValue = _route.MyPoint2ID;
+            lbMyPoint1.Text = string.Concat("Пункт отправления: ", _route.MyPoint1.Name);
+            cbMyPoint2.SelectedValue = _route.MyPoint2.Name;
             tbDistance.Text = _route.Distance.ToString();
         }
         
         private void loadPoints()
         {
             MyPointList myPointList = MyPointList.getInstance();
-            DataTable dt = (_route.MyPoint2ID == 0) ? myPointList.ToDataTableWithoutExists(_idRegion, _route.MyPoint1ID) : myPointList.ToDataTable(_idRegion);
+            DataTable dt = (_route.MyPoint2 == null) ? myPointList.ToDataTableWithoutExists(_idRegion, _route.MyPoint1) : myPointList.ToDataTable(_idRegion);
 
             cbMyPoint2.DataSource = dt;
             cbMyPoint2.ValueMember = dt.Columns[0].ColumnName;
@@ -82,7 +79,11 @@ namespace BBAuto
                 }
                 else
                 {
-                    _route.MyPoint2ID = Convert.ToInt32(cbMyPoint2.SelectedValue);
+                    MyPointList myPointList = MyPointList.getInstance();
+                    int idMyPoint2;
+                    int.TryParse(cbMyPoint2.SelectedValue.ToString(), out idMyPoint2);
+
+                    _route.MyPoint2 = myPointList.getItem(idMyPoint2);
                     int distance;
                     int.TryParse(tbDistance.Text, out distance);
                     _route.Distance = distance;

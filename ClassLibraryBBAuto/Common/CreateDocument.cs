@@ -245,6 +245,8 @@ namespace ClassLibraryBBAuto
             _excelDoc.setValue(6, 19, myDate.MonthToStringNominative());
             _excelDoc.setValue(6, 32, date.Year.ToString());
 
+            _excelDoc.setValue(29, 35, _car.info.Grade.EngineType.ShortName);
+
             Owners owners = Owners.getInstance();
             string owner = owners.getItem(1);
 
@@ -273,7 +275,7 @@ namespace ClassLibraryBBAuto
             else
             {
                 SuppyAddressList suppyAddressList = SuppyAddressList.getInstance();
-                SuppyAddress suppyAddress = suppyAddressList.getItemByRegion(driver.RegionID);
+                SuppyAddress suppyAddress = suppyAddressList.getItemByRegion(driver.Region.ID);
 
                 if (suppyAddress != null)
                     suppyAddressName = suppyAddress.ToString();
@@ -305,7 +307,7 @@ namespace ClassLibraryBBAuto
             string mechanicName;
 
             EmployeesList employeesList = EmployeesList.getInstance();
-            Employees accountant = employeesList.getItem(driver.RegionID, "Бухгалтер Б.Браун");
+            Employees accountant = employeesList.getItem(driver.Region, "Бухгалтер Б.Браун");
 
             if (driver.IsOne)
             {
@@ -313,14 +315,14 @@ namespace ClassLibraryBBAuto
             }
             else
             {
-                Employees mechanic = employeesList.getItem(driver.RegionID, "Механик", true);
+                Employees mechanic = employeesList.getItem(driver.Region, "Механик", true);
                 if (mechanic == null)
                     mechanicName = driver.GetName(NameType.Short);
                 else
                     mechanicName = mechanic.Name;
             }
 
-            Employees dispatcher = employeesList.getItem(driver.RegionID, "Диспечер-нарядчик");
+            Employees dispatcher = employeesList.getItem(driver.Region, "Диспечер-нарядчик");
             string dispatcherName = dispatcher.Name;
             
             _excelDoc.setValue(22, 40, mechanicName);
@@ -332,12 +334,10 @@ namespace ClassLibraryBBAuto
             _excelDoc.setValue(43, 72, accountant.Name);
         }
 
-        public void AddRouteInWayBill(DateTime date)
+        public void AddRouteInWayBill(DateTime date, Fields fields)
         {
             WayBillDaily wayBillDaily = new WayBillDaily(_car, date);
-            wayBillDaily.Create();
-
-            MyPointList myPointList = MyPointList.getInstance();
+            wayBillDaily.Load();
 
             CopyWayBill(wayBillDaily);
 
@@ -352,25 +352,29 @@ namespace ClassLibraryBBAuto
                 int i = 6 + (47 * k);
                 foreach (Route route in wayBillDay)
                 {
-                    MyPoint pointBegin = myPointList.getItem(route.MyPoint1ID);
-                    MyPoint pointEnd = myPointList.getItem(route.MyPoint2ID);
+                    MyPoint pointBegin = route.MyPoint1;
+                    MyPoint pointEnd = route.MyPoint2;
 
                     _excelDoc.setValue(i, 59, pointBegin.Name);
                     _excelDoc.setValue(i, 64, pointEnd.Name);
                     _excelDoc.setValue(i, 78, route.Distance.ToString());
                     i += 2;
                 }
-                _excelDoc.setValue(41 + (47 * k), 59, wayBillDay.Distance.ToString());
 
-                _excelDoc.setValue(29 + (47 * k), 20, wayBillDay.Date);
-                _excelDoc.setValue(33 + (47 * k), 20, wayBillDay.Date);
+                _excelDoc.setValue(29 + (47 * k), 20, wayBillDay.Date.ToShortDateString());    
                 _excelDoc.setValue(19 + (47 * k), 39, curDistance.ToString());
                 curDistance += wayBillDay.Distance;
-                _excelDoc.setValue(43 + (47 * k), 39, curDistance.ToString());
+                if (fields == Fields.All)
+                {
+                    _excelDoc.setValue(43 + (47 * k), 39, curDistance.ToString());
+                    _excelDoc.setValue(41 + (47 * k), 59, wayBillDay.Distance.ToString());
+                    _excelDoc.setValue(33 + (47 * k), 20, wayBillDay.Date.ToShortDateString());
+                }
                 k++;
             }
-
-            _excelDoc.setValue(43 + (47 * (k - 1)), 39, endDistance.ToString());
+            
+            if ((k > 0) && (fields == Fields.All))
+                _excelDoc.setValue(43 + (47 * (k - 1)), 39, endDistance.ToString());
         }
 
         private void CopyWayBill(WayBillDaily wayBillDaily)
@@ -385,6 +389,10 @@ namespace ClassLibraryBBAuto
 
                 _excelDoc.setValue(4 + (47 * i), 39, GetWaBillFullNumber(i + 1));
 
+                _excelDoc.setValue(12 + (47 * i), 6, item.Driver.GetName(NameType.Full));
+                _excelDoc.setValue(44 + (47 * i), 16, item.Driver.GetName(NameType.Short));
+                _excelDoc.setValue(26 + (47 * i), 40, item.Driver.GetName(NameType.Short));
+                
                 i++;
             }
         }

@@ -45,27 +45,27 @@ namespace ClassLibraryBBAuto
             list.Add(employees);
         }
 
-        public void Delete(int idRegion, int idEmployeesName)
+        public void Delete(Region region, int idEmployeesName)
         {
-            Employees employees = getItem(idRegion, idEmployeesName);
+            Employees employees = getItem(region, idEmployeesName);
 
             list.Remove(employees);
 
             employees.Delete();
         }
 
-        public Employees getItem(int idRegion, string EmployeesName, bool allowNull = false)
+        public Employees getItem(Region region, string EmployeesName, bool allowNull = false)
         {
             int idEmployeesName = 0;
             EmployeesNames employeesNames = EmployeesNames.getInstance();
             idEmployeesName = employeesNames.getItem(EmployeesName);
 
-            return getItem(idRegion, idEmployeesName, allowNull);
+            return getItem(region, idEmployeesName, allowNull);
         }
 
-        private Employees getItem(int idRegion, int idEmployeesName, bool allowNull = false)
+        private Employees getItem(Region region, int idEmployeesName, bool allowNull = false)
         {
-            List<Employees> EmployeesList = getList(idRegion, idEmployeesName);
+            List<Employees> EmployeesList = getList(region, idEmployeesName);
             Employees employees;
 
             if (EmployeesList.Count() > 0)
@@ -74,7 +74,10 @@ namespace ClassLibraryBBAuto
                 return null;
             else
             {
-                EmployeesList = getList(1, idEmployeesName);
+                RegionList regionList = RegionList.getInstance();
+                region = regionList.getItem(1);
+
+                EmployeesList = getList(region, idEmployeesName);
 
                 if (EmployeesList.Count() > 0)
                     employees = EmployeesList.First() as Employees;
@@ -85,10 +88,10 @@ namespace ClassLibraryBBAuto
             return employees;
         }
 
-        private List<Employees> getList(int idRegion, int idEmployeesName)
+        private List<Employees> getList(Region region, int idEmployeesName)
         {
             var EmployeesList = from employees in list
-                                where employees.IsEqualsID(idRegion) & employees.IDEmployeesName == idEmployeesName.ToString()
+                                where employees.Region == region && employees.IDEmployeesName == idEmployeesName.ToString()
                                 select employees;
 
             return EmployeesList.ToList();

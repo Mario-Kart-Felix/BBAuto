@@ -83,7 +83,11 @@ namespace BBAuto
                     return;
                 }
 
-                _suppyAddress.ID = cbMyPoint.SelectedValue.ToString();
+                int idPoint;
+                int.TryParse(cbMyPoint.SelectedValue.ToString(), out idPoint);
+                MyPointList myPointList = MyPointList.getInstance();
+                MyPoint point = myPointList.getItem(idPoint);
+                _suppyAddress.Point = point;
 
                 _suppyAddress.Save();
 

@@ -8,53 +8,58 @@ namespace ClassLibraryBBAuto
 {
     public class Route : MainDictionary
     {
-        private int _idMyPoint1;
-        private int _idMyPoint2;
+        private MyPoint _myPoint1;
+        private MyPoint _myPoint2;
         private int _distance;
 
-        public int MyPoint1ID
+        public MyPoint MyPoint1 { get { return _myPoint1; } }
+        public MyPoint MyPoint2
         {
-            get { return _idMyPoint1; }
-            set { _idMyPoint1 = value; }
+            get { return _myPoint2; }
+            set { _myPoint2 = value; }
         }
-
-        public int MyPoint2ID
-        {
-            get { return _idMyPoint2; }
-            set { _idMyPoint2 = value; }
-        }
-
+        
         public int Distance
         {
             get { return _distance; }
             set { _distance = value; }
         }
 
-        public Route(int idMyPoint1)
+        public Route(MyPoint myPoint1)
         {
-            _idMyPoint1 = idMyPoint1;
-            _idMyPoint2 = 0;
+            _myPoint1 = myPoint1;
             _distance = 0;
         }
 
-        public Route(int idMyPoint1, int idMyPoint2, string distance)
+        public Route(MyPoint myPoint1, MyPoint myPoint2, string distance)
         {
-            _idMyPoint1 = idMyPoint1;
-            _idMyPoint2 = idMyPoint2;
+            _myPoint1 = myPoint1;
+            _myPoint2 = myPoint2;
             int.TryParse(distance, out _distance);
         }
 
         public Route(DataRow row)
         {
             int.TryParse(row[0].ToString(), out _id);
-            int.TryParse(row[1].ToString(), out _idMyPoint1);
-            int.TryParse(row[2].ToString(), out _idMyPoint2);
+
+            MyPointList myPointList = MyPointList.getInstance();
+            int idMyPoint1;
+            int.TryParse(row[1].ToString(), out idMyPoint1);
+            _myPoint1 = myPointList.getItem(idMyPoint1);
+
+            int idMyPoint2;
+            int.TryParse(row[2].ToString(), out idMyPoint2);
+            _myPoint2 = myPointList.getItem(idMyPoint2);
+
             int.TryParse(row[3].ToString(), out _distance);
         }
 
         public override void Save()
         {
-            int.TryParse(_provider.Insert("Route", _id, _idMyPoint1, _idMyPoint2, _distance), out _id);
+            if (ID == 0)
+                return;
+
+            int.TryParse(_provider.Insert("Route", ID, _myPoint1.ID, _myPoint2.ID, _distance), out _id);
 
             RouteList routeList = RouteList.getInstance();
             routeList.Add(this);
@@ -62,22 +67,17 @@ namespace ClassLibraryBBAuto
 
         internal override void Delete()
         {
-            _provider.Delete("Route", _id);
+            _provider.Delete("Route", ID);
         }
 
         internal override object[] getRow()
         {
-            MyPointList pointList = MyPointList.getInstance();
-            MyPoint myPoint = pointList.getItem(_idMyPoint2);
-
-            return new object[] { _id, myPoint.Name, _distance };
+            return new object[] { _id, _myPoint2.Name, _distance };
         }
 
-        internal object[] getRow(int idMyPoint1)
+        internal object[] getRow(MyPoint myPoint1)
         {
-            MyPointList pointList = MyPointList.getInstance();
-
-            MyPoint myPoint = (_idMyPoint1 == idMyPoint1) ? pointList.getItem(_idMyPoint2) : pointList.getItem(_idMyPoint1);
+            MyPoint myPoint = (_myPoint1 == myPoint1) ? _myPoint2 : _myPoint1;
 
             return new object[] { _id, myPoint.Name, _distance };
         }

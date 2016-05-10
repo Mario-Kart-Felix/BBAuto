@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,7 +12,7 @@ namespace BBAuto
 {
     public partial class Car_AddEdit : Form
     {
-        private Point _curPosition;
+        private System.Drawing.Point _curPosition;
         private Car _car;
         STS sts;
         PTS pts;
@@ -54,12 +53,22 @@ namespace BBAuto
         private void Car_AddEdit_Load(object sender, EventArgs e)
         {
             loadData();
-            
+
             SetWindowHeader();
 
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
             _workWithForm.EditModeChanged += SetNotEditableItems;
             _workWithForm.SetEditMode(_car.IsEqualsID(0) || (!_car.IsGet));
+
+            if (User.getDriver().UserRole == RolesList.AccountantWayBill)
+            {
+                foreach (TabPage tab in tabControl1.TabPages)
+                {
+                    tab.Parent = null;
+                }
+
+                tabMileage.Parent = tabControl1;
+            }
         }
                 
         private void loadData()
@@ -75,7 +84,9 @@ namespace BBAuto
             loadOneStringDictionary(cbOwner, "Owner");
             loadOneStringDictionary(cbDealer, "Diller");
 
-            cbDriver.DataSource = driverList.ToDataTableByRegion(Convert.ToInt32(cbRegionUsing.SelectedValue));
+            Region region = getRegion();
+
+            cbDriver.DataSource = driverList.ToDataTableByRegion(region);
             cbDriver.DisplayMember = "ФИО";
             cbDriver.ValueMember = "id";
             _load = true;
@@ -83,6 +94,14 @@ namespace BBAuto
             fillFields();
 
             loadCarDoc();
+        }
+
+        private Region getRegion()
+        {
+            int idRegion = 0;
+            int.TryParse(cbRegionUsing.SelectedValue.ToString(), out idRegion);
+            RegionList regionList = RegionList.getInstance();
+            return regionList.getItem(idRegion);
         }
 
         private void SetNotEditableItems(Object sender, EditModeEventArgs e)
@@ -198,8 +217,7 @@ namespace BBAuto
 
             Driver driver = driverCarList.GetDriver(_car);
             llDriver.Text = driver.GetName(NameType.Full);
-            Regions regions = Regions.getInstance();
-            lbRegion.Text = regions.getItem(driver.RegionID);
+            lbRegion.Text = driver.Region.Name;
 
             PTSList ptsList = PTSList.getInstance();
             pts = ptsList.getItem(_car);
@@ -356,7 +374,9 @@ namespace BBAuto
         {
             if ((_load) && (cbRegionUsing.SelectedValue != null))
             {
-                cbDriver.DataSource = driverList.ToDataTableByRegion(Convert.ToInt32(cbRegionUsing.SelectedValue));
+                Region region = getRegion();
+
+                cbDriver.DataSource = driverList.ToDataTableByRegion(region);
             }
         }
         
@@ -376,21 +396,21 @@ namespace BBAuto
 
         private void loadPage()
         {
-            if (tabControl1.SelectedIndex == 2)
+            if (tabControl1.SelectedTab == tabInvoice)
                 loadInvoice();
-            else if (tabControl1.SelectedIndex == 3)
+            else if (tabControl1.SelectedTab == tabPolicy)
                 loadPolicy();
-            else if (tabControl1.SelectedIndex == 4)
+            else if (tabControl1.SelectedTab == tabDTP)
                 loadDTP();
-            else if (tabControl1.SelectedIndex == 5)
+            else if (tabControl1.SelectedTab == tabViolation)
                 loadViolation();
-            else if (tabControl1.SelectedIndex == 6)
+            else if (tabControl1.SelectedTab == tabDiagCard)
                 loadDiagCard();
-            else if (tabControl1.SelectedIndex == 7)
+            else if (tabControl1.SelectedTab == tabMileage)
                 loadMileage();
-            else if (tabControl1.SelectedIndex == 9)
+            else if (tabControl1.SelectedTab == tabRepair)
                 loadRepair();
-            else if (tabControl1.SelectedIndex == 10)
+            else if (tabControl1.SelectedTab == tabShipParts)
                 loadShipPart();
         }
 

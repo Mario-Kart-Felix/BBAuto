@@ -103,19 +103,19 @@
             this.dtpDateOrder = new System.Windows.Forms.DateTimePicker();
             this.label13 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabMain = new System.Windows.Forms.TabPage();
             this.tbInvertoryNumber = new System.Windows.Forms.TextBox();
             this.label31 = new System.Windows.Forms.Label();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tabBuy = new System.Windows.Forms.TabPage();
+            this.tabInvoice = new System.Windows.Forms.TabPage();
             this.btnDelInvoice = new System.Windows.Forms.Button();
             this.btnAddInvoice = new System.Windows.Forms.Button();
             this._dgvInvoice = new System.Windows.Forms.DataGridView();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.tabPolicy = new System.Windows.Forms.TabPage();
             this.btnDeletePolicy = new System.Windows.Forms.Button();
             this.btnAddInsurance = new System.Windows.Forms.Button();
             this._dgvPolicy = new System.Windows.Forms.DataGridView();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.tabDTP = new System.Windows.Forms.TabPage();
             this.btnDelDTP = new System.Windows.Forms.Button();
             this.btnAddDTP = new System.Windows.Forms.Button();
             this._dgvDTP = new System.Windows.Forms.DataGridView();
@@ -126,27 +126,27 @@
             this.sTSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.copyToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.tabViolation = new System.Windows.Forms.TabPage();
             this.btnViolation = new System.Windows.Forms.Button();
             this.btnAddViolation = new System.Windows.Forms.Button();
             this._dgvViolation = new System.Windows.Forms.DataGridView();
-            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.tabDiagCard = new System.Windows.Forms.TabPage();
             this.btnDeleteDiagCard = new System.Windows.Forms.Button();
             this.btnAddDiagCard = new System.Windows.Forms.Button();
             this._dgvDiagCard = new System.Windows.Forms.DataGridView();
-            this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.tabMileage = new System.Windows.Forms.TabPage();
             this.btnMileageDel = new System.Windows.Forms.Button();
             this.btnAddMileage = new System.Windows.Forms.Button();
             this._dgvMileage = new System.Windows.Forms.DataGridView();
-            this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.tabDocuments = new System.Windows.Forms.TabPage();
             this.btnCarDocDel = new System.Windows.Forms.Button();
             this.btnAddCarDoc = new System.Windows.Forms.Button();
             this.dgvCarDoc = new System.Windows.Forms.DataGridView();
-            this.tabPage10 = new System.Windows.Forms.TabPage();
+            this.tabRepair = new System.Windows.Forms.TabPage();
             this.btnDelRepair = new System.Windows.Forms.Button();
             this.btnAddRepair = new System.Windows.Forms.Button();
             this.dgvRepair = new System.Windows.Forms.DataGridView();
-            this.tabPage11 = new System.Windows.Forms.TabPage();
+            this.tabShipParts = new System.Windows.Forms.TabPage();
             this.btnDelShipPart = new System.Windows.Forms.Button();
             this.btnAddShipPart = new System.Windows.Forms.Button();
             this.dgvShipPart = new System.Windows.Forms.DataGridView();
@@ -154,26 +154,26 @@
             this.copyMenu.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            this.tabPage3.SuspendLayout();
+            this.tabMain.SuspendLayout();
+            this.tabBuy.SuspendLayout();
+            this.tabInvoice.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._dgvInvoice)).BeginInit();
-            this.tabPage4.SuspendLayout();
+            this.tabPolicy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._dgvPolicy)).BeginInit();
-            this.tabPage5.SuspendLayout();
+            this.tabDTP.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._dgvDTP)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
-            this.tabPage6.SuspendLayout();
+            this.tabViolation.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._dgvViolation)).BeginInit();
-            this.tabPage7.SuspendLayout();
+            this.tabDiagCard.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._dgvDiagCard)).BeginInit();
-            this.tabPage8.SuspendLayout();
+            this.tabMileage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._dgvMileage)).BeginInit();
-            this.tabPage9.SuspendLayout();
+            this.tabDocuments.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCarDoc)).BeginInit();
-            this.tabPage10.SuspendLayout();
+            this.tabRepair.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRepair)).BeginInit();
-            this.tabPage11.SuspendLayout();
+            this.tabShipParts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvShipPart)).BeginInit();
             this.SuspendLayout();
             // 
@@ -863,17 +863,17 @@
             this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Controls.Add(this.tabPage5);
-            this.tabControl1.Controls.Add(this.tabPage6);
-            this.tabControl1.Controls.Add(this.tabPage7);
-            this.tabControl1.Controls.Add(this.tabPage8);
-            this.tabControl1.Controls.Add(this.tabPage9);
-            this.tabControl1.Controls.Add(this.tabPage10);
-            this.tabControl1.Controls.Add(this.tabPage11);
+            this.tabControl1.Controls.Add(this.tabMain);
+            this.tabControl1.Controls.Add(this.tabBuy);
+            this.tabControl1.Controls.Add(this.tabInvoice);
+            this.tabControl1.Controls.Add(this.tabPolicy);
+            this.tabControl1.Controls.Add(this.tabDTP);
+            this.tabControl1.Controls.Add(this.tabViolation);
+            this.tabControl1.Controls.Add(this.tabDiagCard);
+            this.tabControl1.Controls.Add(this.tabMileage);
+            this.tabControl1.Controls.Add(this.tabDocuments);
+            this.tabControl1.Controls.Add(this.tabRepair);
+            this.tabControl1.Controls.Add(this.tabShipParts);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -881,60 +881,60 @@
             this.tabControl1.TabIndex = 33;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
-            // tabPage1
+            // tabMain
             // 
-            this.tabPage1.Controls.Add(this.tbInvertoryNumber);
-            this.tabPage1.Controls.Add(this.label31);
-            this.tabPage1.Controls.Add(this.lbMileage);
-            this.tabPage1.Controls.Add(this.label30);
-            this.tabPage1.Controls.Add(this.label9);
-            this.tabPage1.Controls.Add(this.dgvCarInfo);
-            this.tabPage1.Controls.Add(this.tbBodyNumber);
-            this.tabPage1.Controls.Add(this.lbRegion);
-            this.tabPage1.Controls.Add(this.label4);
-            this.tabPage1.Controls.Add(this.label29);
-            this.tabPage1.Controls.Add(this.label5);
-            this.tabPage1.Controls.Add(this.llDriver);
-            this.tabPage1.Controls.Add(this.tbENumber);
-            this.tabPage1.Controls.Add(this.label28);
-            this.tabPage1.Controls.Add(this.label2);
-            this.tabPage1.Controls.Add(this.ucFileSTS);
-            this.tabPage1.Controls.Add(this.label6);
-            this.tabPage1.Controls.Add(this.ucFilePTS);
-            this.tabPage1.Controls.Add(this.tbYear);
-            this.tabPage1.Controls.Add(this.label25);
-            this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Controls.Add(this.label24);
-            this.tabPage1.Controls.Add(this.label7);
-            this.tabPage1.Controls.Add(this.dtpDateSTS);
-            this.tabPage1.Controls.Add(this.tbVin);
-            this.tabPage1.Controls.Add(this.dtpDatePTS);
-            this.tabPage1.Controls.Add(this.label3);
-            this.tabPage1.Controls.Add(this.tbGiveOrgSTS);
-            this.tabPage1.Controls.Add(this.label8);
-            this.tabPage1.Controls.Add(this.label27);
-            this.tabPage1.Controls.Add(this.tbBbNumber);
-            this.tabPage1.Controls.Add(this.tbGiveOrgPTS);
-            this.tabPage1.Controls.Add(this.label12);
-            this.tabPage1.Controls.Add(this.label26);
-            this.tabPage1.Controls.Add(this.cbColor);
-            this.tabPage1.Controls.Add(this.mtbNumberSTS);
-            this.tabPage1.Controls.Add(this.label11);
-            this.tabPage1.Controls.Add(this.mtbNumberPTS);
-            this.tabPage1.Controls.Add(this.cbGrade);
-            this.tabPage1.Controls.Add(this.mtbGRZ);
-            this.tabPage1.Controls.Add(this.label10);
-            this.tabPage1.Controls.Add(this.label17);
-            this.tabPage1.Controls.Add(this.cbModel);
-            this.tabPage1.Controls.Add(this.label16);
-            this.tabPage1.Controls.Add(this.cbMark);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(913, 363);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Основные сведения";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tabMain.Controls.Add(this.tbInvertoryNumber);
+            this.tabMain.Controls.Add(this.label31);
+            this.tabMain.Controls.Add(this.lbMileage);
+            this.tabMain.Controls.Add(this.label30);
+            this.tabMain.Controls.Add(this.label9);
+            this.tabMain.Controls.Add(this.dgvCarInfo);
+            this.tabMain.Controls.Add(this.tbBodyNumber);
+            this.tabMain.Controls.Add(this.lbRegion);
+            this.tabMain.Controls.Add(this.label4);
+            this.tabMain.Controls.Add(this.label29);
+            this.tabMain.Controls.Add(this.label5);
+            this.tabMain.Controls.Add(this.llDriver);
+            this.tabMain.Controls.Add(this.tbENumber);
+            this.tabMain.Controls.Add(this.label28);
+            this.tabMain.Controls.Add(this.label2);
+            this.tabMain.Controls.Add(this.ucFileSTS);
+            this.tabMain.Controls.Add(this.label6);
+            this.tabMain.Controls.Add(this.ucFilePTS);
+            this.tabMain.Controls.Add(this.tbYear);
+            this.tabMain.Controls.Add(this.label25);
+            this.tabMain.Controls.Add(this.label1);
+            this.tabMain.Controls.Add(this.label24);
+            this.tabMain.Controls.Add(this.label7);
+            this.tabMain.Controls.Add(this.dtpDateSTS);
+            this.tabMain.Controls.Add(this.tbVin);
+            this.tabMain.Controls.Add(this.dtpDatePTS);
+            this.tabMain.Controls.Add(this.label3);
+            this.tabMain.Controls.Add(this.tbGiveOrgSTS);
+            this.tabMain.Controls.Add(this.label8);
+            this.tabMain.Controls.Add(this.label27);
+            this.tabMain.Controls.Add(this.tbBbNumber);
+            this.tabMain.Controls.Add(this.tbGiveOrgPTS);
+            this.tabMain.Controls.Add(this.label12);
+            this.tabMain.Controls.Add(this.label26);
+            this.tabMain.Controls.Add(this.cbColor);
+            this.tabMain.Controls.Add(this.mtbNumberSTS);
+            this.tabMain.Controls.Add(this.label11);
+            this.tabMain.Controls.Add(this.mtbNumberPTS);
+            this.tabMain.Controls.Add(this.cbGrade);
+            this.tabMain.Controls.Add(this.mtbGRZ);
+            this.tabMain.Controls.Add(this.label10);
+            this.tabMain.Controls.Add(this.label17);
+            this.tabMain.Controls.Add(this.cbModel);
+            this.tabMain.Controls.Add(this.label16);
+            this.tabMain.Controls.Add(this.cbMark);
+            this.tabMain.Location = new System.Drawing.Point(4, 22);
+            this.tabMain.Name = "tabMain";
+            this.tabMain.Padding = new System.Windows.Forms.Padding(3);
+            this.tabMain.Size = new System.Drawing.Size(913, 363);
+            this.tabMain.TabIndex = 0;
+            this.tabMain.Text = "Основные сведения";
+            this.tabMain.UseVisualStyleBackColor = true;
             // 
             // tbInvertoryNumber
             // 
@@ -953,29 +953,29 @@
             this.label31.TabIndex = 66;
             this.label31.Text = "Инвентарный номер:";
             // 
-            // tabPage2
+            // tabBuy
             // 
-            this.tabPage2.Controls.Add(this.groupBox2);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(913, 363);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Покупка";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabBuy.Controls.Add(this.groupBox2);
+            this.tabBuy.Location = new System.Drawing.Point(4, 22);
+            this.tabBuy.Name = "tabBuy";
+            this.tabBuy.Padding = new System.Windows.Forms.Padding(3);
+            this.tabBuy.Size = new System.Drawing.Size(913, 363);
+            this.tabBuy.TabIndex = 1;
+            this.tabBuy.Text = "Покупка";
+            this.tabBuy.UseVisualStyleBackColor = true;
             // 
-            // tabPage3
+            // tabInvoice
             // 
-            this.tabPage3.Controls.Add(this.btnDelInvoice);
-            this.tabPage3.Controls.Add(this.btnAddInvoice);
-            this.tabPage3.Controls.Add(this._dgvInvoice);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(913, 363);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Перемещение";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.tabInvoice.Controls.Add(this.btnDelInvoice);
+            this.tabInvoice.Controls.Add(this.btnAddInvoice);
+            this.tabInvoice.Controls.Add(this._dgvInvoice);
+            this.tabInvoice.Location = new System.Drawing.Point(4, 22);
+            this.tabInvoice.Name = "tabInvoice";
+            this.tabInvoice.Padding = new System.Windows.Forms.Padding(3);
+            this.tabInvoice.Size = new System.Drawing.Size(913, 363);
+            this.tabInvoice.TabIndex = 2;
+            this.tabInvoice.Text = "Перемещение";
+            this.tabInvoice.UseVisualStyleBackColor = true;
             // 
             // btnDelInvoice
             // 
@@ -1017,18 +1017,18 @@
             this._dgvInvoice.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this._dgvInvoice_CellDoubleClick);
             this._dgvInvoice.Sorted += new System.EventHandler(this._dgvInvoice_Sorted);
             // 
-            // tabPage4
+            // tabPolicy
             // 
-            this.tabPage4.Controls.Add(this.btnDeletePolicy);
-            this.tabPage4.Controls.Add(this.btnAddInsurance);
-            this.tabPage4.Controls.Add(this._dgvPolicy);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(913, 363);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Страховки";
-            this.tabPage4.UseVisualStyleBackColor = true;
+            this.tabPolicy.Controls.Add(this.btnDeletePolicy);
+            this.tabPolicy.Controls.Add(this.btnAddInsurance);
+            this.tabPolicy.Controls.Add(this._dgvPolicy);
+            this.tabPolicy.Location = new System.Drawing.Point(4, 22);
+            this.tabPolicy.Name = "tabPolicy";
+            this.tabPolicy.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPolicy.Size = new System.Drawing.Size(913, 363);
+            this.tabPolicy.TabIndex = 3;
+            this.tabPolicy.Text = "Страховки";
+            this.tabPolicy.UseVisualStyleBackColor = true;
             // 
             // btnDeletePolicy
             // 
@@ -1070,18 +1070,18 @@
             this._dgvPolicy.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this._dgvPolicy_CellDoubleClick);
             this._dgvPolicy.Sorted += new System.EventHandler(this._dgvPolicy_Sorted);
             // 
-            // tabPage5
+            // tabDTP
             // 
-            this.tabPage5.Controls.Add(this.btnDelDTP);
-            this.tabPage5.Controls.Add(this.btnAddDTP);
-            this.tabPage5.Controls.Add(this._dgvDTP);
-            this.tabPage5.Location = new System.Drawing.Point(4, 22);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(913, 363);
-            this.tabPage5.TabIndex = 4;
-            this.tabPage5.Text = "ДТП";
-            this.tabPage5.UseVisualStyleBackColor = true;
+            this.tabDTP.Controls.Add(this.btnDelDTP);
+            this.tabDTP.Controls.Add(this.btnAddDTP);
+            this.tabDTP.Controls.Add(this._dgvDTP);
+            this.tabDTP.Location = new System.Drawing.Point(4, 22);
+            this.tabDTP.Name = "tabDTP";
+            this.tabDTP.Padding = new System.Windows.Forms.Padding(3);
+            this.tabDTP.Size = new System.Drawing.Size(913, 363);
+            this.tabDTP.TabIndex = 4;
+            this.tabDTP.Text = "ДТП";
+            this.tabDTP.UseVisualStyleBackColor = true;
             // 
             // btnDelDTP
             // 
@@ -1178,18 +1178,18 @@
             this.copyToolStripMenuItem1.Text = "Копировать";
             this.copyToolStripMenuItem1.Click += new System.EventHandler(this.copyToolStripMenuItem1_Click);
             // 
-            // tabPage6
+            // tabViolation
             // 
-            this.tabPage6.Controls.Add(this.btnViolation);
-            this.tabPage6.Controls.Add(this.btnAddViolation);
-            this.tabPage6.Controls.Add(this._dgvViolation);
-            this.tabPage6.Location = new System.Drawing.Point(4, 22);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(913, 363);
-            this.tabPage6.TabIndex = 5;
-            this.tabPage6.Text = "Нарушения ПДД";
-            this.tabPage6.UseVisualStyleBackColor = true;
+            this.tabViolation.Controls.Add(this.btnViolation);
+            this.tabViolation.Controls.Add(this.btnAddViolation);
+            this.tabViolation.Controls.Add(this._dgvViolation);
+            this.tabViolation.Location = new System.Drawing.Point(4, 22);
+            this.tabViolation.Name = "tabViolation";
+            this.tabViolation.Padding = new System.Windows.Forms.Padding(3);
+            this.tabViolation.Size = new System.Drawing.Size(913, 363);
+            this.tabViolation.TabIndex = 5;
+            this.tabViolation.Text = "Нарушения ПДД";
+            this.tabViolation.UseVisualStyleBackColor = true;
             // 
             // btnViolation
             // 
@@ -1231,18 +1231,18 @@
             this._dgvViolation.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this._dgvViolation_CellDoubleClick);
             this._dgvViolation.Sorted += new System.EventHandler(this._dgvViolation_Sorted);
             // 
-            // tabPage7
+            // tabDiagCard
             // 
-            this.tabPage7.Controls.Add(this.btnDeleteDiagCard);
-            this.tabPage7.Controls.Add(this.btnAddDiagCard);
-            this.tabPage7.Controls.Add(this._dgvDiagCard);
-            this.tabPage7.Location = new System.Drawing.Point(4, 22);
-            this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(913, 363);
-            this.tabPage7.TabIndex = 6;
-            this.tabPage7.Text = "Диагностические карты";
-            this.tabPage7.UseVisualStyleBackColor = true;
+            this.tabDiagCard.Controls.Add(this.btnDeleteDiagCard);
+            this.tabDiagCard.Controls.Add(this.btnAddDiagCard);
+            this.tabDiagCard.Controls.Add(this._dgvDiagCard);
+            this.tabDiagCard.Location = new System.Drawing.Point(4, 22);
+            this.tabDiagCard.Name = "tabDiagCard";
+            this.tabDiagCard.Padding = new System.Windows.Forms.Padding(3);
+            this.tabDiagCard.Size = new System.Drawing.Size(913, 363);
+            this.tabDiagCard.TabIndex = 6;
+            this.tabDiagCard.Text = "Диагностические карты";
+            this.tabDiagCard.UseVisualStyleBackColor = true;
             // 
             // btnDeleteDiagCard
             // 
@@ -1284,18 +1284,18 @@
             this._dgvDiagCard.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this._dgvDiagCard_CellDoubleClick);
             this._dgvDiagCard.Sorted += new System.EventHandler(this._dgvDiagCard_Sorted);
             // 
-            // tabPage8
+            // tabMileage
             // 
-            this.tabPage8.Controls.Add(this.btnMileageDel);
-            this.tabPage8.Controls.Add(this.btnAddMileage);
-            this.tabPage8.Controls.Add(this._dgvMileage);
-            this.tabPage8.Location = new System.Drawing.Point(4, 22);
-            this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage8.Size = new System.Drawing.Size(913, 363);
-            this.tabPage8.TabIndex = 7;
-            this.tabPage8.Text = "Пробег";
-            this.tabPage8.UseVisualStyleBackColor = true;
+            this.tabMileage.Controls.Add(this.btnMileageDel);
+            this.tabMileage.Controls.Add(this.btnAddMileage);
+            this.tabMileage.Controls.Add(this._dgvMileage);
+            this.tabMileage.Location = new System.Drawing.Point(4, 22);
+            this.tabMileage.Name = "tabMileage";
+            this.tabMileage.Padding = new System.Windows.Forms.Padding(3);
+            this.tabMileage.Size = new System.Drawing.Size(913, 363);
+            this.tabMileage.TabIndex = 7;
+            this.tabMileage.Text = "Пробег";
+            this.tabMileage.UseVisualStyleBackColor = true;
             // 
             // btnMileageDel
             // 
@@ -1337,18 +1337,18 @@
             this._dgvMileage.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this._dgvMileage_CellDoubleClick);
             this._dgvMileage.Sorted += new System.EventHandler(this._dgvMileage_Sorted);
             // 
-            // tabPage9
+            // tabDocuments
             // 
-            this.tabPage9.Controls.Add(this.btnCarDocDel);
-            this.tabPage9.Controls.Add(this.btnAddCarDoc);
-            this.tabPage9.Controls.Add(this.dgvCarDoc);
-            this.tabPage9.Location = new System.Drawing.Point(4, 22);
-            this.tabPage9.Name = "tabPage9";
-            this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage9.Size = new System.Drawing.Size(913, 363);
-            this.tabPage9.TabIndex = 8;
-            this.tabPage9.Text = "Документы";
-            this.tabPage9.UseVisualStyleBackColor = true;
+            this.tabDocuments.Controls.Add(this.btnCarDocDel);
+            this.tabDocuments.Controls.Add(this.btnAddCarDoc);
+            this.tabDocuments.Controls.Add(this.dgvCarDoc);
+            this.tabDocuments.Location = new System.Drawing.Point(4, 22);
+            this.tabDocuments.Name = "tabDocuments";
+            this.tabDocuments.Padding = new System.Windows.Forms.Padding(3);
+            this.tabDocuments.Size = new System.Drawing.Size(913, 363);
+            this.tabDocuments.TabIndex = 8;
+            this.tabDocuments.Text = "Документы";
+            this.tabDocuments.UseVisualStyleBackColor = true;
             // 
             // btnCarDocDel
             // 
@@ -1390,18 +1390,18 @@
             this.dgvCarDoc.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCarDoc_CellDoubleClick);
             this.dgvCarDoc.Sorted += new System.EventHandler(this.dgvCarDoc_Sorted);
             // 
-            // tabPage10
+            // tabRepair
             // 
-            this.tabPage10.Controls.Add(this.btnDelRepair);
-            this.tabPage10.Controls.Add(this.btnAddRepair);
-            this.tabPage10.Controls.Add(this.dgvRepair);
-            this.tabPage10.Location = new System.Drawing.Point(4, 22);
-            this.tabPage10.Name = "tabPage10";
-            this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage10.Size = new System.Drawing.Size(913, 363);
-            this.tabPage10.TabIndex = 9;
-            this.tabPage10.Text = "Сервис";
-            this.tabPage10.UseVisualStyleBackColor = true;
+            this.tabRepair.Controls.Add(this.btnDelRepair);
+            this.tabRepair.Controls.Add(this.btnAddRepair);
+            this.tabRepair.Controls.Add(this.dgvRepair);
+            this.tabRepair.Location = new System.Drawing.Point(4, 22);
+            this.tabRepair.Name = "tabRepair";
+            this.tabRepair.Padding = new System.Windows.Forms.Padding(3);
+            this.tabRepair.Size = new System.Drawing.Size(913, 363);
+            this.tabRepair.TabIndex = 9;
+            this.tabRepair.Text = "Сервис";
+            this.tabRepair.UseVisualStyleBackColor = true;
             // 
             // btnDelRepair
             // 
@@ -1443,18 +1443,18 @@
             this.dgvRepair.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this._dgvRepair_CellDoubleClick);
             this.dgvRepair.Sorted += new System.EventHandler(this.dgvRepair_Sorted);
             // 
-            // tabPage11
+            // tabShipParts
             // 
-            this.tabPage11.Controls.Add(this.btnDelShipPart);
-            this.tabPage11.Controls.Add(this.btnAddShipPart);
-            this.tabPage11.Controls.Add(this.dgvShipPart);
-            this.tabPage11.Location = new System.Drawing.Point(4, 22);
-            this.tabPage11.Name = "tabPage11";
-            this.tabPage11.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage11.Size = new System.Drawing.Size(913, 363);
-            this.tabPage11.TabIndex = 10;
-            this.tabPage11.Text = "Отправка запчастей";
-            this.tabPage11.UseVisualStyleBackColor = true;
+            this.tabShipParts.Controls.Add(this.btnDelShipPart);
+            this.tabShipParts.Controls.Add(this.btnAddShipPart);
+            this.tabShipParts.Controls.Add(this.dgvShipPart);
+            this.tabShipParts.Location = new System.Drawing.Point(4, 22);
+            this.tabShipParts.Name = "tabShipParts";
+            this.tabShipParts.Padding = new System.Windows.Forms.Padding(3);
+            this.tabShipParts.Size = new System.Drawing.Size(913, 363);
+            this.tabShipParts.TabIndex = 10;
+            this.tabShipParts.Text = "Отправка запчастей";
+            this.tabShipParts.UseVisualStyleBackColor = true;
             // 
             // btnDelShipPart
             // 
@@ -1514,27 +1514,27 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
+            this.tabMain.ResumeLayout(false);
+            this.tabMain.PerformLayout();
+            this.tabBuy.ResumeLayout(false);
+            this.tabInvoice.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._dgvInvoice)).EndInit();
-            this.tabPage4.ResumeLayout(false);
+            this.tabPolicy.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._dgvPolicy)).EndInit();
-            this.tabPage5.ResumeLayout(false);
+            this.tabDTP.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._dgvDTP)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
-            this.tabPage6.ResumeLayout(false);
+            this.tabViolation.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._dgvViolation)).EndInit();
-            this.tabPage7.ResumeLayout(false);
+            this.tabDiagCard.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._dgvDiagCard)).EndInit();
-            this.tabPage8.ResumeLayout(false);
+            this.tabMileage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._dgvMileage)).EndInit();
-            this.tabPage9.ResumeLayout(false);
+            this.tabDocuments.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCarDoc)).EndInit();
-            this.tabPage10.ResumeLayout(false);
+            this.tabRepair.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvRepair)).EndInit();
-            this.tabPage11.ResumeLayout(false);
+            this.tabShipParts.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvShipPart)).EndInit();
             this.ResumeLayout(false);
 
@@ -1589,9 +1589,9 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage tabMain;
+        private System.Windows.Forms.TabPage tabBuy;
+        private System.Windows.Forms.TabPage tabInvoice;
         private System.Windows.Forms.Button btnAddInvoice;
         private System.Windows.Forms.DataGridView _dgvInvoice;
         private System.Windows.Forms.MaskedTextBox mtbGRZ;
@@ -1605,32 +1605,32 @@
         private System.Windows.Forms.DateTimePicker dtpDateSTS;
         private System.Windows.Forms.DateTimePicker dtpDateGet;
         private System.Windows.Forms.CheckBox chbIsGet;
-        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TabPage tabPolicy;
         private System.Windows.Forms.Button btnAddInsurance;
         private System.Windows.Forms.DataGridView _dgvPolicy;
-        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.TabPage tabDTP;
         private System.Windows.Forms.Button btnAddDTP;
         private System.Windows.Forms.DataGridView _dgvDTP;
-        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.TabPage tabViolation;
         private System.Windows.Forms.Button btnAddViolation;
         private System.Windows.Forms.DataGridView _dgvViolation;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.TabPage tabPage7;
+        private System.Windows.Forms.TabPage tabDiagCard;
         private System.Windows.Forms.Button btnAddDiagCard;
         private System.Windows.Forms.DataGridView _dgvDiagCard;
-        private System.Windows.Forms.TabPage tabPage8;
+        private System.Windows.Forms.TabPage tabMileage;
         private System.Windows.Forms.Button btnAddMileage;
         private System.Windows.Forms.DataGridView _dgvMileage;
         private System.Windows.Forms.Button btnDelInvoice;
         private System.Windows.Forms.Button btnDeletePolicy;
         private System.Windows.Forms.Button btnViolation;
         private System.Windows.Forms.Button btnDeleteDiagCard;
-        private System.Windows.Forms.TabPage tabPage9;
+        private System.Windows.Forms.TabPage tabDocuments;
         private System.Windows.Forms.Button btnAddCarDoc;
         private System.Windows.Forms.DataGridView dgvCarDoc;
         private System.Windows.Forms.Button btnCarDocDel;
-        private System.Windows.Forms.TabPage tabPage10;
+        private System.Windows.Forms.TabPage tabRepair;
         private System.Windows.Forms.Button btnDelRepair;
         private System.Windows.Forms.Button btnAddRepair;
         private System.Windows.Forms.DataGridView dgvRepair;
@@ -1646,7 +1646,7 @@
         private System.Windows.Forms.Button btnMileageDel;
         private ClassLibraryBBAuto.FileOpenTextBox ucFileSTS;
         private ClassLibraryBBAuto.FileOpenTextBox ucFilePTS;
-        private System.Windows.Forms.TabPage tabPage11;
+        private System.Windows.Forms.TabPage tabShipParts;
         private System.Windows.Forms.Button btnDelShipPart;
         private System.Windows.Forms.Button btnAddShipPart;
         private System.Windows.Forms.DataGridView dgvShipPart;

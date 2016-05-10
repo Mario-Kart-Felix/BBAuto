@@ -59,4 +59,6 @@
 
         MileageFill
     };
+
+    public enum Fields { All = 1, Some = 2 };
 }

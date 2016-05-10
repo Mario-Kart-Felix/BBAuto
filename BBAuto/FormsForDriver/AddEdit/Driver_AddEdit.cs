@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -50,7 +49,7 @@ namespace BBAuto
         {            
             if (User.GetRole() == RolesList.AccountantWayBill)
             {
-                this.Size = new Size(410, 486);
+                this.Size = new System.Drawing.Size(410, 486);
                 _workWithForm.SetEnableValue(btnSave, true);
             }
             
@@ -91,7 +90,7 @@ namespace BBAuto
             mtbMobile.Text = _driver.Mobile;
             tbEmail.Text = _driver.email;
             mtbDateBirth.Text = _driver.DateBirth;
-            cbRegion.SelectedValue = _driver.RegionID;
+            cbRegion.SelectedValue = _driver.Region.ID;
             tbCompany.Text = _driver.CompanyName;
             chbFired.Checked = _driver.Fired;
             tbPosition.Text = _driver.Position;
@@ -291,7 +290,13 @@ namespace BBAuto
             if (!_driver.From1C)
             {
                 _driver.Fio = tbFio.Text;
-                _driver.RegionID = (cbRegion.SelectedValue == null) ? 0 : Convert.ToInt32(cbRegion.SelectedValue.ToString());
+
+                int idRegion;
+                int.TryParse(cbRegion.SelectedValue.ToString(), out idRegion);
+                RegionList regionList = RegionList.getInstance();
+                Region region = regionList.getItem(idRegion);
+
+                _driver.Region = region;
                 _driver.CompanyName = tbCompany.Text;
                 _driver.Position = tbPosition.Text;
                 _driver.Dept = tbDept.Text;

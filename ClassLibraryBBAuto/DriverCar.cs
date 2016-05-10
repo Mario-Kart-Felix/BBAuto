@@ -21,7 +21,7 @@ namespace ClassLibraryBBAuto
             DateTime.TryParse(row.ItemArray[2].ToString(), out dateBegin);
             DateTime.TryParse(row.ItemArray[3].ToString(), out dateEnd);
             int.TryParse(row.ItemArray[4].ToString(), out number);
-
+            
             dateEnd = dateEnd.Date;
         }
 

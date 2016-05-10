@@ -59,9 +59,9 @@ namespace ClassLibraryBBAuto
             return CreateDataTable(tempList);
         }
 
-        public DataTable ToDataTableByRegion(int idRegion, bool all = false)
+        public DataTable ToDataTableByRegion(Region region, bool all = false)
         {
-            List<Driver> tempList = (all) ? _list.Where(item => item.RegionID == idRegion || item.IsEqualsID(1)).ToList() : _list.Where(item => (item.RegionID == idRegion || item.IsEqualsID(1)) && item.IsDriver).ToList();
+            List<Driver> tempList = (all) ? _list.Where(item => item.Region == region || item.IsEqualsID(1)).ToList() : _list.Where(item => (item.Region == region || item.IsEqualsID(1)) && item.IsDriver).ToList();
 
             return CreateDataTable(tempList);
         }
@@ -140,9 +140,9 @@ namespace ClassLibraryBBAuto
             return _list;
         }
 
-        internal int CountDriversInRegion(int RegionID)
+        internal int CountDriversInRegion(Region region)
         {
-            return _list.Where(item => item.RegionID == RegionID && !item.Fired).Count();
+            return _list.Where(item => item.Region == region && !item.Fired).Count();
         }
 
         public bool IsUniqueNumber(string number)

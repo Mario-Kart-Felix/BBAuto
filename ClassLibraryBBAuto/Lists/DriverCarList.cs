@@ -75,7 +75,7 @@ namespace ClassLibraryBBAuto
             Driver driver = tempMoveList.getDriver(car, date);
             return (driver == null) ? getDriver(driverCars.ToList()) : driver;
         }
-
+        
         private Driver getDriver(List<DriverCar> driverCars)
         {
             if (driverCars.Count() > 0)

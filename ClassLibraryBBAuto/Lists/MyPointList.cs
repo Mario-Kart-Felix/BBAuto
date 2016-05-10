@@ -74,11 +74,11 @@ namespace ClassLibraryBBAuto
             return CreateTable(listNew);
         }
 
-        public DataTable ToDataTableWithoutExists(int idRegion, int idMyPoint1)
+        public DataTable ToDataTableWithoutExists(int idRegion, MyPoint myPoint1)
         {
             RouteList routeList = RouteList.getInstance();
 
-            var listNew = list.Where(item => item.RegionID == idRegion && !routeList.Exists(idMyPoint1, item) && !item.IsEqualsID(idMyPoint1)).ToList();
+            var listNew = list.Where(item => item.RegionID == idRegion && !routeList.Exists(myPoint1, item) && item != myPoint1).ToList();
             
             listNew.Sort(Compare);
 

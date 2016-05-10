@@ -69,7 +69,11 @@ namespace BBAuto
         {
             if (_workWithForm.IsEditMode())
             {
-                _employees.ID = cbRegion.SelectedValue.ToString();
+                RegionList regionList = RegionList.getInstance();
+                int idRegion;
+                int.TryParse(cbRegion.SelectedValue.ToString(), out idRegion);
+                _employees.Region = regionList.getItem(idRegion);
+
                 _employees.IDEmployeesName = cbEmployeesName.SelectedValue.ToString();
                 _employees.IDDriver = cbDriver.SelectedValue.ToString();
 

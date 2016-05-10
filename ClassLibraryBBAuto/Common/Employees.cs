@@ -8,6 +8,7 @@ namespace ClassLibraryBBAuto
 {
     public class Employees : MainDictionary
     {
+        private Region _region;
         private int idEmployeesName;
         private int idDriver;
 
@@ -34,19 +35,6 @@ namespace ClassLibraryBBAuto
                 int.TryParse(value, out idDriver);
             }
         }
-
-        public string ID
-        {
-            get
-            {
-                return _id.ToString();
-            }
-            set
-            {
-                int.TryParse(value, out _id);
-            }
-        }
-
         public string Name
         {
             get
@@ -57,16 +45,7 @@ namespace ClassLibraryBBAuto
                 return driver.GetName(NameType.Short);
             }
         }
-
-        public string Region
-        {
-            get
-            {
-                Regions regions = Regions.getInstance();
-                return regions.getItem(_id);
-            }
-        }
-
+        
         public string DriverName
         {
             get
@@ -98,9 +77,19 @@ namespace ClassLibraryBBAuto
 
         private void fillFields(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
+            int idRegion;
+            int.TryParse(row.ItemArray[0].ToString(), out idRegion);
+            RegionList regionList = RegionList.getInstance();
+            _region = regionList.getItem(idRegion);
+
             int.TryParse(row.ItemArray[1].ToString(), out idEmployeesName);
             int.TryParse(row.ItemArray[2].ToString(), out idDriver);
+        }
+
+        public Region Region
+        {
+            get { return _region; }
+            set { _region = value; }
         }
 
         internal override void Delete()
@@ -110,12 +99,12 @@ namespace ClassLibraryBBAuto
 
         internal override object[] getRow()
         {            
-            return new object[5] { _id, idEmployeesName, Region, EmployeeName, DriverName };
+            return new object[5] { Region.ID, idEmployeesName, Region.Name, EmployeeName, DriverName };
         }
 
         public override void Save()
         {
-            _provider.Insert("Employees", _id, idEmployeesName, idDriver);
+            _provider.Insert("Employees", Region.ID, idEmployeesName, idDriver);
         }
     }
 }

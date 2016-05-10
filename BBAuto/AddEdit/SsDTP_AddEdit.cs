@@ -53,7 +53,11 @@ namespace BBAuto
         {
             if (_workWithForm.IsEditMode())
             {
-                _ssDTP.ID = cbMark.SelectedValue.ToString();
+                MarkList markList = MarkList.getInstance();
+                int idMark;
+                int.TryParse(cbMark.SelectedValue.ToString(), out idMark);
+                _ssDTP.Mark = markList.getItem(idMark);
+
                 _ssDTP.IDServiceStantion = cbServiceStantion.SelectedValue.ToString();
 
                 _ssDTP.Save();

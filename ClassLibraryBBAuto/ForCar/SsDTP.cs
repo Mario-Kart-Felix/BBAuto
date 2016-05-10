@@ -8,19 +8,8 @@ namespace ClassLibraryBBAuto
 {
     public class SsDTP : MainDictionary
     {
+        private Mark _mark;
         private int idServiceStantion;
-
-        public string ID
-        {
-            get
-            {
-                return _id.ToString();
-            }
-            set
-            {
-                int.TryParse(value, out _id);
-            }
-        }
 
         public string IDServiceStantion
         {
@@ -33,20 +22,7 @@ namespace ClassLibraryBBAuto
                 int.TryParse(value, out idServiceStantion);
             }
         }
-
-        public string Mark
-        {
-            get
-            {
-                Marks marks = Marks.getInstance();
-                return marks.getItem(_id);
-            }
-            set
-            {
-                int.TryParse(value, out _id);
-            }
-        }
-
+        
         public string ServiceStantion
         {
             get
@@ -68,23 +44,33 @@ namespace ClassLibraryBBAuto
 
         public SsDTP(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
+            int idMark;
+            int.TryParse(row.ItemArray[0].ToString(), out idMark);
+            MarkList markList = MarkList.getInstance();
+            _mark = markList.getItem(idMark);
+
             int.TryParse(row.ItemArray[1].ToString(), out idServiceStantion);
+        }
+
+        public Mark Mark
+        {
+            get { return _mark; }
+            set { _mark = value; }
         }
 
         public override void Save()
         {
-            _provider.Insert("ssDTP", _id, idServiceStantion);
+            _provider.Insert("ssDTP", _mark.ID, idServiceStantion);
         }
 
         internal override void Delete()
         {
-            _provider.Delete("ssDTP", _id);
+            _provider.Delete("ssDTP", _mark.ID);
         }
 
         internal override object[] getRow()
         {
-            return new object[3] { _id, Mark, ServiceStantion };
+            return new object[3] { _mark.ID, Mark, ServiceStantion };
         }
     }
 }

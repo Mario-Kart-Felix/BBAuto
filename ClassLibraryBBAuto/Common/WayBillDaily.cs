@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Data;
 
 namespace ClassLibraryBBAuto
 {
     public class WayBillDaily : IEnumerable
     {
-        private Driver _driver;
+        private const int MIN_DAILY_MILEAGE = 100;
+
         private Car _car;
         private DateTime _date;
         private List<WayBillDay> _list;
@@ -20,59 +22,94 @@ namespace ClassLibraryBBAuto
             _car = car;
             _date = date;
 
-            DriverCarList driverCarList = DriverCarList.getInstance();
             _mileageList = MileageList.getInstance();
 
-            _driver = driverCarList.GetDriver(_car, _date);
-            _list = new List<WayBillDay>();
+            LoadWayBillDay();
+
+            if (_list == null)
+                _list = new List<WayBillDay>();
         }
 
+        private void LoadWayBillDay()
+        {
+            WayBillDayList wayBillDayList = WayBillDayList.getInstance();
+
+            _list = wayBillDayList.getList(_car, _date);
+        }
+        
         public int Count { get { return _list.Count; } }
 
         public int BeginDistance { get { return _mileageList.GetBeginDistance(_car, _date); } }
         public int EndDistance { get { return _mileageList.GetEndDistance(_car, _date); } }
-
-        public void Create()
+        
+        public void Load()
         {
-            TabelList tabelList = TabelList.GetInstance();
+            if (_list.Count > 0)
+                return;
 
-            List<int> days = tabelList.GetDays(_driver, _date);
+            Dictionary<int, Driver> drivers = GetDriversDictionary();
 
-            if (days.Count == 0)
-                throw new NullReferenceException("Нет табельных листов на выбранный месяц");
-                        
+            if (drivers.Count == 0)
+                return;
+
             int count = _mileageList.GetDistance(_car, _date);
 
             Random random = new Random();
 
-            int countDays = days.Count;
+            int workDays = drivers.Count;
 
-            if ((count / countDays) < 100)
-                countDays /= 2;
-
-            int i = 0;
-
-            foreach (var day in days)
+            bool isShortMonth = ((count / workDays) < MIN_DAILY_MILEAGE);
+            if (isShortMonth)
+                workDays /= 2;
+            int div = random.Next(1);
+            
+            foreach(var item in drivers)
             {
-                if ((countDays < days.Count) && ((i % 2) > 0))
-                {
-                    i++;
+                if ((isShortMonth) && (item.Key % 2 == div))
                     continue;
-                }
-                
-                int curCount = count - GetDistance();
-                int everyDayCount = curCount / (countDays - _list.Count);
 
-                WayBillDay wayBillDay = new WayBillDay(_car, new DateTime(_date.Year, _date.Month, day), everyDayCount);
-                wayBillDay.Create(random);
+                int curCount = count - GetDistance();
+                if ((workDays - _list.Count) == 0)
+                    break;
+                int everyDayCount = curCount / (workDays - _list.Count);
+
+                WayBillDay wayBillDay = new WayBillDay(_car, item.Value, new DateTime(_date.Year, _date.Month, item.Key), everyDayCount);
+                wayBillDay.Save();
+                wayBillDay.ReadRoute(random);
                 if (wayBillDay.Distance > 0)
                     _list.Add(wayBillDay);
 
-                i++;
-
-                if ((curCount < 10) || ((countDays - _list.Count) == 0))
+                if (curCount < 10)
                     break;
             }
+        }
+
+        private Dictionary<int, Driver> GetDriversDictionary()
+        {
+            DriverCarList driverCarList = DriverCarList.getInstance();
+            TabelList tabelList = TabelList.GetInstance();
+
+            Dictionary<int, Driver> drivers = new Dictionary<int, Driver>();
+
+            for (int day = 1; day <= _date.AddMonths(1).AddDays(-1).Day; day++)
+            {
+                DateTime curDate = new DateTime(_date.Year, _date.Month, day);
+
+                Driver driver = driverCarList.GetDriver(_car, curDate);
+
+                List<int> days = tabelList.GetDays(driver, curDate);
+
+                if (days.Count == 0)
+                    break;
+                    //throw new NullReferenceException("Нет табельных листов на выбранный месяц для водителя " + driver.GetName(NameType.Short));
+
+                if (!days.Exists(item => item == day))
+                    continue;
+
+                drivers.Add(day, driver);
+            }
+            
+            return drivers;
         }
 
         private int GetDistance()
@@ -85,6 +122,20 @@ namespace ClassLibraryBBAuto
             return count;
         }
 
+        public DataTable ToDataTable()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Дата");
+            dt.Columns.Add("Водитель");
+
+            foreach (WayBillDay item in this)
+            {
+                dt.Rows.Add(item.getRow());
+            }
+
+            return dt;
+        }
+        
         public IEnumerator GetEnumerator()
         {
             return new WayBillEnumerator(this);

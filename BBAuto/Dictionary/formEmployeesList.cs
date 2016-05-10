@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -50,12 +49,11 @@ namespace BBAuto
 
         private void _dgvEmployees_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            int idRegion = 0;
-            int.TryParse(_dgvEmployees.Rows[_dgvEmployees.SelectedCells[0].RowIndex].Cells[0].Value.ToString(), out idRegion);
+            Region region = getRegion();
 
             string EmployeesName = _dgvEmployees.Rows[_dgvEmployees.SelectedCells[0].RowIndex].Cells[3].Value.ToString();
 
-            Employees employees = employeesList.getItem(idRegion, EmployeesName);
+            Employees employees = employeesList.getItem(region, EmployeesName);
 
             Employees_AddEdit aeemployees = new Employees_AddEdit(employees);
 
@@ -65,13 +63,21 @@ namespace BBAuto
 
         private void btnDel_Click(object sender, EventArgs e)
         {
-            int idRegion = 0;
-            int.TryParse(_dgvEmployees.Rows[_dgvEmployees.SelectedCells[0].RowIndex].Cells[0].Value.ToString(), out idRegion);
+            Region region = getRegion();
 
             int idEmployeesName = 0;
             int.TryParse(_dgvEmployees.Rows[_dgvEmployees.SelectedCells[0].RowIndex].Cells[1].Value.ToString(), out idEmployeesName);
 
-            employeesList.Delete(idRegion, idEmployeesName);
+            employeesList.Delete(region, idEmployeesName);
+        }
+
+        private Region getRegion()
+        {
+            int idRegion = 0;
+            int.TryParse(_dgvEmployees.Rows[_dgvEmployees.SelectedCells[0].RowIndex].Cells[0].Value.ToString(), out idRegion);
+
+            RegionList regionList = RegionList.getInstance();
+            return regionList.getItem(idRegion);
         }
 
         private void formEmployeesList_Resize(object sender, EventArgs e)

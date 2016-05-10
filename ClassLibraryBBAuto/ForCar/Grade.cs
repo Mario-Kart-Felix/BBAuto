@@ -9,25 +9,13 @@ namespace ClassLibraryBBAuto
     public class Grade : MainDictionary
     {
         private string _name;
-        private int _idEngineType;
+        private EngineType _engineType;
         private int _idModel;
 
         public string ePower;
         public string eVol;
         public string maxLoad;
         public string noLoad;
-
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
-
-        public string IDEngineType
-        {
-            get { return _idEngineType.ToString(); }
-            set { int.TryParse(value, out _idEngineType); }
-        }
 
         public Grade(int idModel)
         {
@@ -37,7 +25,10 @@ namespace ClassLibraryBBAuto
             eVol = string.Empty;
             maxLoad = string.Empty;
             noLoad = string.Empty;
-            _idEngineType = 0;
+
+            EngineTypeList engineTypeList = EngineTypeList.getInstance();
+            _engineType = engineTypeList.getItem(1);
+
             _idModel = idModel;
         }
 
@@ -54,10 +45,27 @@ namespace ClassLibraryBBAuto
             eVol = row.ItemArray[3].ToString();
             maxLoad = row.ItemArray[4].ToString();
             noLoad = row.ItemArray[5].ToString();
-            int.TryParse(row.ItemArray[6].ToString(), out _idEngineType);
+
+            int idEngineType;
+            int.TryParse(row.ItemArray[6].ToString(), out idEngineType);
+            EngineTypeList engineTypeList = EngineTypeList.getInstance();
+            _engineType = engineTypeList.getItem(idEngineType);
+
             int.TryParse(row.ItemArray[7].ToString(), out _idModel);
         }
 
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+
+        public EngineType EngineType
+        {
+            get { return _engineType; }
+            set { _engineType = value; }
+        }
+                
         internal override void Delete()
         {
             _provider.Delete("Grade", _id);
@@ -65,7 +73,7 @@ namespace ClassLibraryBBAuto
 
         public override void Save()
         {
-            int.TryParse(_provider.Insert("Grade", _id, _name, ePower, eVol, maxLoad, noLoad, _idEngineType, _idModel), out _id);
+            int.TryParse(_provider.Insert("Grade", _id, _name, ePower, eVol, maxLoad, noLoad, _engineType.ID, _idModel), out _id);
 
             GradeList gradeList = GradeList.getInstance();
             gradeList.Add(this);

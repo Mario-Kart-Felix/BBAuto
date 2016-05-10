@@ -122,6 +122,8 @@ namespace BBAuto
             {
                 if (mainStatus.Get() == Status.Driver)
                     DoubleClickDriver(point);
+                if (mainStatus.Get() == Status.Actual)
+                    DoubleClickDefault(point);
                 return;
             }
             
@@ -422,8 +424,14 @@ namespace BBAuto
         {
             if (_dgvMain.GetCarID() == 0)
                 return;
-
+            
             Car car = carList.getItem(_dgvMain.GetCarID());
+
+            if (User.getDriver().UserRole == RolesList.AccountantWayBill)
+            {
+                OpenCarAddEdit(car);
+                return;
+            }
 
             PTSList ptsList = PTSList.getInstance();
             PTS pts = ptsList.getItem(car);
@@ -465,11 +473,16 @@ namespace BBAuto
                 _myFilter.SetFilterValue(string.Concat(columnName, ":"), point);
             else
             {
-                Car_AddEdit carAE = new Car_AddEdit(car);
-                if (carAE.ShowDialog() == DialogResult.OK)
-                {
-                    loadCars();
-                }
+                OpenCarAddEdit(car);
+            }
+        }
+
+        private void OpenCarAddEdit(Car car)
+        {
+            Car_AddEdit carAE = new Car_AddEdit(car);
+            if (carAE.ShowDialog() == DialogResult.OK)
+            {
+                loadCars();
             }
         }
         
