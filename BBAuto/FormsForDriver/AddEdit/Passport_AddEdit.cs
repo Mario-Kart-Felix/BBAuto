@@ -37,7 +37,7 @@ namespace BBAuto
             tbLastName.Text = _passport.LastName;
             tbSecondName.Text = _passport.SecondName;
             mtbNumber.Text = _passport.Number;
-            mtbGiveDate.Text = _passport.GiveDate;
+            mtbGiveDate.Text = _passport.GiveDate.ToShortDateString();
             tbGiveOrg.Text = _passport.GiveOrg;
             tbAddress.Text = _passport.Address;
 
@@ -63,7 +63,9 @@ namespace BBAuto
             _passport.LastName = tbLastName.Text;
             _passport.SecondName = tbSecondName.Text;
             _passport.Number = mtbNumber.Text;
-            _passport.GiveDate = mtbGiveDate.Text;
+            DateTime date;
+            DateTime.TryParse(mtbGiveDate.Text, out date);
+            _passport.GiveDate = date;
             _passport.GiveOrg = tbGiveOrg.Text;
             _passport.Address = tbAddress.Text;
 

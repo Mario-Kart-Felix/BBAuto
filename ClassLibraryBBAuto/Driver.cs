@@ -344,7 +344,7 @@ namespace ClassLibraryBBAuto
             Car car = driverCarList.GetCar(this);
             
             return new object[] { _id, 0, GetName(NameType.Full), (license.IsActual()) ? "есть" : "нет", (medicalCert.IsActual()) ? "есть" : "нет",
-                (car == null) ? "нет автомобиля" : car.ToString(), Region, CompanyName, Status };
+                (car == null) ? "нет автомобиля" : car.ToString(), Region.Name, CompanyName, Status };
         }
         
         public override bool Equals(object obj)

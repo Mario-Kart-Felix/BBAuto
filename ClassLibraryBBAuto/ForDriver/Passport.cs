@@ -61,19 +61,12 @@ namespace ClassLibraryBBAuto
             set { _file = value; }
         }
 
-        public string GiveDate
+        public DateTime GiveDate
         {
-            get
-            {
-                return _giveDate.ToShortDateString();
-            }
+            get { return _giveDate; }
             set
             {
-                DateTime date;                
-                DateTime.TryParse(value, out date);
-                _giveDate = date;
-
-                if (date.Year == 1)
+                if (value.Year == 1)
                     _giveDate = DateTime.Today;
             }
         }
@@ -100,7 +93,7 @@ namespace ClassLibraryBBAuto
             _secondName = row.ItemArray[4].ToString();
             _number = row.ItemArray[5].ToString();
             _giveOrg = row.ItemArray[6].ToString();
-            GiveDate = row.ItemArray[7].ToString();
+            DateTime.TryParse(row.ItemArray[7].ToString(), out _giveDate);
             _address = row.ItemArray[8].ToString();
             _file = row.ItemArray[9].ToString();
             _fileBegin = _file;

@@ -188,7 +188,7 @@ namespace ClassLibraryBBAuto
                 _excelDoc.setValue(11, 5, numbers[1]);
 
                 _excelDoc.setValue(12, 2, passport.GiveOrg);
-                _excelDoc.setValue(13, 3, passport.GiveDate);
+                _excelDoc.setValue(13, 3, passport.GiveDate.ToShortDateString());
             }
 
             PolicyList policyList = PolicyList.getInstance();
@@ -472,7 +472,7 @@ namespace ClassLibraryBBAuto
             string passportToString = "нет данных";
 
             if (passport != null)
-                passportToString = string.Concat(passport.Number, ", выдан ", passport.GiveDate, ", ", passport.GiveOrg, ", Адрес: ", passport.Address);
+                passportToString = string.Concat(passport.Number, ", выдан ", passport.GiveDate.ToShortDateString(), ", ", passport.GiveOrg, ", Адрес: ", passport.Address);
 
             wordDoc.setValue("паспорт регионального представителя", passportToString);
 

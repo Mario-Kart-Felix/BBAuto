@@ -217,7 +217,12 @@ namespace BBAuto
 
             Driver driver = driverCarList.GetDriver(_car);
             llDriver.Text = driver.GetName(NameType.Full);
-            lbRegion.Text = driver.Region.Name;
+
+            //если не назначен водитель
+            if (driver.Region != null)
+            {
+                lbRegion.Text = driver.Region.Name;
+            }
 
             PTSList ptsList = PTSList.getInstance();
             pts = ptsList.getItem(_car);

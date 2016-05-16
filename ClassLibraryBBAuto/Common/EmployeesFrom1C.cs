@@ -70,7 +70,9 @@ namespace ClassLibraryBBAuto
                         passport.FirstName = fio[1];
                         passport.SecondName = fio[2];
 
-                        passport.GiveDate = fields[12];
+                        DateTime date;
+                        DateTime.TryParse(fields[12], out date);
+                        passport.GiveDate = date;
                         passport.GiveOrg = fields[13];
                         passport.Address = fields[14];
                         passport.Save();
