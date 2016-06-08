@@ -11,10 +11,12 @@ namespace BBAuto
 {
     public class MyMenuItemFactory
     {
+        private const string DOCUMENTS_PATH = @"\\bbmru08.bbmag.bbraun.com\Depts\Logistics\Автохозяйство\документы на авто";
+
         private MainDGV _dgvMain;
         private CarList _carList;
         private MainStatus _mainStatus;
-
+        
         public MyMenuItemFactory(MainDGV dgvMain)
         {
             _dgvMain = dgvMain;
@@ -211,506 +213,863 @@ namespace BBAuto
         private ToolStripMenuItem CreateNewInvoice()
         {
             ToolStripMenuItem item = CreateItem("Новое перемещение");
-            item.Click += NewInvoice_Click;
+            item.Click += delegate
+            {
+                if (_dgvMain.GetCarID() == 0)
+                    return;
+
+                InvoiceDialog.CreateNewInvoiceAndOpen(_dgvMain.GetCarID());
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateNewDTP()
         {
             ToolStripMenuItem item = CreateItem("Новое ДТП");
-            item.Click += NewDTP_Click;
+            item.Click += delegate
+            {
+                if (_dgvMain.GetCarID() == 0)
+                    return;
+
+                Car car = _carList.getItem(_dgvMain.GetCarID());
+
+                DTP dtp = car.createDTP();
+
+                DTP_AddEdit dtpAE = new DTP_AddEdit(dtp);
+                dtpAE.ShowDialog();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateNewViolation()
         {
             ToolStripMenuItem item = CreateItem("Новое нарушение ПДД");
-            item.Click += NewViolation_Click;
+            item.Click += delegate
+            {
+                if (_dgvMain.GetCarID() == 0)
+                    return;
+
+                Violation violation = new Violation(_dgvMain.GetCarID());
+
+                Violation_AddEdit vAE = new Violation_AddEdit(violation);
+                vAE.ShowDialog();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateNewPolicy()
         {
             ToolStripMenuItem item = CreateItem("Новый полис");
-            item.Click += NewPolicy_Click;
+            item.Click += delegate
+            {
+                if (_dgvMain.GetCarID() == 0)
+                    return;
+
+                Car car = _carList.getItem(_dgvMain.GetCarID());
+
+                Policy_AddEdit policyAE = new Policy_AddEdit(car.CreatePolicy());
+                policyAE.ShowDialog();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateNewDiagCard()
         {
             ToolStripMenuItem item = CreateItem("Новая диагностическая карта");
-            item.Click += NewDiagCard_Click;
+            item.Click += delegate
+            {
+                if (_dgvMain.GetCarID() == 0)
+                    return;
+
+                Car car = _carList.getItem(_dgvMain.GetCarID());
+
+                DiagCard diagCard = car.createDiagCard();
+
+                DiagCard_AddEdit diagcardAE = new DiagCard_AddEdit(diagCard);
+                diagcardAE.ShowDialog();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateNewMileage()
         {
             ToolStripMenuItem item = CreateItem("Новая запись о пробеге");
-            item.Click += NewMileage_Click;
+            item.Click += delegate
+            {
+                if (_dgvMain.GetCarID() == 0)
+                    return;
+
+                Car car = _carList.getItem(_dgvMain.GetCarID());
+
+                Mileage mileage = car.createMileage();
+
+                Mileage_AddEdit mAE = new Mileage_AddEdit(mileage);
+                if (mAE.ShowDialog() == DialogResult.OK)
+                    _mainStatus.Set(_mainStatus.Get());
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateNewTempMove()
         {
             ToolStripMenuItem item = CreateItem("Новое временное перемещение");
-            item.Click += NewTempMove_Click;
+            item.Click += delegate
+            {
+                if (_dgvMain.GetCarID() == 0)
+                    return;
+
+                Car car = _carList.getItem(_dgvMain.GetCarID());
+                TempMove tempMove = car.createTempMove();
+
+                TempMove_AddEdit tempMoveAE = new TempMove_AddEdit(tempMove);
+                tempMoveAE.ShowDialog();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateToSale()
         {
             ToolStripMenuItem item = CreateItem("На продажу");
-            item.Click += ToSale_Click;
+            item.Click += delegate
+            {
+                if (_dgvMain.GetCarID() == 0)
+                    return;
+
+                if (MessageBox.Show("Вы действительно хотите переместить автомобиль на продажу?", "Снятие с продажи", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                                == DialogResult.Yes)
+                {
+                    CarSale carSale = new CarSale(_dgvMain.GetCarID());
+                    carSale.Save();
+
+                    _mainStatus.Set(_mainStatus.Get());
+                }
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateDeleteFromSale()
         {
             ToolStripMenuItem item = CreateItem("Снять с продажи");
-            item.Click += DeleteFromSale_Click;
+            item.Click += delegate
+            {
+                if (_dgvMain.GetCarID() == 0)
+                    return;
+
+                if (MessageBox.Show("Вы действительно хотите убрать автомобиль с продажи?", "Снятие с продажи", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                                == DialogResult.Yes)
+                {
+                    CarSaleList carSaleList = CarSaleList.getInstance();
+                    carSaleList.Delete(_dgvMain.GetCarID());
+
+                    _mainStatus.Set(_mainStatus.Get());
+                }
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateLotusMail()
         {
             ToolStripMenuItem item = CreateItem("Создать письмо Lotus");
-            item.Click += LotusMail_Click;
+            item.Click += delegate
+            {
+                if (_dgvMain.GetCarID() == 0)
+                    return;
+
+                DriverMails driverMails = new DriverMails(_dgvMain);
+                string driverList = driverMails.ToString();
+
+                if (string.IsNullOrEmpty(driverList))
+                    MessageBox.Show("Email-адреса не обнаружены", "Невозножно создать письмо", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                else
+                    eMail.OpenEmailProgram(driverList);
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateSendPolicyOsago()
         {
             ToolStripMenuItem item = CreateItem("Отправить полис Осаго");
-            item.Click += SendPolicyOsago_Click;
+            item.Click += delegate { SendPolicy(PolicyType.ОСАГО); };
             return item;
         }
 
         private ToolStripMenuItem CreateSendPolicyKasko()
         {
             ToolStripMenuItem item = CreateItem("Отправить полис Каско");
-            item.Click += SendPolicyKasko_Click;
+            item.Click += delegate { SendPolicy(PolicyType.КАСКО); };
             return item;
         }
 
         private ToolStripMenuItem CreateCopy()
         {
             ToolStripMenuItem item = CreateItem("Копировать");
-            item.Click += Copy_Click;
             item.ShortcutKeys = Keys.Control | Keys.C;
+            item.Click += delegate
+            {
+                try
+                {
+                    MyBuffer.Copy(_dgvMain.GetDGV());
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            };
             return item;
         }
 
         private ToolStripMenuItem CreatePrint()
         {
             ToolStripMenuItem item = CreateItem("Печать");
-            item.Click += Print_Click;
             item.ShortcutKeys = Keys.Control | Keys.P;
+            item.Click += delegate
+            {
+                CreateDocument doc = new CreateDocument();
+                doc.CreateExcelFromDGV(_dgvMain.GetDGV());
+                doc.Print();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreatePrintWayBill()
         {
             ToolStripMenuItem item = CreateItem("Печать путевого листа");
-            item.Click += PrintWayBill_Click;
+            item.Click += delegate
+            {
+                InputDate inputDate = new InputDate(_dgvMain, Actions.Print, WayBillType.Month);
+                inputDate.ShowDialog();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateShowWayBill()
         {
             ToolStripMenuItem item = CreateItem("Просмотр путевого листа");
-            item.Click += ShowWayBill_Click;
+            item.Click += delegate
+            {
+                InputDate inputDate = new InputDate(_dgvMain, Actions.Show, WayBillType.Month);
+                inputDate.ShowDialog();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateShowWayBillDaily()
         {
             ToolStripMenuItem item = CreateItem("Просмотр путевых листов на каждый день");
-            item.Click += ShowWayBillDaily_Click;
+            item.Click += delegate
+            {
+                FormWayBillDaily formWayBillDaily = new FormWayBillDaily(_dgvMain);
+                formWayBillDaily.ShowDialog();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateShowInvoice()
         {
             ToolStripMenuItem item = CreateItem("Накладная на перемещение");
-            item.Click += ShowInvoice_Click;
+            item.Click += delegate
+            {
+                CreateDocument doc = createDocument(_dgvMain.CurrentCell);
+
+                if (doc != null)
+                    doc.ShowInvoice();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateShowAttacheToOrder()
         {
             ToolStripMenuItem item = CreateItem("Приложение к приказу");
-            item.Click += ShowAttacheToOrder_Click;
+            item.Click += delegate
+            {
+                CreateDocument doc = createDocument(_dgvMain.CurrentCell);
+
+                if (doc != null)
+                    doc.ShowAttacheToOrder();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateShowProxyOnSTO()
         {
             ToolStripMenuItem item = CreateItem("Доверенность на предоставление интересов на СТО");
-            item.Click += ShowProxyOnSTO_Click;
+            item.Click += delegate
+            {
+                CreateDocument doc = createDocument(_dgvMain.CurrentCell);
+
+                if (doc != null)
+                    doc.ShowProxyOnSTO();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreatePrintProxyOnSTO()
         {
             ToolStripMenuItem item = CreateItem("Печать доверенности на предоставление интересов на СТО (2016 год)");
-            item.Click += PrintProxyOnSTO_Click;
+            item.Click += delegate
+            {
+                foreach (DataGridViewCell cell in _dgvMain.SelectedCells)
+                {
+                    CreateDocument doc = createDocument(cell);
+
+                    if (doc != null)
+                        doc.PrintProxyOnSTO();
+                }
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateShowPolicyKasko()
         {
             ToolStripMenuItem item = CreateItem("Полис Каско");
-            item.Click += ShowPolicyKasko_Click;
+            item.Click += delegate
+            {
+                if (_dgvMain.GetCarID() == 0)
+                    return;
+
+                Car car = _carList.getItem(_dgvMain.GetCarID());
+
+                PolicyList policyList = PolicyList.getInstance();
+                Policy kasko = policyList.getItem(car, PolicyType.КАСКО);
+
+                if (!string.IsNullOrEmpty(kasko.File))
+                    WorkWithFiles.openFile(kasko.File);
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateShowActFuelCard()
         {
             ToolStripMenuItem item = CreateItem("Акт передачи топливной карты");
-            item.Click += ShowActFuelCard_Click;
+            item.Click += delegate
+            {
+                if (_dgvMain.GetCarID() == 0)
+                    MessageBox.Show("Для формирования акта выберите ячейку в таблице", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                else
+                {
+                    CarList carList = CarList.getInstance();
+                    Car car = carList.getItem(_dgvMain.GetCarID());
+
+                    InvoiceList invoiceList = InvoiceList.getInstance();
+                    Invoice invoice = invoiceList.getItem(_dgvMain.GetID());
+
+                    CreateDocument doc = new CreateDocument(car, invoice);
+                    doc.ShowActFuelCard();
+                }
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateShowNotice()
         {
             ToolStripMenuItem item = CreateItem("Извещение о страховом случае");
-            item.Click += ShowNotice_Click;
+            item.Click += delegate
+            {
+                if (_dgvMain.GetCarID() == 0)
+                    return;
+
+                if (_mainStatus.Get() == Status.DTP)
+                {
+                    DTPList dtpList = DTPList.getInstance();
+                    DTP dtp = dtpList.getItem(_dgvMain.GetID());
+
+                    Car car = _carList.getItem(_dgvMain.GetCarID());
+
+                    CreateDocument doc = new CreateDocument(car);
+
+                    doc.showNotice(dtp);
+                }
+                else
+                    MessageBox.Show("Для формирования извещения необходимо перейти на вид \"ДТП\"", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateShowSTS()
         {
             ToolStripMenuItem item = CreateItem("Свидетельство о регистрации ТС");
-            item.Click += ShowSTS_Click;
+            item.Click += delegate
+            {
+                if (_dgvMain.GetCarID() == 0)
+                    return;
+
+                Car car = _carList.getItem(_dgvMain.GetCarID());
+
+                STSList stsList = STSList.getInstance();
+                STS sts = stsList.getItem(car);
+
+                if (!string.IsNullOrEmpty(sts.File))
+                    WorkWithFiles.openFile(sts.File);
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateShowDriverLicense()
         {
             ToolStripMenuItem item = CreateItem("Водительское удостоверение");
-            item.Click += ShowDriverLicense_Click;
+            item.Click += delegate
+            {
+                if (_dgvMain.GetID() == 0)
+                    return;
+
+                DateTime date = DateTime.Today;
+
+                if (_mainStatus.Get() == Status.DTP)
+                {
+                    DTPList dtpList = DTPList.getInstance();
+                    DTP dtp = dtpList.getItem(_dgvMain.GetID());
+                    date = dtp.Date;
+                }
+
+                Car car = _carList.getItem(_dgvMain.GetCarID());
+
+                DriverCarList driverCarList = DriverCarList.getInstance();
+                Driver driver = driverCarList.GetDriver(car, date);
+
+                LicenseList licencesList = LicenseList.getInstance();
+                DriverLicense driverLicense = licencesList.getItem(driver);
+
+                if (!string.IsNullOrEmpty(driverLicense.File))
+                    WorkWithFiles.openFile(driverLicense.File);
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateExit()
         {
             ToolStripMenuItem item = CreateItem("Выход из программы");
-            item.Click += Exit_Click;
+            item.Click += delegate { Application.Exit(); };
             return item;
         }
 
         private ToolStripMenuItem CreateDocuments()
         {
             ToolStripMenuItem item = CreateItem("Документы");
-            item.Click += Documents_Click;
+            item.Click += delegate { Process.Start(DOCUMENTS_PATH); };
             return item;
         }
 
         private ToolStripMenuItem CreateNewCar()
         {
             ToolStripMenuItem item = CreateItem("Покупка автомобиля");
-            item.Click += NewCar_Click;
+            item.Click += delegate
+            {
+                Car_AddEdit aeCar = new Car_AddEdit(new Car());
+                if (aeCar.ShowDialog() == DialogResult.OK)
+                    _mainStatus.Set(_mainStatus.Get());
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateNewAccount()
         {
             ToolStripMenuItem item = CreateItem("Добавить счёт");
-            item.Click += NewAccount_Click;
+            item.Click += delegate
+            {
+                Account_AddEdit aeaAcountForm = new Account_AddEdit(new Account());
+                aeaAcountForm.ShowDialog();
+                if (aeaAcountForm.ShowDialog() == DialogResult.OK)
+                    _mainStatus.Set(_mainStatus.Get());
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateNewFuelCard()
         {
             ToolStripMenuItem item = CreateItem("Добавить топливную карту");
-            item.Click += NewFuelCard_Click;
+            item.Click += delegate
+            {
+                FuelCard_AddEdit fuelCardAddEdit = new FuelCard_AddEdit(new FuelCard());
+                fuelCardAddEdit.ShowDialog();
+                if (fuelCardAddEdit.ShowDialog() == DialogResult.OK)
+                    _mainStatus.Set(_mainStatus.Get());
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateShowPolicyList()
         {
             ToolStripMenuItem item = CreateItem("Сформировать таблицу страхования");
-            item.Click += ShowPolicyList_Click;
+            item.Click += delegate
+            {
+                CreateDocument doc = new CreateDocument();
+                doc.CreatePolicyTable();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreatePrintAllTable()
         {
             ToolStripMenuItem item = CreateItem("Текущий справочник");
-            item.Click += PrintAllTable_Click;
+            item.Click += delegate
+            {
+                MyPrinter myprinter = new MyPrinter();
+
+                string printerName = myprinter.GetDefaultPrinterName();
+
+                if (string.IsNullOrEmpty(printerName))
+                {
+                    MessageBox.Show("Принтер по умолчанию не найден", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                string message = string.Concat("Вывести справочник \"", _mainStatus.ToString(), "\" на печать на принтер ", printerName, "?");
+
+                if (MessageBox.Show(message, "Печать", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    CreateDocument doc = DgvToExcel();
+                    doc.Print();
+                }
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateShowAllTable()
         {
             ToolStripMenuItem item = CreateItem("Экспорт текущего справочника в Excel");
-            item.Click += ShowAllTable_Click;
+            item.Click += delegate
+            {
+                CreateDocument doc = DgvToExcel();
+                doc.Show();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateActual()
         {
             ToolStripMenuItem item = CreateItem("На ходу");
-            item.Click += Actual_Click;
+            item.Click += delegate { _mainStatus.Set(Status.Actual); };
             return item;
         }
         
         private ToolStripMenuItem CreateBuy()
         {
             ToolStripMenuItem item = CreateItem("Покупка");
-            item.Click += Buy_Click;
+            item.Click += delegate { _mainStatus.Set(Status.Buy); };
             return item;
         }
         
         private ToolStripMenuItem CreateSale()
         {
             ToolStripMenuItem item = CreateItem("Продажа");
-            item.Click += Sale_Click;
+            item.Click += delegate { _mainStatus.Set(Status.Sale); };
             return item;
         }
         
         private ToolStripMenuItem CreateInvoice()
         {
             ToolStripMenuItem item = CreateItem("Перемещения");
-            item.Click += Invoice_Click;
+            item.Click += delegate { _mainStatus.Set(Status.Invoice); };
             return item;
         }
         
         private ToolStripMenuItem CreateTempMove()
         {
             ToolStripMenuItem item = CreateItem("Временные перемещения");
-            item.Click += TempMove_Click;
+            item.Click += delegate { _mainStatus.Set(Status.TempMove); };
             return item;
         }
         
         private ToolStripMenuItem CreatePolicy()
         {
             ToolStripMenuItem item = CreateItem("Страховые полисы");
-            item.Click += Policy_Click;
+            item.Click += delegate { _mainStatus.Set(Status.Policy); };
             return item;
         }
 
         private ToolStripMenuItem CreateViolation()
         {
             ToolStripMenuItem item = CreateItem("Нарушения ПДД");
-            item.Click += Violation_Click;
+            item.Click += delegate { _mainStatus.Set(Status.Violation); };
             return item;
         }
         
         private ToolStripMenuItem CreateDTP()
         {
             ToolStripMenuItem item = CreateItem("ДТП");
-            item.Click += DTP_Click;
+            item.Click += delegate { _mainStatus.Set(Status.DTP); };
             return item;
         }
         
         private ToolStripMenuItem CreateDiagCard()
         {
             ToolStripMenuItem item = CreateItem("Диагностические карты");
-            item.Click += DiagCard_Click;
+            item.Click += delegate { _mainStatus.Set(Status.DiagCard); };
             return item;
         }
         
         private ToolStripMenuItem CreateRepair()
         {
             ToolStripMenuItem item = CreateItem("Сервисное обслуживание");
-            item.Click += Repair_Click;
+            item.Click += delegate { _mainStatus.Set(Status.Repair); };
             return item;
         }
         
         private ToolStripMenuItem CreateShipPart()
         {
             ToolStripMenuItem item = CreateItem("Отправка запчастей");
-            item.Click += ShipPart_Click;
+            item.Click += delegate { _mainStatus.Set(Status.ShipPart); };
             return item;
         }
         
         private ToolStripMenuItem CreateAccount()
         {
             ToolStripMenuItem item = CreateItem("Согласования");
-            item.Click += Account_Click;
+            item.Click += delegate { _mainStatus.Set(Status.Account); };
             return item;
         }
 
         private ToolStripMenuItem CreateFuelCard()
         {
             ToolStripMenuItem item = CreateItem("Топливные карты");
-            item.Click += FuelCard_Click;
+            item.Click += delegate { _mainStatus.Set(Status.FuelCard); };
             return item;
         }
 
         private ToolStripMenuItem CreateDriver()
         {
             ToolStripMenuItem item = CreateItem("Водители");
-            item.Click += Driver_Click;
+            item.Click += delegate { _mainStatus.Set(Status.Driver); };
             return item;
         }
         
         private ToolStripMenuItem CreateRegion()
         {
             ToolStripMenuItem item = CreateItem("Регионы");
-            item.Click += Region_Click;
+            item.Click += delegate { loadDictionary("Region", "Справочник \"Регионы\""); };
             return item;
         }
 
         private ToolStripMenuItem CreateSuppyAddress()
         {
             ToolStripMenuItem item = CreateItem("Адреса подачи");
-            item.Click += SuppyAddress_Click;
+            item.Click += delegate
+            {
+                formSuppyAddressList formsuppyAddressList = new formSuppyAddressList();
+                formsuppyAddressList.ShowDialog();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateEmployee()
         {
             ToolStripMenuItem item = CreateItem("Сотрудники в регионе");
-            item.Click += Employee_Click;
+            item.Click += delegate
+            {
+                formEmployeesList formemployeesList = new formEmployeesList();
+                formemployeesList.ShowDialog();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateMark()
         {
             ToolStripMenuItem item = CreateItem("Марки");
-            item.Click += Mark_Click;
+            item.Click += delegate { loadDictionary("Mark", "Справочник \"Марки автомобилей\""); };
             return item;
         }
 
         private ToolStripMenuItem CreateModel()
         {
             ToolStripMenuItem item = CreateItem("Модели");
-            item.Click += Model_Click;
+            item.Click += delegate
+            {
+                formModelList mList = new formModelList();
+                mList.ShowDialog();
+            };
             return item;
         }
         
         private ToolStripMenuItem CreateGrade()
         {
             ToolStripMenuItem item = CreateItem("Комплектации");
-            item.Click += Grade_Click;
+            item.Click += delegate
+            {
+                formGradeList gList = new formGradeList();
+                gList.ShowDialog();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateEngineType()
         {
             ToolStripMenuItem item = CreateItem("Типы двигателей");
-            item.Click += EngineType_Click;
+            item.Click += delegate { loadDictionary("EngineType", "Справочник \"Типы двигателей\""); };
             return item;
         }
 
         private ToolStripMenuItem CreateColor()
         {
             ToolStripMenuItem item = CreateItem("Цвета");
-            item.Click += Color_Click;
+            item.Click += delegate { loadDictionary("Color", "Справочник \"Цветов кузова\""); };
             return item;
         }
 
         private ToolStripMenuItem CreateDiler()
         {
             ToolStripMenuItem item = CreateItem("Дилеры");
-            item.Click += Diler_Click;
+            item.Click += delegate
+            {
+                formDillerList dList = new formDillerList();
+                dList.ShowDialog();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateOwner()
         {
             ToolStripMenuItem item = CreateItem("Собственники");
-            item.Click += Owner_Click;
+            item.Click += delegate { loadDictionary("Owner", "Справочник \"Собственники\""); };
             return item;
         }
 
         private ToolStripMenuItem CreateComp()
         {
             ToolStripMenuItem item = CreateItem("Страховые компании");
-            item.Click += Comp_Click;
+            item.Click += delegate { loadDictionary("Comp", "Справочник \"Страховые компании\""); };
             return item;
         }
 
         private ToolStripMenuItem CreateServiceStantion()
         {
             ToolStripMenuItem item = CreateItem("СТО");
-            item.Click += ServiceStantion_Click;
+            item.Click += delegate
+            {
+                loadDictionary("ServiceStantion", "Справочник \"Станции технического обслуживания\"");
+
+                ServiceStantions serviceStantions = ServiceStantions.getInstance();
+                serviceStantions.ReLoad();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateServiceStantionComp()
         {
             ToolStripMenuItem item = CreateItem("СТО страховых");
-            item.Click += ServiceStantionComp_Click;
+            item.Click += delegate
+            {
+                formSsDTPList formssDTPList = new formSsDTPList();
+                formssDTPList.ShowDialog();
+            };
             return item;
         }
         
         private ToolStripMenuItem CreateCulprit()
         {
             ToolStripMenuItem item = CreateItem("Виновники ДТП");
-            item.Click += Culprit_Click;
+            item.Click += delegate { loadDictionary("culprit", "Справочник \"Виновники ДТП\""); };
             return item;
         }
         
         private ToolStripMenuItem CreateRepairType()
         {
             ToolStripMenuItem item = CreateItem("Виды ремонта");
-            item.Click += RepairType_Click;
+            item.Click += delegate
+            {
+                loadDictionary("RepairType", "Справочник \"Типы ремонта\"");
+
+                RepairTypes repairTypes = RepairTypes.getInstance();
+                repairTypes.ReLoad();
+            };
             return item;
         }
         
         private ToolStripMenuItem CreateStatusAfterDTP()
         {
             ToolStripMenuItem item = CreateItem("Статусы после ДТП");
-            item.Click += StatusAfterDTP_Click;
+            item.Click += delegate { loadDictionary("StatusAfterDTP", "Справочник \"Статусы автомобиля после ДТП\""); };
             return item;
         }
 
         private ToolStripMenuItem CreateCurrentStatusAfterDTP()
         {
             ToolStripMenuItem item = CreateItem("Текущее состояние после ДТП");
-            item.Click += CurrentStatusAfterDTP_Click;
+            item.Click += delegate
+            {
+                loadDictionary("CurrentStatusAfterDTP", "Справочник \"Текущее состояние после ДТП\"");
+
+                CurrentStatusAfterDTPs currentStatusAfterDTPs = CurrentStatusAfterDTPs.getInstance();
+                currentStatusAfterDTPs.ReLoad();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateViolationType()
         {
             ToolStripMenuItem item = CreateItem("Типы нарушений ПДД");
-            item.Click += ViolationType_Click;
+            item.Click += delegate
+            {
+                loadDictionary("ViolationType", "Справочник \"Типы нарушений ПДД\"");
+
+                ViolationTypes violationType = ViolationTypes.getInstance();
+                violationType.ReLoad();
+            };
             return item;
         }
         
         private ToolStripMenuItem CreateProxyType()
         {
             ToolStripMenuItem item = CreateItem("Типы доверенностей");
-            item.Click += ProxyType_Click;
+            item.Click += delegate { loadDictionary("proxyType", "Справочник \"Типы доверенностей\""); };
             return item;
         }
 
         private ToolStripMenuItem CreateFuelCardType()
         {
             ToolStripMenuItem item = CreateItem("Типы топливных карт");
-            item.Click += FuelCardType_Click;
+            item.Click += delegate
+            {
+                loadDictionary("FuelCardType", "Справочник \"Типы топливных карт\"");
+
+                FuelCardTypes fuelCardTypes = FuelCardTypes.getInstance();
+                fuelCardTypes.ReLoad();
+            };
             return item;
         }
         
         private ToolStripMenuItem CreateMailText()
         {
             ToolStripMenuItem item = CreateItem("Тексты уведомлений");
-            item.Click += MailText_Click;
+            item.Click += delegate
+            {
+                formMailText fMailText = new formMailText();
+                fMailText.ShowDialog();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateTemplate()
         {
             ToolStripMenuItem item = CreateItem("Шаблоны документов");
-            item.Click += Template_Click;
+            item.Click += delegate
+            {
+                formTemplateList formtemplateList = new formTemplateList();
+                formtemplateList.ShowDialog();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateUserAccess()
         {
             ToolStripMenuItem item = CreateItem("Доступ пользователей");
-            item.Click += UserAccess_Click;
+            item.Click += delegate
+            {
+                formUsersAccess fUserAccess = new formUsersAccess();
+                fUserAccess.ShowDialog();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateProfession()
         {
             ToolStripMenuItem item = CreateItem("Должности пользователей");
-            item.Click += Profession_Click;
+            item.Click += delegate
+            {
+                loadDictionary("EmployeesName", "Справочник \"Профессий\"");
+
+                EmployeesNames employeesNames = EmployeesNames.getInstance();
+                employeesNames.ReLoad();
+            };
             return item;
         }
 
@@ -768,142 +1127,6 @@ namespace BBAuto
             return new ToolStripMenuItem(name);
         }
         
-        private void NewInvoice_Click(object sender, EventArgs e)
-        {
-            if (_dgvMain.GetCarID() == 0)
-                return;
-
-            InvoiceDialog.CreateNewInvoiceAndOpen(_dgvMain.GetCarID());
-        }
-
-        private void NewDTP_Click(object sender, EventArgs e)
-        {
-            if (_dgvMain.GetCarID() == 0)
-                return;
-            
-            Car car = _carList.getItem(_dgvMain.GetCarID());
-
-            DTP dtp = car.createDTP();
-
-            DTP_AddEdit dtpAE = new DTP_AddEdit(dtp);
-            dtpAE.ShowDialog();
-        }
-
-        private void NewViolation_Click(object sender, EventArgs e)
-        {
-            if (_dgvMain.GetCarID() == 0)
-                return;
-
-            Violation violation = new Violation(_dgvMain.GetCarID());
-
-            Violation_AddEdit vAE = new Violation_AddEdit(violation);
-            vAE.ShowDialog();
-        }
-
-        private void NewPolicy_Click(object sender, EventArgs e)
-        {
-            if (_dgvMain.GetCarID() == 0)
-                return;
-
-            Car car = _carList.getItem(_dgvMain.GetCarID());
-
-            Policy_AddEdit policyAE = new Policy_AddEdit(car.CreatePolicy());
-            policyAE.ShowDialog();        
-        }
-
-        private void NewDiagCard_Click(object sender, EventArgs e)
-        {
-            if (_dgvMain.GetCarID() == 0)
-                return;
-
-            Car car = _carList.getItem(_dgvMain.GetCarID());
-
-            DiagCard diagCard = car.createDiagCard();
-
-            DiagCard_AddEdit diagcardAE = new DiagCard_AddEdit(diagCard);
-            diagcardAE.ShowDialog();
-        }
-
-        private void NewMileage_Click(object sender, EventArgs e)
-        {
-            if (_dgvMain.GetCarID() == 0)
-                return;
-
-            Car car = _carList.getItem(_dgvMain.GetCarID());
-
-            Mileage mileage = car.createMileage();
-
-            Mileage_AddEdit mAE = new Mileage_AddEdit(mileage);
-            if (mAE.ShowDialog() == DialogResult.OK)
-                _mainStatus.Set(_mainStatus.Get());
-        }
-
-        private void NewTempMove_Click(object sender, EventArgs e)
-        {
-            if (_dgvMain.GetCarID() == 0)
-                return;
-
-            Car car = _carList.getItem(_dgvMain.GetCarID());
-            TempMove tempMove = car.createTempMove();
-
-            TempMove_AddEdit tempMoveAE = new TempMove_AddEdit(tempMove);
-            tempMoveAE.ShowDialog();
-        }
-
-        private void ToSale_Click(object sender, EventArgs e)
-        {
-            if (_dgvMain.GetCarID() == 0)
-                return;
-
-            if (MessageBox.Show("Вы действительно хотите переместить автомобиль на продажу?", "Снятие с продажи", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                            == DialogResult.Yes)
-            {
-                CarSale carSale = new CarSale(_dgvMain.GetCarID());
-                carSale.Save();
-
-                _mainStatus.Set(_mainStatus.Get());
-            }
-        }
-
-        private void DeleteFromSale_Click(object sender, EventArgs e)
-        {
-            if (_dgvMain.GetCarID() == 0)
-                return;
-
-            if (MessageBox.Show("Вы действительно хотите убрать автомобиль с продажи?", "Снятие с продажи", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                            == DialogResult.Yes)
-            {
-                CarSaleList carSaleList = CarSaleList.getInstance();
-                carSaleList.Delete(_dgvMain.GetCarID());
-
-                _mainStatus.Set(_mainStatus.Get());
-            }
-        }
-
-        private void LotusMail_Click(object sender, EventArgs e)
-        {
-            if (_dgvMain.GetCarID() == 0)
-                return;
-
-            DriverMails driverMails = new DriverMails(_dgvMain);
-            string driverList = driverMails.ToString();
-
-            if (string.IsNullOrEmpty(driverList))
-                MessageBox.Show("Email-адреса не обнаружены", "Невозножно создать письмо", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            else
-                eMail.OpenEmailProgram(driverList);
-        }
-
-        private void SendPolicyOsago_Click(object sender, EventArgs e)
-        {
-            SendPolicy(PolicyType.ОСАГО);
-        }
-
-        private void SendPolicyKasko_Click(object sender, EventArgs e)
-        {
-            SendPolicy(PolicyType.КАСКО);
-        }
-
         private void SendPolicy(PolicyType type)
         {
             if (_dgvMain.GetCarID() == 0)
@@ -915,83 +1138,7 @@ namespace BBAuto
 
             MessageBox.Show(result, "Отправка", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-
-        private void Copy_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                MyBuffer.Copy(_dgvMain.GetDGV());
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void Print_Click(object sender, EventArgs e)
-        {
-            CreateDocument doc = new CreateDocument();
-            doc.CreateExcelFromDGV(_dgvMain.GetDGV());
-            doc.Print();
-        }
-
-        private void PrintWayBill_Click(object sender, EventArgs e)
-        {
-            InputDate inputDate = new InputDate(_dgvMain, Actions.Print, WayBillType.Month);
-            inputDate.ShowDialog();
-        }
-
-        private void ShowWayBill_Click(object sender, EventArgs e)
-        {
-            InputDate inputDate = new InputDate(_dgvMain, Actions.Show, WayBillType.Month);
-            inputDate.ShowDialog();
-        }
-
-        private void ShowWayBillDaily_Click(object sender, EventArgs e)
-        {
-            FormWayBillDaily formWayBillDaily = new FormWayBillDaily(_dgvMain);
-            formWayBillDaily.ShowDialog();
-            /*
-            InputDate inputDate = new InputDate(_dgvMain, Actions.Show, WayBillType.Day);
-            inputDate.ShowDialog();
-            */
-        }
-
-        private void ShowInvoice_Click(object sender, EventArgs e)
-        {
-            CreateDocument doc = createDocument(_dgvMain.CurrentCell);
-
-            if (doc != null)
-                doc.ShowInvoice();
-        }
-
-        private void ShowAttacheToOrder_Click(object sender, EventArgs e)
-        {
-            CreateDocument doc = createDocument(_dgvMain.CurrentCell);
-
-            if (doc != null)
-                doc.ShowAttacheToOrder();
-        }
-
-        private void ShowProxyOnSTO_Click(object sender, EventArgs e)
-        {
-            CreateDocument doc = createDocument(_dgvMain.CurrentCell);
-
-            if (doc != null)
-                doc.ShowProxyOnSTO();
-        }
-
-        private void PrintProxyOnSTO_Click(object sender, EventArgs e)
-        {
-            foreach (DataGridViewCell cell in _dgvMain.SelectedCells)
-            {
-                CreateDocument doc = createDocument(cell);
-
-                if (doc != null)
-                    doc.PrintProxyOnSTO();
-            }
-        }
-
+        
         private CreateDocument createDocument(DataGridViewCell cell)
         {
             int carID = _dgvMain.GetCarID(cell.RowIndex);
@@ -1014,164 +1161,7 @@ namespace BBAuto
 
             return new CreateDocument(car, invoice);
         }
-
-        private void ShowPolicyKasko_Click(object sender, EventArgs e)
-        {
-            if (_dgvMain.GetCarID() == 0)
-                return;
-
-            Car car = _carList.getItem(_dgvMain.GetCarID());
-
-            PolicyList policyList = PolicyList.getInstance();
-            Policy kasko = policyList.getItem(car, PolicyType.КАСКО);
-
-            if (!string.IsNullOrEmpty(kasko.File))
-                WorkWithFiles.openFile(kasko.File);
-        }
-
-        private void ShowActFuelCard_Click(object sender, EventArgs e)
-        {
-            if (_dgvMain.GetCarID() == 0)
-                MessageBox.Show("Для формирования акта выберите ячейку в таблице", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            else
-            {
-                CarList carList = CarList.getInstance();
-                Car car = carList.getItem(_dgvMain.GetCarID());
-
-                InvoiceList invoiceList = InvoiceList.getInstance();
-                Invoice invoice = invoiceList.getItem(_dgvMain.GetID());
-
-                CreateDocument doc = new CreateDocument(car, invoice);
-                doc.ShowActFuelCard();
-            }
-        }
-
-        private void ShowNotice_Click(object sender, EventArgs e)
-        {
-            if (_dgvMain.GetCarID() == 0)
-                return;
-
-            if (_mainStatus.Get() == Status.DTP)
-            {
-                DTPList dtpList = DTPList.getInstance();
-                DTP dtp = dtpList.getItem(_dgvMain.GetID());
-
-                Car car = _carList.getItem(_dgvMain.GetCarID());
-
-                CreateDocument doc = new CreateDocument(car);
-
-                doc.showNotice(dtp);
-            }
-            else
-                MessageBox.Show("Для формирования извещения необходимо перейти на вид \"ДТП\"", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        }
-
-        private void ShowSTS_Click(object sender, EventArgs e)
-        {
-            if (_dgvMain.GetCarID() == 0)
-                return;
-
-            Car car = _carList.getItem(_dgvMain.GetCarID());
-
-            STSList stsList = STSList.getInstance();
-            STS sts = stsList.getItem(car);
-
-            if (!string.IsNullOrEmpty(sts.File))
-                WorkWithFiles.openFile(sts.File);
-        }
-
-        private void ShowDriverLicense_Click(object sender, EventArgs e)
-        {
-            if (_dgvMain.GetID() == 0)
-                return;
-
-            DateTime date = DateTime.Today;
-
-            if (_mainStatus.Get() == Status.DTP)
-            {
-                DTPList dtpList = DTPList.getInstance();
-                DTP dtp = dtpList.getItem(_dgvMain.GetID());
-                date = dtp.Date;
-            }
-
-            Car car = _carList.getItem(_dgvMain.GetCarID());
-
-            DriverCarList driverCarList = DriverCarList.getInstance();
-            Driver driver = driverCarList.GetDriver(car, date);
-
-            LicenseList licencesList = LicenseList.getInstance();
-            DriverLicense driverLicense = licencesList.getItem(driver);
-
-            if (!string.IsNullOrEmpty(driverLicense.File))
-                WorkWithFiles.openFile(driverLicense.File);
-        }
-
-        private void Exit_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void Documents_Click(object sender, EventArgs e)
-        {
-            Process.Start(@"\\bbmru08.bbmag.bbraun.com\Depts\Logistics\Автохозяйство\документы на авто");
-        }
-
-        private void NewCar_Click(object sender, EventArgs e)
-        {
-            Car_AddEdit aeCar = new Car_AddEdit(new Car());
-            if (aeCar.ShowDialog() == DialogResult.OK)
-                _mainStatus.Set(_mainStatus.Get());
-        }
-
-        private void NewAccount_Click(object sender, EventArgs e)
-        {
-            Account_AddEdit aeaAcountForm = new Account_AddEdit(new Account());
-            aeaAcountForm.ShowDialog();
-            if (aeaAcountForm.ShowDialog() == DialogResult.OK)
-                _mainStatus.Set(_mainStatus.Get());
-        }
-
-        private void NewFuelCard_Click(object sender, EventArgs e)
-        {
-            FuelCard_AddEdit fuelCardAddEdit = new FuelCard_AddEdit(new FuelCard());
-            fuelCardAddEdit.ShowDialog();
-            if (fuelCardAddEdit.ShowDialog() == DialogResult.OK)
-                _mainStatus.Set(_mainStatus.Get());
-        }
-
-        private void ShowPolicyList_Click(object sender, EventArgs e)
-        {
-            CreateDocument doc = new CreateDocument();
-            doc.CreatePolicyTable();
-        }
-
-        private void PrintAllTable_Click(object sender, EventArgs e)
-        {
-            MyPrinter myprinter = new MyPrinter();
-
-            string printerName = myprinter.GetDefaultPrinterName();
-
-            if (string.IsNullOrEmpty(printerName))
-            {
-                MessageBox.Show("Принтер по умолчанию не найден", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            string message = string.Concat("Вывести справочник \"", _mainStatus.ToString(), "\" на печать на принтер ", printerName, "?");
-
-            if (MessageBox.Show(message, "Печать", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                CreateDocument doc = DgvToExcel();
-                doc.Print();
-            }
-        }
-
-        private void ShowAllTable_Click(object sender, EventArgs e)
-        {
-            CreateDocument doc = DgvToExcel();
-            doc.Show();
-        }
-
+        
         private CreateDocument DgvToExcel()
         {
             CreateDocument doc = new CreateDocument();
@@ -1180,232 +1170,13 @@ namespace BBAuto
 
             return doc;
         }
-
-        private void Actual_Click(object sender, EventArgs e)
-        {
-            _mainStatus.Set(Status.Actual);
-        }
-
-        private void Buy_Click(object sender, EventArgs e)
-        {
-            _mainStatus.Set(Status.Buy);
-        }
-
-        private void Sale_Click(object sender, EventArgs e)
-        {
-            _mainStatus.Set(Status.Sale);
-        }
-
-        private void Invoice_Click(object sender, EventArgs e)
-        {
-            _mainStatus.Set(Status.Invoice);
-        }
-
-        private void TempMove_Click(object sender, EventArgs e)
-        {
-            _mainStatus.Set(Status.TempMove);
-        }
-
-        private void Policy_Click(object sender, EventArgs e)
-        {
-            _mainStatus.Set(Status.Policy);
-        }
-
-        private void Violation_Click(object sender, EventArgs e)
-        {
-            _mainStatus.Set(Status.Violation);
-        }
-
-        private void DTP_Click(object sender, EventArgs e)
-        {
-            _mainStatus.Set(Status.DTP);
-        }
-
-        private void DiagCard_Click(object sender, EventArgs e)
-        {
-            _mainStatus.Set(Status.DiagCard);
-        }
-
-        private void Repair_Click(object sender, EventArgs e)
-        {
-            _mainStatus.Set(Status.Repair);
-        }
-
-        private void ShipPart_Click(object sender, EventArgs e)
-        {
-            _mainStatus.Set(Status.ShipPart);
-        }
-
-        private void Account_Click(object sender, EventArgs e)
-        {
-            _mainStatus.Set(Status.Account);
-        }
-
-        private void FuelCard_Click(object sender, EventArgs e)
-        {
-            _mainStatus.Set(Status.FuelCard);
-        }
-
-        private void Driver_Click(object sender, EventArgs e)
-        {
-            _mainStatus.Set(Status.Driver);
-            //formDriversList fDriversList = new formDriversList();
-            //fDriversList.ShowDialog();
-        }
-
-        private void Region_Click(object sender, EventArgs e)
-        {
-            loadDictionary("Region", "Справочник \"Регионы\"");
-        }
-
-        private void SuppyAddress_Click(object sender, EventArgs e)
-        {
-            formSuppyAddressList formsuppyAddressList = new formSuppyAddressList();
-            formsuppyAddressList.ShowDialog();
-        }
-
-        private void Employee_Click(object sender, EventArgs e)
-        {
-            formEmployeesList formemployeesList = new formEmployeesList();
-            formemployeesList.ShowDialog();
-        }
-
+        
         private void loadDictionary(string name, string title)
         {
             formOneStringDictionary oneSD = new formOneStringDictionary(name, title);
             oneSD.ShowDialog();
         }
         
-        private void Mark_Click(object sender, EventArgs e)
-        {
-            loadDictionary("Mark", "Справочник \"Марки автомобилей\"");
-        }
-
-        private void Model_Click(object sender, EventArgs e)
-        {
-            formModelList mList = new formModelList();
-            mList.ShowDialog();
-        }
-
-        private void Grade_Click(object sender, EventArgs e)
-        {
-            formGradeList gList = new formGradeList();
-            gList.ShowDialog();
-        }
-
-        private void EngineType_Click(object sender, EventArgs e)
-        {
-            loadDictionary("EngineType", "Справочник \"Типы двигателей\"");
-        }
-
-        private void Color_Click(object sender, EventArgs e)
-        {
-            loadDictionary("Color", "Справочник \"Цветов кузова\"");
-        }
-
-        private void Diler_Click(object sender, EventArgs e)
-        {
-            formDillerList dList = new formDillerList();
-            dList.ShowDialog();
-        }
-
-        private void Owner_Click(object sender, EventArgs e)
-        {
-            loadDictionary("Owner", "Справочник \"Собственники\"");
-        }
-
-        private void Comp_Click(object sender, EventArgs e)
-        {
-            loadDictionary("Comp", "Справочник \"Страховые компании\"");
-        }
-
-        private void ServiceStantion_Click(object sender, EventArgs e)
-        {
-            loadDictionary("ServiceStantion", "Справочник \"Станции технического обслуживания\"");
-
-            ServiceStantions serviceStantions = ServiceStantions.getInstance();
-            serviceStantions.ReLoad();
-        }
-
-        private void ServiceStantionComp_Click(object sender, EventArgs e)
-        {
-            formSsDTPList formssDTPList = new formSsDTPList();
-            formssDTPList.ShowDialog();
-        }
-
-        private void Culprit_Click(object sender, EventArgs e)
-        {
-            loadDictionary("culprit", "Справочник \"Виновники ДТП\"");
-        }
-        
-        private void RepairType_Click(object sender, EventArgs e)
-        {
-            loadDictionary("RepairType", "Справочник \"Типы ремонта\"");
-
-            RepairTypes repairTypes = RepairTypes.getInstance();
-            repairTypes.ReLoad();
-        }
-
-        private void StatusAfterDTP_Click(object sender, EventArgs e)
-        {
-            loadDictionary("StatusAfterDTP", "Справочник \"Статусы автомобиля после ДТП\"");
-        }
-
-        private void CurrentStatusAfterDTP_Click(object sender, EventArgs e)
-        {
-            loadDictionary("CurrentStatusAfterDTP", "Справочник \"Текущее состояние после ДТП\"");
-
-            CurrentStatusAfterDTPs currentStatusAfterDTPs = CurrentStatusAfterDTPs.getInstance();
-            currentStatusAfterDTPs.ReLoad();
-        }
-        
-        private void ViolationType_Click(object sender, EventArgs e)
-        {
-            loadDictionary("ViolationType", "Справочник \"Типы нарушений ПДД\"");
-
-            ViolationTypes violationType = ViolationTypes.getInstance();
-            violationType.ReLoad();
-        }
-
-        private void ProxyType_Click(object sender, EventArgs e)
-        {
-            loadDictionary("proxyType", "Справочник \"Типы доверенностей\"");
-        }
-        
-        private void FuelCardType_Click(object sender, EventArgs e)
-        {
-            loadDictionary("FuelCardType", "Справочник \"Типы топливных карт\"");
-
-            FuelCardTypes fuelCardTypes = FuelCardTypes.getInstance();
-            fuelCardTypes.ReLoad();
-        }
-        
-        private void MailText_Click(object sender, EventArgs e)
-        {
-            formMailText fMailText = new formMailText();
-            fMailText.ShowDialog();
-        }
-        
-        private void Template_Click(object sender, EventArgs e)
-        {
-            formTemplateList formtemplateList = new formTemplateList();
-            formtemplateList.ShowDialog();
-        }
-
-        private void UserAccess_Click(object sender, EventArgs e)
-        {
-            formUsersAccess fUserAccess = new formUsersAccess();
-            fUserAccess.ShowDialog();
-        }
-
-        private void Profession_Click(object sender, EventArgs e)
-        {
-            loadDictionary("EmployeesName", "Справочник \"Профессий\"");
-
-            EmployeesNames employeesNames = EmployeesNames.getInstance();
-            employeesNames.ReLoad();
-        }
-
         private void Sort_Click(object sender, EventArgs e)
         {
             DataGridView dgv = _dgvMain.GetDGV();

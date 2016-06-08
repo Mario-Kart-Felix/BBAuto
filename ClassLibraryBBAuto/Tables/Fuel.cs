@@ -16,7 +16,7 @@ namespace ClassLibraryBBAuto
             int.TryParse(row[1].ToString(), out idFuelCard);
             FuelCardList fuelCardList = FuelCardList.getInstance();
             FuelCard = fuelCardList.getItem(idFuelCard);
-
+            
             Date = Convert.ToDateTime(row[2].ToString());
             Count = Convert.ToDouble(row[3].ToString());
 
