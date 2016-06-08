@@ -198,7 +198,7 @@ namespace ClassLibraryBBAuto
             DriverCarList driverCarList = DriverCarList.getInstance();
             Driver driver = driverCarList.GetDriver(car, _date);
 
-            return driver;
+            return driver ?? new Driver();
         }
 
         protected void deleteFilePay()

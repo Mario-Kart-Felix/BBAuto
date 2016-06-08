@@ -188,13 +188,17 @@ namespace ClassLibraryBBAuto
 
         private void createBodyAccount(Account account)
         {
-            Driver driver = account.GetDriver();
-
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("Добрый день!");
             sb.AppendLine("");
+            
+            Driver driver = account.GetDriver();
+            string employeeSex = string.Empty;
 
-            string employeeSex = (driver.Sex == "мужской") ? "сотрудника" : "сотрудницы";
+            if (driver != null)
+            {
+                employeeSex = (driver.Sex == "мужской") ? "сотрудника" : "сотрудницы";
+            }
 
             PolicyType policyType = (PolicyType)Convert.ToInt32(account.IDPolicyType);
 

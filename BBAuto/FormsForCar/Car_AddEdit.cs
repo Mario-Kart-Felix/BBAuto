@@ -215,7 +215,7 @@ namespace BBAuto
             tbCost.Text = _car.cost.ToString();
             tbDOP.Text = _car.dop;
 
-            Driver driver = driverCarList.GetDriver(_car);
+            Driver driver = driverCarList.GetDriver(_car) ?? new Driver();
             llDriver.Text = driver.GetName(NameType.Full);
 
             //если не назначен водитель
@@ -1056,7 +1056,7 @@ namespace BBAuto
         {
             Driver driver = driverCarList.GetDriver(_car);
 
-            if (driver.ID == 0)
+            if (driver == null)
                 return;
 
             Driver_AddEdit driverAE = new Driver_AddEdit(driver);

@@ -85,7 +85,9 @@ namespace ClassLibraryBBAuto
                 return driverList.getItem(driverCar.idDriver);
             }
             else
-                return new Driver();
+            {
+                return null;
+            }
         }
 
         public Car GetCar(Driver driver)

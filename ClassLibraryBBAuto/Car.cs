@@ -336,7 +336,7 @@ namespace ClassLibraryBBAuto
             int.TryParse(mileage.Count, out mileageInt);
 
             return new object[] { _id, _id, BBNumber, grz, info.Mark, info.Model, vin, regionName,
-                info.driver.GetName(NameType.Full), pts.Number, sts.Number, Year, mileageInt,
+                info.Driver.GetName(NameType.Full), pts.Number, sts.Number, Year, mileageInt,
                 mileage.MonthToString(), info.Owner, info.Guarantee, GetStatus()};
         }
 

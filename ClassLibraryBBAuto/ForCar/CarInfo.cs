@@ -87,12 +87,12 @@ namespace ClassLibraryBBAuto
             }
         }
         
-        public Driver driver
+        public Driver Driver
         {
             get
             {
                 DriverCarList driverCarList = DriverCarList.getInstance();
-                return driverCarList.GetDriver(_car);
+                return driverCarList.GetDriver(_car) ?? new Driver();
             }
         }
         

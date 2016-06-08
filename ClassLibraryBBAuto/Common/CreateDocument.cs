@@ -228,10 +228,27 @@ namespace ClassLibraryBBAuto
         
         public void createWaybill(DateTime date, Driver driver = null)
         {
+            date = new DateTime(date.Year, date.Month, 1);
+
             if (driver == null)
             {
                 DriverCarList driverCarList = DriverCarList.getInstance();
                 driver = driverCarList.GetDriver(_car, date);
+
+                if (driver == null)
+                {
+                    driver = driverCarList.GetDriver(_car);
+                    InvoiceList invoiceList = InvoiceList.getInstance();
+                    Invoice invoice = invoiceList.getItem(_car);
+
+                    if ((invoice != null) && (!string.IsNullOrEmpty(invoice.DateMove)))
+                    {
+                        DateTime dateMove;
+                        DateTime.TryParse(invoice.DateMove, out dateMove);
+                        if ((dateMove.Year == date.Year) && (dateMove.Month == date.Month))
+                            date = new DateTime(date.Year, date.Month, dateMove.Day);
+                    }
+                }
             }
 
             _excelDoc = openDocumentExcel("Путевой лист");

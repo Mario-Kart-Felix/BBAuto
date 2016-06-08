@@ -453,6 +453,11 @@ namespace BBAuto
                     DriverCarList driverCarList = DriverCarList.getInstance();
                     Driver driver = driverCarList.GetDriver(car);
 
+                    if (driver == null)
+                    {
+                        return;
+                    }
+
                     DriverList driverList = DriverList.getInstance();
                     Driver_AddEdit dAE = new Driver_AddEdit(driver);
                     if (dAE.ShowDialog() == DialogResult.OK)

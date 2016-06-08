@@ -27,7 +27,7 @@ namespace ClassLibraryBBAuto
 
         private DateTime _date;
 
-        public string DaysRange { get { return string.Concat("1-", DateTime.DaysInMonth(_date.Year, _date.Month).ToString()); } }
+        public string DaysRange { get { return string.Concat(_date.Day.ToString(), "-", DateTime.DaysInMonth(_date.Year, _date.Month).ToString()); } }
         public string Year { get { return _date.Year.ToString(); } }
 
         public MyDateTime(string sdate)

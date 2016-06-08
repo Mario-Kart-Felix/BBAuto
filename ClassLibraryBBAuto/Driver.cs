@@ -349,6 +349,9 @@ namespace ClassLibraryBBAuto
         
         public override bool Equals(object obj)
         {
+            if (obj == null)
+                return false;
+
             Driver driver2 = obj as Driver;
             return (_id == driver2._id);
         }

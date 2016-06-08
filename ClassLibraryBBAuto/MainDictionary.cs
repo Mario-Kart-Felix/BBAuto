@@ -24,7 +24,7 @@ namespace ClassLibraryBBAuto
 
         public bool IsEqualsID(int id)
         {
-            return _id == id;
+            return ID == id;
         }
 
         protected void DeleteFile(string newFile)

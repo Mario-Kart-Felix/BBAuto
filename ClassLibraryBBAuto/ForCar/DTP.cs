@@ -150,7 +150,7 @@ namespace ClassLibraryBBAuto
         internal bool isEqualDriverID(Driver driver)
         {
             Driver driver2 = GetDriver();
-
+            
             return driver.Equals(driver2);
         }
 
@@ -177,7 +177,8 @@ namespace ClassLibraryBBAuto
         {
             Car car = getCar();
             DriverCarList driverCarList = DriverCarList.getInstance();
-            return driverCarList.GetDriver(car, _date);
+            Driver driver = driverCarList.GetDriver(car, _date);
+            return driver ?? new Driver();
         }
 
         public string GetCurrentStatusAfterDTP()

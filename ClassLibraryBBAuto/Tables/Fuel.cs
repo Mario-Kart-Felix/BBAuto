@@ -8,44 +8,45 @@ namespace ClassLibraryBBAuto
 {
     public class Fuel : MainDictionary
     {
-        private FuelCard _fuelCard;
-        private DateTime _date;
-        private double _count;
-        private EngineType _engineType;
-
         public Fuel(DataRow row)
         {
-            int.TryParse(row[0].ToString(), out _id);
+            _id = Convert.ToInt32(row[0].ToString());
 
             int idFuelCard;
             int.TryParse(row[1].ToString(), out idFuelCard);
             FuelCardList fuelCardList = FuelCardList.getInstance();
-            _fuelCard = fuelCardList.getItem(idFuelCard);
+            FuelCard = fuelCardList.getItem(idFuelCard);
 
-            DateTime.TryParse(row[2].ToString(), out _date);
+            Date = Convert.ToDateTime(row[2].ToString());
+            Count = Convert.ToDouble(row[3].ToString());
 
             int idEngineType;
-            int.TryParse(row[3].ToString(), out idEngineType);
+            int.TryParse(row[4].ToString(), out idEngineType);
             EngineTypeList engineTypeList = EngineTypeList.getInstance();
-            _engineType = engineTypeList.getItem(idFuelCard);
+            EngineType = engineTypeList.getItem(idFuelCard);
         }
 
         internal Fuel(FuelCard fuelCard, DateTime date, EngineType engineType)
         {
-            _fuelCard = fuelCard;
-            _date = date;
-            _engineType = engineType;
-            _count = 0;
+            FuelCard = fuelCard;
+            Date = date;
+            EngineType = engineType;
+            Count = 0;
         }
 
-        public FuelCard FuelCard { get { return _fuelCard; } }
-        public DateTime Date { get { return _date; } }
-        public double Count { get { return _count; } }
-        public EngineType EngineType { get { return _engineType; } }
+        public FuelCard FuelCard { get; private set; }
+        public DateTime Date { get; private set; }
+        public double Count { get; private set; }
+        public EngineType EngineType { get; private set; }
 
         public void AddCount(double count)
         {
-            _count += count;
+            Count += count;
+        }
+
+        public override void Save()
+        {
+            _id = Convert.ToInt32(_provider.Insert("Fuel", FuelCard.ID, Date, Count, EngineType.ID));
         }
 
         internal override object[] getRow()
