@@ -13,6 +13,7 @@ namespace ClassLibraryBBAuto.Loaders
         private const string DIESEL_FULLNAME = "ДИЗЕЛЬ";
 
         private string path;
+        private FuelReport fuelReport;
         private static readonly Dictionary<FuelReport, Action<ExcelDoc>> loaders;
 
         private static FuelCardList fuelCardList;
@@ -20,9 +21,10 @@ namespace ClassLibraryBBAuto.Loaders
         private static EngineType benzin;
         private static EngineType disel;
 
-        public FuelLoader(string path)
+        public FuelLoader(string path, FuelReport fuelReport)
         {
             this.path = path;
+            this.fuelReport = fuelReport;
         }
 
         static FuelLoader()
@@ -127,7 +129,7 @@ namespace ClassLibraryBBAuto.Loaders
             return ((engineTypeName == DIESEL_NAME) || (engineTypeName == DIESEL_FULLNAME)) ? disel : benzin;
         }
 
-        public void Load(FuelReport fuelReport)
+        public void Load()
         {
             using (ExcelDoc excelDoc = new ExcelDoc(path))
             {

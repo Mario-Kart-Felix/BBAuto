@@ -165,8 +165,8 @@ namespace BBAuto
                     return CreateRouteList();
                 case ContextMenuItem.MileageFill:
                     return CreateMileageFill();
-                case ContextMenuItem.FuelFill:
-                    return CreateFuelFill();
+                case ContextMenuItem.FuelLoad:
+                    return CreateFuelLoad();
                 default:
                     throw new NotImplementedException();
             }
@@ -1203,13 +1203,13 @@ namespace BBAuto
             return item;
         }
 
-        private ToolStripMenuItem CreateFuelFill()
+        private ToolStripMenuItem CreateFuelLoad()
         {
             ToolStripMenuItem item = CreateItem("Загрузить данные по заправкам");
             item.Click += delegate
             {
-                FormMileageFill formMileageFill = new FormMileageFill();
-                formMileageFill.ShowDialog();
+                FormLoadFuel formLoadFuel = new FormLoadFuel();
+                formLoadFuel.ShowDialog();
             };
             return item;
         }

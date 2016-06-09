@@ -57,7 +57,7 @@
 
         MyPointList, RouteList,
 
-        MileageFill, FuelFill
+        MileageFill, FuelLoad
     };
 
     public enum Fields { All = 1, Some = 2 };

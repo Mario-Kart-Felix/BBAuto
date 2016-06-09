@@ -79,6 +79,7 @@ namespace BBAuto
             itemCreate.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.ShowPolicyList));
             itemCreate.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.Separator));
             itemCreate.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.MileageFill));
+            itemCreate.DropDownItems.Add(_factory.CreateItem(ContextMenuItem.FuelLoad));
 
             ToolStripItem itemShowDriverLicense = _factory.CreateItem(ContextMenuItem.ShowDriverLicense);
             ToolStripItem itemShowWayBill = _factory.CreateItem(ContextMenuItem.ShowWayBill);

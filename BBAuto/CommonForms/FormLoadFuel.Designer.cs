@@ -1,4 +1,4 @@
-﻿namespace BBAuto.CommonForms
+﻿namespace BBAuto
 {
     partial class FormLoadFuel
     {
@@ -35,7 +35,7 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbPath = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -96,6 +96,7 @@
             this.btnOK.TabIndex = 8;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // button1
             // 
@@ -106,12 +107,12 @@
             this.button1.Text = "Выбрать файл";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // tbPath
             // 
-            this.textBox1.Location = new System.Drawing.Point(12, 78);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(186, 20);
-            this.textBox1.TabIndex = 11;
+            this.tbPath.Location = new System.Drawing.Point(12, 78);
+            this.tbPath.Name = "tbPath";
+            this.tbPath.Size = new System.Drawing.Size(186, 20);
+            this.tbPath.TabIndex = 11;
             // 
             // label3
             // 
@@ -128,7 +129,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(326, 156);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.tbPath);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
@@ -141,6 +142,7 @@
             this.Name = "FormLoadFuel";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Загрузка отчета по заправкам";
+            this.Load += new System.EventHandler(this.FormLoadFuel_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -155,7 +157,7 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbPath;
         private System.Windows.Forms.Label label3;
     }
 }
