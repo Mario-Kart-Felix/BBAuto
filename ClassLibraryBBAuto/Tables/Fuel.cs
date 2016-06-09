@@ -18,7 +18,7 @@ namespace ClassLibraryBBAuto
             FuelCard = fuelCardList.getItem(idFuelCard);
             
             Date = Convert.ToDateTime(row[2].ToString());
-            Count = Convert.ToDouble(row[3].ToString());
+            Value = Convert.ToDouble(row[3].ToString());
 
             int idEngineType;
             int.TryParse(row[4].ToString(), out idEngineType);
@@ -31,22 +31,22 @@ namespace ClassLibraryBBAuto
             FuelCard = fuelCard;
             Date = date;
             EngineType = engineType;
-            Count = 0;
+            Value = 0;
         }
 
         public FuelCard FuelCard { get; private set; }
         public DateTime Date { get; private set; }
-        public double Count { get; private set; }
+        public double Value { get; private set; }
         public EngineType EngineType { get; private set; }
 
-        public void AddCount(double count)
+        public void AddValue(double value)
         {
-            Count += count;
+            Value += value;
         }
 
         public override void Save()
         {
-            _id = Convert.ToInt32(_provider.Insert("Fuel", FuelCard.ID, Date, Count, EngineType.ID));
+            _id = Convert.ToInt32(_provider.Insert("Fuel", FuelCard.ID, Date, Value, EngineType.ID));
         }
 
         internal override object[] getRow()

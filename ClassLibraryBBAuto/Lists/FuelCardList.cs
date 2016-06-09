@@ -54,6 +54,13 @@ namespace ClassLibraryBBAuto
             return (list.Count == 0) ? null : list.First();
         }
 
+        public FuelCard getItem(string number)
+        {
+            List<FuelCard> list = _list.Where(item => item.Number == number).ToList();
+
+            return (list.Count == 0) ? null : list.First();
+        }
+
         public void Delete(int idFuelCard)
         {
             FuelCard fuelCard = getItem(idFuelCard);

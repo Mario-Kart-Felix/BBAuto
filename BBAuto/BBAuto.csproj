@@ -105,6 +105,12 @@
     <Compile Include="AddEdit\Car_Sale.Designer.cs">
       <DependentUpon>Car_Sale.cs</DependentUpon>
     </Compile>
+    <Compile Include="CommonForms\FormLoadFuel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CommonForms\FormLoadFuel.Designer.cs">
+      <DependentUpon>FormLoadFuel.cs</DependentUpon>
+    </Compile>
     <Compile Include="CommonForms\FormMileageFill.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -464,6 +470,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AddEdit\Car_Sale.resx">
       <DependentUpon>Car_Sale.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CommonForms\FormLoadFuel.resx">
+      <DependentUpon>FormLoadFuel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CommonForms\FormMileageFill.resx">
       <DependentUpon>FormMileageFill.cs</DependentUpon>

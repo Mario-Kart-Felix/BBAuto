@@ -12,6 +12,8 @@ namespace BBAuto
 {
     public partial class FormMileageFill : Form
     {
+        private const string REPORT_PATH = @"\\bbmru0021\data\aesculap\current reports";
+
         public FormMileageFill()
         {
             InitializeComponent();
@@ -24,7 +26,7 @@ namespace BBAuto
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            MileageFill mileageFill = new MileageFill(@"\\bbmru0021\data\aesculap\current reports", dateTimePicker1.Value);
+            MileageFill mileageFill = new MileageFill(REPORT_PATH, dateTimePicker1.Value);
             mileageFill.Begin();
 
             FormReport formReport = new FormReport(mileageFill.GetMileageReportList());
