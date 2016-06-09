@@ -10,6 +10,9 @@ namespace BBAuto
     {
         internal static bool CreateNewInvoiceAndOpen(int idCar)
         {
+            if (idCar == 0)
+                return false;
+
             CarList carList = CarList.getInstance();
             Car car = carList.getItem(idCar);
 

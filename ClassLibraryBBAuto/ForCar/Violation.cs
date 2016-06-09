@@ -8,7 +8,7 @@ namespace ClassLibraryBBAuto
 {
     public class Violation : MainDictionary
     {
-        private int _idCar;
+        private int idCar;
         private string _number;
         private int _isPaid;
         private int _sum;
@@ -84,7 +84,7 @@ namespace ClassLibraryBBAuto
 
         public Violation(int idCar)
         {
-            this._idCar = idCar;
+            this.idCar = idCar;
             _date = DateTime.Today;
             _datePay = DateTime.Today;
             _file = string.Empty;
@@ -99,7 +99,7 @@ namespace ClassLibraryBBAuto
         private void fillFields(DataRow row)
         {
             int.TryParse(row.ItemArray[0].ToString(), out _id);
-            int.TryParse(row.ItemArray[1].ToString(), out _idCar);
+            int.TryParse(row.ItemArray[1].ToString(), out idCar);
             DateTime.TryParse(row.ItemArray[2].ToString(), out _date);
             _number = row.ItemArray[3].ToString();
             _file = row.ItemArray[4].ToString();
@@ -131,10 +131,10 @@ namespace ClassLibraryBBAuto
             DeleteFile(_file);
             deleteFilePay();
 
-            _file = WorkWithFiles.fileCopyByID(_file, "cars", _idCar, "Violation", _number);
-            _filePay = WorkWithFiles.fileCopyByID(_filePay, "cars", _idCar, "ViolationPay", _number);
+            _file = WorkWithFiles.fileCopyByID(_file, "cars", idCar, "Violation", _number);
+            _filePay = WorkWithFiles.fileCopyByID(_filePay, "cars", idCar, "ViolationPay", _number);
 
-            int.TryParse(_provider.Insert("Violation", _id, _idCar, _date, _number, _isPaid, _file, _datePay, _filePay, _idViolationType, _sum, _sent, _noDeduction), out _id);
+            int.TryParse(_provider.Insert("Violation", _id, idCar, _date, _number, _isPaid, _file, _datePay, _filePay, _idViolationType, _sum, _sent, _noDeduction), out _id);
         }
         
         internal override void Delete()
@@ -157,19 +157,19 @@ namespace ClassLibraryBBAuto
             Regions regions = Regions.getInstance();
             string regionName = (invoice == null) ? regions.getItem(Convert.ToInt32(car.regionUsingID)) : regions.getItem(Convert.ToInt32(invoice.RegionToID));
 
-            return new object[] { _id, _idCar, car.BBNumber, car.grz, regionName, _date, driver.GetName(NameType.Full), _number, DatePay, 
+            return new object[] { _id, idCar, car.BBNumber, car.grz, regionName, _date, driver.GetName(NameType.Full), _number, DatePay, 
                 violationType.getItem(_idViolationType), _sum };
         }
 
         internal bool isEqualCarID(Car car)
         {
-            return car.IsEqualsID(_idCar);
+            return car.IsEqualsID(idCar);
         }
 
         internal bool isEqualDriverID(Driver driver)
         {
             CarList carList = CarList.getInstance();
-            Car car = carList.getItem(_idCar);
+            Car car = carList.getItem(idCar);
             DriverList driverList = DriverList.getInstance();
 
             DriverCarList driverCarList = DriverCarList.getInstance();
@@ -180,13 +180,13 @@ namespace ClassLibraryBBAuto
 
         public override string ToString()
         {
-            return (_idCar == 0) ? "нет данных" : string.Concat("№", _number, " от ", _date.ToShortDateString());
+            return (idCar == 0) ? "нет данных" : string.Concat("№", _number, " от ", _date.ToShortDateString());
         }
 
         public Car getCar()
         {
             CarList carList = CarList.getInstance();
-            Car car = carList.getItem(_idCar);
+            Car car = carList.getItem(idCar);
             
             return car;
         }

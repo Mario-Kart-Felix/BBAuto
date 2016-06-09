@@ -213,13 +213,7 @@ namespace BBAuto
         private ToolStripMenuItem CreateNewInvoice()
         {
             ToolStripMenuItem item = CreateItem("Новое перемещение");
-            item.Click += delegate
-            {
-                if (_dgvMain.GetCarID() == 0)
-                    return;
-
-                InvoiceDialog.CreateNewInvoiceAndOpen(_dgvMain.GetCarID());
-            };
+            item.Click += delegate { InvoiceDialog.CreateNewInvoiceAndOpen(_dgvMain.GetCarID()); };
             return item;
         }
 
@@ -735,6 +729,15 @@ namespace BBAuto
             return item;
         }
 
+        private CreateDocument DgvToExcel()
+        {
+            CreateDocument doc = new CreateDocument();
+            doc.CreateExcelFromAllDGV(_dgvMain.GetDGV());
+            doc.CreateHeader("Справочник \"" + _mainStatus.ToString() + "\"");
+
+            return doc;
+        }
+
         private ToolStripMenuItem CreateActual()
         {
             ToolStripMenuItem item = CreateItem("На ходу");
@@ -1073,52 +1076,128 @@ namespace BBAuto
             return item;
         }
 
+        private void loadDictionary(string name, string title)
+        {
+            formOneStringDictionary oneSD = new formOneStringDictionary(name, title);
+            oneSD.ShowDialog();
+        }
+
         private ToolStripMenuItem CreateSort()
         {
             ToolStripMenuItem item = CreateItem("Сортировать");
-            item.Click += Sort_Click;
+            item.Click += delegate
+            {
+                DataGridView dgv = _dgvMain.GetDGV();
+
+                if (dgv.SelectedCells.Count == 0)
+                    return;
+
+                int rowIndex = dgv.CurrentCell.RowIndex;
+                int columnIndex = dgv.CurrentCell.ColumnIndex;
+
+                DataGridViewColumn column = dgv.Columns[dgv.CurrentCell.ColumnIndex];
+                System.ComponentModel.ListSortDirection sortDirection;
+
+                if ((dgv.SortedColumn == null) || (dgv.SortedColumn != column))
+                    sortDirection = System.ComponentModel.ListSortDirection.Ascending;
+                else if (dgv.SortOrder == SortOrder.Ascending)
+                    sortDirection = System.ComponentModel.ListSortDirection.Descending;
+                else
+                    sortDirection = System.ComponentModel.ListSortDirection.Ascending;
+
+                dgv.Sort(column, sortDirection);
+
+                dgv.CurrentCell = dgv.Rows[rowIndex].Cells[columnIndex];
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateFilter()
         {
             ToolStripMenuItem item = CreateItem("Фильтр по значению этого поля");
-            item.Click += Filter_Click;
+            item.Click += delegate
+            {
+                DataGridView dgv = _dgvMain.GetDGV();
+
+                if (dgv.CurrentCell == null)
+                    return;
+
+                string columnName = dgv.Columns[dgv.CurrentCell.ColumnIndex].HeaderText;
+
+                Point point = new Point(dgv.CurrentCell.ColumnIndex, dgv.CurrentCell.RowIndex);
+
+                MyFilter myFilter = (dgv.Name == "_dgvCar") ? MyFilter.GetInstanceCars() : MyFilter.GetInstanceDrivers();
+                myFilter.SetFilterValue(string.Concat(columnName, ":"), point);
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateAddDriver()
         {
             ToolStripMenuItem item = CreateItem("Добавить водителя");
-            item.Click += AddDriver_Click;
+            item.Click += delegate
+            {
+                AddNewDriver addNewDriver = new AddNewDriver();
+                if (addNewDriver.ShowDialog() == DialogResult.OK)
+                    _mainStatus.Set(_mainStatus.Get());
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateDeleteDriver()
         {
             ToolStripMenuItem item = CreateItem("Удалить водителя");
-            item.Click += DeleteDriver_Click;
+            item.Click += delegate
+            {
+                if (MessageBox.Show("Вы действительно хотите удалить водителя из списка?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                {
+                    DriverList driverList = DriverList.getInstance();
+                    Driver driver = driverList.getItem(_dgvMain.GetID());
+                    DriverCarList driverCarList = DriverCarList.getInstance();
+
+                    if (driverCarList.IsDriverHaveCar(driver))
+                        MessageBox.Show("За водителем закреплён автомобиль, удаление невозможно", "Удаление", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    else
+                    {
+                        driver.IsDriver = false;
+                        driver.Save();
+                        _mainStatus.Set(_mainStatus.Get());
+                    }
+                }
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateMyPointList()
         {
             ToolStripMenuItem item = CreateItem("Список пунктов назначения");
-            item.Click += MyPointList_Click;
+            item.Click += delegate
+            {
+                formMyPointList myPointList = new formMyPointList();
+                myPointList.ShowDialog();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateRouteList()
         {
             ToolStripMenuItem item = CreateItem("Список маршрутов");
-            item.Click += RouteList_Click;
+            item.Click += delegate
+            {
+                formRouteList routeList = new formRouteList();
+                routeList.ShowDialog();
+            };
             return item;
         }
 
         private ToolStripMenuItem CreateMileageFill()
         {
             ToolStripMenuItem item = CreateItem("Загрузить пробеги");
-            item.Click += MileageFill_Click;
+            item.Click += delegate
+            {
+                FormMileageFill formMileageFill = new FormMileageFill();
+                formMileageFill.ShowDialog();
+            };
             return item;
         }
 
@@ -1160,105 +1239,6 @@ namespace BBAuto
             }
 
             return new CreateDocument(car, invoice);
-        }
-        
-        private CreateDocument DgvToExcel()
-        {
-            CreateDocument doc = new CreateDocument();
-            doc.CreateExcelFromAllDGV(_dgvMain.GetDGV());
-            doc.CreateHeader("Справочник \"" + _mainStatus.ToString() + "\"");
-
-            return doc;
-        }
-        
-        private void loadDictionary(string name, string title)
-        {
-            formOneStringDictionary oneSD = new formOneStringDictionary(name, title);
-            oneSD.ShowDialog();
-        }
-        
-        private void Sort_Click(object sender, EventArgs e)
-        {
-            DataGridView dgv = _dgvMain.GetDGV();
-
-            if (dgv.SelectedCells.Count == 0)
-                return;
-
-            int rowIndex = dgv.CurrentCell.RowIndex;
-            int columnIndex = dgv.CurrentCell.ColumnIndex;
-
-            DataGridViewColumn column = dgv.Columns[dgv.CurrentCell.ColumnIndex];
-            System.ComponentModel.ListSortDirection sortDirection;
-
-            if ((dgv.SortedColumn == null) || (dgv.SortedColumn != column))
-                sortDirection = System.ComponentModel.ListSortDirection.Ascending;
-            else if (dgv.SortOrder == SortOrder.Ascending)
-                sortDirection = System.ComponentModel.ListSortDirection.Descending;
-            else
-                sortDirection = System.ComponentModel.ListSortDirection.Ascending;
-
-            dgv.Sort(column, sortDirection);
-
-            dgv.CurrentCell = dgv.Rows[rowIndex].Cells[columnIndex];
-        }
-
-        private void Filter_Click(object sender, EventArgs e)
-        {
-            DataGridView dgv = _dgvMain.GetDGV();
-
-            if (dgv.CurrentCell == null)
-                return;
-
-            string columnName = dgv.Columns[dgv.CurrentCell.ColumnIndex].HeaderText;
-            
-            Point point = new Point(dgv.CurrentCell.ColumnIndex, dgv.CurrentCell.RowIndex);
-
-            MyFilter myFilter = (dgv.Name == "_dgvCar") ? MyFilter.GetInstanceCars() : MyFilter.GetInstanceDrivers();
-            myFilter.SetFilterValue(string.Concat(columnName, ":"), point);
-        }
-
-        private void AddDriver_Click(object sender, EventArgs e)
-        {
-            AddNewDriver addNewDriver = new AddNewDriver();
-            if (addNewDriver.ShowDialog() == DialogResult.OK)
-                _mainStatus.Set(_mainStatus.Get());
-        }
-
-        private void DeleteDriver_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Вы действительно хотите удалить водителя из списка?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-            {
-                DriverList driverList = DriverList.getInstance();
-                Driver driver = driverList.getItem(_dgvMain.GetID());
-                DriverCarList driverCarList = DriverCarList.getInstance();
-
-                if (driverCarList.IsDriverHaveCar(driver))
-                    MessageBox.Show("За водителем закреплён автомобиль, удаление невозможно", "Удаление", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                else
-                {
-                    driver.IsDriver = false;
-                    driver.Save();
-                    _mainStatus.Set(_mainStatus.Get());
-                }
-            }
-        }
-
-        private void MyPointList_Click(object sender, EventArgs e)
-        {
-            formMyPointList myPointList = new formMyPointList();
-            myPointList.ShowDialog();
-        }
-
-        private void RouteList_Click(object sender, EventArgs e)
-        {
-            formRouteList routeList = new formRouteList();
-            routeList.ShowDialog();
-        }
-
-        private void MileageFill_Click(object sender, EventArgs e)
-        {
-            FormMileageFill formMileageFill = new FormMileageFill();
-            formMileageFill.ShowDialog();
         }
     }
 }
