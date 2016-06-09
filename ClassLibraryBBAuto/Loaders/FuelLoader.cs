@@ -10,6 +10,7 @@ namespace ClassLibraryBBAuto.Loaders
         private const int BENZIN_ID = 1;
         private const int DIESEL_ID = 2;
         private const string DIESEL_NAME = "ДТ";
+        private const string DIESEL_FULLNAME = "ДИЗЕЛЬ";
 
         private string path;
         private static readonly Dictionary<FuelReport, Action<ExcelDoc>> loaders;
@@ -34,8 +35,8 @@ namespace ClassLibraryBBAuto.Loaders
             loaders = new Dictionary<FuelReport, Action<ExcelDoc>>();
 
             loaders.Add(FuelReport.Петрол, LoadPetrol);
-            loaders.Add(FuelReport.Neste, LoadPetrol);
-            loaders.Add(FuelReport.Чеки, LoadPetrol);
+            loaders.Add(FuelReport.Neste, LoadNeste);
+            loaders.Add(FuelReport.Чеки, LoadChecks);
         }
 
         private static void LoadPetrol(ExcelDoc excel)
@@ -71,9 +72,59 @@ namespace ClassLibraryBBAuto.Loaders
             }
         }
 
+        private static void LoadNeste(ExcelDoc excel)
+        {
+            int i = 4; //начальный индекс
+
+            string currentCell = "A" + i;
+            while (excel.getValue(currentCell, currentCell) != null)
+            {
+                if (excel.getValue(currentCell, currentCell).ToString() == "Grand Total")
+                    break;
+
+                currentCell = "B" + i;
+                if (excel.getValue(currentCell, currentCell) != null)
+                {
+                    i++;
+                    currentCell = "A" + i;
+                    continue;
+                }
+                
+                currentCell = "A" + i;
+                string number = excel.getValue(currentCell, currentCell).ToString().Split(' ')[1]; //split example Карта: 7105066553656018
+                FuelCard fuelCard = fuelCardList.getItem(number);
+                if (fuelCard == null) { throw new NullReferenceException("Не найдена карта №" + number); }
+
+                currentCell = "C" + i;
+                DateTime datetime;
+                DateTime.TryParse(excel.getValue(currentCell, currentCell).ToString(), out datetime);//присутствует время, не забываем убирать
+
+                currentCell = "D" + i;
+                string engineTypeName = excel.getValue(currentCell, currentCell).ToString();
+                EngineType engineType = GetEngineType(engineTypeName);
+
+                currentCell = "E" + i;
+                double value;
+                double.TryParse(excel.getValue(currentCell, currentCell).ToString(), out value);
+
+                Fuel fuel = new Fuel(fuelCard, datetime.Date, engineType);
+                fuel.AddValue(value);
+                fuel.Save();
+
+                i++;
+                currentCell = "A" + i;
+            }
+        }
+
+        private static void LoadChecks(ExcelDoc excel)
+        {
+            throw new NotImplementedException();
+        }
+
         private static EngineType GetEngineType(string engineTypeName)
         {
-            return (engineTypeName == DIESEL_NAME) ? disel : benzin;
+            engineTypeName = engineTypeName.ToUpper();
+            return ((engineTypeName == DIESEL_NAME) || (engineTypeName == DIESEL_FULLNAME)) ? disel : benzin;
         }
 
         public void Load(FuelReport fuelReport)
