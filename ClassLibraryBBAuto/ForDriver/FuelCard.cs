@@ -155,5 +155,10 @@ namespace ClassLibraryBBAuto
 
             return new FuelCardDriver(_id);
         }
+
+        public bool Equals(string number)
+        {
+            return _number == number;
+        }
     }
 }

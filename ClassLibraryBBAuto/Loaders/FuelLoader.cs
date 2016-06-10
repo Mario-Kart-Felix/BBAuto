@@ -21,14 +21,19 @@ namespace ClassLibraryBBAuto.Loaders
         private static EngineType benzin;
         private static EngineType disel;
 
+        private static List<string> erorrs;
+
         public FuelLoader(string path, FuelReport fuelReport)
         {
             this.path = path;
             this.fuelReport = fuelReport;
+            erorrs.Clear();
         }
 
         static FuelLoader()
         {
+            erorrs = new List<string>();
+
             fuelCardList = FuelCardList.getInstance();
             engineTypeList = EngineTypeList.getInstance();
             benzin = engineTypeList.getItem(BENZIN_ID);
@@ -51,11 +56,18 @@ namespace ClassLibraryBBAuto.Loaders
                 currentCell = "D" + i;
                 string number = excel.getValue(currentCell, currentCell).ToString();
                 FuelCard fuelCard = fuelCardList.getItem(number);
-                if (fuelCard == null) { throw new NullReferenceException("Не найдена карта №" + number); }
+                if (fuelCard == null)
+                {
+                    i++;
+                    currentCell = "B" + i;
+                    erorrs.Add("Не найдена карта №" + number); //throw new NullReferenceException("Не найдена карта №" + number);
+                    continue;
+                }
 
-                currentCell = "C" + i;
+                currentCell = "B" + i;
+                string dateString = excel.getValue1(currentCell, currentCell).ToString();
                 DateTime datetime;
-                DateTime.TryParse(excel.getValue(currentCell, currentCell).ToString(), out datetime);//присутствует время, не забываем убирать
+                DateTime.TryParse(dateString, out datetime);//присутствует время, не забываем убирать
 
                 currentCell = "G" + i;
                 string engineTypeName = excel.getValue(currentCell, currentCell).ToString();
@@ -95,7 +107,12 @@ namespace ClassLibraryBBAuto.Loaders
                 currentCell = "A" + i;
                 string number = excel.getValue(currentCell, currentCell).ToString().Split(' ')[1]; //split example Карта: 7105066553656018
                 FuelCard fuelCard = fuelCardList.getItem(number);
-                if (fuelCard == null) { throw new NullReferenceException("Не найдена карта №" + number); }
+                if (fuelCard == null)
+                {
+                    i++;
+                    erorrs.Add("Не найдена карта №" + number); //throw new NullReferenceException("Не найдена карта №" + number);
+                    continue;
+                }
 
                 currentCell = "C" + i;
                 DateTime datetime;
@@ -129,12 +146,14 @@ namespace ClassLibraryBBAuto.Loaders
             return ((engineTypeName == DIESEL_NAME) || (engineTypeName == DIESEL_FULLNAME)) ? disel : benzin;
         }
 
-        public void Load()
+        public List<string> Load()
         {
             using (ExcelDoc excelDoc = new ExcelDoc(path))
             {
                 loaders[fuelReport].Invoke(excelDoc);
             }
+
+            return erorrs;
         }
     }
 }

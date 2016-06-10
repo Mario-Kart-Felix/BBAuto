@@ -121,6 +121,11 @@ namespace ClassLibraryBBAuto
             range.EntireColumn.ColumnWidth = width;
         }
 
+        public object getValue1(string rowCell, string columnCell)
+        {
+            return xlSh.get_Range(rowCell, columnCell).Value;
+        }
+
         public object getValue(string rowCell, string columnCell)
         {
             return xlSh.get_Range(rowCell, columnCell).Value2;

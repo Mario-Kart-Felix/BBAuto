@@ -56,7 +56,7 @@ namespace ClassLibraryBBAuto
 
         public FuelCard getItem(string number)
         {
-            List<FuelCard> list = _list.Where(item => item.Number == number).ToList();
+            List<FuelCard> list = _list.Where(item => item.Equals(number)).ToList();
 
             return (list.Count == 0) ? null : list.First();
         }

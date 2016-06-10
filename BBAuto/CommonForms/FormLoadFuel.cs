@@ -35,7 +35,31 @@ namespace BBAuto
             }
 
             FuelLoader fuelLoader = new FuelLoader(tbPath.Text, (FuelReport)cbFirm.SelectedItem);
-            fuelLoader.Load();
+            List<string> list = fuelLoader.Load();
+            if (list.Count == 0)
+            {
+                MessageBox.Show("Загрузка завершена без ошибок", "Загрузка", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Загрузка завершена с ошибками", "Загрузка", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                foreach (var item in list)
+                {
+                    MessageBox.Show(item, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            DialogResult = System.Windows.Forms.DialogResult.OK;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Multiselect = false;
+            ofd.Filter = "(Excel files)|*.xls";
+            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                tbPath.Text = ofd.FileName;
+            }
         }
     }
 }
