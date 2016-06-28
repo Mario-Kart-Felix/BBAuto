@@ -169,5 +169,10 @@ namespace BBAuto
         {
             LoadWayBillCurrentWithoutCreate();
         }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            _wayBillDaily.Clear();
+        }
     }
 }

@@ -138,9 +138,14 @@ namespace ClassLibraryBBAuto
         
         public IEnumerator GetEnumerator()
         {
-            return new WayBillEnumerator(this);
-        }
+            foreach (var item in _list)
+            {
+                yield return item;
+            }
 
+            //return new WayBillEnumerator(this);
+        }
+        /*
         private class WayBillEnumerator : IEnumerator
         {
             private int _index = -1;
@@ -169,6 +174,16 @@ namespace ClassLibraryBBAuto
             {
                 _index = -1;
             }
+        }
+        */
+        public void Clear()
+        {
+            foreach (var item in _list)
+            {
+                item.Delete();
+            }
+
+            _list.Clear();
         }
     }
 }

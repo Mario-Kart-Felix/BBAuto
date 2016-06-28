@@ -39,23 +39,24 @@
             this.btnNext = new System.Windows.Forms.Button();
             this.btnPrev = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.btnPrintAllFieldsCurrent = new System.Windows.Forms.Button();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.btnPrintSomeFieldsAll = new System.Windows.Forms.Button();
+            this.btnPrintAllFieldsAll = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btnPrintSomeFieldsCurrent = new System.Windows.Forms.Button();
+            this.btnPrintAllFieldsCurrent = new System.Windows.Forms.Button();
             this.lbCars = new System.Windows.Forms.ListBox();
             this.btnCreateWayBill = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.btnPrintSomeFieldsAll = new System.Windows.Forms.Button();
-            this.btnPrintAllFieldsAll = new System.Windows.Forms.Button();
+            this.btnClear = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgv
@@ -179,15 +180,47 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Печать";
             // 
-            // btnPrintAllFieldsCurrent
+            // groupBox5
             // 
-            this.btnPrintAllFieldsCurrent.Location = new System.Drawing.Point(13, 24);
-            this.btnPrintAllFieldsCurrent.Name = "btnPrintAllFieldsCurrent";
-            this.btnPrintAllFieldsCurrent.Size = new System.Drawing.Size(125, 23);
-            this.btnPrintAllFieldsCurrent.TabIndex = 45;
-            this.btnPrintAllFieldsCurrent.Text = "Заполнить все поля";
-            this.btnPrintAllFieldsCurrent.UseVisualStyleBackColor = true;
-            this.btnPrintAllFieldsCurrent.Click += new System.EventHandler(this.btnPrintAllFieldsCurrent_Click);
+            this.groupBox5.Controls.Add(this.btnPrintSomeFieldsAll);
+            this.groupBox5.Controls.Add(this.btnPrintAllFieldsAll);
+            this.groupBox5.Location = new System.Drawing.Point(8, 111);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(149, 86);
+            this.groupBox5.TabIndex = 48;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Все авто";
+            // 
+            // btnPrintSomeFieldsAll
+            // 
+            this.btnPrintSomeFieldsAll.Location = new System.Drawing.Point(13, 53);
+            this.btnPrintSomeFieldsAll.Name = "btnPrintSomeFieldsAll";
+            this.btnPrintSomeFieldsAll.Size = new System.Drawing.Size(123, 23);
+            this.btnPrintSomeFieldsAll.TabIndex = 46;
+            this.btnPrintSomeFieldsAll.Text = "Заполнить частично";
+            this.btnPrintSomeFieldsAll.UseVisualStyleBackColor = true;
+            this.btnPrintSomeFieldsAll.Click += new System.EventHandler(this.btnPrintSomeFieldsAll_Click);
+            // 
+            // btnPrintAllFieldsAll
+            // 
+            this.btnPrintAllFieldsAll.Location = new System.Drawing.Point(13, 24);
+            this.btnPrintAllFieldsAll.Name = "btnPrintAllFieldsAll";
+            this.btnPrintAllFieldsAll.Size = new System.Drawing.Size(125, 23);
+            this.btnPrintAllFieldsAll.TabIndex = 45;
+            this.btnPrintAllFieldsAll.Text = "Заполнить все поля";
+            this.btnPrintAllFieldsAll.UseVisualStyleBackColor = true;
+            this.btnPrintAllFieldsAll.Click += new System.EventHandler(this.btnPrintAllFieldsAll_Click);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.btnPrintSomeFieldsCurrent);
+            this.groupBox4.Controls.Add(this.btnPrintAllFieldsCurrent);
+            this.groupBox4.Location = new System.Drawing.Point(8, 19);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(149, 86);
+            this.groupBox4.TabIndex = 47;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Выбранный авто";
             // 
             // btnPrintSomeFieldsCurrent
             // 
@@ -198,6 +231,16 @@
             this.btnPrintSomeFieldsCurrent.Text = "Заполнить частично";
             this.btnPrintSomeFieldsCurrent.UseVisualStyleBackColor = true;
             this.btnPrintSomeFieldsCurrent.Click += new System.EventHandler(this.btnPrintSomeFieldsCurrent_Click);
+            // 
+            // btnPrintAllFieldsCurrent
+            // 
+            this.btnPrintAllFieldsCurrent.Location = new System.Drawing.Point(13, 24);
+            this.btnPrintAllFieldsCurrent.Name = "btnPrintAllFieldsCurrent";
+            this.btnPrintAllFieldsCurrent.Size = new System.Drawing.Size(125, 23);
+            this.btnPrintAllFieldsCurrent.TabIndex = 45;
+            this.btnPrintAllFieldsCurrent.Text = "Заполнить все поля";
+            this.btnPrintAllFieldsCurrent.UseVisualStyleBackColor = true;
+            this.btnPrintAllFieldsCurrent.Click += new System.EventHandler(this.btnPrintAllFieldsCurrent_Click);
             // 
             // lbCars
             // 
@@ -246,53 +289,22 @@
             this.label3.TabIndex = 54;
             this.label3.Text = "Список автомобилей:";
             // 
-            // groupBox4
+            // btnClear
             // 
-            this.groupBox4.Controls.Add(this.btnPrintSomeFieldsCurrent);
-            this.groupBox4.Controls.Add(this.btnPrintAllFieldsCurrent);
-            this.groupBox4.Location = new System.Drawing.Point(8, 19);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(149, 86);
-            this.groupBox4.TabIndex = 47;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Выбранный авто";
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.btnPrintSomeFieldsAll);
-            this.groupBox5.Controls.Add(this.btnPrintAllFieldsAll);
-            this.groupBox5.Location = new System.Drawing.Point(8, 111);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(149, 86);
-            this.groupBox5.TabIndex = 48;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Все авто";
-            // 
-            // btnPrintSomeFieldsAll
-            // 
-            this.btnPrintSomeFieldsAll.Location = new System.Drawing.Point(13, 53);
-            this.btnPrintSomeFieldsAll.Name = "btnPrintSomeFieldsAll";
-            this.btnPrintSomeFieldsAll.Size = new System.Drawing.Size(123, 23);
-            this.btnPrintSomeFieldsAll.TabIndex = 46;
-            this.btnPrintSomeFieldsAll.Text = "Заполнить частично";
-            this.btnPrintSomeFieldsAll.UseVisualStyleBackColor = true;
-            this.btnPrintSomeFieldsAll.Click += new System.EventHandler(this.btnPrintSomeFieldsAll_Click);
-            // 
-            // btnPrintAllFieldsAll
-            // 
-            this.btnPrintAllFieldsAll.Location = new System.Drawing.Point(13, 24);
-            this.btnPrintAllFieldsAll.Name = "btnPrintAllFieldsAll";
-            this.btnPrintAllFieldsAll.Size = new System.Drawing.Size(125, 23);
-            this.btnPrintAllFieldsAll.TabIndex = 45;
-            this.btnPrintAllFieldsAll.Text = "Заполнить все поля";
-            this.btnPrintAllFieldsAll.UseVisualStyleBackColor = true;
-            this.btnPrintAllFieldsAll.Click += new System.EventHandler(this.btnPrintAllFieldsAll_Click);
+            this.btnClear.Location = new System.Drawing.Point(464, 21);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(75, 23);
+            this.btnClear.TabIndex = 55;
+            this.btnClear.Text = "Очистить";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // FormWayBillDaily
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(780, 402);
+            this.Controls.Add(this.btnClear);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.label1);
@@ -312,9 +324,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -344,5 +356,6 @@
         private System.Windows.Forms.Button btnPrintSomeFieldsAll;
         private System.Windows.Forms.Button btnPrintAllFieldsAll;
         private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Button btnClear;
     }
 }

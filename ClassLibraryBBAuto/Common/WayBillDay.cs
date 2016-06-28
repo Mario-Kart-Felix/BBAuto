@@ -135,6 +135,11 @@ namespace ClassLibraryBBAuto
             WayBillDayList wayBillDayList = WayBillDayList.getInstance();
             wayBillDayList.Add(this);
         }
+
+        internal override void Delete()
+        {
+            _provider.Delete("WayBillDay", ID);
+        }
         
         internal override object[] getRow()
         {
@@ -146,9 +151,14 @@ namespace ClassLibraryBBAuto
             if (_routes == null)
                 GetRouteList();
 
-            return new WayBillDayEnumerator(this);
-        }
+            foreach (var item in _routes)
+            {
+                yield return item;
+            }
 
+            //return new WayBillDayEnumerator(this);
+        }
+        /*
         private class WayBillDayEnumerator : IEnumerator
         {
             private WayBillDay _wayBillDay;
@@ -179,5 +189,6 @@ namespace ClassLibraryBBAuto
                 _index = -1;
             }
         }
+        */
     }
 }
