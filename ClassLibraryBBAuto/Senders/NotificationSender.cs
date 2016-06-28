@@ -26,9 +26,14 @@ namespace ClassLibraryBBAuto
 
         private List<INotification> GetList(DateTime date)
         {
-            List<INotification> list = _list.ToList();
+            var list = _list.ToList().Where((item) => (item.DateEnd == date && !item.IsNotificationSent && !IsExistNewItem(item)));
 
-            return (list.Where(item => (item.DateEnd == date && !item.IsNotificationSent))).ToList();
+            return list.ToList();
+        }
+
+        private bool IsExistNewItem(INotification notification)
+        {
+            return _list.ToList().Exists(item => item.DriverID == notification.DriverID && item.DateEnd > notification.DateEnd);
         }
 
         public void SendNotificationOverdue()
