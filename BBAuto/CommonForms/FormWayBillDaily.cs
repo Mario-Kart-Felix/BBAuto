@@ -12,33 +12,40 @@ namespace BBAuto
 {
     public partial class FormWayBillDaily : Form
     {
-        private List<Car> _carList;
-        private int _index;
-        private WayBillDaily _wayBillDaily;
+        private List<Car> list;
+        private int index;
+        private WayBillDaily wayBillDaily;
+        private FuelList fuelList;
 
         public FormWayBillDaily(MainDGV dgv)
         {
             InitializeComponent();
 
-            _carList = new List<Car>();
+            list = new List<Car>();
+            fuelList = FuelList.getInstance();
 
             foreach (DataGridViewCell cell in dgv.SelectedCells)
             {
                 int idCar = dgv.GetCarID(cell.RowIndex);
                 CarList carList = CarList.getInstance();
                 Car car = carList.getItem(idCar);
-                _carList.Add(car);
+                list.Add(car);
 
                 lbCars.Items.Add(car);
             }
                         
-            btnNext.Enabled = _carList.Count > 1;
+            btnNext.Enabled = list.Count > 1;
 
-            _index = 0;
+            index = 0;
 
-            lbCar.Text = "Выбранный автомобиль: " + _carList[_index].ToString();
+            lbCar.Text = "Выбранный автомобиль: " + list[index].ToString();
+        }
 
+        private void FormWayBillDaily_Load(object sender, EventArgs e)
+        {
             LoadWayBillCurrentWithoutCreate();
+
+            LoadFuel();
         }
 
         private void btnLoadWayBillCurrent_Click(object sender, EventArgs e)
@@ -48,7 +55,7 @@ namespace BBAuto
 
         private void btnCreateWayBill_Click(object sender, EventArgs e)
         {
-            foreach(var car in _carList)
+            foreach(var car in list)
                 LoadWayBillDaily(car);
         }
 
@@ -56,46 +63,52 @@ namespace BBAuto
         {
             DateTime date = new DateTime(dtpDate.Value.Year, dtpDate.Value.Month, 1);
 
-            _wayBillDaily = new WayBillDaily(car, date);
-            _wayBillDaily.Load();
+            wayBillDaily = new WayBillDaily(car, date);
+            wayBillDaily.Load();
         }
 
         private void LoadWayBillCurrentWithoutCreate()
         {
-            _wayBillDaily = new WayBillDaily(_carList[_index], dtpDate.Value);
+            wayBillDaily = new WayBillDaily(list[index], dtpDate.Value);
             
-            dgv.DataSource = _wayBillDaily.ToDataTable();
+            dgv.DataSource = wayBillDaily.ToDataTable();
+        }
+
+        private void LoadFuel()
+        {
+            dgvFuel.DataSource = fuelList.ToDataTable(list[index], dtpDate.Value);
+            dgvFuel.Columns[0].Visible = false;
         }
 
         private void btnOpenInExcelAllFields_Click(object sender, EventArgs e)
         {
-            CreateWayBill(_carList[_index], Actions.Show, Fields.All);
+            CreateWayBill(list[index], Actions.Show, Fields.All);
         }
 
         private void btnOpenInExcelSomeFields_Click(object sender, EventArgs e)
         {
-            CreateWayBill(_carList[_index], Actions.Show, Fields.Some);
+            CreateWayBill(list[index], Actions.Show, Fields.Some);
         }
 
         private void btnPrintAllFieldsCurrent_Click(object sender, EventArgs e)
         {
-            CreateWayBill(_carList[_index], Actions.Print, Fields.All);
+            CreateWayBill(list[index], Actions.Print, Fields.All);
         }
 
         private void btnPrintSomeFieldsCurrent_Click(object sender, EventArgs e)
         {
-            CreateWayBill(_carList[_index], Actions.Print, Fields.Some);
+            CreateWayBill(list[index], Actions.Print, Fields.Some);
         }
 
         private void btnPrintAllFieldsAll_Click(object sender, EventArgs e)
         {
-            foreach(var car in _carList)
+            foreach(var car in list)
                 CreateWayBill(car, Actions.Print, Fields.All);
         }
 
         private void btnPrintSomeFieldsAll_Click(object sender, EventArgs e)
         {
-            foreach (var car in _carList)
+            foreach (var car in list)
                 CreateWayBill(car, Actions.Print, Fields.Some);
         }
 
@@ -119,19 +132,19 @@ namespace BBAuto
                 excelWayBill.Exit();
             }
 
-            if (car == _carList[_index])
+            if (car == list[index])
                 LoadWayBillCurrent();
         }
 
         private void btnPrev_Click(object sender, EventArgs e)
         {
-            if (_index - 1 == -1)
+            if (index - 1 == -1)
                 return;
 
-            _index--;
+            index--;
             btnNext.Enabled = true;
 
-            if (_index == 0)
+            if (index == 0)
                 btnPrev.Enabled = false;
 
             LoadWayBillForNewCar();
@@ -139,13 +152,13 @@ namespace BBAuto
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-            if (_index + 1 == _carList.Count)
+            if (index + 1 == list.Count)
                 return;
 
-            _index++;
+            index++;
             btnPrev.Enabled = true;
 
-            if (_index + 1 == _carList.Count)
+            if (index + 1 == list.Count)
                 btnNext.Enabled = false;
 
             LoadWayBillForNewCar();
@@ -153,26 +166,27 @@ namespace BBAuto
 
         private void LoadWayBillForNewCar()
         {
-            lbCar.Text = "Выбранный автомобиль: " + _carList[_index].ToString();
+            lbCar.Text = "Выбранный автомобиль: " + list[index].ToString();
 
             LoadWayBillCurrentWithoutCreate();
         }
         
         private void LoadWayBillCurrent()
         {
-            LoadWayBillDaily(_carList[_index]);
+            LoadWayBillDaily(list[index]);
 
-            dgv.DataSource = _wayBillDaily.ToDataTable();
+            dgv.DataSource = wayBillDaily.ToDataTable();
         }
 
         private void dtpDate_ValueChanged(object sender, EventArgs e)
         {
             LoadWayBillCurrentWithoutCreate();
+            LoadFuel();
         }
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            _wayBillDaily.Clear();
+            wayBillDaily.Clear();
         }
     }
 }

@@ -68,6 +68,7 @@
     <Compile Include="Dictionary\CurrentStatusAfterDTPs.cs" />
     <Compile Include="Dictionary\FuelCardTypes.cs" />
     <Compile Include="Dictionary\Statuses.cs" />
+    <Compile Include="Extension\MyExtension.cs" />
     <Compile Include="ForCar\CarInfo.cs" />
     <Compile Include="ForDriver\FuelCard.cs" />
     <Compile Include="ForDriver\FuelCardDriver.cs" />

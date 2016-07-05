@@ -92,7 +92,9 @@ namespace ClassLibraryBBAuto
 
         public Car GetCar(Driver driver)
         {
-            var driverCars = list.Where(item => item.isEqualDriverID(driver) && item.dateEnd == DateTime.Today).OrderByDescending(item => item.dateEnd);
+            DateTime date = DateTime.Today;
+
+            var driverCars = list.Where(item => item.isEqualDriverID(driver) && item.dateEnd == date).OrderByDescending(item => item.dateEnd);
             
             if (driverCars.Count() > 0)
             {
@@ -100,19 +102,26 @@ namespace ClassLibraryBBAuto
 
                 foreach (var driverCar in driverCars)
                 {
-                    if (list.Where(item => !item.isEqualDriverID(driver) && item.dateEnd == DateTime.Today && item.idCar == driverCar.idCar && item.number > driverCar.number).Count() == 0)
+                    if (list.Where(item => !item.isEqualDriverID(driver) && item.dateEnd == date && item.idCar == driverCar.idCar && item.number > driverCar.number).Count() == 0)
                         return carList.getItem(driverCar.idCar);
                 }
                 
-                //DriverCar driverCar = driverCars.First() as DriverCar;
-                                  //var driverCarsOtherDriver = list.Where(item => !item.isEqualDriverID(driver) && item.dateEnd == DateTime.Today && item.idCar == driverCar.idCar && item.number > driverCar.number);
                 return null;
-                //return carList.getItem(driverCar.idCar);
             }
             else
                 return null;
         }
 
+        public Car GetCar(Driver driver, DateTime date)
+        {
+            var driverCars = from driverCar in list
+                             where driverCar.isCarsDriver(driver)
+                             orderby driverCar.dateEnd descending, driverCar.number descending
+                             select driverCar;
+
+            return (driverCars.Count() > 0) ? CarList.getInstance().getItem(driverCars.First().idCar) : null;
+        }
+        
         public bool IsDriverHaveCar(Driver driver)
         {
             return GetCar(driver) != null;

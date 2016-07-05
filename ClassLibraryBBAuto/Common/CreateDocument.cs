@@ -529,8 +529,8 @@ namespace ClassLibraryBBAuto
 
             foreach (FuelCardDriver fuelCardDriver in list)
             {
-                wordDoc.AddRowInTable(1, i.ToString(), driverTo.GetName(NameType.Full), regionName, fuelCardDriver.fuelCard.Number);
-                wordDoc.AddRowInTable(2, i.ToString(), driverTo.GetName(NameType.Full), regionName, fuelCardDriver.fuelCard.Number, fuelCardDriver.fuelCard.Pin);
+                wordDoc.AddRowInTable(1, i.ToString(), driverTo.GetName(NameType.Full), regionName, fuelCardDriver.FuelCard.Number);
+                wordDoc.AddRowInTable(2, i.ToString(), driverTo.GetName(NameType.Full), regionName, fuelCardDriver.FuelCard.Number, fuelCardDriver.FuelCard.Pin);
                 
                 i++;
             }

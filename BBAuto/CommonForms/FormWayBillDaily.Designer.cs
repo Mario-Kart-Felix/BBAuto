@@ -51,12 +51,16 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.btnClear = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.dgvFuel = new System.Windows.Forms.DataGridView();
+            this.btnAddFuel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFuel)).BeginInit();
             this.SuspendLayout();
             // 
             // dgv
@@ -138,7 +142,7 @@
             // 
             this.groupBox1.Controls.Add(this.btnOpenInExcelAllFields);
             this.groupBox1.Controls.Add(this.btnOpenInExcelSomeFields);
-            this.groupBox1.Location = new System.Drawing.Point(545, 49);
+            this.groupBox1.Location = new System.Drawing.Point(847, 49);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(144, 94);
             this.groupBox1.TabIndex = 47;
@@ -149,7 +153,7 @@
             // 
             this.btnNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnNext.Enabled = false;
-            this.btnNext.Location = new System.Drawing.Point(661, 371);
+            this.btnNext.Location = new System.Drawing.Point(931, 371);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(107, 23);
             this.btnNext.TabIndex = 48;
@@ -161,7 +165,7 @@
             // 
             this.btnPrev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPrev.Enabled = false;
-            this.btnPrev.Location = new System.Drawing.Point(541, 371);
+            this.btnPrev.Location = new System.Drawing.Point(811, 371);
             this.btnPrev.Name = "btnPrev";
             this.btnPrev.Size = new System.Drawing.Size(114, 23);
             this.btnPrev.TabIndex = 49;
@@ -173,7 +177,7 @@
             // 
             this.groupBox2.Controls.Add(this.groupBox5);
             this.groupBox2.Controls.Add(this.groupBox4);
-            this.groupBox2.Location = new System.Drawing.Point(545, 149);
+            this.groupBox2.Location = new System.Drawing.Point(847, 149);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(170, 212);
             this.groupBox2.TabIndex = 48;
@@ -299,11 +303,49 @@
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(545, 31);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(59, 13);
+            this.label4.TabIndex = 57;
+            this.label4.Text = "Заправки:";
+            // 
+            // dgvFuel
+            // 
+            this.dgvFuel.AllowUserToAddRows = false;
+            this.dgvFuel.AllowUserToDeleteRows = false;
+            this.dgvFuel.AllowUserToResizeRows = false;
+            this.dgvFuel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.dgvFuel.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.dgvFuel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvFuel.Location = new System.Drawing.Point(548, 47);
+            this.dgvFuel.Name = "dgvFuel";
+            this.dgvFuel.ReadOnly = true;
+            this.dgvFuel.RowHeadersVisible = false;
+            this.dgvFuel.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dgvFuel.Size = new System.Drawing.Size(286, 316);
+            this.dgvFuel.TabIndex = 56;
+            // 
+            // btnAddFuel
+            // 
+            this.btnAddFuel.Location = new System.Drawing.Point(759, 18);
+            this.btnAddFuel.Name = "btnAddFuel";
+            this.btnAddFuel.Size = new System.Drawing.Size(75, 23);
+            this.btnAddFuel.TabIndex = 58;
+            this.btnAddFuel.Text = "Добавить";
+            this.btnAddFuel.UseVisualStyleBackColor = true;
+            // 
             // FormWayBillDaily
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(780, 402);
+            this.ClientSize = new System.Drawing.Size(1050, 402);
+            this.Controls.Add(this.btnAddFuel);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.dgvFuel);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.groupBox3);
@@ -321,12 +363,14 @@
             this.Name = "FormWayBillDaily";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Путевые листы на каждый день";
+            this.Load += new System.EventHandler(this.FormWayBillDaily_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFuel)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -357,5 +401,8 @@
         private System.Windows.Forms.Button btnPrintAllFieldsAll;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.DataGridView dgvFuel;
+        private System.Windows.Forms.Button btnAddFuel;
     }
 }

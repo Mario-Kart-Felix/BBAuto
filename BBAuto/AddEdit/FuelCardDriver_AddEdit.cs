@@ -36,20 +36,22 @@ namespace BBAuto
         private void LoadDictionary()
         {
             DriverList driverList = DriverList.getInstance();
-            cbDriver.DataSource = driverList.ToDataTable(_fuelCardDriver.DriverID != "0");
+            cbDriver.DataSource = driverList.ToDataTable(_fuelCardDriver.Driver.ID != 0);
             cbDriver.DisplayMember = "ФИО";
             cbDriver.ValueMember = "id";
         }
 
         private void LoadData()
         {
-            cbDriver.SelectedValue = _fuelCardDriver.DriverID;
+            cbDriver.SelectedValue = _fuelCardDriver.Driver.ID;
             dtpDateBegin.Value = _fuelCardDriver.DateBegin;
 
             chbNotUse.Checked = _fuelCardDriver.IsNotUse;
 
             if (chbNotUse.Checked)
-                dtpDateEnd.Value = _fuelCardDriver.DateEnd;
+            {
+                dtpDateEnd.Value = (_fuelCardDriver.DateEnd != null) ? _fuelCardDriver.DateEnd.Value : new DateTime(1, 1, 1);
+            }
         }
 
         private void chbNotUse_CheckedChanged(object sender, EventArgs e)
@@ -62,14 +64,16 @@ namespace BBAuto
         {
             if (_workWithForm.IsEditMode())
             {
-                _fuelCardDriver.DriverID = cbDriver.SelectedValue.ToString();
+                int idDriver;
+                int.TryParse(cbDriver.SelectedValue.ToString(), out idDriver);
+                _fuelCardDriver.Driver = DriverList.getInstance().getItem(idDriver);
                 _fuelCardDriver.DateBegin = dtpDateBegin.Value;
 
                 if (chbNotUse.Checked)
                 {
                     if ((!_fuelCardDriver.IsNotUse) && (chbNotUse.Checked))
                     {
-                        FuelCard fuelCard = _fuelCardDriver.fuelCard;
+                        FuelCard fuelCard = _fuelCardDriver.FuelCard;
                         FuelCardDriver fuelCardDriver = fuelCard.CreateFuelCardDriver();
                         fuelCardDriver.Save();
                     }

@@ -13,7 +13,6 @@ namespace ClassLibraryBBAuto
         private int _idRegion;
         private string _pin;
         private int _lost;
-        private string _comment;
         private string _number;
 
         public string Number
@@ -81,13 +80,12 @@ namespace ClassLibraryBBAuto
             set { _lost = Convert.ToInt32(value); }
         }
 
-        public bool IsVoid { get { return (!IsNoEnd && (_dateEnd < DateTime.Today.AddMonths(1))) || IsLost; } }
-
-        public string Comment
+        public bool IsVoid
         {
-            get { return _comment; }
-            set { _comment = value; }
+            get { return (!IsNoEnd && (_dateEnd < DateTime.Today.AddMonths(1))) || IsLost; }
         }
+
+        public string Comment { get; set; }
 
         public FuelCard()
         {
@@ -110,7 +108,7 @@ namespace ClassLibraryBBAuto
             int.TryParse(row.ItemArray[4].ToString(), out _idRegion);
             _pin = row.ItemArray[5].ToString();
             int.TryParse(row.ItemArray[6].ToString(), out _lost);
-            _comment = row.ItemArray[7].ToString();
+            Comment = row.ItemArray[7].ToString();
         }
         
         public override void Save()
@@ -119,7 +117,7 @@ namespace ClassLibraryBBAuto
             if (_dateEnd.Year != 1)
                 dateEndSql = string.Concat(_dateEnd.Year.ToString(), "-", _dateEnd.Month.ToString(), "-", _dateEnd.Day.ToString());
 
-            int.TryParse(_provider.Insert("FuelCard", _id, _idFuelCardType, _number, dateEndSql, _idRegion, _pin, _lost, _comment), out _id);
+            int.TryParse(_provider.Insert("FuelCard", _id, _idFuelCardType, _number, dateEndSql, _idRegion, _pin, _lost, Comment), out _id);
 
             FuelCardList fuelCardList = FuelCardList.getInstance();
             fuelCardList.Add(this);

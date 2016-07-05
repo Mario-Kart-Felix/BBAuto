@@ -56,7 +56,18 @@ namespace ClassLibraryBBAuto
 
         public FuelCardDriver getItem(FuelCard fuelCard)
         {
-            List<FuelCardDriver> list = this.list.Where(item => fuelCard.IsEqualsID(item.FuelCardID)).OrderByDescending(item => item.DateBegin).ToList();
+            List<FuelCardDriver> list = this.list.Where(item => item.FuelCard == fuelCard).OrderByDescending(item => item.DateBegin).ToList();
+
+            return (list.Count == 0) ? null : list.First();
+        }
+
+        public FuelCardDriver getItem(Car car, DateTime date)
+        {
+            DriverCarList driverCarList = DriverCarList.getInstance();
+
+            //date > item.DateBegin && date <= item.DateEnd.Value && 
+            //TODO сделать другую выборку. зависает...
+            var list = this.list.Where(item => driverCarList.GetCar(item.Driver, date) == car).ToList();
 
             return (list.Count == 0) ? null : list.First();
         }
@@ -72,12 +83,12 @@ namespace ClassLibraryBBAuto
 
         public DataTable ToDataTable()
         {
-            return createTable(this.list.OrderBy(item => item.fuelCard.Number).OrderBy(item => item.fuelCard.IsLost).ToList());
+            return createTable(this.list.OrderBy(item => item.FuelCard.Number).OrderBy(item => item.FuelCard.IsLost).ToList());
         }
 
         public DataTable ToDataTable(FuelCard fuelCard)
         {
-            List<FuelCardDriver> list = this.list.Where(item => fuelCard.IsEqualsID(item.FuelCardID)).OrderByDescending(item => item.DateBegin).ToList();
+            List<FuelCardDriver> list = this.list.Where(item => item.FuelCard == fuelCard).OrderByDescending(item => item.DateBegin).ToList();
             
             return createTable(list);
         }
@@ -117,12 +128,12 @@ namespace ClassLibraryBBAuto
 
         internal List<FuelCardDriver> ToList(Driver driver)
         {
-            return this.list.Where(item => driver.IsEqualsID(Convert.ToInt32(item.DriverID)) && item.DateEnd.Year == 1).OrderByDescending(item => item.DateBegin).ToList();
+            return this.list.Where(item => item.Driver == driver && item.DateEnd == null).OrderByDescending(item => item.DateBegin).ToList();
         }
 
         public DataTable ToDataTable(Driver driver)
         {
-            var myList = list.Where(item => driver.IsEqualsID(Convert.ToInt32(item.DriverID))).OrderByDescending(item => item.DateBegin).ToList();
+            var myList = list.Where(item => item.Driver == driver).OrderByDescending(item => item.DateBegin).ToList();
 
             return createTable(myList);
         }

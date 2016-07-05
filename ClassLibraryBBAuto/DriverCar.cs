@@ -43,6 +43,14 @@ namespace ClassLibraryBBAuto
             return driver.IsEqualsID(idDriver);
         }
 
+        internal bool isCarsDriver(Driver driver, DateTime date)
+        {
+            if ((date >= DateTime.Today) && (dateEnd == DateTime.Today))
+                return driver.ID == idDriver && date >= dateBegin;
+            else
+                return driver.ID == idDriver && date >= dateBegin && date < dateEnd;
+        }
+
         internal bool isEqualDriverID(Driver driver)
         {
             return driver.IsEqualsID(idDriver);

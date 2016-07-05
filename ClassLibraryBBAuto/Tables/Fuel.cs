@@ -51,7 +51,7 @@ namespace ClassLibraryBBAuto
 
         internal override object[] getRow()
         {
-            throw new NotImplementedException();
+            return new object[] { ID, Date, Value };
         }
     }
 }
