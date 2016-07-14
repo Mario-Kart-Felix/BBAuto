@@ -55,8 +55,10 @@ namespace BBAuto
 
         private void btnCreateWayBill_Click(object sender, EventArgs e)
         {
-            foreach(var car in list)
+            foreach (var car in list)
+            {
                 LoadWayBillDaily(car);
+            }
         }
 
         private void LoadWayBillDaily(Car car)
@@ -178,15 +180,16 @@ namespace BBAuto
             dgv.DataSource = wayBillDaily.ToDataTable();
         }
 
-        private void dtpDate_ValueChanged(object sender, EventArgs e)
-        {
-            LoadWayBillCurrentWithoutCreate();
-            LoadFuel();
-        }
-
         private void btnClear_Click(object sender, EventArgs e)
         {
             wayBillDaily.Clear();
+            LoadWayBillCurrent();
+        }
+
+        private void btnApply_Click(object sender, EventArgs e)
+        {
+            LoadWayBillCurrentWithoutCreate();
+            LoadFuel();
         }
     }
 }

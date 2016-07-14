@@ -61,17 +61,19 @@ namespace ClassLibraryBBAuto
             return (list.Count == 0) ? null : list.First();
         }
 
+        /*
         public FuelCardDriver getItem(Car car, DateTime date)
         {
             DriverCarList driverCarList = DriverCarList.getInstance();
 
-            //date > item.DateBegin && date <= item.DateEnd.Value && 
+            var table = _provider.DoOther("Select_FuelCardDriver_ByDate", date, car.ID);
+
             //TODO сделать другую выборку. зависает...
-            var list = this.list.Where(item => driverCarList.GetCar(item.Driver, date) == car).ToList();
+            var list = this.list.Where(item => date > item.DateBegin && date <= item.DateEnd.Value && driverCarList.GetCar(item.Driver, date) == car).ToList();
 
             return (list.Count == 0) ? null : list.First();
         }
-
+        */
         public void Delete(int idFuelCardDriver)
         {
             FuelCardDriver fuelCardDriver = getItem(idFuelCardDriver);

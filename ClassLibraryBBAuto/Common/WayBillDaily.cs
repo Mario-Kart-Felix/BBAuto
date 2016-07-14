@@ -13,7 +13,7 @@ namespace ClassLibraryBBAuto
 
         private Car _car;
         private DateTime _date;
-        private List<WayBillDay> _list;
+        private Dictionary<int, WayBillDay> _list;
 
         private MileageList _mileageList;
         
@@ -27,14 +27,18 @@ namespace ClassLibraryBBAuto
             LoadWayBillDay();
 
             if (_list == null)
-                _list = new List<WayBillDay>();
+                _list = new Dictionary<int, WayBillDay>();
         }
 
         private void LoadWayBillDay()
         {
             WayBillDayList wayBillDayList = WayBillDayList.getInstance();
 
-            _list = wayBillDayList.getList(_car, _date);
+            foreach (var item in wayBillDayList.getList(_car, _date))
+            {
+                _list.Add(item.Date.Day, item);
+                    //wayBillDayList.getList(_car, _date);
+            }
         }
         
         public int Count { get { return _list.Count; } }
@@ -62,25 +66,64 @@ namespace ClassLibraryBBAuto
             if (isShortMonth)
                 workDays /= 2;
             int div = random.Next(1);
+
+
+            var fuelList = FuelList.getInstance().GetListFiltred(_car, _date);
+
+            foreach (var item in fuelList)
+            {
+                DateTime date = new DateTime(_date.Year, _date.Month, item.Date.Day);
+
+                int curCount = count - GetDistance();
+                if ((workDays - _list.Count) == 0)
+                    break;
+
+                int everyDayCount = curCount / (workDays - _list.Count);
+
+                if (drivers.ContainsKey(item.Date.Day))
+                {
+                    WayBillDay wayBillDay = CreateWayBillDaily(drivers[item.Date.Day], date, everyDayCount, random);
+                    AddToList(wayBillDay, item.Date.Day);
+                }
+                if (curCount < 10)
+                    break;
+            }
             
             foreach(var item in drivers)
             {
+                DateTime date = new DateTime(_date.Year, _date.Month, item.Key);
+
                 if ((isShortMonth) && (item.Key % 2 == div))
                     continue;
 
                 int curCount = count - GetDistance();
                 if ((workDays - _list.Count) == 0)
                     break;
+
                 int everyDayCount = curCount / (workDays - _list.Count);
 
-                WayBillDay wayBillDay = new WayBillDay(_car, item.Value, new DateTime(_date.Year, _date.Month, item.Key), everyDayCount);
-                wayBillDay.Save();
-                wayBillDay.ReadRoute(random);
-                if (wayBillDay.Distance > 0)
-                    _list.Add(wayBillDay);
+                WayBillDay wayBillDay = CreateWayBillDaily(item.Value, date, everyDayCount, random);
+                AddToList(wayBillDay, item.Key);
 
                 if (curCount < 10)
                     break;
+            }
+        }
+        
+        private WayBillDay CreateWayBillDaily(Driver driver, DateTime date, int everyDayCount, Random random)
+        {
+            WayBillDay wayBillDay = new WayBillDay(_car, driver, date, everyDayCount);
+            wayBillDay.Save();
+            wayBillDay.ReadRoute(random);
+
+            return wayBillDay;
+        }
+
+        private void AddToList(WayBillDay wayBillDay, int day)
+        {
+            if (wayBillDay.Distance > 0)
+            {
+                _list.Add(day, wayBillDay);
             }
         }
 
@@ -142,45 +185,13 @@ namespace ClassLibraryBBAuto
             {
                 yield return item;
             }
-
-            //return new WayBillEnumerator(this);
         }
-        /*
-        private class WayBillEnumerator : IEnumerator
-        {
-            private int _index = -1;
-            private WayBillDaily _wayBillDaily;
-
-            public WayBillEnumerator(WayBillDaily wayBillDaily)
-            {
-                _wayBillDaily = wayBillDaily;
-            }
-
-            public object Current
-            {
-                get { return _wayBillDaily._list[_index]; }
-            }
-
-            public bool MoveNext()
-            {
-                if (_index == _wayBillDaily._list.Count - 1)
-                    return false;
-
-                _index++;
-                return true;
-            }
-
-            public void Reset()
-            {
-                _index = -1;
-            }
-        }
-        */
+        
         public void Clear()
         {
             foreach (var item in _list)
             {
-                item.Delete();
+                item.Value.Delete();
             }
 
             _list.Clear();

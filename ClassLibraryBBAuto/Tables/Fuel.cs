@@ -41,7 +41,7 @@ namespace ClassLibraryBBAuto
 
         public void AddValue(double value)
         {
-            Value += value;
+            Value += Math.Round(value, 2);
         }
 
         public override void Save()

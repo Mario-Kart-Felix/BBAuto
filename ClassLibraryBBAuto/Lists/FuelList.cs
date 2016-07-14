@@ -64,32 +64,28 @@ namespace ClassLibraryBBAuto
 
             return fuel;
         }
-
+                
         public DataTable ToDataTable(Car car, DateTime date)
         {
-            FuelCardDriverList fuelCardDriverList = FuelCardDriverList.getInstance();
+            var listFiltred = GetListFiltred(car, date);
 
-            DateTime datelastDay = new DateTime(date.Year, date.Month, 1).AddMonths(1).AddDays(-1);
-
-            var listFiltred = new List<Fuel>();
-
-            for (date = new DateTime(date.Year, date.Month, 1); date.Day <= datelastDay.Day && date.Month == datelastDay.Month; date = date.AddDays(1))
-            {
-                var listNew = list.Where(item => 
-                    {
-                        var fuelCardDriver = fuelCardDriverList.getItem(car, date);
-                        return (fuelCardDriver != null) ? fuelCardDriver.FuelCard == item.FuelCard && item.Date == date : false;
-                    }).ToList();
-
-                if (listNew.Count > 0)
-                {
-                    listFiltred.Add(listNew.First());
-                }
-            }
-            
             return CreateTable(listFiltred);
         }
         
+        public List<Fuel> GetListFiltred(Car car, DateTime date)
+        {
+            var dt = _provider.DoOther("exec FuelByCarAndDate_Select @p1, @p2", car.ID, date);
+
+            var listFiltred = new List<Fuel>();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                listFiltred.Add(getItem(Convert.ToInt32(row.ItemArray[0])));
+            }
+
+            return listFiltred;
+        }
+                
         private DataTable CreateTable(List<Fuel> listNew)
         {
             DataTable dt = new DataTable();

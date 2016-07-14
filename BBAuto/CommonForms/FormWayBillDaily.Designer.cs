@@ -54,6 +54,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.dgvFuel = new System.Windows.Forms.DataGridView();
             this.btnAddFuel = new System.Windows.Forms.Button();
+            this.btnApply = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -93,11 +94,10 @@
             // 
             this.dtpDate.CustomFormat = "MMMM yyyy";
             this.dtpDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpDate.Location = new System.Drawing.Point(54, 7);
+            this.dtpDate.Location = new System.Drawing.Point(50, 7);
             this.dtpDate.Name = "dtpDate";
-            this.dtpDate.Size = new System.Drawing.Size(147, 20);
+            this.dtpDate.Size = new System.Drawing.Size(111, 20);
             this.dtpDate.TabIndex = 41;
-            this.dtpDate.ValueChanged += new System.EventHandler(this.dtpDate_ValueChanged);
             // 
             // lbCar
             // 
@@ -338,11 +338,22 @@
             this.btnAddFuel.Text = "Добавить";
             this.btnAddFuel.UseVisualStyleBackColor = true;
             // 
+            // btnApply
+            // 
+            this.btnApply.Location = new System.Drawing.Point(169, 4);
+            this.btnApply.Name = "btnApply";
+            this.btnApply.Size = new System.Drawing.Size(75, 23);
+            this.btnApply.TabIndex = 59;
+            this.btnApply.Text = "Применить";
+            this.btnApply.UseVisualStyleBackColor = true;
+            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
+            // 
             // FormWayBillDaily
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1050, 402);
+            this.Controls.Add(this.btnApply);
             this.Controls.Add(this.btnAddFuel);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.dgvFuel);
@@ -404,5 +415,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridView dgvFuel;
         private System.Windows.Forms.Button btnAddFuel;
+        private System.Windows.Forms.Button btnApply;
     }
 }
