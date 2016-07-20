@@ -1,4 +1,4 @@
-﻿using ClassLibraryBBAuto;
+﻿using BBAuto.Domain;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -187,12 +187,13 @@ namespace BBAuto
             SetCellFormat("Сумма штрафа", "N0");
             SetRightAligment("Сумма штрафа");
 
+            ViolationList violationList = ViolationList.getInstance();
+
             foreach (DataGridViewRow row in _dgv.Rows)
             {
                 int id;
                 int.TryParse(row.Cells[0].Value.ToString(), out id);
-
-                ViolationList violationList = ViolationList.getInstance();
+                
                 Violation violation = violationList.getItem(id);
 
                 if (violation.Sent)

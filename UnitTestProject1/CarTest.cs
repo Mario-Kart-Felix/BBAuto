@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ClassLibraryBBAuto;
+using BBAuto.Domain;
 
 namespace UnitTestProject1
 {

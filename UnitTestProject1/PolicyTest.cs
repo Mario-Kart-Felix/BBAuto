@@ -1,5 +1,5 @@
 ﻿using System;
-using ClassLibraryBBAuto;
+using BBAuto.Domain;
 using System.Collections.Generic;
 using NUnit.Framework;
 

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.DirectoryServices;
 
-namespace ClassLibraryBBAuto
+namespace BBAuto.Domain
 {
     public class Ldap : IDisposable
     {

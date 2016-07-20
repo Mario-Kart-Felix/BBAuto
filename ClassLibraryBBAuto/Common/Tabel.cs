@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data;
 
-namespace ClassLibraryBBAuto
+namespace BBAuto.Domain
 {
     public class Tabel
     {

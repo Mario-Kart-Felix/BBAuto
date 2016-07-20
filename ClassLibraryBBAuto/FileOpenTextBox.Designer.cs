@@ -1,4 +1,4 @@
-﻿namespace ClassLibraryBBAuto
+﻿namespace BBAuto.Domain
 {
     partial class FileOpenTextBox
     {

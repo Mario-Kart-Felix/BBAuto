@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ClassLibraryBBAuto;
+using BBAuto.Domain;
 
 namespace BBAuto
 {
@@ -129,7 +129,12 @@ namespace BBAuto
             itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.DiagCard));
             itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.Repair));
             itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.ShipPart));
-            itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.Account));
+
+            ToolStripMenuItem itemAccount = new ToolStripMenuItem("Согласования");
+            itemAccount.DropDownItems.Add(_factory.CreateItem(Status.Account));
+            itemAccount.DropDownItems.Add(_factory.CreateItem(Status.AccountViolation));
+            itemMainDictionary.DropDownItems.Add(itemAccount);
+
             itemMainDictionary.DropDownItems.Add(_factory.CreateItem(Status.FuelCard));
 
             ToolStripMenuItem itemDriverAndEmployee = new ToolStripMenuItem("Сотрудники и регионы");

@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace ClassLibraryBBAuto
+namespace BBAuto.Domain
 {
     public class Car : MainDictionary
     {
@@ -26,7 +26,7 @@ namespace ClassLibraryBBAuto
         private int _idMark;
         private int _idModel;
         public string vin;
-        public string grz;
+        public string Grz { get; set; }
 
         private int _number;
 
@@ -180,7 +180,7 @@ namespace ClassLibraryBBAuto
         {
             int.TryParse(row.ItemArray[0].ToString(), out _id);
             int.TryParse(row.ItemArray[1].ToString(), out _number);
-            grz = row.ItemArray[2].ToString();
+            Grz = row.ItemArray[2].ToString();
             vin = row.ItemArray[3].ToString();
             Year = row.ItemArray[4].ToString();
             eNumber = row.ItemArray[5].ToString();
@@ -221,7 +221,7 @@ namespace ClassLibraryBBAuto
 
         public override void Save()
         {
-            int.TryParse(_provider.Insert("Car", _id, _number, grz, vin, Year, eNumber, bodyNumber, GradeID, ColorID, _isLising, _lisingDate, _invertoryNumber), out _id);
+            int.TryParse(_provider.Insert("Car", _id, _number, Grz, vin, Year, eNumber, bodyNumber, GradeID, ColorID, _isLising, _lisingDate, _invertoryNumber), out _id);
 
             CarList carList = CarList.getInstance();
             carList.Add(this);
@@ -335,7 +335,7 @@ namespace ClassLibraryBBAuto
             int mileageInt;
             int.TryParse(mileage.Count, out mileageInt);
 
-            return new object[] { _id, _id, BBNumber, grz, info.Mark, info.Model, vin, regionName,
+            return new object[] { _id, _id, BBNumber, Grz, info.Mark, info.Model, vin, regionName,
                 info.Driver.GetName(NameType.Full), pts.Number, sts.Number, Year, mileageInt,
                 mileage.MonthToString(), info.Owner, info.Guarantee, GetStatus()};
         }
@@ -351,7 +351,7 @@ namespace ClassLibraryBBAuto
 
         public override string ToString()
         {
-            return (_id == 0) ? "нет данных" : string.Concat(info.Mark, " ", info.Model, " ", grz);
+            return (_id == 0) ? "нет данных" : string.Concat(info.Mark, " ", info.Model, " ", Grz);
         }
 
         internal override void Delete()

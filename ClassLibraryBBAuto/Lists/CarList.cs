@@ -5,7 +5,7 @@ using System.Text;
 using System.Data;
 using DataLayer;
 
-namespace ClassLibraryBBAuto
+namespace BBAuto.Domain
 {
     public class CarList : MainList
     {
@@ -113,14 +113,14 @@ namespace ClassLibraryBBAuto
 
         public Car getItem(string grz)
         {
-            var cars = list.Where(item => ((item.grz.Replace(" ", "") != string.Empty) && (item.grz.Replace(" ", "") == grz.Replace(" ", ""))));
+            var cars = list.Where(item => ((item.Grz.Replace(" ", "") != string.Empty) && (item.Grz.Replace(" ", "") == grz.Replace(" ", ""))));
 
             if (cars.Count() > 0)
                 return cars.First();
 
             if (grz.Replace(" ", "").Length >= 6)
             {
-                cars = list.Where(item => ((item.grz.Replace(" ", "") != string.Empty) && (item.grz.Replace(" ", "").Substring(0, 6) == grz.Replace(" ", "").Substring(0, 6))));
+                cars = list.Where(item => ((item.Grz.Replace(" ", "") != string.Empty) && (item.Grz.Replace(" ", "").Substring(0, 6) == grz.Replace(" ", "").Substring(0, 6))));
 
                 if (cars.Count() == 1)
                     return cars.First();
@@ -134,69 +134,35 @@ namespace ClassLibraryBBAuto
             switch (status)
             {
                 case Status.Buy:
-                    {
-                        return ToDataTableBuy();
-                    }
+                    return ToDataTableBuy();
                 case Status.Actual:
-                    {
-                        return ToDataTableActual();
-                    }
+                    return ToDataTableActual();
                 case Status.Repair:
-                    {
-                        RepairList repairList = RepairList.getInstance();
-                        return repairList.ToDataTable();
-                    }
+                    return RepairList.getInstance().ToDataTable();
                 case Status.Sale:
-                    {
-                        CarSaleList carSaleList = CarSaleList.getInstance();
-                        return carSaleList.ToDataTable();
-                    }
+                    return CarSaleList.getInstance().ToDataTable();
                 case Status.Invoice:
-                    {
-                        InvoiceList invoiceList = InvoiceList.getInstance();
-                        return invoiceList.ToDataTable();
-                    }
+                    return InvoiceList.getInstance().ToDataTable();
                 case Status.Policy:
-                    {
-                        PolicyList policyList = PolicyList.getInstance();
-                        return policyList.ToDataTable();
-                    }
+                    return PolicyList.getInstance().ToDataTable();
                 case Status.DTP:
-                    {
-                        DTPList dtpList = DTPList.getInstance();
-                        return dtpList.ToDataTable();
-                    }
+                    return DTPList.getInstance().ToDataTable();
                 case Status.Violation:
-                    {
-                        ViolationList violationList = ViolationList.getInstance();
-                        return violationList.ToDataTable();
-                    }
+                    return ViolationList.getInstance().ToDataTable();
                 case Status.DiagCard:
-                    {
-                        DiagCardList diagCardList = DiagCardList.getInstance();
-                        return diagCardList.ToDataTable();
-                    }
+                    return DiagCardList.getInstance().ToDataTable();
                 case Status.TempMove:
-                    {
-                        TempMoveList tempMoveList = TempMoveList.getInstance();
-                        return tempMoveList.ToDataTable();
-                    }
+                    return TempMoveList.getInstance().ToDataTable();
                 case Status.ShipPart:
-                    {
-                        ShipPartList shipPartList = ShipPartList.getInstance();
-                        return shipPartList.ToDataTable();
-                    }
+                    return ShipPartList.getInstance().ToDataTable();
                 case Status.Account:
-                    {
-                        AccountList accountList = AccountList.getInstance();
-                        return accountList.ToDataTable();
-                    }
+                    return AccountList.getInstance().ToDataTable();
+                case Status.AccountViolation:
+                    return ViolationList.getInstance().ToDataTableAccount();
                 case Status.FuelCard:
-                    FuelCardList fuelCardList = FuelCardList.getInstance();
-                    return fuelCardList.ToDataTable();
+                    return FuelCardList.getInstance().ToDataTable();
                 case Status.Driver:
-                    DriverList driverList = DriverList.getInstance();
-                    return driverList.ToDataTable();
+                    return DriverList.getInstance().ToDataTable();
                 default:
                     return ToDataTable();
             }

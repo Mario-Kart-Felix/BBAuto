@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace ClassLibraryBBAuto
+namespace BBAuto.Domain
 {
     public class TempMove : MainDictionary
     {
@@ -61,7 +61,7 @@ namespace ClassLibraryBBAuto
             DriverList driverList = DriverList.getInstance();
             Driver driver = driverList.getItem(idDriver);
 
-            return new object[] { _id, idCar, car.BBNumber, car.grz, driver.GetName(NameType.Full), dateBegin, dateEnd };
+            return new object[] { _id, idCar, car.BBNumber, car.Grz, driver.GetName(NameType.Full), dateBegin, dateEnd };
         }
 
         internal bool isDriverCar(Car car, DateTime date)

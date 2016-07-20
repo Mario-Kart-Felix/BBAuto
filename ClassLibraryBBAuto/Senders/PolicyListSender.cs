@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ClassLibraryBBAuto
+namespace BBAuto.Domain
 {
     public class PolicyListSender
     {
@@ -11,37 +11,54 @@ namespace ClassLibraryBBAuto
 
         public void SendNotification()
         {
+            SendToBoss();
+
             if (DateTime.Today.Day != SEND_DAY)
                 return;
 
             PolicyList policyList = PolicyList.getInstance();
-            List<Policy> list = policyList.GetPolicyEnds();
+            IEnumerable<Policy> list = policyList.GetPolicyEnds();
 
             if (!ListEmpty(list))
             {
-                Driver employeeAutoDept = GetDriverForSending();
+                Driver driversTo = GetDriverForSending();
                 
                 string mailText = CreateMail(list);
 
                 eMail email = new eMail();
 
-                email.SendNotification(employeeAutoDept, mailText);
+                email.SendNotification(driversTo, mailText);
             }
         }
 
-        private bool ListEmpty(List<Policy> list)
+        private void SendToBoss()
+        {
+            PolicyList policyList = PolicyList.getInstance();
+            IEnumerable<Policy> list = policyList.GetPolicyAccount();
+
+            if (!ListEmpty(list))
+            {
+                Driver driversTo = GetDriverForSending(RolesList.Boss);
+
+                string mailText = CreateMailToBoss(list);
+
+                var email = new eMail();
+
+                email.SendNotification(driversTo, mailText);
+            }
+        }
+
+        private bool ListEmpty(IEnumerable<Policy> list)
         {
             return list.Count() == 0;
         }
 
-        private Driver GetDriverForSending()
+        private Driver GetDriverForSending(RolesList role = RolesList.Editor)
         {
-            DriverList driverList = DriverList.getInstance();
-
-            return driverList.GetDriverListByRole(RolesList.Editor).First();
+            return DriverList.getInstance().GetDriverListByRole(role).First();
         }
 
-        private string CreateMail(List<Policy> policies)
+        private string CreateMail(IEnumerable<Policy> policies)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -54,6 +71,12 @@ namespace ClassLibraryBBAuto
             MailText mailText = mailTextList.getItemByType(MailTextType.Policy);
 
             return mailText == null ? "Шаблон текста письма не найден" : mailText.Text.Replace("List", sb.ToString());
+        }
+
+        private string CreateMailToBoss(IEnumerable<Policy> policies)
+        {
+            return string.Format("Добрый день!\n\n"
+                 + "В программе BBAuto появились новые страховые полисы для согласования. Количество полисов: {0}", policies.Count());
         }
     }
 }

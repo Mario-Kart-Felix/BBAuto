@@ -1,9 +1,9 @@
-﻿namespace ClassLibraryBBAuto
+﻿namespace BBAuto.Domain
 {
     public enum Status
     {
         All = 0, Buy = 1, Actual = 2, Repair = 3, Sale = 4, Invoice = 5, Policy = 6, DTP = 7, Violation = 8, DiagCard = 9,
-        TempMove = 10, ShipPart = 11, Account = 12, FuelCard = 13, Driver = 14
+        TempMove = 10, ShipPart = 11, Account = 12, FuelCard = 13, Driver = 14, AccountViolation = 15
     };
 
     public enum RolesList

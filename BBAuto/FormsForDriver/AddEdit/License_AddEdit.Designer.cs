@@ -35,7 +35,7 @@
             this.dateEnd = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
             this.mtbNumber = new System.Windows.Forms.MaskedTextBox();
-            this.ucFile = new ClassLibraryBBAuto.FileOpenTextBox();
+            this.ucFile = new BBAuto.Domain.FileOpenTextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.dateBegin = new System.Windows.Forms.DateTimePicker();
             this.SuspendLayout();
@@ -166,7 +166,7 @@
         private System.Windows.Forms.DateTimePicker dateEnd;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.MaskedTextBox mtbNumber;
-        private ClassLibraryBBAuto.FileOpenTextBox ucFile;
+        private BBAuto.Domain.FileOpenTextBox ucFile;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DateTimePicker dateBegin;
     }

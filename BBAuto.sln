@@ -5,14 +5,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBAuto", "BBAuto\BBAuto.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{7FCEF0EC-8651-4D9E-9A1D-7DC7C92C2436}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibraryBBAuto", "ClassLibraryBBAuto\ClassLibraryBBAuto.csproj", "{76A9009C-FABC-4E23-A1A8-7D169666CD3D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBAuto.Domain", "ClassLibraryBBAuto\BBAuto.Domain.csproj", "{76A9009C-FABC-4E23-A1A8-7D169666CD3D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{7E0CB45D-8ED0-492C-B78A-5EEFD4710B34} = {7E0CB45D-8ED0-492C-B78A-5EEFD4710B34}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckBoxComboBox", "CheckBoxComboBox\CheckBoxComboBox.csproj", "{70A25201-8EA4-48F8-A4A6-ED13ADF8823C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{64938D9E-CB2C-4E9D-862B-EF60DB59A893}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBAuto.UnitTests", "UnitTestProject1\BBAuto.UnitTests.csproj", "{64938D9E-CB2C-4E9D-862B-EF60DB59A893}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBAutoConsoleApplication", "BBAutoConsoleApplication\BBAutoConsoleApplication.csproj", "{FD9CC9CD-4D38-44DD-A2B9-CF4D38A340B5}"
 EndProject

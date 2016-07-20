@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ClassLibraryBBAuto.Loaders
+namespace BBAuto.Domain.Loaders
 {
     public class FuelLoader
     {

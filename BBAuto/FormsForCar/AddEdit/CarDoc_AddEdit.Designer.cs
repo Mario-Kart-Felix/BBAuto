@@ -31,7 +31,7 @@
             this.btnClose = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.ucFile = new ClassLibraryBBAuto.FileOpenTextBox();
+            this.ucFile = new BBAuto.Domain.FileOpenTextBox();
             this.tbName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -120,7 +120,7 @@
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Label label2;
-        private ClassLibraryBBAuto.FileOpenTextBox ucFile;
+        private BBAuto.Domain.FileOpenTextBox ucFile;
         private System.Windows.Forms.TextBox tbName;
         private System.Windows.Forms.Label label1;
     }

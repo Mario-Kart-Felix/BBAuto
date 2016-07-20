@@ -38,7 +38,7 @@
             this.dtpDate = new System.Windows.Forms.DateTimePicker();
             this.label5 = new System.Windows.Forms.Label();
             this.tbCost = new System.Windows.Forms.TextBox();
-            this.ucFile = new ClassLibraryBBAuto.FileOpenTextBox();
+            this.ucFile = new BBAuto.Domain.FileOpenTextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
@@ -215,7 +215,7 @@
         private System.Windows.Forms.DateTimePicker dtpDate;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox tbCost;
-        private ClassLibraryBBAuto.FileOpenTextBox ucFile;
+        private BBAuto.Domain.FileOpenTextBox ucFile;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnClose;

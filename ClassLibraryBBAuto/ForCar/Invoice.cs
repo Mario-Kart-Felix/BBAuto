@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace ClassLibraryBBAuto
+namespace BBAuto.Domain
 {
     public class Invoice : MainDictionary
     {
@@ -166,7 +166,7 @@ namespace ClassLibraryBBAuto
             CarList carList = CarList.getInstance();
             Car car = carList.getItem(_idCar);
 
-            return new object[11] { _id, _idCar, car.BBNumber, car.grz, _number, regions.getItem(_idRegionFrom), driverFrom.GetName(NameType.Full),
+            return new object[11] { _id, _idCar, car.BBNumber, car.Grz, _number, regions.getItem(_idRegionFrom), driverFrom.GetName(NameType.Full),
                 regions.getItem(_idRegionTo), driverTo.GetName(NameType.Full), _date, _dateMove };
         }
 

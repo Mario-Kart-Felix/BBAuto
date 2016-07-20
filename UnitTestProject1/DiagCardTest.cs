@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using ClassLibraryBBAuto;
+using BBAuto.Domain;
 using System.Collections.Generic;
 
 namespace UnitTestProject1

@@ -44,7 +44,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.lbMoveCar = new System.Windows.Forms.Label();
-            this.ucFile = new ClassLibraryBBAuto.FileOpenTextBox();
+            this.ucFile = new BBAuto.Domain.FileOpenTextBox();
             this.lbNumber = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -268,7 +268,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox cbRegionFrom;
         private System.Windows.Forms.Label label7;
-        private ClassLibraryBBAuto.FileOpenTextBox ucFile;
+        private BBAuto.Domain.FileOpenTextBox ucFile;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label lbMoveCar;
         private System.Windows.Forms.Label lbNumber;

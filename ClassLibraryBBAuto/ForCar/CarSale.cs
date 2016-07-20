@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace ClassLibraryBBAuto
+namespace BBAuto.Domain
 {
     public class CarSale : MainDictionary
     {
@@ -73,7 +73,7 @@ namespace ClassLibraryBBAuto
             else
                 regionName = regions.getItem(Convert.ToInt32(invoice.RegionToID));
 
-            return new object[] { _id, _id, car.BBNumber, car.grz, regionName, _date, comm, pts.Number, sts.Number, car.GetStatus() };
+            return new object[] { _id, _id, car.BBNumber, car.Grz, regionName, _date, comm, pts.Number, sts.Number, car.GetStatus() };
         }
 
         internal override void Delete()

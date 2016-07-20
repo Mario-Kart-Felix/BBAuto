@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data;
 
-namespace ClassLibraryBBAuto
+namespace BBAuto.Domain
 {
     public class ShipPart : MainDictionary
     {
@@ -103,7 +103,7 @@ namespace ClassLibraryBBAuto
 
         internal override object[] getRow()
         {
-            return new object[] { _id, _idCar, car.BBNumber, car.grz, driver.GetName(NameType.Full), _number, _dateRequest, _dateSent };
+            return new object[] { _id, _idCar, car.BBNumber, car.Grz, driver.GetName(NameType.Full), _number, _dateRequest, _dateSent };
         }
 
         internal override void Delete()

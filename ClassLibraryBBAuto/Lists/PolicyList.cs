@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace ClassLibraryBBAuto
+namespace BBAuto.Domain
 {
     public class PolicyList : MainList
     {
@@ -90,7 +90,7 @@ namespace ClassLibraryBBAuto
 
         public DataTable ToDataTable(Account account)
         {
-            List<Policy> policies = GetPolicyByAccount(account);
+            IEnumerable<Policy> policies = GetPolicyByAccount(account);
 
             return createTable(policies);
         }
@@ -110,26 +110,16 @@ namespace ClassLibraryBBAuto
 
         public double GetPaymentSum(Account account)
         {
-            List<Policy> policies = GetPolicyByAccount(account);
-
-            double sum = 0;
-            foreach (Policy policy in policies)
-            {
-                sum += GetSum(policy, account);
-            }
-
-            return sum;
+            return GetPolicyByAccount(account).Sum(p => GetSum(p, account));
         }
 
-        private List<Policy> GetPolicyByAccount(Account account)
+        private IEnumerable<Policy> GetPolicyByAccount(Account account)
         {
-            var policies = from policy in list
-                           where ((policy.EqualsAccountID(account))
-                                || (account.IsPolicyKaskoAndPayment2() && (policy.EqualsAccountID2(account))))
-                           orderby policy.DateEnd descending
-                           select policy;
-
-            return policies.ToList();
+            return from policy in list
+                   where ((policy.EqualsAccountID(account))
+                        || (account.IsPolicyKaskoAndPayment2() && (policy.EqualsAccountID2(account))))
+                   orderby policy.DateEnd descending
+                   select policy;
         }
 
         private double GetSum(Policy policy, Account account)
@@ -137,7 +127,7 @@ namespace ClassLibraryBBAuto
             return (account.IsPolicyKaskoAndPayment2()) ? policy.Pay2ToDouble : policy.PayToDouble;
         }
 
-        private DataTable createTable(List<Policy> policies)
+        private DataTable createTable(IEnumerable<Policy> policies)
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("id");
@@ -154,7 +144,7 @@ namespace ClassLibraryBBAuto
             dt.Columns.Add("LimitCost", Type.GetType("System.Double"));
             dt.Columns.Add("Pay2", Type.GetType("System.Double"));
 
-            policies.ForEach(item => dt.Rows.Add(item.getRow()));
+            policies.ToList().ForEach(item => dt.Rows.Add(item.getRow()));
             
             return dt;
         }
@@ -168,11 +158,16 @@ namespace ClassLibraryBBAuto
             police.Delete();
         }
 
-        public List<Policy> GetPolicyEnds()
+        public IEnumerable<Policy> GetPolicyEnds()
         {
-            List<Policy> policyList = GetPolicyList(DateTime.Today.AddMonths(1));
+            IEnumerable<Policy> policyList = GetPolicyList(DateTime.Today.AddMonths(1));
 
-            return policyList.Where(item => !item.IsNotificationSent).ToList();
+            return policyList.Where(item => !item.IsNotificationSent);
+        }
+
+        public IEnumerable<Policy> GetPolicyAccount()
+        {
+            return list.Where(p => p.DateCreate == DateTime.Today.AddDays(-1) && !p.IsAgreed(1));
         }
         
         public List<Policy> GetPolicyList(DateTime date)
@@ -182,7 +177,7 @@ namespace ClassLibraryBBAuto
 
         public List<Car> GetCarListByPolicyList(List<Policy> list)
         {
-            return list.OrderBy(policy => policy.GetCar().grz).Select(policy => policy.GetCar()).Distinct().ToList();
+            return list.OrderBy(policy => policy.GetCar().Grz).Select(policy => policy.GetCar()).Distinct().ToList();
         }
 
         public Policy GetPolicyFromList(Car car, List<Policy> list, PolicyType policyType)

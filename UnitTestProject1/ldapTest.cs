@@ -1,5 +1,5 @@
 ﻿using System;
-using ClassLibraryBBAuto;
+using BBAuto.Domain;
 using NUnit.Framework;
 
 namespace UnitTestProject1

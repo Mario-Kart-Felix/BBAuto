@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ClassLibraryBBAuto
+namespace BBAuto.Domain
 {
     public class DiagCardSender
     {
@@ -50,7 +50,7 @@ namespace ClassLibraryBBAuto
                     eMail email = new eMail();
 
                     Driver employeeAutoDept = GetDriverForSending();
-                    email.SendNotification(employeeAutoDept, mailText, files);
+                    email.SendNotification(employeeAutoDept, mailText, true, files);
                 }
             }
         }

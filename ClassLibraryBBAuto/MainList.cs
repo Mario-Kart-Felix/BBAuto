@@ -5,7 +5,7 @@ using System.Text;
 using System.Data;
 using DataLayer;
 
-namespace ClassLibraryBBAuto
+namespace BBAuto.Domain
 {
     public abstract class MainList
     {

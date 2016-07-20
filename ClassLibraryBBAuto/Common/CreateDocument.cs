@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ClassLibraryBBAuto
+namespace BBAuto.Domain
 {
     public class CreateDocument
     {
@@ -132,7 +132,7 @@ namespace ClassLibraryBBAuto
             _excelDoc.setValue(16, 82, _invoice.Number);
             _excelDoc.setValue(16, 98, _invoice.Date.ToShortDateString());
 
-            string fullNameAuto = string.Concat("Автомобиль ", _car.info.Mark, " ", _car.info.Model, ", ", _car.grz);
+            string fullNameAuto = string.Concat("Автомобиль ", _car.info.Mark, " ", _car.info.Model, ", ", _car.Grz);
 
             _excelDoc.setValue(22, 10, fullNameAuto);
             _excelDoc.setValue(22, 53, _car.dateGet.ToShortDateString());
@@ -196,7 +196,7 @@ namespace ClassLibraryBBAuto
             _excelDoc.setValue(15, 5, policy.Number);
 
             _excelDoc.setValue(17, 5, string.Concat(_car.info.Mark, " ", _car.info.Model));
-            _excelDoc.setValue(19, 5, _car.grz);
+            _excelDoc.setValue(19, 5, _car.Grz);
             _excelDoc.setValue(21, 5, _car.vin);
 
             _excelDoc.setValue(23, 5, dtp.Date.ToShortDateString());
@@ -270,7 +270,7 @@ namespace ClassLibraryBBAuto
             _excelDoc.setValue(8, 8, owner);
 
             _excelDoc.setValue(10, 11, string.Concat(_car.info.Mark, " ", _car.info.Model));
-            _excelDoc.setValue(11, 17, _car.grz);
+            _excelDoc.setValue(11, 17, _car.Grz);
 
             _excelDoc.setValue(12, 6, driver.GetName(NameType.Full));
             _excelDoc.setValue(44, 16, driver.GetName(NameType.Short));
@@ -441,7 +441,7 @@ namespace ClassLibraryBBAuto
             string fullNameAuto = string.Concat(_car.info.Mark, " ", _car.info.Model);
 
             _excelDoc.setValue(18, 2, fullNameAuto);
-            _excelDoc.setValue(18, 3, _car.grz);
+            _excelDoc.setValue(18, 3, _car.Grz);
 
             Driver driver = driverList.getItem(Convert.ToInt32(_invoice.DriverToID));
 
@@ -507,7 +507,7 @@ namespace ClassLibraryBBAuto
             string ptsName = string.Concat(pts.Number, ", выдан ", pts.Date.ToShortDateString(), " ", pts.GiveOrg);
 
             wordDoc.setValue("ПТС автомобиля", ptsName);
-            wordDoc.setValue("ГРЗ автомобиля", _car.grz);
+            wordDoc.setValue("ГРЗ автомобиля", _car.Grz);
             wordDoc.setValue("текущий год", DateTime.Today.Year.ToString());
 
             return wordDoc;
@@ -566,7 +566,7 @@ namespace ClassLibraryBBAuto
 
             foreach (Car car in listCar)
             {
-                _excelDoc.setValue(rowIndex, 2, car.grz);
+                _excelDoc.setValue(rowIndex, 2, car.Grz);
                 _excelDoc.setValue(rowIndex, 3, car.info.Mark);
                 _excelDoc.setValue(rowIndex, 4, car.info.Model);
                 _excelDoc.setValue(rowIndex, 5, car.vin);

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using DataLayer;
 
-namespace ClassLibraryBBAuto
+namespace BBAuto.Domain
 {
     public sealed class Policy : MainDictionary, IActual
     {
@@ -17,20 +17,15 @@ namespace ClassLibraryBBAuto
         private int _idAccount2;
         private double _limitCost;
         private double _pay2;
-        private DateTime _datePay2;        
         private int _idPolicyType;
         private int _idCar;
         private DateTime _dateBegin;
         private DateTime _dateEnd;
         private int _notifacationSent;
         private string _comment;
-        private string _file;
         
-        public string File
-        {
-            get { return _file; }
-            set { _file = value; }
-        }
+        public string File { get; set; }
+        public DateTime DateCreate { get; private set; }
 
         public string Pay
         {
@@ -115,20 +110,16 @@ namespace ClassLibraryBBAuto
             set { _idPolicyType = (int)value; }
         }
 
-        public DateTime DatePay2
-        {
-            get { return _datePay2; }
-            set { _datePay2 = value; }
-        }
+        public DateTime DatePay2 { get; set; }
 
         public string DatePay2ToString
         {
-            get { return IsEmptyDate(_datePay2) ? string.Empty : _datePay2.ToShortDateString(); }
+            get { return IsEmptyDate(DatePay2) ? string.Empty : DatePay2.ToShortDateString(); }
         }
 
         public string DatePay2ForSQL
         {
-            get { return IsEmptyDate(_datePay2) ? string.Empty : _datePay2.Year.ToString() + "-" + _datePay2.Month.ToString() + "-" + _datePay2.Day.ToString(); }
+            get { return IsEmptyDate(DatePay2) ? string.Empty : DatePay2.Year.ToString() + "-" + DatePay2.Month.ToString() + "-" + DatePay2.Day.ToString(); }
         }
 
         internal bool IsNotificationSent
@@ -165,12 +156,15 @@ namespace ClassLibraryBBAuto
             DateTime.TryParse(row.ItemArray[6].ToString(), out _dateBegin);
             DateTime.TryParse(row.ItemArray[7].ToString(), out _dateEnd);
             Pay = row.ItemArray[8].ToString();
-            _file = row.ItemArray[9].ToString();
-            _fileBegin = _file;
+            File = row.ItemArray[9].ToString();
+            _fileBegin = File;
 
             LimitCost = row.ItemArray[10].ToString();
             Pay2 = row.ItemArray[11].ToString();
-            DateTime.TryParse(row.ItemArray[12].ToString(), out _datePay2);
+
+            DateTime datePay2;
+            DateTime.TryParse(row.ItemArray[12].ToString(), out datePay2);
+            DatePay2 = datePay2;
 
             int.TryParse(row.ItemArray[13].ToString(), out _idAccount);
             int.TryParse(row.ItemArray[14].ToString(), out _idAccount2);
@@ -178,29 +172,32 @@ namespace ClassLibraryBBAuto
             int.TryParse(row.ItemArray[15].ToString(), out _notifacationSent);
 
             _comment = row.ItemArray[16].ToString();
+
+            DateTime dateCreate;
+            DateTime.TryParse(row.ItemArray[17].ToString(), out dateCreate);
+            DateCreate = new DateTime(dateCreate.Year, dateCreate.Month, dateCreate.Day);
         }
 
         public override void Save()
         {
             if (_id == 0)
             {
-                PolicyList policyList = PolicyList.getInstance();
-                policyList.Add(this);
+                PolicyList.getInstance().Add(this);
 
                 execSave();
             }
 
-            DeleteFile(_file);
+            DeleteFile(File);
 
-            _file = WorkWithFiles.fileCopyByID(_file, "cars", _idCar, "Policy", _number);
-            _fileBegin = _file;
+            File = WorkWithFiles.fileCopyByID(File, "cars", _idCar, "Policy", _number);
+            _fileBegin = File;
 
             execSave();
         }
 
         private void execSave()
         {
-            int.TryParse(_provider.Insert("Policy", _id, _idPolicyType, _idCar, IdOwner, IdComp, _number, _dateBegin, _dateEnd, Pay, LimitCost, Pay2, DatePay2ForSQL, _file, _notifacationSent, _comment), out _id);
+            int.TryParse(_provider.Insert("Policy", _id, _idPolicyType, _idCar, IdOwner, IdComp, _number, _dateBegin, _dateEnd, Pay, LimitCost, Pay2, DatePay2ForSQL, File, _notifacationSent, _comment), out _id);
         }
         
         public bool isEqualCarID(Car car)
@@ -210,19 +207,19 @@ namespace ClassLibraryBBAuto
 
         internal override void Delete()
         {
-            DeleteFile(_file);
+            DeleteFile(File);
 
             _provider.Delete("Policy", _id);
         }
         
         internal bool EqualsAccountID(Account account)
         {
-            return account.IsEqualsID(_idAccount) && _idAccount != 0;
+            return _idAccount == account.ID && _idAccount != 0;
         }
 
         internal bool EqualsAccountID2(Account account)
         {
-            return account.IsEqualsID(_idAccount2);
+            return _idAccount == account.ID;
         }
 
         public void SetAccountID(int idAccount, int paymentNumber)
@@ -232,7 +229,7 @@ namespace ClassLibraryBBAuto
 
         public bool IsInList(Account account)
         {
-            return ((account.IsEqualsID(_idAccount)) || (account.IsEqualsID(_idAccount2)));
+            return ((_idAccount == account.ID) || (_idAccount2 == account.ID));
         }
 
         public void ClearAccountID(Account account)
@@ -278,7 +275,7 @@ namespace ClassLibraryBBAuto
             Owners owners = Owners.getInstance();
             Comps comps = Comps.getInstance();
 
-            return new object[] { _id, _idCar, car.BBNumber, car.grz, Type, owners.getItem(Convert.ToInt32(IdOwner)),
+            return new object[] { _id, _idCar, car.BBNumber, car.Grz, Type, owners.getItem(Convert.ToInt32(IdOwner)),
                 comps.getItem(Convert.ToInt32(IdComp)), Number, _pay, DateBegin, DateEnd,
                 _limitCost, _pay2};
         }
@@ -305,7 +302,7 @@ namespace ClassLibraryBBAuto
             Car car = carList.getItem(_idCar);
 
             StringBuilder sb = new StringBuilder();
-            sb.Append(car.grz);
+            sb.Append(car.Grz);
             sb.Append(" ");
             sb.Append(Type);
             sb.Append(" ");

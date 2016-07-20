@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ClassLibraryBBAuto.BBAutoWebService {
+namespace BBAuto.Domain.BBAutoWebService {
     using System.Data;
     
     
@@ -22,12 +22,12 @@ namespace ClassLibraryBBAuto.BBAutoWebService {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface BBAutoServiceSoapChannel : ClassLibraryBBAuto.BBAutoWebService.BBAutoServiceSoap, System.ServiceModel.IClientChannel {
+    public interface BBAutoServiceSoapChannel : BBAuto.Domain.BBAutoWebService.BBAutoServiceSoap, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class BBAutoServiceSoapClient : System.ServiceModel.ClientBase<ClassLibraryBBAuto.BBAutoWebService.BBAutoServiceSoap>, ClassLibraryBBAuto.BBAutoWebService.BBAutoServiceSoap {
+    public partial class BBAutoServiceSoapClient : System.ServiceModel.ClientBase<BBAuto.Domain.BBAutoWebService.BBAutoServiceSoap>, BBAuto.Domain.BBAutoWebService.BBAutoServiceSoap {
         
         public BBAutoServiceSoapClient() {
         }

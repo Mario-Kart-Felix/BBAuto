@@ -53,7 +53,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.tbComment = new System.Windows.Forms.TextBox();
-            this.ucFile = new ClassLibraryBBAuto.FileOpenTextBox();
+            this.ucFile = new BBAuto.Domain.FileOpenTextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -355,7 +355,7 @@
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Label label7;
-        private ClassLibraryBBAuto.FileOpenTextBox ucFile;
+        private BBAuto.Domain.FileOpenTextBox ucFile;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox tbComment;
     }

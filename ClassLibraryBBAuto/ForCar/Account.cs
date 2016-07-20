@@ -5,7 +5,7 @@ using System.Text;
 using System.Data;
 using DataLayer;
 
-namespace ClassLibraryBBAuto
+namespace BBAuto.Domain
 {
     public class Account : MainDictionary
     {
@@ -15,18 +15,10 @@ namespace ClassLibraryBBAuto
         private int _agreed;
         private int _idPolicyType;
         private int _idOwner;
-        private int _paymentIndex;
         private int _businessTrip;
-        private string _file;
 
-        public string Number
-        {
-            get { return _number; }
-            set { _number = value; }
-        }
-
+        public string Number { get; set; }
         public bool Agreed { get { return Convert.ToBoolean(_agreed); } }
-
         private PolicyType policyType { get { return (PolicyType)_idPolicyType; } }
 
         internal string Owner
@@ -47,13 +39,8 @@ namespace ClassLibraryBBAuto
             }
         }
 
-        public int PaymentNumber { get { return _paymentIndex + 1; } }
-
-        public int PaymentIndex
-        {
-            get { return _paymentIndex; }
-            set { _paymentIndex = value; }
-        }
+        public int PaymentNumber { get { return PaymentIndex + 1; } }
+        public int PaymentIndex { get; set; }
 
         public string IDOwner
         {
@@ -73,11 +60,7 @@ namespace ClassLibraryBBAuto
             set { _businessTrip = Convert.ToInt32(value); }
         }
 
-        public string File
-        {
-            get { return _file; }
-            set { _file = value; }
-        }
+        public string File { get; set; }
 
         public int Position { get { return _id; } }
 
@@ -99,24 +82,23 @@ namespace ClassLibraryBBAuto
             int.TryParse(row.ItemArray[2].ToString(), out _agreed);
             int.TryParse(row.ItemArray[3].ToString(), out _idPolicyType);
             int.TryParse(row.ItemArray[4].ToString(), out _idOwner);
-            int.TryParse(row.ItemArray[5].ToString(), out _paymentIndex);
+            
+            int paymentIndex;
+            int.TryParse(row.ItemArray[5].ToString(), out paymentIndex);
+            PaymentIndex = paymentIndex;
+
             int.TryParse(row.ItemArray[6].ToString(), out _businessTrip);
-            _file = row.ItemArray[7].ToString();
-            _fileBegin = _file;
+            File = row.ItemArray[7].ToString();
+            _fileBegin = File;
         }
 
         internal override object[] getRow()
         {
             int idCar = GetIDCar();
 
-            string btnName = string.Empty;
-            if (CanAgree())
-                btnName = "Согласовать";
-
-            string btnFile = string.Empty;
-            if (File != string.Empty)
-                btnFile = "Просмотр";
-
+            string btnName = (CanAgree()) ? "Согласовать" : string.Empty;
+            string btnFile = (string.IsNullOrEmpty(File)) ? string.Empty : "Просмотр";
+            
             return new object[8] { _id, idCar, _number, policyType, Owner, Sum, btnName, btnFile };
         }
 
@@ -195,16 +177,16 @@ namespace ClassLibraryBBAuto
                 accountList.Add(this);
             }
 
-            DeleteFile(_file);
+            DeleteFile(File);
 
-            _file = WorkWithFiles.fileCopy(_file, "Accounts", _id.ToString());
+            File = WorkWithFiles.fileCopy(File, "Accounts", _id.ToString());
 
             ExecQuery();
         }
 
         private void ExecQuery()
         {
-            int.TryParse(_provider.Insert("Account", _id, _number, _agreed, _idPolicyType, _idOwner, _paymentIndex, _businessTrip, _file), out _id);
+            int.TryParse(_provider.Insert("Account", _id, _number, _agreed, _idPolicyType, _idOwner, PaymentIndex, _businessTrip, File), out _id);
         }
 
         public bool IsPolicyKaskoAndPayment2()

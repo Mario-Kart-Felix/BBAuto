@@ -7,7 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ClassLibraryBBAuto;
+using BBAuto.Domain;
 using PresentationControls;
 
 namespace BBAuto
@@ -81,8 +81,6 @@ namespace BBAuto
             savedPosition = new Point(1, 0);
 
             mainStatus.Set(Status.Actual);
-
-            //loadCars();
         }
 
         private void loadCars()
@@ -161,6 +159,9 @@ namespace BBAuto
                                 break;
                         case Status.Account:
                                 DoubleClickAccount(point);
+                                break;
+                        case Status.AccountViolation:
+                                DoubleClickAccountViolation(point);
                                 break;
                         case Status.FuelCard:
                                 DoubleClickFuelCard(point);
@@ -366,6 +367,52 @@ namespace BBAuto
                 {
                     Account_AddEdit accountAE = new Account_AddEdit(account);
                     if (accountAE.ShowDialog() == DialogResult.OK)
+                    {
+                        loadCars();
+                    }
+                }
+            }
+            catch (NotImplementedException ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка отправки", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (NullReferenceException ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка отправки", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (AccessViolationException ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void DoubleClickAccountViolation(Point point)
+        {
+            try
+            {
+                if (_dgvMain.GetID() == 0)
+                    return;
+
+                Violation violation = ViolationList.getInstance().getItem(_dgvMain.GetID());
+
+                if ((_dgvCar.Columns[point.X].HeaderText == "Файл") && (!string.IsNullOrEmpty(violation.File)))
+                    WorkWithFiles.openFile(violation.File);
+                else if ((_dgvCar.Columns[point.X].HeaderText == "Согласование") && (!violation.Agreed))
+                {
+                    if (violation.File == string.Empty)
+                        throw new NotImplementedException("Для согласования необходимо прикрепить скан копию счёта");
+                    else if ((User.GetRole() == RolesList.Boss) || (User.GetRole() == RolesList.Adminstrator))
+                    {
+                        violation.Agree();
+                        loadCars();
+                    }
+                    else
+                        throw new AccessViolationException("Вы не имеете прав на выполнение этой операции");
+                }
+                else
+                {
+                    Violation_AddEdit violationAE = new Violation_AddEdit(violation);
+                    if (violationAE.ShowDialog() == DialogResult.OK)
                     {
                         loadCars();
                     }

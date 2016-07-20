@@ -1,4 +1,4 @@
-﻿using ClassLibraryBBAuto;
+﻿using BBAuto.Domain;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

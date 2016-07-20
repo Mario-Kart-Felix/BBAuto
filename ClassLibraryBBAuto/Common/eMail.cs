@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 
-namespace ClassLibraryBBAuto
+namespace BBAuto.Domain
 {
     public class eMail
     {
@@ -29,75 +29,65 @@ namespace ClassLibraryBBAuto
             _authorEmail = driver == null ? employeeTransport == null ? ROBOT_EMAIL : employeeTransport.email : driver.email;
         }
 
+        public void SendMailAccountViolation(Violation violation)
+        {
+            _subject = string.Format("Штраф по а/м {0}", violation.getCar().Grz);
+
+            _body = "Здравствуйте, коллеги.\n"
+                  + "Оплачиваем, удерживаем.";
+
+            string owner = Owners.getInstance().getItem(Convert.ToInt32(violation.getCar().ownerID));
+            var drivers = GetAccountants(owner);
+            
+            List<Attachment> list = new List<Attachment>();
+            list.Add(new Attachment(violation.File));
+
+            Send(drivers, new string[] { _authorEmail }, list);
+        }
+        
         public void sendMailViolation(Violation violation)
         {
-            _subject = "Штраф";
+            _subject = string.Format("Штраф по а/м {0}", violation.getCar().Grz);
 
-            createMailAndSendViolation(violation);
+            CreateMailAndSendViolation(violation);
         }
 
-        private void createMailAndSendViolation(Violation violation)
+        private void CreateMailAndSendViolation(Violation violation)
         {
-            DriverList driverList = DriverList.getInstance();
-            
-            Driver boss = driverList.GetDriverListByRole(RolesList.Boss).First();
-
-            string[] emailList;
+            List<Driver> drivers;
 
             if (violation.NoDeduction)
             {
                 CreateBodyViolationNoDeduction(violation);
-                emailList = new string[] { _authorEmail };
+                string owner = Owners.getInstance().getItem(Convert.ToInt32(violation.getCar().ownerID));
+                drivers = GetAccountants(owner);
             }
             else
             {
                 CreateBodyViolation(violation);
-                Driver driver = violation.getDriver();
-                emailList = new string[] { driver.email, _authorEmail };
+                drivers = new List<Driver>() { violation.getDriver() };
             }
-
+            
             List<Attachment> list = new List<Attachment>();
             list.Add(new Attachment(violation.File));
 
-            Send(new List<Driver> { boss }, emailList, list);
+            Send(drivers, new string[] { _authorEmail }, list);
         }
 
         private void CreateBodyViolation(Violation violation)
         {
             Driver driver = violation.getDriver();
-            
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("Добрый день!");
-            sb.AppendLine("");
-            if (driver.Sex == "мужской")
-                sb.Append("Сообщаю о том, что сотрудник ");
-            else
-                sb.Append("Сообщаю о том, что сотрудница ");
 
-            sb.Append(driver.GetName(NameType.Short));
-            
-            if (driver.Sex == "мужской")
-                sb.AppendLine(" нарушил ПДД РФ.");
-            else
-                sb.AppendLine(" нарушила ПДД РФ.");
+            string appeal;
+            appeal = (driver.Sex == "мужской") ? "Уважаемый" : "Уважаемая";
 
-            sb.Append("Рекомендую удержание в размере ");
-            sb.Append(violation.Sum);
-
-            if (driver.Sex == "мужской")
-                sb.AppendLine(" р. из заработной платы сотрудника.");
-            else
-                sb.AppendLine(" р. из заработной платы сотрудницы.");
-
-            sb.AppendLine("Постановление в приложении.");
-
-            sb.AppendLine("");
-            sb.AppendLine("С уважением,");
-            sb.AppendLine(User.getDriver().GetName(NameType.Full));
-            sb.AppendLine(User.getDriver().Position);
-            sb.AppendLine(User.getDriver().Mobile);
-
-            _body = sb.ToString();
+            _body = string.Format("{0} {1}!\n\n"
+                + "Информирую Вас о том, что пришло постановление о штрафе за нарушения ПДД.\n"
+                + "Оплатить штраф можно самостоятельно и в течении 5 дней предоставить документ об оплате.\n"
+                + "После указанного срока штраф автоматически уйдет в оплату в бухгалтерию без возможности льготной оплаты 50%\n"
+                + "Документ об уплате штрафа присылать {2} на почту, в виде вложенного файла.\n"
+                + "Если есть возражения по данному штрафу, то необходимо сообщить об этом {3}.\n"
+                + "Скан копия постановления во вложении.", appeal, driver.GetName(NameType.Short), User.getDriver().GetName(NameType.Genetive));
         }
 
         private void CreateBodyViolationNoDeduction(Violation violation)
@@ -168,15 +158,9 @@ namespace ClassLibraryBBAuto
         {
             createBodyAccount(account);
 
-            DriverList driverList = DriverList.getInstance();
-            List<Driver> accountants = new List<Driver>();
+            var driverList = DriverList.getInstance();
 
-            if (account.Owner == "ООО \"Б.Браун Медикал\"")
-                accountants = driverList.GetDriverListByRole(RolesList.AccountantBBraun);
-            else if (account.Owner == "ООО \"ГЕМАТЕК\"")
-                accountants = driverList.GetDriverListByRole(RolesList.AccountantGematek);
-            else
-                throw new NotImplementedException("Не заданы бухгалтеры для данной фирмы.");
+            var accountants = GetAccountants(account.Owner);
 
             if (accountants.Count == 0)
                 throw new NullReferenceException("Не найдены e-mail адреса бухгалтеров");
@@ -184,6 +168,18 @@ namespace ClassLibraryBBAuto
             Driver boss = driverList.GetDriverListByRole(RolesList.Boss).First();
             
             Send(accountants, new string[] { boss.email }, new List<Attachment>() { new Attachment(account.File) });
+        }
+
+        private List<Driver> GetAccountants(string owner)
+        {
+            DriverList driverList = DriverList.getInstance();
+            
+            if (owner == "ООО \"Б.Браун Медикал\"")
+                return driverList.GetDriverListByRole(RolesList.AccountantBBraun);
+            else if (owner == "ООО \"ГЕМАТЕК\"")
+                return driverList.GetDriverListByRole(RolesList.AccountantGematek);
+            else
+                throw new NotImplementedException("Не заданы бухгалтеры для данной фирмы.");
         }
 
         private void createBodyAccount(Account account)
@@ -255,41 +251,42 @@ namespace ClassLibraryBBAuto
             if (string.IsNullOrEmpty(_authorEmail))
                 throw new Exception("ваш email не найден");
 
-            MailMessage msg = new MailMessage();
-            msg.From = new MailAddress(_authorEmail);
-
-            foreach (Driver driver in drivers)
+            using (var msg = new MailMessage())
             {
-                if (string.IsNullOrEmpty(driver.email))
-                    _subject += " не найден email сотрудника " + driver.GetName(NameType.Genetive);
-                else
-                    msg.To.Add(new MailAddress(driver.email));
+                msg.From = new MailAddress(_authorEmail);
+
+                foreach (Driver driver in drivers)
+                {
+                    if (string.IsNullOrEmpty(driver.email))
+                        _subject += " не найден email сотрудника " + driver.GetName(NameType.Genetive);
+                    else
+                        msg.To.Add(new MailAddress(driver.email));
+                }
+
+                if (msg.To.Count == 0)
+                    msg.To.Add(new MailAddress(_authorEmail));
+
+                if (copyEmails != null)
+                {
+                    foreach (string copyEmail in copyEmails)
+                        msg.CC.Add(new MailAddress(copyEmail));
+                }
+
+                msg.Subject = _subject;
+                msg.SubjectEncoding = System.Text.Encoding.UTF8;
+                msg.Body = _body;
+
+                if (files != null)
+                    files.ForEach(item => msg.Attachments.Add(item));
+
+                msg.BodyEncoding = System.Text.Encoding.UTF8;
+                msg.IsBodyHtml = false;
+                var client = new SmtpClient(SERVER_HOST, SERVER_PORT);
+
+                client.Credentials = new System.Net.NetworkCredential(SERVER_USER_NAME, SERVER_PASSWORD);
+
+                client.Send(msg);
             }
-
-            if (msg.To.Count == 0)
-                msg.To.Add(new MailAddress(_authorEmail)); 
-
-            if (copyEmails != null)
-            {
-                foreach (string copyEmail in copyEmails)
-                    msg.CC.Add(new MailAddress(copyEmail));
-            }
-
-            msg.Subject = _subject;
-            msg.SubjectEncoding = System.Text.Encoding.UTF8;
-            msg.Body = _body;
-
-            if (files != null)
-                files.ForEach(item => msg.Attachments.Add(item));
-
-            msg.BodyEncoding = System.Text.Encoding.UTF8;
-            msg.IsBodyHtml = false;
-            SmtpClient client = new SmtpClient(SERVER_HOST, SERVER_PORT);
-
-            client.Credentials = new System.Net.NetworkCredential(SERVER_USER_NAME, SERVER_PASSWORD);
-
-            client.Send(msg);
-            msg.Dispose();
         }
 
         public static void OpenEmailProgram(string conEmails)
@@ -297,26 +294,30 @@ namespace ClassLibraryBBAuto
             if (string.IsNullOrEmpty(conEmails))
                 return;
 
-            using (Process process = new Process())
+            using (var process = new Process())
             {
                 process.StartInfo.FileName = "mailto:" + conEmails;
                 process.Start();
             }
         }
         
-        internal void SendNotification(Driver driver, string message, List<string> fileNames = null)
+        internal void SendNotification(Driver driver, string message, bool addTransportToCopy = true, List<string> fileNames = null)
         {
             _subject = "Уведомление";
             _body = message;
 
-            DriverList driverList = DriverList.getInstance();
-            Driver transportEmployee = driverList.GetDriverListByRole(RolesList.Editor).First();
+            string[] copyEmails = null;
+            if (addTransportToCopy)
+            {
+                Driver transportEmployee = DriverList.getInstance().GetDriverListByRole(RolesList.Editor).First();
+                copyEmails = new string[] { transportEmployee.email };
+            }
             
-            List<Attachment> listAttachment = new List<Attachment>();
+            var listAttachment = new List<Attachment>();
             if (fileNames != null)
                 fileNames.ForEach(item => listAttachment.Add(new Attachment(item)));
-            
-            Send(new List<Driver> { driver }, new string[] { transportEmployee.email }, listAttachment);
+
+            Send(new List<Driver> { driver }, copyEmails, listAttachment);
         }
     }
 }

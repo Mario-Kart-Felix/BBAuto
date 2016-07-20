@@ -48,9 +48,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibraryBBAuto\ClassLibraryBBAuto.csproj">
+    <ProjectReference Include="..\ClassLibraryBBAuto\BBAuto.Domain.csproj">
       <Project>{76a9009c-fabc-4e23-a1a8-7d169666cd3d}</Project>
-      <Name>ClassLibraryBBAuto</Name>
+      <Name>BBAuto.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\DataLayer\DataLayer.csproj">
       <Project>{7fcef0ec-8651-4d9e-9a1d-7dc7c92c2436}</Project>

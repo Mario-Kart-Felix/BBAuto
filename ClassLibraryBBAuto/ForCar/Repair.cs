@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace ClassLibraryBBAuto
+namespace BBAuto.Domain
 {
     public class Repair : MainDictionary
     {
@@ -90,7 +90,7 @@ namespace ClassLibraryBBAuto
             RepairTypes repairTypes = RepairTypes.getInstance();
             ServiceStantions serviceStantions = ServiceStantions.getInstance();
 
-            return new object[] { _id, _idCar, car.BBNumber, car.grz, repairTypes.getItem(_idRepairType), serviceStantions.getItem(_idServiceStantion),
+            return new object[] { _id, _idCar, car.BBNumber, car.Grz, repairTypes.getItem(_idRepairType), serviceStantions.getItem(_idServiceStantion),
                 _date, _cost, show };
         }
 

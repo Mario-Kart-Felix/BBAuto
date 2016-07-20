@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
-using ClassLibraryBBAuto;
+using BBAuto.Domain;
 
-namespace ClassLibraryBBAuto
+namespace BBAuto.Domain
 {
     public static class User
     {

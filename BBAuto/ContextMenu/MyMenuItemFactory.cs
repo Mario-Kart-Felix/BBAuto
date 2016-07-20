@@ -1,4 +1,4 @@
-﻿using ClassLibraryBBAuto;
+﻿using BBAuto.Domain;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -178,6 +178,8 @@ namespace BBAuto
             {
                 case Status.Account:
                     return CreateAccount();
+                case Status.AccountViolation:
+                    return CreateAccountViolation();
                 case Status.Actual:
                     return CreateActual();
                 case Status.Buy:
@@ -819,8 +821,15 @@ namespace BBAuto
         
         private ToolStripMenuItem CreateAccount()
         {
-            ToolStripMenuItem item = CreateItem("Согласования");
+            ToolStripMenuItem item = CreateItem("Страховые полисы");
             item.Click += delegate { _mainStatus.Set(Status.Account); };
+            return item;
+        }
+
+        private ToolStripMenuItem CreateAccountViolation()
+        {
+            ToolStripMenuItem item = CreateItem("Штрафы");
+            item.Click += delegate { _mainStatus.Set(Status.AccountViolation); };
             return item;
         }
 

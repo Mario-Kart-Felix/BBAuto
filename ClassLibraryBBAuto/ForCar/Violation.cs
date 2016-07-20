@@ -4,46 +4,39 @@ using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace ClassLibraryBBAuto
+namespace BBAuto.Domain
 {
     public class Violation : MainDictionary
     {
+        private readonly DateTime default_date = new DateTime(1, 1, 1);
+
         private int idCar;
-        private string _number;
-        private int _isPaid;
         private int _sum;
         private int _idViolationType;
         private int _sent;
         private string _fileBeginPay;
-
-        private DateTime _date;
-        private DateTime _datePay;
-        private string _file;
-        private string _filePay;
+        private DateTime? _datePay;
         private int _noDeduction;
 
-        public string Number
+        public string Number { get; set; }
+        public DateTime Date { get; set; }
+        public string FilePay { get; set; }
+        public string File { get; set; }
+        public bool Agreed { get; private set; }
+        public DateTime DateCreate { get; private set; }
+        
+        public DateTime? DatePay
         {
-            get { return _number; }
-            set { _number = value; }
-        }
+            get { return _datePay; }
+            set
+            {
+                _datePay = value;
 
-        public bool IsPaid
-        {
-            get { return Convert.ToBoolean(_isPaid); }
-            set { _isPaid = Convert.ToInt32(value); }
-        }
-
-        public DateTime Date
-        {
-            get { return _date; }
-            set { _date = value; }
-        }
-
-        public DateTime DatePay
-        {
-            get { return IsPaid ? _datePay : new DateTime(1, 1, 1); }
-            set { _datePay = value; }
+                if (_datePay != null)
+                {
+                    Agreed = true;
+                }
+            }
         }
 
         public string Sum
@@ -64,82 +57,78 @@ namespace ClassLibraryBBAuto
             set { _sent = Convert.ToInt32(value); }
         }
 
-        public string FilePay
-        {
-            get { return _filePay; }
-            set { _filePay = value; }
-        }
-
-        public string File
-        {
-            get { return _file; }
-            set { _file = value; }
-        }
-
         public bool NoDeduction
         {
             get { return Convert.ToBoolean(_noDeduction); }
             set { _noDeduction = Convert.ToInt32(value); }
         }
 
+        public Violation() { }
+
         public Violation(int idCar)
         {
             this.idCar = idCar;
-            _date = DateTime.Today;
+            Date = DateTime.Today;
             _datePay = DateTime.Today;
-            _file = string.Empty;
-            _filePay = string.Empty;
+            File = string.Empty;
+            FilePay = string.Empty;
         }
 
-        public Violation(DataRow row)
+        public Violation(object[] row)
         {
-            fillFields(row);
+            FillFields(row);
         }
 
-        private void fillFields(DataRow row)
+        private void FillFields(object[] row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
-            int.TryParse(row.ItemArray[1].ToString(), out idCar);
-            DateTime.TryParse(row.ItemArray[2].ToString(), out _date);
-            _number = row.ItemArray[3].ToString();
-            _file = row.ItemArray[4].ToString();
-            _fileBegin = _file;
+            int.TryParse(row[0].ToString(), out _id);
+            int.TryParse(row[1].ToString(), out idCar);
 
-            if (row.ItemArray[5].ToString() == string.Empty)
-            {
-                IsPaid = false;
-                _datePay = DateTime.Today;
-                _filePay = string.Empty;
-            }
-            else
-            {
-                IsPaid = true;
-                DateTime.TryParse(row.ItemArray[5].ToString(), out _datePay);
-                _filePay = row.ItemArray[6].ToString();
-            }
+            DateTime date;
+            DateTime.TryParse(row[2].ToString(), out date);
+            Date = date;
 
-            _fileBeginPay = _filePay;
+            Number = row[3].ToString();
+            File = row[4].ToString();
+            _fileBegin = File;
 
-            int.TryParse(row.ItemArray[7].ToString(), out _idViolationType);
-            int.TryParse(row.ItemArray[8].ToString(), out _sum);
-            int.TryParse(row.ItemArray[9].ToString(), out _sent);
-            int.TryParse(row.ItemArray[10].ToString(), out _noDeduction);
+            DateTime datePay;
+            DateTime.TryParse(row[5].ToString(), out datePay);
+            if (datePay != default_date)
+                DatePay = datePay;
+
+            FilePay = row[6].ToString();
+            _fileBeginPay = FilePay;
+
+            int.TryParse(row[7].ToString(), out _idViolationType);
+            int.TryParse(row[8].ToString(), out _sum);
+            int.TryParse(row[9].ToString(), out _sent);
+            int.TryParse(row[10].ToString(), out _noDeduction);
+
+            bool agreed;
+            bool.TryParse(row[11].ToString(), out agreed);
+            Agreed = agreed;
+
+            DateTime dateCreate;
+            DateTime.TryParse(row[12].ToString(), out dateCreate);
+            DateCreate = new DateTime(dateCreate.Year, dateCreate.Month, dateCreate.Day);
         }
 
         public override void Save()
         {
-            DeleteFile(_file);
+            DeleteFile(File);
             deleteFilePay();
 
-            _file = WorkWithFiles.fileCopyByID(_file, "cars", idCar, "Violation", _number);
-            _filePay = WorkWithFiles.fileCopyByID(_filePay, "cars", idCar, "ViolationPay", _number);
+            File = WorkWithFiles.fileCopyByID(File, "cars", idCar, "Violation", Number);
+            FilePay = WorkWithFiles.fileCopyByID(FilePay, "cars", idCar, "ViolationPay", Number);
 
-            int.TryParse(_provider.Insert("Violation", _id, idCar, _date, _number, _isPaid, _file, _datePay, _filePay, _idViolationType, _sum, _sent, _noDeduction), out _id);
+            int.TryParse(_provider.Insert("Violation", _id, idCar, Date, Number, File, (DatePay == null) ? string.Empty : DatePay.Value.ToShortDateString(),
+                FilePay, _idViolationType, _sum, _sent, _noDeduction, Agreed.ToString()), out _id);
         }
         
         internal override void Delete()
         {
-            DeleteFile(_file);
+            DeleteFile(File);
             deleteFilePay();
 
             _provider.Delete("Violation", _id);
@@ -157,14 +146,30 @@ namespace ClassLibraryBBAuto
             Regions regions = Regions.getInstance();
             string regionName = (invoice == null) ? regions.getItem(Convert.ToInt32(car.regionUsingID)) : regions.getItem(Convert.ToInt32(invoice.RegionToID));
 
-            return new object[] { _id, idCar, car.BBNumber, car.grz, regionName, _date, driver.GetName(NameType.Full), _number, DatePay, 
+            return new object[] { _id, idCar, car.BBNumber, car.Grz, regionName, Date, driver.GetName(NameType.Full), Number, DatePay, 
                 violationType.getItem(_idViolationType), _sum };
         }
 
-        internal bool isEqualCarID(Car car)
+        internal object[] GetRowAccount()
         {
-            return car.IsEqualsID(idCar);
+            string btnName = (Agreed) ? string.Empty : "Согласовать";
+            string btnFile = (string.IsNullOrEmpty(File)) ? string.Empty : "Просмотр";
+            
+            return new object[]
+            {
+                _id,
+                idCar,
+                Number,
+                Date,
+                getDriver().GetName(NameType.Full),
+                ViolationTypes.getInstance().getItem(_idViolationType),
+                _sum,          
+                btnName,
+                btnFile
+            };
         }
+        
+        
 
         internal bool isEqualDriverID(Driver driver)
         {
@@ -173,14 +178,14 @@ namespace ClassLibraryBBAuto
             DriverList driverList = DriverList.getInstance();
 
             DriverCarList driverCarList = DriverCarList.getInstance();
-            Driver driverDTP = driverCarList.GetDriver(car, _date);
+            Driver driverDTP = driverCarList.GetDriver(car, Date);
 
             return driver.Equals(driverDTP);
         }
 
         public override string ToString()
         {
-            return (idCar == 0) ? "нет данных" : string.Concat("№", _number, " от ", _date.ToShortDateString());
+            return (idCar == 0) ? "нет данных" : string.Concat("№", Number, " от ", Date.ToShortDateString());
         }
 
         public Car getCar()
@@ -196,15 +201,25 @@ namespace ClassLibraryBBAuto
             Car car = getCar();
             
             DriverCarList driverCarList = DriverCarList.getInstance();
-            Driver driver = driverCarList.GetDriver(car, _date);
+            Driver driver = driverCarList.GetDriver(car, Date);
 
             return driver ?? new Driver();
         }
 
         protected void deleteFilePay()
         {
-            if ((_fileBeginPay != string.Empty) && (_fileBeginPay != _filePay))
+            if ((_fileBeginPay != string.Empty) && (_fileBeginPay != FilePay))
                 WorkWithFiles.Delete(_fileBeginPay);
+        }
+
+        public void Agree()
+        {
+            eMail email = new eMail();
+            email.SendMailAccountViolation(this);
+            
+            Agreed = true;
+
+            Save();
         }
     }
 }

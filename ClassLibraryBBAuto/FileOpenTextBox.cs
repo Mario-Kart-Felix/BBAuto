@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ClassLibraryBBAuto
+namespace BBAuto.Domain
 {
     public partial class FileOpenTextBox : UserControl
     {

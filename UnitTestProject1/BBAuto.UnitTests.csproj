@@ -6,8 +6,8 @@
     <ProjectGuid>{64938D9E-CB2C-4E9D-862B-EF60DB59A893}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UnitTestProject1</RootNamespace>
-    <AssemblyName>UnitTestProject1</AssemblyName>
+    <RootNamespace>BBAuto.UnitTests</RootNamespace>
+    <AssemblyName>BBAuto.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -82,9 +82,9 @@
     <Compile Include="PassportTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibraryBBAuto\ClassLibraryBBAuto.csproj">
+    <ProjectReference Include="..\ClassLibraryBBAuto\BBAuto.Domain.csproj">
       <Project>{76a9009c-fabc-4e23-a1a8-7d169666cd3d}</Project>
-      <Name>ClassLibraryBBAuto</Name>
+      <Name>BBAuto.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

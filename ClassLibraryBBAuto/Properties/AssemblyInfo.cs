@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ClassLibraryBBAuto")]
+[assembly: AssemblyTitle("BBAuto.Domain")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("B . Braun Melsungen AG")]
-[assembly: AssemblyProduct("ClassLibraryBBAuto")]
+[assembly: AssemblyProduct("BBAuto.Domain")]
 [assembly: AssemblyCopyright("Copyright © B . Braun Melsungen AG 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

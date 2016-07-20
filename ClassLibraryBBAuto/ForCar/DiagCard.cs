@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace ClassLibraryBBAuto
+namespace BBAuto.Domain
 {
     public class DiagCard : MainDictionary
     {
@@ -86,7 +86,7 @@ namespace ClassLibraryBBAuto
 
         internal override object[] getRow()
         {
-            return new object[] { _id, _idCar, GetCar().BBNumber, GetCar().grz, _number, _date };
+            return new object[] { _id, _idCar, GetCar().BBNumber, GetCar().Grz, _number, _date };
         }
 
         internal bool isEqualsCarID(Car car)
@@ -103,7 +103,7 @@ namespace ClassLibraryBBAuto
             Car car = carList.getItem(_idCar);
 
             StringBuilder sb = new StringBuilder();
-            sb.Append(car.grz);
+            sb.Append(car.Grz);
             sb.Append(" ");
             sb.Append(_number);
             sb.Append(" ");

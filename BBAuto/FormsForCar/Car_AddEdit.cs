@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ClassLibraryBBAuto;
+using BBAuto.Domain;
 
 namespace BBAuto
 {
@@ -202,7 +202,7 @@ namespace BBAuto
             tbYear.Text = _car.Year;
             tbENumber.Text = _car.eNumber;
             tbBodyNumber.Text = _car.bodyNumber;
-            mtbGRZ.Text = _car.grz;
+            mtbGRZ.Text = _car.Grz;
             cbOwner.SelectedValue = _car.ownerID;
             cbRegionBuy.SelectedValue = _car.RegionBuyID;
             cbRegionUsing.SelectedValue = _car.regionUsingID;
@@ -308,7 +308,7 @@ namespace BBAuto
             _car.GradeID = cbGrade.SelectedValue.ToString();
             _car.ColorID = cbColor.SelectedValue;
             _car.vin = tbVin.Text;
-            _car.grz = mtbGRZ.Text;
+            _car.Grz = mtbGRZ.Text;
             _car.eNumber = tbENumber.Text.ToUpper();
             _car.bodyNumber = tbBodyNumber.Text.ToUpper();
             _car.Year = tbYear.Text;

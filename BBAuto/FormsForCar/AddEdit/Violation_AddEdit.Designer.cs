@@ -45,8 +45,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.btnSend = new System.Windows.Forms.Button();
             this.chbNoDeduction = new System.Windows.Forms.CheckBox();
-            this.ucFilePay = new ClassLibraryBBAuto.FileOpenTextBox();
-            this.ucFile = new ClassLibraryBBAuto.FileOpenTextBox();
+            this.ucFilePay = new BBAuto.Domain.FileOpenTextBox();
+            this.ucFile = new BBAuto.Domain.FileOpenTextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.llDriver = new System.Windows.Forms.LinkLabel();
@@ -322,8 +322,8 @@
         private System.Windows.Forms.TextBox tbSum;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnSend;
-        private ClassLibraryBBAuto.FileOpenTextBox ucFile;
-        private ClassLibraryBBAuto.FileOpenTextBox ucFilePay;
+        private BBAuto.Domain.FileOpenTextBox ucFile;
+        private BBAuto.Domain.FileOpenTextBox ucFilePay;
         private System.Windows.Forms.CheckBox chbNoDeduction;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;

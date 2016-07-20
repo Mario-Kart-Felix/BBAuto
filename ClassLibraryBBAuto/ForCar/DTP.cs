@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace ClassLibraryBBAuto
+namespace BBAuto.Domain
 {
     public class DTP : MainDictionary
     {
@@ -131,7 +131,7 @@ namespace ClassLibraryBBAuto
             
             Driver driver = GetDriver();
 
-            return new object[] {_id, idCar, car.BBNumber, car.grz, _number, _date, regions.getItem(_idRegion), driver.GetName(NameType.Full),
+            return new object[] {_id, idCar, car.BBNumber, car.Grz, _number, _date, regions.getItem(_idRegion), driver.GetName(NameType.Full),
                 _dateCallInsure, GetCurrentStatusAfterDTP(), culpritList.getItem(_idCulprit), _sum, comm, facts, damage, 
                 statusAfterDTP.getItem(_idStatusAfterDTP), numberLoss };
         }

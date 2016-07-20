@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ClassLibraryBBAuto;
+using BBAuto.Domain;
 
 namespace BBAuto
 {
@@ -37,7 +37,7 @@ namespace BBAuto
         {
             dtpDate.Value = _violation.Date;
             tbNumber.Text = _violation.Number;
-            chbPaid.Checked = _violation.IsPaid;
+            chbPaid.Checked = (_violation.DatePay != null);
 
             TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
             tbFile.Text = _violation.File;
@@ -93,8 +93,10 @@ namespace BBAuto
         {
             _violation.Date = dtpDate.Value.Date;
             _violation.Number = tbNumber.Text;
-            _violation.IsPaid = chbPaid.Checked;
-            _violation.DatePay = dtpDatePaid.Value.Date;
+            if (chbPaid.Checked)
+                _violation.DatePay = dtpDatePaid.Value.Date;
+            else
+                _violation.DatePay = null;
 
             TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
             _violation.File = tbFile.Text;

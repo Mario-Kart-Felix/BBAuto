@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ClassLibraryBBAuto;
+using BBAuto.Domain;
 using System.Windows.Forms;
 
 namespace BBAuto

@@ -6,8 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ClassLibraryBBAuto;
-using ClassLibraryBBAuto.Loaders;
+using BBAuto.Domain;
+using BBAuto.Domain.Loaders;
 
 namespace BBAuto
 {

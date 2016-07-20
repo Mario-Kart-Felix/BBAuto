@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data;
 
-namespace ClassLibraryBBAuto
+namespace BBAuto.Domain
 {
     public class ViolationList : MainList
     {
@@ -28,18 +28,21 @@ namespace ClassLibraryBBAuto
         
         protected override void loadFromSql()
         {
+            if (list.Count > 0)
+                return;
+
             DataTable dt = _provider.Select("Violation");
 
             foreach (DataRow row in dt.Rows)
             {
-                Violation violation = new Violation(row);
+                Violation violation = new Violation(row.ItemArray);
                 Add(violation);
             }
         }
 
         public void Add(Violation violation)
         {
-            if (list.Exists(item => item == violation))
+            if (list.Exists(item => item.ID == violation.ID))
                 return;
 
             list.Add(violation);
@@ -47,7 +50,7 @@ namespace ClassLibraryBBAuto
 
         public Violation getItem(int id)
         {
-            var violations = list.Where(item => item.IsEqualsID(id));
+            var violations = list.Where(item => item.ID == id);
 
             return (violations.Count() > 0) ? violations.First() : null;
         }
@@ -57,7 +60,7 @@ namespace ClassLibraryBBAuto
             if (driver.IsEqualsID(0))
                 return new Violation(0);
 
-            var violations = list.Where(item => item.isEqualDriverID(driver));
+            var violations = list.Where(item => item.getDriver().ID == driver.ID);
 
             return (violations.Count() > 0) ? violations.First() : new Violation(0);
         }
@@ -66,33 +69,42 @@ namespace ClassLibraryBBAuto
         {
             var violations = list.OrderByDescending(item => item.Date);
 
-            return createTable(violations.ToList());
+            return createTable(violations);
+        }
+
+        public DataTable ToDataTableAccount()
+        {
+            var violations = list
+                .Where(v => v.DateCreate < DateTime.Today.AddDays(-5) && v.DatePay == null)
+                .OrderByDescending(item => item.Date);
+            
+            return CreateTableAccount(violations);
         }
 
         public DataTable ToDataTable(Car car)
         {
             var violations = from violation in list
-                             where violation.isEqualCarID(car)
+                             where violation.getCar().ID == car.ID
                              orderby violation.Date descending
                              select violation;
 
             return createTable(violations.ToList());
         }
 
-        public object ToDataTable(Driver driver)
+        public DataTable ToDataTable(Driver driver)
         {
             if (driver.IsEqualsID(0))
                 return null;
 
             var violations = from violation in list
-                             where violation.isEqualDriverID(driver)
+                             where violation.getDriver().ID == driver.ID
                              orderby violation.Date descending
                              select violation;
 
             return createTable(violations.ToList());
         }
 
-        private DataTable createTable(List<Violation> violations)
+        private DataTable createTable(IEnumerable<Violation> violations)
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("id");
@@ -113,6 +125,25 @@ namespace ClassLibraryBBAuto
             return dt;
         }
 
+        private DataTable CreateTableAccount(IEnumerable<Violation> violations)
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("id");
+            dt.Columns.Add("idCar");
+            dt.Columns.Add("№ постановления");
+            dt.Columns.Add("Дата", Type.GetType("System.DateTime"));
+            dt.Columns.Add("Водитель");
+            dt.Columns.Add("Тип нарушения");
+            dt.Columns.Add("Сумма штрафа", Type.GetType("System.Int32"));
+            dt.Columns.Add("Согласование");
+            dt.Columns.Add("Файл");
+
+            foreach (Violation violation in violations)
+                dt.Rows.Add(violation.GetRowAccount());
+
+            return dt;
+        }
+
         public void Delete(int idViolation)
         {
             Violation violation = getItem(idViolation);
@@ -120,6 +151,16 @@ namespace ClassLibraryBBAuto
             list.Remove(violation);
 
             violation.Delete();
+        }
+
+        private IEnumerable<Violation> GetListViolationAccount()
+        {
+            return list.Where(v => v.DateCreate <= DateTime.Today.AddDays(-5) && v.DatePay == null);
+        }
+
+        internal IEnumerable<Violation> GetViolationForAccount()
+        {
+            return GetListViolationAccount().Where(v => v.DateCreate == DateTime.Today.AddDays(-5) && !v.Agreed);
         }
     }
 }

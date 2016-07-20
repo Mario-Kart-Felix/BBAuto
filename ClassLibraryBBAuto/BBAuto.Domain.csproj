@@ -7,8 +7,8 @@
     <ProjectGuid>{76A9009C-FABC-4E23-A1A8-7D169666CD3D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClassLibraryBBAuto</RootNamespace>
-    <AssemblyName>ClassLibraryBBAuto</AssemblyName>
+    <RootNamespace>BBAuto.Domain</RootNamespace>
+    <AssemblyName>BBAuto.Domain</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -190,6 +190,7 @@
     <Compile Include="Senders\PolicyListSender.cs" />
     <Compile Include="ForCar\Violation.cs" />
     <Compile Include="Account\User.cs" />
+    <Compile Include="Senders\ViolationSender.cs" />
     <Compile Include="Service References\BBAutoWebService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
