@@ -3,60 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Common;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.ForCar
 {
     public class ShipPart : MainDictionary
-    {
-        private int _idCar;
-        private int _idDriver;
-        private string _number;
+    {        
         private DateTime _dateRequest;
         private DateTime _dateSent;
-        private string _file;
 
-        public string Number
-        {
-            get { return _number; }
-            set { _number = value; }
-        }
-
-        public string File
-        {
-            get { return _file; }
-            set { _file = value; }
-        }
-
-        public string IDCar
-        {
-            get { return _idCar.ToString(); }
-            set { int.TryParse(value, out _idCar); }
-        }
-
-        public string IDDriver
-        {
-            get { return _idDriver.ToString(); }
-            set { int.TryParse(value, out _idDriver); }
-        }
-
-        private Driver driver
-        {
-            get
-            {
-                DriverList driverList = DriverList.getInstance();
-                return driverList.getItem(_idDriver);
-            }
-        }
-
-        private Car car
-        {
-            get
-            {
-                CarList carList = CarList.getInstance();
-                return carList.getItem(_idCar);
-            }
-        }
-
+        public string Number { get; set; }
+        public string File { get; set; }
+        public Car Car { get; set; }
+        public Driver Driver { get; set; }
+        
         public string DateRequest
         {
             get { return (_dateRequest == new DateTime(1, 1, 1)) ? string.Empty : _dateRequest.Date.ToShortDateString(); }
@@ -79,9 +43,9 @@ namespace BBAuto.Domain
             get { return (_dateSent == new DateTime(1, 1, 1)) ? string.Empty : _dateSent.Year.ToString() + "-" + _dateSent.Month.ToString() + "-" + _dateSent.Day.ToString(); }
         }
 
-        internal ShipPart(int idCar)
+        internal ShipPart(Car car)
         {
-            this._idCar = idCar;
+            Car = car;
         }
 
         internal ShipPart(DataRow row)
@@ -91,38 +55,44 @@ namespace BBAuto.Domain
 
         private void fillFields(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
-            int.TryParse(row.ItemArray[1].ToString(), out _idCar);
-            int.TryParse(row.ItemArray[2].ToString(), out _idDriver);
-            _number = row.ItemArray[3].ToString();
+            int id;
+            int.TryParse(row.ItemArray[0].ToString(), out id);
+            ID = id;
+
+            int idCar;
+            int.TryParse(row.ItemArray[1].ToString(), out idCar);
+            Car = CarList.getInstance().getItem(idCar);
+
+            int idDriver;
+            int.TryParse(row.ItemArray[2].ToString(), out idDriver);
+            Driver = DriverList.getInstance().getItem(idDriver);
+
+            Number = row.ItemArray[3].ToString();
             DateRequest = row.ItemArray[4].ToString();
             DateSent = row.ItemArray[5].ToString();
-            _file = row.ItemArray[6].ToString();
-            _fileBegin = _file;
+            File = row.ItemArray[6].ToString();
+            _fileBegin = File;
         }
 
         internal override object[] getRow()
         {
-            return new object[] { _id, _idCar, car.BBNumber, car.Grz, driver.GetName(NameType.Full), _number, _dateRequest, _dateSent };
+            return new object[] { ID, Car.ID, Car.BBNumber, Car.Grz, Driver.GetName(NameType.Full), Number, _dateRequest, _dateSent };
         }
 
         internal override void Delete()
         {
-            _provider.Delete("ShipPart", _id);
+            _provider.Delete("ShipPart", ID);
         }
-
-        internal bool isEqualCarID(Car car)
-        {
-            return car.IsEqualsID(_idCar);
-        }
-
+        
         public override void Save()
         {
-            DeleteFile(_file);
+            DeleteFile(File);
 
-            _file = WorkWithFiles.fileCopyByID(_file, "cars", _idCar, "ShipPart", _number);
+            File = WorkWithFiles.fileCopyByID(File, "cars", Car.ID, "ShipPart", Number);
 
-            int.TryParse(_provider.Insert("ShipPart", _id, _idCar, _idDriver, _number, DateRequestForSQL, DateSentForSQL, _file).ToString(), out _id);
+            int id;
+            int.TryParse(_provider.Insert("ShipPart", ID, Car.ID, Driver.ID, Number, DateRequestForSQL, DateSentForSQL, File).ToString(), out id);
+            ID = id;
         }
     }
 }

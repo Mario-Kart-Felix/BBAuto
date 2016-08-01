@@ -6,6 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using BBAuto.Domain;
+using BBAuto.Domain.Tables;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Common;
 
 namespace BBAuto
 {

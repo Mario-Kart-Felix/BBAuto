@@ -1,4 +1,4 @@
-﻿using BBAuto.Domain;
+﻿using BBAuto.Domain.Common;
 using PresentationControls;
 using System;
 using System.Collections.Generic;

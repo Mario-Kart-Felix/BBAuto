@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Common
 {
     public class WayBillDaily : IEnumerable
     {

@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.ForDriver;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Static;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class UserAccessList : MainList
     {
-        private List<UserAccess> list;
         private static UserAccessList uniqueInstance;
+        private List<UserAccess> list;
 
         private UserAccessList()
         {
@@ -54,11 +57,9 @@ namespace BBAuto.Domain
             userAccess.Delete();
         }
 
-        public UserAccess getItem(int idDriver)
+        public UserAccess getItem(int id)
         {
-            List<UserAccess> userAccesses = list.Where(item => item.IsEqualsID(idDriver)).ToList();
-
-            return (userAccesses.Count() > 0) ? userAccesses.First() : new UserAccess();
+            return list.FirstOrDefault(item => item.Driver.ID == id);
         }
 
         public UserAccess getItem(RolesList role)
@@ -72,7 +73,7 @@ namespace BBAuto.Domain
         {
             DataTable dt = createTable();
 
-            List<UserAccess> userAccesses = list.OrderBy(item => item.driver.GetName(NameType.Full)).ToList();
+            List<UserAccess> userAccesses = list.OrderBy(item => item.Driver.GetName(NameType.Full)).ToList();
 
             foreach (UserAccess userAccess in userAccesses)
                 dt.Rows.Add(userAccess.getRow());
@@ -95,7 +96,7 @@ namespace BBAuto.Domain
         {
             int idRole = (int)role;
 
-            List<UserAccess> userAccesses = list.Where(item => item.IDRole == idRole.ToString()).ToList();
+            List<UserAccess> userAccesses = list.Where(item => item.RoleID == idRole).ToList();
 
             return (userAccesses.Count() > 0) ? userAccesses : null;
         }

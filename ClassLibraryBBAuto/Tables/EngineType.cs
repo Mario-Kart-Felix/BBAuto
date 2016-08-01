@@ -3,28 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Tables
 {
     public class EngineType : MainDictionary
     {
-        private string _name;
-        private string _shortName;
-
         public EngineType(DataRow row)
         {
-            int.TryParse(row[0].ToString(), out _id);
-
-            _name = row[1].ToString();
-            _shortName = row[2].ToString();
+            ID = Convert.ToInt32(row[0]);
+            Name = row[1].ToString();
+            ShortName = row[2].ToString();
         }
+        
+        public string Name { get; private set; }
+        public string ShortName { get; private set; }
 
         internal override object[] getRow()
         {
             throw new NotImplementedException();
         }
-
-        public string Name { get { return _name; } }
-        public string ShortName { get { return _shortName; } }
     }
 }

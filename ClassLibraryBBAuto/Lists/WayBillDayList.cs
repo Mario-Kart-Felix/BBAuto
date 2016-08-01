@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Common;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class WayBillDayList : MainList
     {
-        private List<WayBillDay> list;
         private static WayBillDayList uniqueInstance;
+        private List<WayBillDay> list;
 
         private WayBillDayList()
         {
@@ -47,14 +50,12 @@ namespace BBAuto.Domain
 
         public WayBillDay getItem(int id)
         {
-            var wayBillDays = list.Where(item => item.IsEqualsID(id));
-
-            return (wayBillDays.Count() > 0) ? wayBillDays.First() : null;
+            return list.FirstOrDefault(item => item.ID == id);
         }
 
-        public List<WayBillDay> getList(Car car, DateTime date)
+        public IEnumerable<WayBillDay> getList(Car car, DateTime date)
         {
-            return list.Where(item => item.Car == car && item.Date.Year == date.Year && item.Date.Month == date.Month).OrderBy(item => item.Date).ToList();
+            return list.Where(item => item.Car.ID == car.ID && item.Date.Year == date.Year && item.Date.Month == date.Month).OrderBy(item => item.Date);
         }
     }
 }

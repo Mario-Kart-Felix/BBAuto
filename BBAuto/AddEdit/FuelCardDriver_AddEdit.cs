@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BBAuto.Domain.ForDriver;
+using BBAuto.Domain.Lists;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,7 +8,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BBAuto.Domain;
 
 namespace BBAuto
 {
@@ -30,7 +31,7 @@ namespace BBAuto
             LoadData();
 
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-            _workWithForm.SetEditMode(_fuelCardDriver.IsEqualsID(0));
+            _workWithForm.SetEditMode(_fuelCardDriver.ID == 0);
         }
 
         private void LoadDictionary()

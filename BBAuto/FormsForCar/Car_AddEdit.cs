@@ -6,7 +6,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BBAuto.Domain;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Tables;
+using BBAuto.Domain.Entities;
+using BBAuto.Domain.ForDriver;
+using BBAuto.Domain.Common;
 
 namespace BBAuto
 {
@@ -58,7 +64,7 @@ namespace BBAuto
 
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
             _workWithForm.EditModeChanged += SetNotEditableItems;
-            _workWithForm.SetEditMode(_car.IsEqualsID(0) || (!_car.IsGet));
+            _workWithForm.SetEditMode(_car.ID == 0 || (!_car.IsGet));
 
             if (User.getDriver().UserRole == RolesList.AccountantWayBill)
             {
@@ -240,7 +246,9 @@ namespace BBAuto
             TextBox tbFileSTS = ucFileSTS.Controls["tbFile"] as TextBox;
             tbFileSTS.Text = sts.File;
 
-            lbMileage.Text = mileageList.getItem(_car).ToString();
+            Mileage mileage = mileageList.getItem(_car);
+            if (mileage != null)
+                lbMileage.Text = mileage.ToString();
             
             changeDiler(_car.idDiller);
 
@@ -891,7 +899,7 @@ namespace BBAuto
         {
             DTP dtp = dtpList.getItem(Convert.ToInt32(_dgvDTP.Rows[_dgvDTP.SelectedCells[0].RowIndex].Cells[0].Value));
 
-            Driver driver = driverCarList.GetDriver(dtp.getCar(), dtp.Date);
+            Driver driver = driverCarList.GetDriver(dtp.Car, dtp.Date);
 
             LicenseList licencesList = LicenseList.getInstance();
             DriverLicense driverLicense = licencesList.getItem(driver);

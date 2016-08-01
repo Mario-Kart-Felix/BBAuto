@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class RepairList : MainList
     {
@@ -47,11 +50,7 @@ namespace BBAuto.Domain
 
         public Repair getItem(int id)
         {
-            var repairs = from repair in list
-                            where repair.IsEqualsID(id)
-                            select repair;
-
-            return (repairs.Count() > 0) ? repairs.First() : null;
+            return list.FirstOrDefault(r => r.ID == id);
         }
 
         public void Delete(int idRepair)
@@ -82,7 +81,7 @@ namespace BBAuto.Domain
             DataTable dt = createTable();
 
             var repairs = from repair in list
-                          where repair.isEqualCarID(car)
+                          where repair.Car.ID == car.ID
                           orderby repair.Date ascending
                           select repair;
 

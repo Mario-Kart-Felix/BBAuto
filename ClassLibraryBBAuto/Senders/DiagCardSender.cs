@@ -1,9 +1,14 @@
-﻿using System;
+﻿using BBAuto.Domain.Common;
+using BBAuto.Domain.Entities;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Static;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Senders
 {
     public class DiagCardSender
     {
@@ -16,7 +21,7 @@ namespace BBAuto.Domain
                 return;
 
             DiagCardList diagCardList = DiagCardList.getInstance();
-            List<DiagCard> list = diagCardList.GetDiagCardEnds();
+            List<DiagCard> list = diagCardList.GetDiagCardEnds().ToList();
 
             int begin = 0;
             int end = 0;
@@ -35,7 +40,7 @@ namespace BBAuto.Domain
                     for (int i = begin; i < end; i++)
                         listCut.Add(list[i]);
 
-                    List<Car> carList = diagCardList.GetCarListFromDiagCardList(listCut);
+                    IEnumerable<Car> carList = diagCardList.GetCarListFromDiagCardList(listCut);
                     List<string> files = new List<string>();
 
                     foreach (Car car in carList)
@@ -55,7 +60,7 @@ namespace BBAuto.Domain
             }
         }
 
-        private bool ListEmpty(List<DiagCard> list)
+        private bool ListEmpty(IEnumerable<DiagCard> list)
         {
             return list.Count() == 0;
         }
@@ -67,7 +72,7 @@ namespace BBAuto.Domain
             return driverList.GetDriverListByRole(RolesList.Editor).First();
         }
 
-        private string CreateMail(List<DiagCard> diagCards)
+        private string CreateMail(IEnumerable<DiagCard> diagCards)
         {
             StringBuilder sb = new StringBuilder();
 

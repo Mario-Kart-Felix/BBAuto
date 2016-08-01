@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BBAuto.Domain;
+using BBAuto.Domain.ForCar;
 
 namespace BBAuto
 {
@@ -28,7 +28,7 @@ namespace BBAuto
             FillFields();
 
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-            _workWithForm.SetEditMode(_dtpFile.IsEqualsID(0));
+            _workWithForm.SetEditMode(_dtpFile.ID == 0);
         }
 
         private void FillFields()

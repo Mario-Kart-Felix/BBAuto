@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BBAuto.Domain;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Dictionary;
 
 namespace BBAuto
 {

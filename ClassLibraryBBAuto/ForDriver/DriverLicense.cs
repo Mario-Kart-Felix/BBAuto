@@ -1,62 +1,41 @@
-﻿using System;
+﻿using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Common;
+using BBAuto.Domain.Entities;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Static;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.ForDriver
 {
     public class DriverLicense : MainDictionary, INotification, IActual
     {
-        private int _idDriver;
-        private string _number;
-        private DateTime _dateBegin;
-        private DateTime _dateEnd;
         private int _notificationSent;
-
-        private string _file;
-
-        public string Number
-        {
-            get { return _number; }
-            set { _number = value; }
-        }
-
-        public DateTime DateBegin
-        {
-            get { return _dateBegin; }
-            set { _dateBegin = value; }
-        }
-
-        public DateTime DateEnd
-        {
-            get { return _dateEnd; }
-            set { _dateEnd = value; }
-        }
+        
+        public string Number { get; set; }
+        public DateTime DateBegin { get; set; }
+        public DateTime DateEnd { get; set; }
+        public string File { get; set; }
+        public Driver Driver { get; set; }
 
         public bool IsNotificationSent
         {
             get { return Convert.ToBoolean(_notificationSent); }
             private set { _notificationSent = Convert.ToInt32(value); }
         }
-
-        public int DriverID { get { return _idDriver; } }
-
-        public string File
+        
+        public DriverLicense(Driver driver)
         {
-            get { return _file; }
-            set { _file = value; }
-        }
+            ID = 0;
+            Driver = driver;
 
-        public DriverLicense(int idDriver)
-        {
-            _id = 0;
-            _idDriver = idDriver;
+            DateBegin = DateTime.Today;
+            DateEnd = DateTime.Today;
 
-            _dateBegin = DateTime.Today;
-            _dateEnd = DateTime.Today;
-
-            _file = "";
+            File = "";
         }
 
         public DriverLicense(DataRow row)
@@ -66,21 +45,32 @@ namespace BBAuto.Domain
 
         private void fillFields(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
-            int.TryParse(row.ItemArray[1].ToString(), out _idDriver);
-            _number = row.ItemArray[2].ToString();
-            DateTime.TryParse(row.ItemArray[3].ToString(), out _dateBegin);
-            DateTime.TryParse(row.ItemArray[4].ToString(), out _dateEnd);
-            _file = row.ItemArray[5].ToString();
-            _fileBegin = _file;
+            ID = Convert.ToInt32(row.ItemArray[0]);
+
+            int idDriver;
+            int.TryParse(row.ItemArray[1].ToString(), out idDriver);
+            Driver = DriverList.getInstance().getItem(idDriver);
+
+            Number = row.ItemArray[2].ToString();
+
+            DateTime dateBegin;
+            DateTime.TryParse(row.ItemArray[3].ToString(), out dateBegin);
+            DateBegin = dateBegin;
+
+            DateTime dateEnd;
+            DateTime.TryParse(row.ItemArray[4].ToString(), out dateEnd);
+            DateEnd = dateEnd;
+
+            File = row.ItemArray[5].ToString();
+            _fileBegin = File;
             int.TryParse(row.ItemArray[6].ToString(), out _notificationSent);
         }
 
         public override void Save()
         {
-            DeleteFile(_file);
+            DeleteFile(File);
 
-            _file = WorkWithFiles.fileCopyByID(_file, "drivers", _idDriver, "DriverLicense", _number);
+            File = WorkWithFiles.fileCopyByID(File, "drivers", Driver.ID, "DriverLicense", Number);
 
             ExecSave();
 
@@ -90,60 +80,51 @@ namespace BBAuto.Domain
 
         private void ExecSave()
         {
-            int.TryParse(_provider.Insert("DriverLicense", _id, _idDriver, _number, _dateBegin, _dateEnd, _file, _notificationSent), out _id);
+            int id;
+            int.TryParse(_provider.Insert("DriverLicense", ID, Driver.ID, Number, DateBegin, DateEnd, File, _notificationSent), out id);
+            ID = id;
         }
 
         internal override object[] getRow()
         {
-            return new object[3] { _id, _number, _dateEnd.ToShortDateString() };
+            return new object[] { ID, Number, DateEnd.ToShortDateString() };
         }
 
         internal override void Delete()
         {
-            WorkWithFiles.Delete(_file);
+            WorkWithFiles.Delete(File);
 
-            _provider.Delete("DriverLicense", _id);
+            _provider.Delete("DriverLicense", ID);
         }
-
-        public bool idEqualDriverID(Driver driver)
-        {
-            return driver.IsEqualsID(_idDriver);
-        }
-
+        
         public override string ToString()
         {
-            return _idDriver == 0 ? "нет данных" : string.Concat("№", _number, " до ", _dateEnd.ToShortDateString());
+            return Driver == null ? "нет данных" : string.Concat("№", Number, " до ", DateEnd.ToShortDateString());
         }
 
         public void SendNotification()
-        {
-            DriverList driverList = DriverList.getInstance();
-            Driver driver = driverList.getItem(_idDriver);
-            
+        {            
             string message = CreateMessageNotification();
 
             eMail email = new eMail();
-            email.SendNotification(driver, message);
+            email.SendNotification(Driver, message);
 
             IsNotificationSent = true;
-            if (_id != 0)
+            if (ID != 0)
                 ExecSave();
         }
 
         private string CreateMessageNotification()
         {
-            DriverList driverList = DriverList.getInstance();
-            Driver driver = driverList.getItem(_idDriver);
-
             if (!IsHaveFile())
             {
-                return "Добрый день, " + driver.GetName(NameType.Full) + "!\r\n\r\nПросьба предоставить скан копию Вашего водительского удостоверения в транспортный отдел.\r\n\r\nС уважением,\r\nТранспортный отдел.";
+                return "Добрый день, " + Driver.GetName(NameType.Full) + "!\r\n\r\nПросьба предоставить скан копию Вашего водительского удостоверения в транспортный отдел.\r\n\r\nС уважением,\r\nТранспортный отдел.";
             }
 
             MailTextList mailTextList = MailTextList.getInstance();
             MailText mailText = mailTextList.getItemByType(MailTextType.License);
 
-            return mailText == null ? "Шаблон текста письма не найден" : mailText.Text.Replace("UserName", driver.GetName(NameType.Full)).Replace("DateEnd", DateEnd.ToShortDateString());
+            return mailText == null ? "Шаблон текста письма не найден" : mailText.Text.Replace("UserName", Driver.GetName(NameType.Full)).Replace("DateEnd", DateEnd.ToShortDateString());
         }
 
         public bool IsActual()
@@ -153,12 +134,12 @@ namespace BBAuto.Domain
 
         public bool IsDateActual()
         {
-            return _dateEnd > DateTime.Today;
+            return DateEnd > DateTime.Today;
         }
         
         public bool IsHaveFile()
         {
-            return File != string.Empty;
+            return File != "";
         }
     }
 }

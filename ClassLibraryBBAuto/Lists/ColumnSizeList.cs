@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Common;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class ColumnSizeList : MainList
     {
-        private List<ColumnSize> list;
         private static ColumnSizeList uniqueInstance;
+        List<ColumnSize> list;
 
         private ColumnSizeList()
         {

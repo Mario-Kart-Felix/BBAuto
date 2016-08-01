@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Dictionary;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Lists;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.ForDriver
 {
     public class FuelCard : MainDictionary
     {
@@ -89,7 +93,7 @@ namespace BBAuto.Domain
 
         public FuelCard()
         {
-            _id = 0;
+            ID = 0;
             _idRegion = 0;
             _idFuelCardType = 0;
         }
@@ -101,7 +105,7 @@ namespace BBAuto.Domain
 
         private void fillFields(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
+            ID = Convert.ToInt32(row.ItemArray[0]);
             int.TryParse(row.ItemArray[1].ToString(), out _idFuelCardType);
             _number = row.ItemArray[2].ToString();
             DateTime.TryParse(row.ItemArray[3].ToString(), out _dateEnd);
@@ -117,7 +121,7 @@ namespace BBAuto.Domain
             if (_dateEnd.Year != 1)
                 dateEndSql = string.Concat(_dateEnd.Year.ToString(), "-", _dateEnd.Month.ToString(), "-", _dateEnd.Day.ToString());
 
-            int.TryParse(_provider.Insert("FuelCard", _id, _idFuelCardType, _number, dateEndSql, _idRegion, _pin, _lost, Comment), out _id);
+            ID = Convert.ToInt32(_provider.Insert("FuelCard", ID, _idFuelCardType, _number, dateEndSql, _idRegion, _pin, _lost, Comment));
 
             FuelCardList fuelCardList = FuelCardList.getInstance();
             fuelCardList.Add(this);
@@ -135,7 +139,7 @@ namespace BBAuto.Domain
         
         internal override void Delete()
         {
-            _provider.Delete("FuelCard", _id);
+            _provider.Delete("FuelCard", ID);
         }
 
         internal override object[] getRow()
@@ -148,15 +152,10 @@ namespace BBAuto.Domain
 
         public FuelCardDriver CreateFuelCardDriver()
         {
-            if (_id == 0)
+            if (ID == 0)
                 throw new NullReferenceException();
-
-            return new FuelCardDriver(_id);
-        }
-
-        public bool Equals(string number)
-        {
-            return _number == number;
+            
+            return new FuelCardDriver(this);
         }
     }
 }

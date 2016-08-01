@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.ForDriver
 {
     public class FuelCardDriver : MainDictionary
     {
-        public FuelCard FuelCard { get; set; }
+        public FuelCard FuelCard { get; private set; }
         public DateTime DateBegin { get; set; }
         public DateTime? DateEnd { get; set; }
         public Driver Driver { get; set; }
@@ -19,8 +23,9 @@ namespace BBAuto.Domain
             set { if (!value) DateEnd = null; }
         }
         
-        public FuelCardDriver(int idFuelCard)
+        public FuelCardDriver(FuelCard fuelCard)
         {
+            FuelCard = fuelCard;
             DateBegin = DateTime.Today;
             Driver = DriverList.getInstance().getItem(1);
             IsNotUse = false;
@@ -33,7 +38,7 @@ namespace BBAuto.Domain
 
         private void fillFields(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
+            ID = Convert.ToInt32(row.ItemArray[0]);
 
             int idFuelCard;
             int.TryParse(row.ItemArray[1].ToString(), out idFuelCard);
@@ -63,7 +68,7 @@ namespace BBAuto.Domain
                 dateEndSql = string.Concat(DateEnd.Value.Year.ToString(), "-", DateEnd.Value.Month.ToString(), "-", DateEnd.Value.Day.ToString());
             }
 
-            int.TryParse(_provider.Insert("FuelCardDriver", _id, (FuelCard == null) ? 0 : FuelCard.ID, Driver.ID, dateBeginSql, dateEndSql), out _id);
+            ID = Convert.ToInt32(_provider.Insert("FuelCardDriver", ID, (FuelCard == null) ? 0 : FuelCard.ID, Driver.ID, dateBeginSql, dateEndSql));
 
             FuelCardDriverList fuelCardDriverList = FuelCardDriverList.getInstance();
             fuelCardDriverList.Add(this);
@@ -71,12 +76,12 @@ namespace BBAuto.Domain
 
         internal override void Delete()
         {
-            _provider.Delete("FuelCardDriver", _id);
+            _provider.Delete("FuelCardDriver", ID);
         }
 
         internal override object[] getRow()
         {
-            return new object[] { _id, FuelCard.ID, FuelCard.Number, Driver.GetName(NameType.Full), FuelCard.Region, FuelCard.DateEnd, FuelCard.FuelCardType, 
+            return new object[] { ID, FuelCard.ID, FuelCard.Number, Driver.GetName(NameType.Full), FuelCard.Region, FuelCard.DateEnd, FuelCard.FuelCardType, 
                 DateBegin, (DateEnd == null) ? new DateTime(1, 1, 1) : DateEnd.Value };
         }
 

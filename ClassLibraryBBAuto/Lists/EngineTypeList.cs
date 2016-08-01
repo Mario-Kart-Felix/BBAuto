@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Tables;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class EngineTypeList : MainList
     {
-        private List<EngineType> list;
         private static EngineTypeList uniqueInstance;
+        private List<EngineType> list;
 
         private EngineTypeList()
         {
@@ -39,7 +41,7 @@ namespace BBAuto.Domain
 
         public void Add(EngineType engineType)
         {
-            if (list.Exists(item => item == engineType))
+            if (list.Exists(et => et.ID == engineType.ID))
                 return;
 
             list.Add(engineType);
@@ -47,9 +49,7 @@ namespace BBAuto.Domain
 
         public EngineType getItem(int id)
         {
-            var engineTypes = list.Where(item => item.IsEqualsID(id));
-
-            return (engineTypes.Count() > 0) ? engineTypes.First() : null;
+            return list.FirstOrDefault(et => et.ID == id);
         }
     }
 }

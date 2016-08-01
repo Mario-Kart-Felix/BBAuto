@@ -1,11 +1,15 @@
-﻿using System;
+﻿using BBAuto.Domain.Entities;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Tables;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BBAuto.Domain;
 
 namespace BBAuto
 {
@@ -26,7 +30,7 @@ namespace BBAuto
 
             _check = new CheckBox();
 
-            if (_invoice.IsEqualsID(0))
+            if (_invoice.ID == 0)
             {
                 _check.Location = new System.Drawing.Point(12, 225);
                 _check.Width = 250;
@@ -34,7 +38,7 @@ namespace BBAuto
                 this.Controls.Add(_check);
             }
 
-            lbMoveCar.Text = "Перемещение автомобиля " + _invoice.car.ToString();
+            lbMoveCar.Text = "Перемещение автомобиля " + _invoice.Car.ToString();
         }
 
         private void Invoice_AddEdit_Load(object sender, EventArgs e)
@@ -45,12 +49,12 @@ namespace BBAuto
 
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
             _workWithForm.EditModeChanged += EditModeChanged;
-            _workWithForm.SetEditMode(_invoice.IsEqualsID(0));
+            _workWithForm.SetEditMode(_invoice.ID == 0);
         }
 
         private void EditModeChanged(Object sender, EditModeEventArgs e)
         {
-            if (!_invoice.IsEqualsID(0))
+            if (_invoice.ID != 0)
             {
                 cbDriverFrom.Enabled = false;
                 cbRegionFrom.Enabled = false;
@@ -93,7 +97,7 @@ namespace BBAuto
         {
             DriverList driverList = DriverList.getInstance();
 
-            combo.DataSource = driverList.ToDataTable(!_invoice.IsEqualsID(0));
+            combo.DataSource = driverList.ToDataTable(_invoice.ID != 0);
             combo.DisplayMember = "ФИО";
             combo.ValueMember = "id";            
         }
@@ -147,7 +151,7 @@ namespace BBAuto
                 Region region = getRegion();
 
                 DriverList driverList = DriverList.getInstance();
-                cbDriverTo.DataSource = driverList.ToDataTableByRegion(region, !_invoice.IsEqualsID(0));
+                cbDriverTo.DataSource = driverList.ToDataTableByRegion(region, _invoice.ID != 0);
                 cbDriverTo.DisplayMember = "ФИО";
                 cbDriverTo.ValueMember = "id";
             }

@@ -3,55 +3,51 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Lists;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Tables
 {
     public class Route : MainDictionary
     {
-        private MyPoint _myPoint1;
-        private MyPoint _myPoint2;
-        private int _distance;
-
-        public MyPoint MyPoint1 { get { return _myPoint1; } }
-        public MyPoint MyPoint2
-        {
-            get { return _myPoint2; }
-            set { _myPoint2 = value; }
-        }
-        
-        public int Distance
-        {
-            get { return _distance; }
-            set { _distance = value; }
-        }
+        public MyPoint MyPoint1 { get; private set; }
+        public MyPoint MyPoint2 { get; set; }
+        public int Distance { get; set; }
 
         public Route(MyPoint myPoint1)
         {
-            _myPoint1 = myPoint1;
-            _distance = 0;
+            MyPoint1 = myPoint1;
+            Distance = 0;
         }
 
         public Route(MyPoint myPoint1, MyPoint myPoint2, string distance)
         {
-            _myPoint1 = myPoint1;
-            _myPoint2 = myPoint2;
-            int.TryParse(distance, out _distance);
+            MyPoint1 = myPoint1;
+            MyPoint2 = myPoint2;
+
+            int distanceInt;
+            int.TryParse(distance, out distanceInt);
+            Distance = distanceInt;
         }
 
         public Route(DataRow row)
         {
-            int.TryParse(row[0].ToString(), out _id);
+            int id;
+            int.TryParse(row[0].ToString(), out id);
+            ID = id;
 
             MyPointList myPointList = MyPointList.getInstance();
             int idMyPoint1;
             int.TryParse(row[1].ToString(), out idMyPoint1);
-            _myPoint1 = myPointList.getItem(idMyPoint1);
+            MyPoint1 = myPointList.getItem(idMyPoint1);
 
             int idMyPoint2;
             int.TryParse(row[2].ToString(), out idMyPoint2);
-            _myPoint2 = myPointList.getItem(idMyPoint2);
+            MyPoint2 = myPointList.getItem(idMyPoint2);
 
-            int.TryParse(row[3].ToString(), out _distance);
+            int distance;
+            int.TryParse(row[3].ToString(), out distance);
+            Distance = distance;
         }
 
         public override void Save()
@@ -59,10 +55,11 @@ namespace BBAuto.Domain
             if (ID == 0)
                 return;
 
-            int.TryParse(_provider.Insert("Route", ID, _myPoint1.ID, _myPoint2.ID, _distance), out _id);
+            int id;
+            int.TryParse(_provider.Insert("Route", ID, MyPoint1.ID, MyPoint2.ID, Distance), out id);
+            ID = id;
 
-            RouteList routeList = RouteList.getInstance();
-            routeList.Add(this);
+            RouteList.getInstance().Add(this);
         }
 
         internal override void Delete()
@@ -72,14 +69,14 @@ namespace BBAuto.Domain
 
         internal override object[] getRow()
         {
-            return new object[] { _id, _myPoint2.Name, _distance };
+            return new object[] { ID, MyPoint2.Name, Distance };
         }
 
         internal object[] getRow(MyPoint myPoint1)
         {
-            MyPoint myPoint = (_myPoint1 == myPoint1) ? _myPoint2 : _myPoint1;
+            MyPoint myPoint = (MyPoint1.ID == myPoint1.ID) ? MyPoint2 : MyPoint1;
 
-            return new object[] { _id, myPoint.Name, _distance };
+            return new object[] { ID, myPoint.Name, Distance };
         }
     }
 }

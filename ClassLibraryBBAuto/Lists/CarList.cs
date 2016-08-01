@@ -4,13 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using DataLayer;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class CarList : MainList
     {
-        private List<Car> list;
         private static CarList uniqueInstance;
+        private List<Car> list;
         
         private CarList()
         {
@@ -104,11 +107,9 @@ namespace BBAuto.Domain
             return dt;
         }
 
-        public Car getItem(int idCar)
+        public Car getItem(int id)
         {
-            var cars = list.Where(car => car.IsEqualsID(idCar));
-            
-            return cars.Count() > 0 ? cars.First() as Car : null;
+            return list.FirstOrDefault(car => car.ID == id);
         }
 
         public Car getItem(string grz)

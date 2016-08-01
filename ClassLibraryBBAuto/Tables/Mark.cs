@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Tables
 {
     public class Mark : MainDictionary
     {
-        private string _name;
-
         public Mark(DataRow row)
         {
-            int.TryParse(row[0].ToString(), out _id);
-            _name = row[1].ToString();
+            int id;
+            int.TryParse(row[0].ToString(), out id);
+            ID = id;
+
+            Name = row[1].ToString();
         }
 
-        public string Name { get { return _name; } }
+        public string Name { get; private set; }
 
         internal override object[] getRow()
         {

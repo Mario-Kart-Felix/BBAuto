@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class InvoiceList : MainList
     {
-        private List<Invoice> list;
         private static InvoiceList uniqueInstance;
+        private List<Invoice> list;
 
         private InvoiceList()
         {
@@ -45,21 +48,19 @@ namespace BBAuto.Domain
             list.Add(invoice);
         }
 
-        public Invoice getItem(int idInvoice)
+        public Invoice getItem(int id)
         {
-            var invoices = list.Where(item => item.IsEqualsID(idInvoice));
-
-            return (invoices.Count() > 0) ? invoices.First() : new Invoice(0);
+            return list.FirstOrDefault(i => i.ID == id);
         }
 
         public Invoice getItem(Car car)
         {
             var invoices = from invoice in list
-                           where invoice.isEqualCarID(car) && invoice.DateMove != string.Empty
+                           where invoice.Car.ID == car.ID && invoice.DateMove != string.Empty
                            orderby invoice.Date descending, invoice.Number descending
                            select invoice;
 
-            return (invoices.Count() > 0) ? invoices.First() : null;
+            return invoices.FirstOrDefault();
         }
 
         public DataTable ToDataTable()
@@ -74,7 +75,7 @@ namespace BBAuto.Domain
         public DataTable ToDataTable(Car car)
         {
             var invoices = from invoice in list
-                           where invoice.isEqualCarID(car)
+                           where invoice.Car.ID == car.ID
                            orderby invoice.Date descending, invoice.Number descending
                            select invoice;
 

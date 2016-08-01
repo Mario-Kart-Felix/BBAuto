@@ -1,35 +1,34 @@
-﻿using System;
+﻿using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Tables;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.ForCar
 {
     public class Grade : MainDictionary
     {
-        private string _name;
-        private EngineType _engineType;
-        private int _idModel;
-
-        public string ePower;
-        public string eVol;
-        public string maxLoad;
-        public string noLoad;
+        public string EPower { get; set; }
+        public string EVol { get; set; }
+        public string MaxLoad { get; set; }
+        public string NoLoad { get; set; }
+        public Model Model { get; set; }
+        public string Name { get; set; }
+        public EngineType EngineType { get; set; }
 
         public Grade(int idModel)
         {
-            _id = 0;
-            _name = string.Empty;
-            ePower = string.Empty;
-            eVol = string.Empty;
-            maxLoad = string.Empty;
-            noLoad = string.Empty;
+            ID = 0;
+            Name = string.Empty;
+            EPower = string.Empty;
+            EVol = string.Empty;
+            MaxLoad = string.Empty;
+            NoLoad = string.Empty;
 
-            EngineTypeList engineTypeList = EngineTypeList.getInstance();
-            _engineType = engineTypeList.getItem(1);
-
-            _idModel = idModel;
+            EngineType = EngineTypeList.getInstance().getItem(1);
         }
 
         public Grade(DataRow row)
@@ -39,41 +38,30 @@ namespace BBAuto.Domain
 
         private void fillFields(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
-            _name = row.ItemArray[1].ToString();
-            ePower = row.ItemArray[2].ToString();
-            eVol = row.ItemArray[3].ToString();
-            maxLoad = row.ItemArray[4].ToString();
-            noLoad = row.ItemArray[5].ToString();
+            ID = Convert.ToInt32(row.ItemArray[0]);
+            Name = row.ItemArray[1].ToString();
+            EPower = row.ItemArray[2].ToString();
+            EVol = row.ItemArray[3].ToString();
+            MaxLoad = row.ItemArray[4].ToString();
+            NoLoad = row.ItemArray[5].ToString();
 
             int idEngineType;
             int.TryParse(row.ItemArray[6].ToString(), out idEngineType);
-            EngineTypeList engineTypeList = EngineTypeList.getInstance();
-            _engineType = engineTypeList.getItem(idEngineType);
+            EngineType = EngineTypeList.getInstance().getItem(idEngineType);
 
-            int.TryParse(row.ItemArray[7].ToString(), out _idModel);
+            int idModel;
+            int.TryParse(row.ItemArray[7].ToString(), out idModel);
+            Model = ModelList.getInstance().getItem(idModel);
         }
-
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
-
-        public EngineType EngineType
-        {
-            get { return _engineType; }
-            set { _engineType = value; }
-        }
-                
+                        
         internal override void Delete()
         {
-            _provider.Delete("Grade", _id);
+            _provider.Delete("Grade", ID);
         }
 
         public override void Save()
         {
-            int.TryParse(_provider.Insert("Grade", _id, _name, ePower, eVol, maxLoad, noLoad, _engineType.ID, _idModel), out _id);
+            ID = Convert.ToInt32(_provider.Insert("Grade", ID, Name, EPower, EVol, MaxLoad, NoLoad, EngineType.ID, Model.ID));
 
             GradeList gradeList = GradeList.getInstance();
             gradeList.Add(this);
@@ -81,12 +69,7 @@ namespace BBAuto.Domain
 
         internal override object[] getRow()
         {
-            return new object[2] { _id, _name };
-        }
-
-        internal bool isEqualModelID(int idModel)
-        {
-            return _idModel == idModel;
+            return new object[] { ID, Name };
         }
 
         public DataTable ToDataTable()
@@ -96,10 +79,10 @@ namespace BBAuto.Domain
             dt.Columns.Add("Название");
             dt.Columns.Add("Значение");
 
-            dt.Rows.Add("Мощность двигателя", ePower);
-            dt.Rows.Add("Объем двигателя", eVol);
-            dt.Rows.Add("Разрешенная максимальная масса", maxLoad);
-            dt.Rows.Add("Масса без нагрузки", noLoad);
+            dt.Rows.Add("Мощность двигателя", EPower);
+            dt.Rows.Add("Объем двигателя", EVol);
+            dt.Rows.Add("Разрешенная максимальная масса", MaxLoad);
+            dt.Rows.Add("Масса без нагрузки", NoLoad);
 
             return dt;
         }

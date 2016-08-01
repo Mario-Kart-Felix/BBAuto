@@ -8,6 +8,10 @@ using System.Text;
 using System.Windows.Forms;
 using BBAuto.Domain;
 using System.Collections;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Common;
 
 namespace BBAuto
 {
@@ -36,7 +40,7 @@ namespace BBAuto
             ChangeEnableComboBoxes();
             
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-            _workWithForm.SetEditMode(_account.IsEqualsID(0));
+            _workWithForm.SetEditMode(_account.ID == 0);
             _workWithForm.SetEnableValue(btnSave, (!_account.Agreed));
         }
 

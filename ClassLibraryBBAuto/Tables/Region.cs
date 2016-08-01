@@ -3,25 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Tables
 {
     public class Region : MainDictionary
     {
-        private string _name;
+        public string Name { get; private set; }
 
         public Region(DataRow row)
         {
-            int.TryParse(row[0].ToString(), out _id);
-            _name = row[1].ToString();
+            int id;
+            int.TryParse(row[0].ToString(), out id);
+            ID = id;
+
+            Name = row[1].ToString();
         }
 
         public Region(string name)
         {
-            _name = name;
+            Name = name;
         }
-
-        public string Name { get { return _name; } }
 
         internal override object[] getRow()
         {
@@ -30,7 +32,10 @@ namespace BBAuto.Domain
 
         public override void Save()
         {
-            int.TryParse(_provider.Insert("Region", ID, Name), out _id);
+            int id;
+            int.TryParse(_provider.Insert("Region", ID, Name), out id);
+
+            ID = id;
         }
     }
 }

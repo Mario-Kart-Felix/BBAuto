@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BBAuto.Domain.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,7 +7,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BBAuto.Domain;
 
 namespace BBAuto
 {
@@ -24,13 +24,13 @@ namespace BBAuto
         private void TemplateAddEdit_Load(object sender, EventArgs e)
         {
             tbName.Text = template.Name;
-            tbPath.Text = template.Path;
+            tbPath.Text = template.File;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
             template.Name = tbName.Text;
-            template.Path = tbPath.Text;
+            template.File = tbPath.Text;
 
             template.Save();
         }

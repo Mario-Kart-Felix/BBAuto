@@ -1,10 +1,17 @@
-﻿using System;
+﻿using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Common;
+using BBAuto.Domain.Dictionary;
+using BBAuto.Domain.ForDriver;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Tables;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Entities
 {
     public class Driver : MainDictionary
     {
@@ -13,15 +20,9 @@ namespace BBAuto.Domain
         private string _mobile;
         private int _fired;
         private int _expSince;
-        private string _login;
-        private int _sex;
         private int _decret;
-        private DateTime _dateStopNotification;                
-        private Region _region;
+        private DateTime _dateStopNotification;
         private string _number;
-        private int _idPosition;
-        private int _idDept;
-        private int _idOwner;
         private int _isDriver;
         private int _from1C;
 
@@ -74,113 +75,94 @@ namespace BBAuto.Domain
             set { int.TryParse(value, out _expSince); }
         }
 
-        public int PositionID
-        {
-            get { return _idPosition; }
-            set { _idPosition = value; }
-        }
+        public int PositionID { get; set; }
 
         public string Position
         {
             get
             {
                 Positions positions = Positions.getInstance();
-                return positions.getItem(_idPosition);
+                return positions.getItem(PositionID);
             }
             set
             {
-                int tempID = _idPosition;
+                int tempID = PositionID;
 
                 Positions positions = Positions.getInstance();
-                _idPosition = positions.getItem(value);
+                PositionID = positions.getItem(value);
 
-                if (_idPosition == 0)
+                if (PositionID == 0)
                 {
                     OneStringDictionary.save("Position", 0, value);
                     positions.ReLoad();
-                    _idPosition = positions.getItem(value);
+                    PositionID = positions.getItem(value);
                 }
             }
         }
 
-        public int DeptID
-        { 
-            get { return _idDept; }
-            set { _idDept = value; }
-        }
+        public int DeptID { get; set; }
 
         public string Dept
         {
             get
             {
                 Depts depts = Depts.getInstance();
-                return depts.getItem(_idDept);
+                return depts.getItem(DeptID);
             }
             set
             {
-                int tempID = _idDept;
+                int tempID = DeptID;
 
                 Depts depts = Depts.getInstance();
-                _idDept = depts.getItem(value);
+                DeptID = depts.getItem(value);
 
-                if (_idDept == 0)
+                if (DeptID == 0)
                 {
                     OneStringDictionary.save("Dept", 0, value);
                     depts.ReLoad();
-                    _idDept = depts.getItem(value);
+                    DeptID = depts.getItem(value);
                 }
             }
         }
 
-        public int OwnerID
-        {
-            get { return _idOwner; }
-            set { _idOwner = value; }
-        }
+        public int OwnerID { get; set; }
 
         public string CompanyName
         {
             get
             {
                 Owners owners = Owners.getInstance();
-                return owners.getItem(_idOwner);
+                return owners.getItem(OwnerID);
             }
             set
             {
                 if (!string.IsNullOrEmpty(value))
                 {
-                    int tempID = _idOwner;
+                    int tempID = OwnerID;
 
                     Owners owners = Owners.getInstance();
-                    _idOwner = owners.getItem(value);
+                    OwnerID = owners.getItem(value);
 
-                    if (_idOwner == 0)
+                    if (OwnerID == 0)
                     {
                         OneStringDictionary.save("Owner", 0, value);
                         owners.ReLoad();
-                        _idOwner = owners.getItem(value);
+                        OwnerID = owners.getItem(value);
                     }
                 }
             }
         }
 
-        public string Login
-        {
-            get { return _login; }
-            set { _login = value; }
-        }
+        public string Login { get; set; }
 
         public RolesList UserRole
         {
             get
             {
                 UserAccessList userAccessList = UserAccessList.getInstance();
-                UserAccess userAccess = userAccessList.getItem(_id);
-
-                int idRole = 0;
-                int.TryParse(userAccess.IDRole, out idRole);
-
-                return (RolesList)idRole;
+                UserAccess userAccess = userAccessList.getItem(ID);
+                
+                return (RolesList)userAccess.RoleID;
             }
         }
 
@@ -193,23 +175,15 @@ namespace BBAuto.Domain
             }
         }
 
-        public int SexIndex
-        {
-            get { return _sex; }
-            set { _sex = value; }
-        }
+        public int SexIndex { get; set; }
 
         public string Sex
         {
-            get { return _sex == 0 ? "мужской" : "женский"; }
-            set { _sex = (value == "Мужской") ? 0 : 1; }
+            get { return SexIndex == 0 ? "мужской" : "женский"; }
+            set { SexIndex = (value == "Мужской") ? 0 : 1; }
         }
-        
-        public Region Region
-        {
-            get { return _region; }
-            set { _region = value; }
-        }
+
+        public Region Region { get; set; }
 
         public bool IsDriver
         {
@@ -225,20 +199,9 @@ namespace BBAuto.Domain
 
         private string Status
         {
-            get
-            {
-                return (Fired) ? "Уволенный" : (Decret) ? "В декрете" : ((_idOwner < 3) && string.IsNullOrEmpty(_number)) ? "нет табельного" : "";
-            }
+            get { return (Fired) ? "Уволенный" : (Decret) ? "В декрете" : ((OwnerID < 3) && string.IsNullOrEmpty(_number)) ? "нет табельного" : ""; }
         }
-
-        public Driver()
-        {
-            _id = 0;
-            _isDriver = 0;
-            _mobile = string.Empty;
-            suppyAddress = string.Empty;
-        }
-
+        
         public bool NotificationStop
         {
             get { return _dateStopNotification.Year == 1 ? false : true; }
@@ -256,32 +219,57 @@ namespace BBAuto.Domain
             set
             {
                 _number = value;
-                if ((!string.IsNullOrEmpty(value)) && (_idOwner < 3))
+                if ((!string.IsNullOrEmpty(value)) && (OwnerID < 3))
                     From1C = true;
             }
         }
 
+        public Driver()
+        {
+            ID = 0;
+            _isDriver = 0;
+            _mobile = string.Empty;
+            suppyAddress = string.Empty;
+        }
+
         public Driver(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
+            int id;
+            int.TryParse(row.ItemArray[0].ToString(), out id);
+            ID = id;
+
             _fio = row.ItemArray[1].ToString();
 
-            RegionList regionList = RegionList.getInstance();
             int idRegion;
             int.TryParse(row.ItemArray[2].ToString(), out idRegion);
-            _region = regionList.getItem(idRegion);
+            Region = RegionList.getInstance().getItem(idRegion);
 
             DateTime.TryParse(row.ItemArray[3].ToString(), out _dateBirth);
             _mobile = row.ItemArray[4].ToString();
             email = row.ItemArray[5].ToString();
             int.TryParse(row.ItemArray[6].ToString(), out _fired);
             int.TryParse(row.ItemArray[7].ToString(), out _expSince);
-            int.TryParse(row.ItemArray[8].ToString(), out _idPosition);
-            int.TryParse(row.ItemArray[9].ToString(), out _idDept);
-            _login = row.ItemArray[10].ToString();
-            int.TryParse(row.ItemArray[11].ToString(), out _idOwner);
+            
+            int idPosition;
+            int.TryParse(row.ItemArray[8].ToString(), out idPosition);
+            PositionID = idPosition;
+
+            int idDept;
+            int.TryParse(row.ItemArray[9].ToString(), out idDept);
+            DeptID = idDept;
+
+            Login = row.ItemArray[10].ToString();
+
+            int idOwner;
+            int.TryParse(row.ItemArray[11].ToString(), out idOwner);
+            OwnerID = idOwner;
+
             suppyAddress = row.ItemArray[12].ToString();
-            int.TryParse(row.ItemArray[13].ToString(), out _sex);
+
+            int idSex;
+            int.TryParse(row.ItemArray[13].ToString(), out idSex);
+            SexIndex = idSex;
+
             int.TryParse(row.ItemArray[14].ToString(), out _decret);
             DateTime.TryParse(row.ItemArray[15].ToString(), out _dateStopNotification);
             _number = row.ItemArray[16].ToString();
@@ -301,69 +289,69 @@ namespace BBAuto.Domain
             if (DateStopNotification.Year != 1)
                 dateStopNotificationSql = string.Concat(DateStopNotification.Year.ToString(), "-", DateStopNotification.Month.ToString(), "-", DateStopNotification.Day.ToString());
 
-            int.TryParse(_provider.Insert("Driver", _id, GetName(NameType.Full), Region.ID, dateBirthSql, _mobile, email, _fired, _expSince, _idPosition, _idDept, _login, _idOwner, suppyAddress, SexIndex, _decret,
-                dateStopNotificationSql, _number, _isDriver, _from1C), out _id);
+            int id;
+            int.TryParse(_provider.Insert("Driver", ID, GetName(NameType.Full), Region.ID, dateBirthSql, _mobile, email, _fired, _expSince, PositionID,
+                DeptID, Login, OwnerID, suppyAddress, SexIndex, _decret,
+                dateStopNotificationSql, _number, _isDriver, _from1C), out id);
+            ID = id;
 
             driverList.Add(this);
         }
 
         public Instraction createInstraction()
         {
-            return new Instraction(_id);
+            return new Instraction(this);
         }
 
         public MedicalCert createMedicalCert()
         {
-            return new MedicalCert(_id);
+            return new MedicalCert(this);
         }
 
         public Passport createPassport()
         {
-            return new Passport(_id);
+            return new Passport(this);
         }     
 
         public DriverLicense createDriverLicense()
         {
-            return new DriverLicense(_id);
+            return new DriverLicense(this);
         }
 
         public ColumnSize CreateColumnSize(Status status)
         {
-            return new ColumnSize(_id, status);
+            return new ColumnSize(ID, status);
         }
 
         internal override object[] getRow()
         {
             MedicalCertList medicalCertList = MedicalCertList.getInstance();
             MedicalCert medicalCert = medicalCertList.getItem(this);
+            string medicalCertStatus = ((medicalCert == null) || (!medicalCert.IsActual())) ? "нет" : "есть";
 
             LicenseList licenseList = LicenseList.getInstance();
             DriverLicense license = licenseList.getItem(this);
+            string licenseStatus = ((license == null) || (!license.IsActual())) ? "нет" : "есть";
 
             DriverCarList driverCarList = DriverCarList.getInstance();
             Car car = driverCarList.GetCar(this);
-            
-            return new object[] { _id, 0, GetName(NameType.Full), (license.IsActual()) ? "есть" : "нет", (medicalCert.IsActual()) ? "есть" : "нет",
-                (car == null) ? "нет автомобиля" : car.ToString(), Region.Name, CompanyName, Status };
-        }
-        
-        public override bool Equals(object obj)
-        {
-            if (obj == null)
-                return false;
 
-            Driver driver2 = obj as Driver;
-            return (_id == driver2._id);
-        }
-        
-        public override int GetHashCode()
-        {
-            throw new NotImplementedException();
+            return new object[] {
+                ID,
+                0,
+                GetName(NameType.Full),
+                licenseStatus,
+                medicalCertStatus,
+                (car == null) ? "нет автомобиля" : car.ToString(),
+                Region.Name,
+                CompanyName,
+                Status
+            };
         }
         
         public string GetName(NameType nameType)
         {
-            if (FieldIsEmpty(_fio))
+            if (string.IsNullOrEmpty(_fio))
                 return "(нет водителя)";
 
             if (nameType == NameType.Short)
@@ -402,11 +390,6 @@ namespace BBAuto.Domain
             }
             else
                 return _fio;
-        }
-
-        private bool FieldIsEmpty(string field)
-        {
-            return ((field == null) || (field == string.Empty));
         }
     }
 }

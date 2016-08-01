@@ -1,15 +1,16 @@
-﻿using System;
+﻿using BBAuto.Domain.Abstract;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using BBAuto.Domain.ForCar;
 using System.Data;
+using System.Linq;
+using System;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class AccountList : MainList
     {
-        private List<Account> list;
         private static AccountList uniqueInstance;
+        private List<Account> list;
 
         private AccountList()
         {
@@ -56,14 +57,12 @@ namespace BBAuto.Domain
 
         public Account getItem(int id)
         {
-            var accounts = list.Where(item => item.IsEqualsID(id));
-
-            return (accounts.Count() > 0) ? accounts.First() : new Account();
+            return list.FirstOrDefault(a => a.ID == id);
         }
 
         public DataTable ToDataTable()
         {
-            var accounts = list.OrderByDescending(item => item.Position);
+            var accounts = list.OrderByDescending(item => item.ID);
 
             return CreateTable(accounts.ToList());
         }

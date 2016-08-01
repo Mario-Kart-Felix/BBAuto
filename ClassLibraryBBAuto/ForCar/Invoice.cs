@@ -1,37 +1,29 @@
-﻿using System;
+﻿using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Common;
+using BBAuto.Domain.Dictionary;
+using BBAuto.Domain.Entities;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Static;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.ForCar
 {
     public class Invoice : MainDictionary
     {
         private const int DEFAULT_DRIVER_MEDIATOR = 2;
 
-        private string _number;
-        private int _idCar;
         private int _idDriverFrom;
         private int _idDriverTo;
         private int _idRegionFrom;
         private int _idRegionTo;
         private DateTime _dateMove;
-        private DateTime _date;
 
-        private string _file;
-
-        public string Number
-        {
-            get { return _number; }
-            set { _number = value; }
-        }
-
-        public string File
-        {
-            get { return _file; }
-            set { _file = value; }
-        }
+        public string Number { get; set; }
+        public string File { get; set; }
         
         public string DriverFromID
         {
@@ -69,27 +61,15 @@ namespace BBAuto.Domain
                 string.Concat(_dateMove.Year.ToString(), "-", _dateMove.Month.ToString(), "-", _dateMove.Day.ToString()); }
         }
 
-        public DateTime Date
-        {
-            get { return _date; }
-            set { _date = value; }
-        }
+        public DateTime Date { get; set; }
+        public Car Car { get; private set; }
 
-        public Car car
+        internal Invoice(Car car)
         {
-            get
-            {
-                CarList carList = CarList.getInstance();
-                return carList.getItem(_idCar);
-            }
-        }
-
-        internal Invoice(int idCar)
-        {
-            this._idCar = idCar;
-            this._id = 0;
-            _number = getNextNumber();
-            _date = DateTime.Today;
+            Car = car;
+            ID = 0;
+            Number = getNextNumber();
+            Date = DateTime.Today;
 
             fillNewInvoice();
         }
@@ -101,33 +81,38 @@ namespace BBAuto.Domain
 
         private void fillFields(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
-            int.TryParse(row.ItemArray[1].ToString(), out _idCar);
-            _number = row.ItemArray[2].ToString();
+            ID = Convert.ToInt32(row.ItemArray[0]);
+
+            int idCar;
+            int.TryParse(row.ItemArray[1].ToString(), out idCar);
+            Car = CarList.getInstance().getItem(idCar);
+
+            Number = row.ItemArray[2].ToString();
             int.TryParse(row.ItemArray[3].ToString(), out _idDriverFrom);
             int.TryParse(row.ItemArray[4].ToString(), out _idDriverTo);
-            DateTime.TryParse(row.ItemArray[5].ToString(), out _date);
+
+            DateTime date;
+            DateTime.TryParse(row.ItemArray[5].ToString(), out date);
+            Date = date;
+
             DateMove = row.ItemArray[6].ToString();
             int.TryParse(row.ItemArray[7].ToString(), out _idRegionFrom);
             int.TryParse(row.ItemArray[8].ToString(), out _idRegionTo);
-            _file = row.ItemArray[9].ToString();
-            _fileBegin = _file;
+            File = row.ItemArray[9].ToString();
+            _fileBegin = File;
         }
 
         private void fillNewInvoice()
         {
-            CarList carList = CarList.getInstance();
-            Car car = carList.getItem(_idCar);
-
             InvoiceList invoiceList = InvoiceList.getInstance();
-            Invoice invoice = invoiceList.getItem(car);
+            Invoice invoice = invoiceList.getItem(Car);
 
             if (invoice == null)
             {
-                int.TryParse(car.regionUsingID.ToString(), out _idRegionFrom);
+                int.TryParse(Car.regionUsingID.ToString(), out _idRegionFrom);
                 _idDriverFrom = DEFAULT_DRIVER_MEDIATOR;
-                int.TryParse(car.regionUsingID.ToString(), out _idRegionTo);
-                int.TryParse(car.driverID.ToString(), out _idDriverTo);
+                int.TryParse(Car.regionUsingID.ToString(), out _idRegionTo);
+                int.TryParse(Car.driverID.ToString(), out _idDriverTo);
             }
             else
             {
@@ -147,11 +132,11 @@ namespace BBAuto.Domain
 
         public override void Save()
         {
-            DeleteFile(_file);
+            DeleteFile(File);
 
-            _file = WorkWithFiles.fileCopyByID(_file, "cars", _idCar, "Invoices", _number);
+            File = WorkWithFiles.fileCopyByID(File, "cars", Car.ID, "Invoices", Number);
 
-            int.TryParse(_provider.Insert("Invoice", _id, _idCar, _number, DriverFromID, DriverToID, _date, DateMoveForSQL, RegionFromID, RegionToID, _file), out _id);
+            ID = Convert.ToInt32(_provider.Insert("Invoice", ID, Car.ID, Number, DriverFromID, DriverToID, Date, DateMoveForSQL, RegionFromID, RegionToID, File));
         }
 
         internal override object[] getRow()
@@ -162,24 +147,16 @@ namespace BBAuto.Domain
 
             Driver driverFrom = driverList.getItem(_idDriverFrom);
             Driver driverTo = driverList.getItem(_idDriverTo);
-
-            CarList carList = CarList.getInstance();
-            Car car = carList.getItem(_idCar);
-
-            return new object[11] { _id, _idCar, car.BBNumber, car.Grz, _number, regions.getItem(_idRegionFrom), driverFrom.GetName(NameType.Full),
-                regions.getItem(_idRegionTo), driverTo.GetName(NameType.Full), _date, _dateMove };
+            
+            return new object[] { ID, Car.ID, Car.BBNumber, Car.Grz, Number, regions.getItem(_idRegionFrom), driverFrom.GetName(NameType.Full),
+                regions.getItem(_idRegionTo), driverTo.GetName(NameType.Full), Date, _dateMove };
         }
 
         internal override void Delete()
         {
-            DeleteFile(_file);
+            DeleteFile(File);
 
-            _provider.Delete("Invoice", _id);
-        }
-
-        internal bool isEqualCarID(Car car)
-        {
-            return car.IsEqualsID(_idCar);
+            _provider.Delete("Invoice", ID);
         }
     }
 }

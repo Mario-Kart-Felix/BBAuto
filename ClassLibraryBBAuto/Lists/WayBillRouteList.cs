@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Tables;
+using BBAuto.Domain.Common;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class WayBillRouteList : MainList
     {
-        private List<WayBillRoute> list;
         private static WayBillRouteList uniqueInstance;
+        private List<WayBillRoute> list;
 
         private WayBillRouteList()
         {
@@ -45,9 +48,14 @@ namespace BBAuto.Domain
             list.Add(wayBillRoute);
         }
 
-        public List<Route> GetList(WayBillDay wayBillDay)
+        public MainDictionary GetItem(int id)
         {
-            List<Route> routeList = list.Where(item => item.WayBillDay == wayBillDay).Select(item => item.Route).ToList();
+            return list.FirstOrDefault(i => i.ID == id);
+        }
+
+        public IEnumerable<Route> GetList(WayBillDay wayBillDay)
+        {
+            IEnumerable<Route> routeList = list.Where(item => item.WayBillDay == wayBillDay).Select(item => item.Route);
 
             return routeList;
         }

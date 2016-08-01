@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Common
 {
     public class MileageFill
     {

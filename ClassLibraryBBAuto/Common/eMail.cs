@@ -1,11 +1,16 @@
-﻿using System;
+﻿using BBAuto.Domain.Dictionary;
+using BBAuto.Domain.Entities;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Static;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Common
 {
     public class eMail
     {
@@ -31,12 +36,12 @@ namespace BBAuto.Domain
 
         public void SendMailAccountViolation(Violation violation)
         {
-            _subject = string.Format("Штраф по а/м {0}", violation.getCar().Grz);
+            _subject = string.Format("Штраф по а/м {0}", violation.Car.Grz);
 
             _body = "Здравствуйте, коллеги.\n"
                   + "Оплачиваем, удерживаем.";
 
-            string owner = Owners.getInstance().getItem(Convert.ToInt32(violation.getCar().ownerID));
+            string owner = Owners.getInstance().getItem(Convert.ToInt32(violation.Car.ownerID));
             var drivers = GetAccountants(owner);
             
             List<Attachment> list = new List<Attachment>();
@@ -47,7 +52,7 @@ namespace BBAuto.Domain
         
         public void sendMailViolation(Violation violation)
         {
-            _subject = string.Format("Штраф по а/м {0}", violation.getCar().Grz);
+            _subject = string.Format("Штраф по а/м {0}", violation.Car.Grz);
 
             CreateMailAndSendViolation(violation);
         }
@@ -59,7 +64,7 @@ namespace BBAuto.Domain
             if (violation.NoDeduction)
             {
                 CreateBodyViolationNoDeduction(violation);
-                string owner = Owners.getInstance().getItem(Convert.ToInt32(violation.getCar().ownerID));
+                string owner = Owners.getInstance().getItem(Convert.ToInt32(violation.Car.ownerID));
                 drivers = GetAccountants(owner);
             }
             else
@@ -85,9 +90,9 @@ namespace BBAuto.Domain
                 + "Информирую Вас о том, что пришло постановление о штрафе за нарушения ПДД.\n"
                 + "Оплатить штраф можно самостоятельно и в течении 5 дней предоставить документ об оплате.\n"
                 + "После указанного срока штраф автоматически уйдет в оплату в бухгалтерию без возможности льготной оплаты 50%\n"
-                + "Документ об уплате штрафа присылать {2} на почту, в виде вложенного файла.\n"
-                + "Если есть возражения по данному штрафу, то необходимо сообщить об этом {3}.\n"
-                + "Скан копия постановления во вложении.", appeal, driver.GetName(NameType.Short), User.getDriver().GetName(NameType.Genetive));
+                + "Документ об оплате штрафа присылать {2} на почту, в виде вложенного файла.\n"
+                + "Если есть возражения по данному штрафу, то необходимо сообщить об этом {2}.\n"
+                + "Скан копия постановления во вложении.", appeal, driver.GetName(NameType.Full), User.getDriver().GetName(NameType.Genetive));
         }
 
         private void CreateBodyViolationNoDeduction(Violation violation)

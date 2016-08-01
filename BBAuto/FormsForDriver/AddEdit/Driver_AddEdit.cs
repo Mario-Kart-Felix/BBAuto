@@ -1,12 +1,17 @@
-﻿using System;
+﻿using BBAuto.Domain.Common;
+using BBAuto.Domain.Entities;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.ForDriver;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Tables;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BBAuto;
-using BBAuto.Domain;
 
 namespace BBAuto
 {
@@ -32,7 +37,7 @@ namespace BBAuto
             
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
             _workWithForm.EditModeChanged += SetEnable;
-            _workWithForm.SetEditMode(_driver.IsEqualsID(0));
+            _workWithForm.SetEditMode(_driver.ID == 0);
         }
 
         private void loadData()
@@ -90,7 +95,8 @@ namespace BBAuto
             mtbMobile.Text = _driver.Mobile;
             tbEmail.Text = _driver.email;
             mtbDateBirth.Text = _driver.DateBirth;
-            cbRegion.SelectedValue = _driver.Region.ID;
+            if (_driver.Region != null)
+                cbRegion.SelectedValue = _driver.Region.ID;
             tbCompany.Text = _driver.CompanyName;
             chbFired.Checked = _driver.Fired;
             tbPosition.Text = _driver.Position;
@@ -125,49 +131,63 @@ namespace BBAuto
         {
             DriverCarList driverCarList = DriverCarList.getInstance();
             Car car = driverCarList.GetCar(_driver);
-            carInfo.Text = (car == null) ? string.Empty : car.ToString();
+
+            if (car != null)
+                carInfo.Text = car.ToString();
         }
 
         private void FillInstraction()
         {
             InstractionList instractionList = InstractionList.getInstance();
             Instraction instraction = instractionList.getItem(_driver);
-            instractionInfo.Text = instraction.ToString();
+
+            if (instraction != null)
+                instractionInfo.Text = instraction.ToString();
         }
 
         private void FillMedicalCert()
         {
             MedicalCertList medicalCertList = MedicalCertList.getInstance();
             MedicalCert medicalCert = medicalCertList.getItem(_driver);
-            medicalCertInfo.Text = medicalCert.ToString();
+
+            if (medicalCert != null)
+                medicalCertInfo.Text = medicalCert.ToString();
         }
 
         private void FillDriverLicense()
         {
             LicenseList licencesList = LicenseList.getInstance();
             DriverLicense driverLicense = licencesList.getItem(_driver);
-            licenceInfo.Text = driverLicense.ToString();
+
+            if (driverLicense != null)
+                licenceInfo.Text = driverLicense.ToString();
         }
 
         private void FillPassport()
         {
             PassportList passportList = PassportList.getInstance();
             Passport passport = passportList.getLastPassport(_driver);
-            labelPassport.Text = passport.ToString();
+
+            if (passport != null)
+                labelPassport.Text = passport.ToString();
         }
 
         private void FillDTP()
         {
             DTPList dtpList = DTPList.getInstance();
             DTP dtp = dtpList.getLastByDriver(_driver);
-            dtpInfo.Text = dtp.ToString();
+
+            if (dtp != null)
+                dtpInfo.Text = dtp.ToString();
         }
 
         private void FillViolation()
         {
             ViolationList violationList = ViolationList.getInstance();
             Violation violation = violationList.getItem(_driver);
-            ViolationInfo.Text = violation.ToString();
+
+            if (violation != null)
+                ViolationInfo.Text = violation.ToString();
         }
 
         private void FillFuelCardDriver()
@@ -175,10 +195,14 @@ namespace BBAuto
             FuelCardDriverList fuelCardDriverList = FuelCardDriverList.getInstance();
 
             FuelCardDriver fuelCardDriver = fuelCardDriverList.getItemFirst(_driver);
-            lbFuelCard1.Text = fuelCardDriver.ToString();
+
+            if (fuelCardDriver != null)
+                lbFuelCard1.Text = fuelCardDriver.ToString();
 
             fuelCardDriver = fuelCardDriverList.getItemSecond(_driver);
-            lbFuelCard2.Text = fuelCardDriver.ToString();
+            
+            if (fuelCardDriver != null)
+                lbFuelCard2.Text = fuelCardDriver.ToString();
         }
 
         private void save_Click(object sender, EventArgs e)

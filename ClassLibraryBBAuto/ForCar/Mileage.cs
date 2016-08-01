@@ -1,33 +1,32 @@
-﻿using System;
+﻿using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Common;
+using BBAuto.Domain.Entities;
+using BBAuto.Domain.Lists;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.ForCar
 {
     public class Mileage : MainDictionary
     {
-        private int _idCar;
-        private DateTime _date;
         private int _count;
 
         public string Count
         {
             get { return _count == 0 ? string.Empty : _count.ToString(); }
         }
-        
-        public DateTime Date
-        {
-            get { return _date; }
-            set { _date = value; }
-        }
 
-        internal Mileage(int idCar)
+        public DateTime Date { get; set; }
+        public Car Car { get; private set; }
+
+        internal Mileage(Car car)
         {
-            _idCar = idCar;
-            _date = DateTime.Today.Date;
-            _id = 0;
+            Car = car;
+            Date = DateTime.Today.Date;
+            ID = 0;
         }
 
         public Mileage(DataRow row)
@@ -37,40 +36,42 @@ namespace BBAuto.Domain
 
         private void fillFields(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
-            int.TryParse(row.ItemArray[1].ToString(), out _idCar);
-            DateTime.TryParse(row.ItemArray[2].ToString(), out _date);
+            ID = Convert.ToInt32(row.ItemArray[0]);
+
+            int idCar;
+            int.TryParse(row.ItemArray[1].ToString(), out idCar);
+            Car = CarList.getInstance().getItem(idCar);
+
+            DateTime date;
+            DateTime.TryParse(row.ItemArray[2].ToString(), out date);
+            Date = date;
+
             int.TryParse(row.ItemArray[3].ToString(), out _count);
         }
 
         public override void Save()
         {
-            int.TryParse(_provider.Insert("Mileage", _id, _idCar, _date, _count), out _id);
-
+            ID = Convert.ToInt32(_provider.Insert("Mileage", ID, Car.ID, Date, _count));
+            
             MileageList mileageList = MileageList.getInstance();
             mileageList.Add(this);
         }
 
         internal override object[] getRow()
         {
-            return new object[3] { _id, _date, _count };
+            return new object[3] { ID, Date, _count };
         }
-
-        public bool isEqualCarID(Car car)
-        {
-            return car.IsEqualsID(_idCar);
-        }
-
+        
         internal override void Delete()
         {
-            _provider.Delete("Mileage", _id);
+            _provider.Delete("Mileage", ID);
         }
 
         internal DateTime MonthToString()
         {
             MyDateTime myDate = new MyDateTime(Date.ToShortDateString());
 
-            return _count == 0 ? new DateTime(DateTime.Today.Year, 1, 31) : Date;
+            return (_count == 0) ? new DateTime(DateTime.Today.Year, 1, 31) : Date;
         }
 
         public void SetCount(string value)
@@ -103,11 +104,7 @@ namespace BBAuto.Domain
 
         private Mileage GetPrev()
         {
-            CarList carList = CarList.getInstance();
-            Car car = carList.getItem(_idCar);
-
-            MileageList mileageList = MileageList.getInstance();
-            return mileageList.getItem(car, this);
+            return MileageList.getInstance().getItem(Car, this);
         }
 
         public override string ToString()

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Tables;
+using BBAuto.Domain.Abstract;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class RegionList : MainList
     {

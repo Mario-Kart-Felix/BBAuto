@@ -1,4 +1,6 @@
-﻿using BBAuto.Domain;
+﻿using BBAuto.Domain.Entities;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Static;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +32,11 @@ namespace BBAuto
         public int GetID(int rowIndex)
         {
             return GetID(0, rowIndex);
+        }
+
+        public Car GetCar()
+        {
+            return (_dgv.CurrentCell == null) ? null : CarList.getInstance().getItem(GetID(1, _dgv.CurrentCell.RowIndex));
         }
 
         public int GetCarID()

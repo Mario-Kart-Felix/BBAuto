@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BBAuto.Domain.ForDriver;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,7 +7,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BBAuto.Domain;
 
 namespace BBAuto
 {
@@ -28,7 +28,7 @@ namespace BBAuto
             fillFields();
 
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-            _workWithForm.SetEditMode(_medicalCert.IsEqualsID(0));
+            _workWithForm.SetEditMode(_medicalCert.ID == 0);
         }
 
         private void fillFields()

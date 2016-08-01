@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Tables;
+using BBAuto.Domain.Abstract;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class MyPointList : MainList
     {
@@ -61,9 +63,7 @@ namespace BBAuto.Domain
 
         public MyPoint getItem(int id)
         {
-            var myPoints = list.Where(item => item.IsEqualsID(id));
-
-            return (myPoints.Count() > 0) ? myPoints.First() : null;
+            return list.FirstOrDefault(p => p.ID == id);
         }
         
         public DataTable ToDataTable(int idRegion)

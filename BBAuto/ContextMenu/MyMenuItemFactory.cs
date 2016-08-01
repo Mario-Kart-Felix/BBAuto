@@ -1,4 +1,10 @@
-﻿using BBAuto.Domain;
+﻿using BBAuto.Domain.Common;
+using BBAuto.Domain.Dictionary;
+using BBAuto.Domain.Entities;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.ForDriver;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Static;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -217,7 +223,7 @@ namespace BBAuto
         private ToolStripMenuItem CreateNewInvoice()
         {
             ToolStripMenuItem item = CreateItem("Новое перемещение");
-            item.Click += delegate { InvoiceDialog.CreateNewInvoiceAndOpen(_dgvMain.GetCarID()); };
+            item.Click += delegate { InvoiceDialog.CreateNewInvoiceAndOpen(_dgvMain.GetCar()); };
             return item;
         }
 
@@ -226,11 +232,10 @@ namespace BBAuto
             ToolStripMenuItem item = CreateItem("Новое ДТП");
             item.Click += delegate
             {
-                if (_dgvMain.GetCarID() == 0)
+                Car car = _dgvMain.GetCar();
+                if (car == null)
                     return;
-
-                Car car = _carList.getItem(_dgvMain.GetCarID());
-
+                
                 DTP dtp = car.createDTP();
 
                 DTP_AddEdit dtpAE = new DTP_AddEdit(dtp);
@@ -244,10 +249,11 @@ namespace BBAuto
             ToolStripMenuItem item = CreateItem("Новое нарушение ПДД");
             item.Click += delegate
             {
-                if (_dgvMain.GetCarID() == 0)
+                Car car = _dgvMain.GetCar();
+                if (car == null)
                     return;
 
-                Violation violation = new Violation(_dgvMain.GetCarID());
+                Violation violation = new Violation(car);
 
                 Violation_AddEdit vAE = new Violation_AddEdit(violation);
                 vAE.ShowDialog();
@@ -260,10 +266,9 @@ namespace BBAuto
             ToolStripMenuItem item = CreateItem("Новый полис");
             item.Click += delegate
             {
-                if (_dgvMain.GetCarID() == 0)
+                Car car = _dgvMain.GetCar();
+                if (car == null)
                     return;
-
-                Car car = _carList.getItem(_dgvMain.GetCarID());
 
                 Policy_AddEdit policyAE = new Policy_AddEdit(car.CreatePolicy());
                 policyAE.ShowDialog();
@@ -276,10 +281,9 @@ namespace BBAuto
             ToolStripMenuItem item = CreateItem("Новая диагностическая карта");
             item.Click += delegate
             {
-                if (_dgvMain.GetCarID() == 0)
+                Car car = _dgvMain.GetCar();
+                if (car == null)
                     return;
-
-                Car car = _carList.getItem(_dgvMain.GetCarID());
 
                 DiagCard diagCard = car.createDiagCard();
 
@@ -294,10 +298,9 @@ namespace BBAuto
             ToolStripMenuItem item = CreateItem("Новая запись о пробеге");
             item.Click += delegate
             {
-                if (_dgvMain.GetCarID() == 0)
+                Car car = _dgvMain.GetCar();
+                if (car == null)
                     return;
-
-                Car car = _carList.getItem(_dgvMain.GetCarID());
 
                 Mileage mileage = car.createMileage();
 
@@ -313,10 +316,10 @@ namespace BBAuto
             ToolStripMenuItem item = CreateItem("Новое временное перемещение");
             item.Click += delegate
             {
-                if (_dgvMain.GetCarID() == 0)
+                Car car = _dgvMain.GetCar();
+                if (car == null)
                     return;
 
-                Car car = _carList.getItem(_dgvMain.GetCarID());
                 TempMove tempMove = car.createTempMove();
 
                 TempMove_AddEdit tempMoveAE = new TempMove_AddEdit(tempMove);
@@ -330,13 +333,14 @@ namespace BBAuto
             ToolStripMenuItem item = CreateItem("На продажу");
             item.Click += delegate
             {
-                if (_dgvMain.GetCarID() == 0)
+                Car car = _dgvMain.GetCar();
+                if (car == null)
                     return;
 
                 if (MessageBox.Show("Вы действительно хотите переместить автомобиль на продажу?", "Снятие с продажи", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                                 == DialogResult.Yes)
                 {
-                    CarSale carSale = new CarSale(_dgvMain.GetCarID());
+                    CarSale carSale = new CarSale(car);
                     carSale.Save();
 
                     _mainStatus.Set(_mainStatus.Get());
@@ -350,14 +354,15 @@ namespace BBAuto
             ToolStripMenuItem item = CreateItem("Снять с продажи");
             item.Click += delegate
             {
-                if (_dgvMain.GetCarID() == 0)
+                Car car = _dgvMain.GetCar();
+                if (car == null)
                     return;
 
                 if (MessageBox.Show("Вы действительно хотите убрать автомобиль с продажи?", "Снятие с продажи", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                                 == DialogResult.Yes)
                 {
                     CarSaleList carSaleList = CarSaleList.getInstance();
-                    carSaleList.Delete(_dgvMain.GetCarID());
+                    carSaleList.Delete(car.ID);
 
                     _mainStatus.Set(_mainStatus.Get());
                 }
@@ -370,14 +375,15 @@ namespace BBAuto
             ToolStripMenuItem item = CreateItem("Создать письмо Lotus");
             item.Click += delegate
             {
-                if (_dgvMain.GetCarID() == 0)
+                Car car = _dgvMain.GetCar();
+                if (car == null)
                     return;
 
                 DriverMails driverMails = new DriverMails(_dgvMain);
                 string driverList = driverMails.ToString();
 
                 if (string.IsNullOrEmpty(driverList))
-                    MessageBox.Show("Email-адреса не обнаружены", "Невозножно создать письмо", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Email-адреса не обнаружены", "Невозможно создать письмо", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 else
                     eMail.OpenEmailProgram(driverList);
             };
@@ -467,6 +473,12 @@ namespace BBAuto
             ToolStripMenuItem item = CreateItem("Накладная на перемещение");
             item.Click += delegate
             {
+                if (_mainStatus.Get() != Status.Invoice)
+                {
+                    MessageBox.Show("Для формирования накладной необходимо перейти на страницу \"Перемещения\"", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 CreateDocument doc = createDocument(_dgvMain.CurrentCell);
 
                 if (doc != null)
@@ -480,6 +492,12 @@ namespace BBAuto
             ToolStripMenuItem item = CreateItem("Приложение к приказу");
             item.Click += delegate
             {
+                if (_mainStatus.Get() != Status.Invoice)
+                {
+                    MessageBox.Show("Для формирования накладной необходимо перейти на страницу \"Перемещения\"", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 CreateDocument doc = createDocument(_dgvMain.CurrentCell);
 
                 if (doc != null)
@@ -522,11 +540,10 @@ namespace BBAuto
             ToolStripMenuItem item = CreateItem("Полис Каско");
             item.Click += delegate
             {
-                if (_dgvMain.GetCarID() == 0)
+                Car car = _dgvMain.GetCar();
+                if (car == null)
                     return;
-
-                Car car = _carList.getItem(_dgvMain.GetCarID());
-
+                
                 PolicyList policyList = PolicyList.getInstance();
                 Policy kasko = policyList.getItem(car, PolicyType.КАСКО);
 
@@ -541,15 +558,18 @@ namespace BBAuto
             ToolStripMenuItem item = CreateItem("Акт передачи топливной карты");
             item.Click += delegate
             {
-                if (_dgvMain.GetCarID() == 0)
+                Car car = _dgvMain.GetCar();
+                if (car == null)
                     MessageBox.Show("Для формирования акта выберите ячейку в таблице", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 else
                 {
-                    CarList carList = CarList.getInstance();
-                    Car car = carList.getItem(_dgvMain.GetCarID());
-
                     InvoiceList invoiceList = InvoiceList.getInstance();
                     Invoice invoice = invoiceList.getItem(_dgvMain.GetID());
+                    if (invoice == null)
+                    {
+                        MessageBox.Show("Для формирования акта необходимо перейти на страницу \"Перемещения\"", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
 
                     CreateDocument doc = new CreateDocument(car, invoice);
                     doc.ShowActFuelCard();
@@ -563,16 +583,15 @@ namespace BBAuto
             ToolStripMenuItem item = CreateItem("Извещение о страховом случае");
             item.Click += delegate
             {
-                if (_dgvMain.GetCarID() == 0)
+                Car car = _dgvMain.GetCar();
+                if (car == null)
                     return;
 
                 if (_mainStatus.Get() == Status.DTP)
                 {
                     DTPList dtpList = DTPList.getInstance();
                     DTP dtp = dtpList.getItem(_dgvMain.GetID());
-
-                    Car car = _carList.getItem(_dgvMain.GetCarID());
-
+                    
                     CreateDocument doc = new CreateDocument(car);
 
                     doc.showNotice(dtp);
@@ -588,10 +607,9 @@ namespace BBAuto
             ToolStripMenuItem item = CreateItem("Свидетельство о регистрации ТС");
             item.Click += delegate
             {
-                if (_dgvMain.GetCarID() == 0)
+                Car car = _dgvMain.GetCar();
+                if (car == null)
                     return;
-
-                Car car = _carList.getItem(_dgvMain.GetCarID());
 
                 STSList stsList = STSList.getInstance();
                 STS sts = stsList.getItem(car);
@@ -619,7 +637,9 @@ namespace BBAuto
                     date = dtp.Date;
                 }
 
-                Car car = _carList.getItem(_dgvMain.GetCarID());
+                Car car = _dgvMain.GetCar();
+                if (car == null)
+                    return;
 
                 DriverCarList driverCarList = DriverCarList.getInstance();
                 Driver driver = driverCarList.GetDriver(car, date);
@@ -627,7 +647,7 @@ namespace BBAuto
                 LicenseList licencesList = LicenseList.getInstance();
                 DriverLicense driverLicense = licencesList.getItem(driver);
 
-                if (!string.IsNullOrEmpty(driverLicense.File))
+                if ((driverLicense != null) && (!string.IsNullOrEmpty(driverLicense.File)))
                     WorkWithFiles.openFile(driverLicense.File);
             };
             return item;
@@ -665,7 +685,6 @@ namespace BBAuto
             item.Click += delegate
             {
                 Account_AddEdit aeaAcountForm = new Account_AddEdit(new Account());
-                aeaAcountForm.ShowDialog();
                 if (aeaAcountForm.ShowDialog() == DialogResult.OK)
                     _mainStatus.Set(_mainStatus.Get());
             };
@@ -678,7 +697,6 @@ namespace BBAuto
             item.Click += delegate
             {
                 FuelCard_AddEdit fuelCardAddEdit = new FuelCard_AddEdit(new FuelCard());
-                fuelCardAddEdit.ShowDialog();
                 if (fuelCardAddEdit.ShowDialog() == DialogResult.OK)
                     _mainStatus.Set(_mainStatus.Get());
             };
@@ -1230,10 +1248,9 @@ namespace BBAuto
         
         private void SendPolicy(PolicyType type)
         {
-            if (_dgvMain.GetCarID() == 0)
+            Car car = _dgvMain.GetCar();
+            if (car == null)
                 return;
-
-            Car car = _carList.getItem(_dgvMain.GetCarID());
 
             string result = MailPolicy.Send(car, type);
 

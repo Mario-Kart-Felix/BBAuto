@@ -3,18 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Tables;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Dictionary;
+using BBAuto.Domain.Lists;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Common
 {
     public class SuppyAddress : MainDictionary
     {
-        private MyPoint _point;
-
-        public MyPoint Point
-        {
-            get { return _point; }
-            set { _point = value; }
-        }
+        public MyPoint Point { get; set; }
 
         public string Region
         {
@@ -27,7 +25,7 @@ namespace BBAuto.Domain
         
         public SuppyAddress()
         {
-            _id = 0;
+            ID = 0;
         }
 
         public SuppyAddress(DataRow row)
@@ -40,17 +38,17 @@ namespace BBAuto.Domain
 
         internal override void Delete()
         {
-            _provider.Delete("SuppyAddress", _id);
+            _provider.Delete("SuppyAddress", ID);
         }
 
         internal override object[] getRow()
         {
-            return new object[] { _point.ID, Region, Point.Name };
+            return new object[] { Point.ID, Region, Point.Name };
         }
 
         public override void Save()
         {
-            _provider.Insert("SuppyAddress", _point.ID);
+            _provider.Insert("SuppyAddress", Point.ID);
 
             SuppyAddressList suppyAddressList = SuppyAddressList.getInstance();
             suppyAddressList.Add(this);

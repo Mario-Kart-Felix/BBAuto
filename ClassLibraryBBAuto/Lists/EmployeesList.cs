@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Tables;
+using BBAuto.Domain.Common;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Dictionary;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class EmployeesList : MainList
     {
-        private List<Employees> list;
         private static EmployeesList uniqueInstance;
+        private List<Employees> list;
 
         private EmployeesList()
         {

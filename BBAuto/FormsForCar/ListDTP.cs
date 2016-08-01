@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BBAuto.Domain.Entities;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Lists;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,15 +9,14 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BBAuto.Domain;
 
 namespace BBAuto
 {
     public partial class ListDTP : Form
     {
-        Car car;
+        private Car car;
 
-        DTPList dtpList;
+        private DTPList dtpList;
 
         public ListDTP(Car car)
         {

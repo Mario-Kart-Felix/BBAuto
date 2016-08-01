@@ -9,6 +9,12 @@ using System.Text;
 using System.Windows.Forms;
 using BBAuto.Domain;
 using PresentationControls;
+using BBAuto.Domain.Common;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.ForDriver;
+using BBAuto.Domain.Entities;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.ForCar;
 
 namespace BBAuto
 {
@@ -127,7 +133,7 @@ namespace BBAuto
             
             if (isCellNoHeader(e.RowIndex))
             {
-                if (_dgvCar.Columns[e.ColumnIndex].HeaderText == COLUMN_BBNUMBER)
+                if ((_dgvCar.Columns[e.ColumnIndex].HeaderText == COLUMN_BBNUMBER) && (mainStatus.Get() != Status.AccountViolation))
                     DoubleClickDefault(point);
                 else
                 {
@@ -179,10 +185,9 @@ namespace BBAuto
 
         private void DoubleClickSale(Point point)
         {
-            if (_dgvMain.GetCarID() == 0)
+            Car car = _dgvMain.GetCar();
+            if (car == null)
                 return;
-
-            Car car = carList.getItem(_dgvMain.GetCarID());
             
             PTSList ptsList = PTSList.getInstance();
             PTS pts = ptsList.getItem(car);
@@ -197,7 +202,7 @@ namespace BBAuto
             else
             {
                 CarSaleList carSaleList = CarSaleList.getInstance();
-                CarSale carSale = carSaleList.getItem(car);
+                CarSale carSale = carSaleList.getItem(car.ID);
 
                 Car_Sale carSaleForm = new Car_Sale(carSale);
                 if (carSaleForm.ShowDialog() == DialogResult.OK)
@@ -390,12 +395,16 @@ namespace BBAuto
         {
             try
             {
-                if (_dgvMain.GetID() == 0)
+                int id = _dgvMain.GetID();
+                if (id == 0)
                     return;
 
-                Violation violation = ViolationList.getInstance().getItem(_dgvMain.GetID());
+                Violation violation = ViolationList.getInstance().getItem(id);
 
-                if ((_dgvCar.Columns[point.X].HeaderText == "Файл") && (!string.IsNullOrEmpty(violation.File)))
+                string columnName = _dgvCar.Columns[point.X].HeaderText;
+
+                if (((_dgvCar.Columns[point.X].HeaderText == "№ постановления") || (_dgvCar.Columns[point.X].HeaderText == "Сумма штрафа")) 
+                        && (!string.IsNullOrEmpty(violation.File)))
                     WorkWithFiles.openFile(violation.File);
                 else if ((_dgvCar.Columns[point.X].HeaderText == "Согласование") && (!violation.Agreed))
                 {
@@ -409,6 +418,8 @@ namespace BBAuto
                     else
                         throw new AccessViolationException("Вы не имеете прав на выполнение этой операции");
                 }
+                else if (DGVSpecialColumn.CanInclude(columnName))
+                    _myFilter.SetFilterValue(string.Concat(columnName, ":"), point);
                 else
                 {
                     Violation_AddEdit violationAE = new Violation_AddEdit(violation);
@@ -428,7 +439,7 @@ namespace BBAuto
             }
             catch (AccessViolationException ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Ошибка доступа", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -444,11 +455,12 @@ namespace BBAuto
 
         private void DoubleClickFuelCard(Point point)
         {
-            if (_dgvMain.GetCarID() == 0)
+            int id = _dgvMain.GetCarID();
+            if (id == 0)
                 return;
 
             FuelCardList fuelCardList = FuelCardList.getInstance();
-            FuelCard fuelCard = fuelCardList.getItem(_dgvMain.GetCarID());
+            FuelCard fuelCard = fuelCardList.getItem(id);
 
             FuelCard_AddEdit fuelCardAddEdit = new FuelCard_AddEdit(fuelCard);
             if (fuelCardAddEdit.ShowDialog() == DialogResult.OK)
@@ -469,10 +481,9 @@ namespace BBAuto
         
         private void DoubleClickDefault(Point point)
         {
-            if (_dgvMain.GetCarID() == 0)
+            Car car = _dgvMain.GetCar();
+            if (car == null)
                 return;
-            
-            Car car = carList.getItem(_dgvMain.GetCarID());
 
             if (User.getDriver().UserRole == RolesList.AccountantWayBill)
             {

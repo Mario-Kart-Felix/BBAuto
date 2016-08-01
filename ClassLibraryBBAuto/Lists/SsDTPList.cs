@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Abstract;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class SsDTPList : MainList
     {
@@ -55,14 +57,7 @@ namespace BBAuto.Domain
 
         public SsDTP getItem(int idMark)
         {
-            var ssDTPs = from ssDTP in list
-                           where ssDTP.IsEqualsID(idMark)
-                           select ssDTP;
-
-            if (ssDTPs.Count() > 0)
-                return ssDTPs.First() as SsDTP;
-            else
-                return new SsDTP();
+            return list.FirstOrDefault(item => item.ID == idMark);
         }
 
         public DataTable ToDataTable()

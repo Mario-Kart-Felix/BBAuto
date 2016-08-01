@@ -6,7 +6,10 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BBAuto.Domain;
+using BBAuto.Domain.ForDriver;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Dictionary;
+using BBAuto.Domain.Entities;
 
 namespace BBAuto
 {
@@ -26,11 +29,11 @@ namespace BBAuto
         {
             loadDictionary();
 
-            cbDriver.SelectedValue = _userAccess.IDDriver;
-            cbRole.SelectedValue = _userAccess.IDRole;
+            cbDriver.SelectedValue = _userAccess.Driver.ID;
+            cbRole.SelectedValue = _userAccess.RoleID;
 
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-            _workWithForm.SetEditMode(_userAccess.IsEqualsID(0));
+            _workWithForm.SetEditMode(_userAccess.ID == 0);
         }
 
         private void loadDictionary()
@@ -50,8 +53,8 @@ namespace BBAuto
         {
             if (_workWithForm.IsEditMode())
             {
-                _userAccess.IDDriver = cbDriver.SelectedValue.ToString();
-                _userAccess.IDRole = cbRole.SelectedValue.ToString();
+                _userAccess.Driver = DriverList.getInstance().getItem(Convert.ToInt32(cbDriver.SelectedValue));
+                _userAccess.RoleID = Convert.ToInt32(cbRole.SelectedValue);
                 _userAccess.Save();
 
                 DialogResult = System.Windows.Forms.DialogResult.OK;

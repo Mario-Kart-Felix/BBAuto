@@ -1,29 +1,22 @@
-﻿using System;
+﻿using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Common;
+using BBAuto.Domain.Entities;
+using BBAuto.Domain.Lists;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.ForDriver
 {
     public class Instraction : MainDictionary
     {
-        private int _idDriver;
         private DateTime date;
-        private string _file;
-        private string _name;
 
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
-
-        public string File
-        {
-            get { return _file; }
-            set { _file = value; }
-        }
+        public string Name { get; set; }
+        public string File { get; set; }
+        public Driver Driver { get; private set; }
 
         public string Date
         {
@@ -35,11 +28,11 @@ namespace BBAuto.Domain
             }
         }
 
-        public Instraction(int idDriver)
+        public Instraction(Driver driver)
         {
-            _idDriver = idDriver;
+            Driver = driver;
             Date = "";
-            _id = 0;
+            ID = 0;
         }
 
         public Instraction(DataRow row)
@@ -49,28 +42,32 @@ namespace BBAuto.Domain
 
         private void fillFields(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
-            _name = row.ItemArray[1].ToString();
+            ID = Convert.ToInt32(row.ItemArray[0]);
+            Name = row.ItemArray[1].ToString();
             Date = row.ItemArray[2].ToString();
-            int.TryParse(row.ItemArray[3].ToString(), out _idDriver);
-            _file = row.ItemArray[4].ToString();
-            _fileBegin = _file;
+
+            int idDriver;
+            int.TryParse(row.ItemArray[3].ToString(), out idDriver);
+            Driver = DriverList.getInstance().getItem(idDriver);
+
+            File = row.ItemArray[4].ToString();
+            _fileBegin = File;
         }
 
         internal override void Delete()
         {
-            DeleteFile(_file);
+            DeleteFile(File);
 
-            _provider.Delete("Instraction", _id);
+            _provider.Delete("Instraction", ID);
         }
 
         public override void Save()
         {
-            DeleteFile(_file);
+            DeleteFile(File);
 
-            _file = WorkWithFiles.fileCopyByID(_file, "drivers", _idDriver, "Instraction", _name);
+            File = WorkWithFiles.fileCopyByID(File, "drivers", Driver.ID, "Instraction", Name);
 
-            int.TryParse(_provider.Insert("Instraction", _id, _idDriver, _name, date, _file), out _id);
+            ID = Convert.ToInt32(_provider.Insert("Instraction", ID, Driver.ID, Name, date, File));
 
             InstractionList instractionList = InstractionList.getInstance();
             instractionList.Add(this);
@@ -78,17 +75,12 @@ namespace BBAuto.Domain
 
         internal override object[] getRow()
         {
-            return new object[3] { _id, _name, Date };
-        }
-
-        internal bool isEqualDriverID(Driver driver)
-        {
-            return driver.IsEqualsID(_idDriver);
+            return new object[] { ID, Name, Date };
         }
 
         public override string ToString()
         {
-            return (_idDriver == 0) ? "нет данных" : string.Concat("№", _name, " дата ", Date);
+            return (Driver == null) ? "нет данных" : string.Concat("№", Name, " дата ", Date);
         }
     }
 }

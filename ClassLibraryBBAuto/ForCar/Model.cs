@@ -1,26 +1,21 @@
-﻿using System;
+﻿using BBAuto.Domain.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.ForCar
 {
     public class Model : MainDictionary
     {
-        private int idMark;
-        private string _name;
-
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
-
+        public int MarkID { get; private set; }
+        public string Name { get; set; }
+        
         public Model(int idMark)
         {
-            _id = 0;
-            this.idMark = idMark;
+            ID = 0;
+            MarkID = idMark;
         }
 
         public Model(DataRow row)
@@ -30,29 +25,27 @@ namespace BBAuto.Domain
 
         private void fillFields(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
-            _name = row.ItemArray[1].ToString();
+            ID = Convert.ToInt32(row.ItemArray[0]);
+            Name = row.ItemArray[1].ToString();
+
+            int idMark;
             int.TryParse(row.ItemArray[2].ToString(), out idMark);
+            MarkID = idMark;
         }
 
         internal override void Delete()
         {
-            _provider.Delete("Model", _id);
+            _provider.Delete("Model", ID);
         }
 
         public override void Save()
         {
-            _provider.Insert("Model", _id, _name, idMark);
+            _provider.Insert("Model", ID, Name, MarkID);
         }
 
         internal override object[] getRow()
         {
-            return new object[2] { _id, _name };
-        }
-
-        internal bool isEqualMarkID(int idMark)
-        {
-            return this.idMark == idMark;
+            return new object[2] { ID, Name };
         }
     }
 }

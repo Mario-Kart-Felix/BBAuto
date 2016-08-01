@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Common;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Dictionary
 {
     public class EngineTypes : MyDictionary
     {

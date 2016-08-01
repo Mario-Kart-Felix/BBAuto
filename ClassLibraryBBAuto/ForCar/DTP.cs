@@ -1,27 +1,31 @@
-﻿using System;
+﻿using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Dictionary;
+using BBAuto.Domain.Entities;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Static;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.ForCar
 {
     public class DTP : MainDictionary
     {
-        private int idCar;
         private int _idStatusAfterDTP;
         private int _idRegion;
         private int _idCulprit;
         private double _sum;
-        private int _number;
         private DateTime _dateCallInsure;
-        private DateTime _date;
         private int _idCurrentStatusAfterDTP;
 
-        public string facts;
-        public string damage;
-        public string comm;        
-        public string numberLoss;
+        public string Facts { get; set; }
+        public string Damage { get; set; }
+        public string Comm { get; set; }
+        public string NumberLoss { get; set; }
+        
+        public Car Car { get; private set; }
         
         public string IDStatusAfterDTP
         {
@@ -51,7 +55,7 @@ namespace BBAuto.Domain
             set { int.TryParse(value, out _idCulprit); }
         }
 
-        public int Number { get { return _number; } }
+        public int Number { get; private set; }
 
         public string Sum
         {
@@ -65,88 +69,90 @@ namespace BBAuto.Domain
             set { DateTime.TryParse(value, out _dateCallInsure); }
         }
 
-        public DateTime Date
-        {
-            get { return _date; }
-            set { _date = value; }
-        }
+        public DateTime Date { get; set; }
         
-        public DTP(int idCar)
+        public DTP(Car car)
         {            
-            _id = 0;
-            this.idCar = idCar;
+            ID = 0;
+            Car = car;
             _idStatusAfterDTP = 0;
             _idRegion = 0;
-            _date = DateTime.Now;
+            Date = DateTime.Now;
             _dateCallInsure = DateTime.Now;
         }
 
         public DTP(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
+            int id;
+            int.TryParse(row.ItemArray[0].ToString(), out id);
+            ID = id;
+
+            int idCar;
             int.TryParse(row.ItemArray[1].ToString(), out idCar);
-            int.TryParse(row.ItemArray[2].ToString(), out _number);
-            DateTime.TryParse(row.ItemArray[3].ToString(), out _date);
+            Car = CarList.getInstance().getItem(idCar);
+
+            int number;
+            int.TryParse(row.ItemArray[2].ToString(), out number);
+            Number = number;
+
+            DateTime date;
+            DateTime.TryParse(row.ItemArray[3].ToString(), out date);
+            Date = date;
+
             int.TryParse(row.ItemArray[4].ToString(), out _idRegion);
             DateTime.TryParse(row.ItemArray[5].ToString(), out _dateCallInsure);
             int.TryParse(row.ItemArray[6].ToString(), out _idCulprit);
             IDStatusAfterDTP = row.ItemArray[7].ToString();
-            numberLoss = row.ItemArray[8].ToString();
+            NumberLoss = row.ItemArray[8].ToString();
             double.TryParse(row.ItemArray[9].ToString(), out _sum);
-            damage = row.ItemArray[10].ToString();
-            facts = row.ItemArray[11].ToString();
-            comm = row.ItemArray[12].ToString();
+            Damage = row.ItemArray[10].ToString();
+            Facts = row.ItemArray[11].ToString();
+            Comm = row.ItemArray[12].ToString();
             IDcurrentStatusAfterDTP = row.ItemArray[13].ToString();
         }
         
         public override void Save()
         {
-            int.TryParse(_provider.Insert("DTP", _id, idCar, _date, _idRegion, _dateCallInsure, IDCulprit, IDStatusAfterDTP, numberLoss, _sum, damage, facts, comm, IDcurrentStatusAfterDTP), out _id);
+            int id;
+            int.TryParse(_provider.Insert("DTP", ID, Car.ID, Date, _idRegion, _dateCallInsure, IDCulprit, IDStatusAfterDTP, NumberLoss,
+                _sum, Damage, Facts, Comm, IDcurrentStatusAfterDTP), out id);
+            ID = id;
             
             DTPList dtpList = DTPList.getInstance();
             dtpList.Add(this);
 
-            if (_number == 0)
-                _number = dtpList.GetMaxNumber() + 1;
+            if (Number == 0)
+                Number = dtpList.GetMaxNumber() + 1;
         }
         
         private DataTable getCulpritDataTable()
         {
-            return _provider.DoOther("exec Culprit_SelectWithUser @p1, @p2", idCar, _date);
+            return _provider.DoOther("exec Culprit_SelectWithUser @p1, @p2", Car.ID, Date);
         }
 
         internal override void Delete()
         {
-            _provider.Delete("DTP", _id);
+            _provider.Delete("DTP", ID);
         }
         
         internal override object[] getRow()
         {
             Regions regions = Regions.getInstance();
-            
-            Car car = getCar();
 
             Culprits culpritList = Culprits.getInstance();
             StatusAfterDTPs statusAfterDTP = StatusAfterDTPs.getInstance();
             
             Driver driver = GetDriver();
+            if (driver == null)
+            {
+                driver = new Driver();
+            }
 
-            return new object[] {_id, idCar, car.BBNumber, car.Grz, _number, _date, regions.getItem(_idRegion), driver.GetName(NameType.Full),
-                _dateCallInsure, GetCurrentStatusAfterDTP(), culpritList.getItem(_idCulprit), _sum, comm, facts, damage, 
-                statusAfterDTP.getItem(_idStatusAfterDTP), numberLoss };
+            return new object[] {ID, Car.ID, Car.BBNumber, Car.Grz, Number, Date, regions.getItem(_idRegion), driver.GetName(NameType.Full),
+                _dateCallInsure, GetCurrentStatusAfterDTP(), culpritList.getItem(_idCulprit), _sum, Comm, Facts, Damage, 
+                statusAfterDTP.getItem(_idStatusAfterDTP), NumberLoss };
         }
-
-        public Car getCar()
-        {
-            CarList carList = CarList.getInstance();
-            return carList.getItem(idCar);
-        }
-
-        internal bool isEqualCarID(Car car)
-        {
-            return car.IsEqualsID(idCar);
-        }
-
+        
         internal bool isEqualDriverID(Driver driver)
         {
             Driver driver2 = GetDriver();
@@ -156,29 +162,26 @@ namespace BBAuto.Domain
 
         public override string ToString()
         {
-            return (idCar == 0) ? "нет данных" : string.Concat("№", _number, " дата ", _date.ToShortDateString());
+            return (Car == null) ? "нет данных" : string.Concat("№", Number, " дата ", Date.ToShortDateString());
         }
 
         public DTPFile createFile()
         {
-            return new DTPFile(_id);
+            return new DTPFile(this);
         }
 
         internal object[] getCulpit()
         {
             DriverCarList driverCarList = DriverCarList.getInstance();
-            CarList carList = CarList.getInstance();
-            Driver driver = driverCarList.GetDriver(carList.getItem(idCar), _date);
+            Driver driver = driverCarList.GetDriver(Car, Date);
 
             return new object[] { 4, driver.GetName(NameType.Full) };
         }
 
         public Driver GetDriver()
         {
-            Car car = getCar();
             DriverCarList driverCarList = DriverCarList.getInstance();
-            Driver driver = driverCarList.GetDriver(car, _date);
-            return driver ?? new Driver();
+            return driverCarList.GetDriver(Car, Date);
         }
 
         public string GetCurrentStatusAfterDTP()

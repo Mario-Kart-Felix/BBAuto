@@ -8,6 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using BBAuto.Domain;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Dictionary;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Common;
+using BBAuto.Domain.Entities;
 
 namespace BBAuto
 {
@@ -33,7 +39,7 @@ namespace BBAuto
             loadData();
 
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-            _workWithForm.SetEditMode(_dtp.IsEqualsID(0));
+            _workWithForm.SetEditMode(_dtp.ID == 0);
         }
 
         private void loadData()
@@ -65,14 +71,14 @@ namespace BBAuto
             mtpDateCallInsure.Text = _dtp.DateCallInsure;
             cbCulprit.SelectedValue = _dtp.IDCulprit;
             cbStatusAfterDTP.SelectedValue = _dtp.IDStatusAfterDTP;
-            numberLoss.Text = _dtp.numberLoss;
+            numberLoss.Text = _dtp.NumberLoss;
             tbSum.Text = _dtp.Sum;            
-            damage.Text = _dtp.damage;
-            facts.Text = _dtp.facts;            
-            comm.Text = _dtp.comm;
+            damage.Text = _dtp.Damage;
+            facts.Text = _dtp.Facts;            
+            comm.Text = _dtp.Comm;
             cbCurrentStatusAfterDTP.SelectedValue = _dtp.IDcurrentStatusAfterDTP;
 
-            lbCarInfo.Text = _dtp.getCar().ToString();
+            lbCarInfo.Text = _dtp.Car.ToString();
 
             llDriver.Text = _dtp.GetDriver().GetName(NameType.Full);
 
@@ -140,11 +146,11 @@ namespace BBAuto
             _dtp.DateCallInsure = mtpDateCallInsure.Text;
             _dtp.IDCulprit = cbCulprit.SelectedValue.ToString();
             _dtp.IDStatusAfterDTP = cbStatusAfterDTP.SelectedValue.ToString();
-            _dtp.numberLoss = numberLoss.Text;
+            _dtp.NumberLoss = numberLoss.Text;
             _dtp.Sum = tbSum.Text;
-            _dtp.damage = damage.Text;
-            _dtp.facts = facts.Text;
-            _dtp.comm = comm.Text;
+            _dtp.Damage = damage.Text;
+            _dtp.Facts = facts.Text;
+            _dtp.Comm = comm.Text;
             _dtp.IDcurrentStatusAfterDTP = cbCurrentStatusAfterDTP.SelectedValue;
         }
 

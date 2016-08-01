@@ -6,7 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BBAuto.Domain;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Static;
 
 namespace BBAuto
 {
@@ -28,17 +30,17 @@ namespace BBAuto
             loadData();
 
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-            _workWithForm.SetEditMode(_tempMove.IsEqualsID(0));
+            _workWithForm.SetEditMode(_tempMove.ID == 0);
         }
 
         private void loadData()
         {
             loadDictionary();
             
-            cbDriver.SelectedValue = _tempMove.IDDriver;
-            cbCar.SelectedValue = _tempMove.IDCar;
-            dtpDateBegin.Value = _tempMove.dateBegin;
-            dtpDateEnd.Value = _tempMove.dateEnd;
+            cbDriver.SelectedValue = _tempMove.Driver.ID;
+            cbCar.SelectedValue = _tempMove.Car.ID;
+            dtpDateBegin.Value = _tempMove.DateBegin;
+            dtpDateEnd.Value = _tempMove.DateEnd;
         }
 
         private void loadDictionary()
@@ -59,10 +61,10 @@ namespace BBAuto
         {
             if (_workWithForm.IsEditMode())
             {
-                _tempMove.IDDriver = cbDriver.SelectedValue.ToString();
-                _tempMove.IDCar = cbCar.SelectedValue.ToString();
-                _tempMove.dateBegin = Convert.ToDateTime(dtpDateBegin.Value);
-                _tempMove.dateEnd = Convert.ToDateTime(dtpDateEnd.Value);
+                _tempMove.Driver = DriverList.getInstance().getItem(Convert.ToInt32(cbDriver.SelectedValue));
+                _tempMove.Car = CarList.getInstance().getItem(Convert.ToInt32(cbCar.SelectedValue));
+                _tempMove.DateBegin = Convert.ToDateTime(dtpDateBegin.Value);
+                _tempMove.DateEnd = Convert.ToDateTime(dtpDateEnd.Value);
 
                 _tempMove.Save();
 

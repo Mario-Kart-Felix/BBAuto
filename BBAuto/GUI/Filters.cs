@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data;
-using BBAuto.Domain;
+using BBAuto.Domain.Common;
 
 namespace BBAuto
 {

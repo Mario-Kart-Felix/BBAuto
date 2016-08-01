@@ -1,4 +1,8 @@
-﻿using System;
+﻿using BBAuto.Domain.Dictionary;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Tables;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,7 +10,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BBAuto.Domain;
 
 namespace BBAuto
 {
@@ -35,7 +38,7 @@ namespace BBAuto
 
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
             _workWithForm.EditModeChanged += SetEnable;
-            _workWithForm.SetEditMode(_route.IsEqualsID(0));
+            _workWithForm.SetEditMode(_route.ID == 0);
         }
 
         private void SetEnable(Object sender, EditModeEventArgs e)

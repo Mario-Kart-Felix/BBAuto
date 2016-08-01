@@ -1,37 +1,28 @@
-﻿using System;
+﻿using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Entities;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Static;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.ForCar
 {
     public class TempMove : MainDictionary
     {
-        private int idCar;
-        private int idDriver;
-        public DateTime dateBegin;
-        public DateTime dateEnd;
-
-        public string IDCar
+        public DateTime DateBegin { get; set; }
+        public DateTime DateEnd { get; set; }
+        public Car Car { get; set; }
+        public Driver Driver { get; set; }
+        
+        internal TempMove(Car car)
         {
-            get { return idCar.ToString(); }
-            set { int.TryParse(value, out idCar); }
-        }
-
-        public string IDDriver
-        {
-            get { return idDriver.ToString(); }
-            set { int.TryParse(value, out idDriver); }
-        }
-
-        internal TempMove(int idCar)
-        {
-            _id = 0;
-            this.idCar = idCar;
-            idDriver = 0;
-            dateBegin = DateTime.Today;
-            dateEnd = DateTime.Today;
+            ID = 0;
+            Car = car;
+            DateBegin = DateTime.Today;
+            DateEnd = DateTime.Today;
         }
 
         public TempMove(DataRow row)
@@ -41,38 +32,42 @@ namespace BBAuto.Domain
 
         private void fillFields(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
+            int id;
+            int.TryParse(row.ItemArray[0].ToString(), out id);
+            ID = id;
+
+            int idCar;
             int.TryParse(row.ItemArray[1].ToString(), out idCar);
+            Car = CarList.getInstance().getItem(idCar);
+
+            int idDriver;
             int.TryParse(row.ItemArray[2].ToString(), out idDriver);
+            Driver = DriverList.getInstance().getItem(idDriver);
+
+            DateTime dateBegin;
             DateTime.TryParse(row.ItemArray[3].ToString(), out dateBegin);
+            DateBegin = dateBegin;
+
+            DateTime dateEnd;
             DateTime.TryParse(row.ItemArray[4].ToString(), out dateEnd);
+            DateEnd = dateEnd;
         }
 
         public override void Save()
         {
-            int.TryParse(_provider.Insert("TempMove", _id, idCar, idDriver, dateBegin, dateEnd), out _id);
+            int id;
+            int.TryParse(_provider.Insert("TempMove", ID, Car.ID, Driver.ID, DateBegin, DateEnd), out id);
+            ID = id;
         }
 
         internal override object[] getRow()
         {
-            CarList carList = CarList.getInstance();
-            Car car = carList.getItem(idCar);
-
-            DriverList driverList = DriverList.getInstance();
-            Driver driver = driverList.getItem(idDriver);
-
-            return new object[] { _id, idCar, car.BBNumber, car.Grz, driver.GetName(NameType.Full), dateBegin, dateEnd };
+            return new object[] { ID, Car.ID, Car.BBNumber, Car.Grz, Driver.GetName(NameType.Full), DateBegin, DateEnd };
         }
 
         internal bool isDriverCar(Car car, DateTime date)
         {
-            return car.IsEqualsID(idCar) && date >= dateBegin && date <= dateEnd;
-        }
-
-        internal Driver getDriver()
-        {
-            DriverList driverList = DriverList.getInstance();
-            return driverList.getItem(idDriver);
+            return Car.ID == car.ID && date >= DateBegin && date <= DateEnd;
         }
     }
 }

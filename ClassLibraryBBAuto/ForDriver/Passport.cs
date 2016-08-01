@@ -3,39 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Common;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.ForDriver
 {
     public class Passport : MainDictionary
     {
-        private int _idDriver;
-        private DateTime _giveDate;
-
-        private string _lastName;
-        private string _firstName;
-        private string _secondName;
         private string _number;
-        private string _giveOrg;
-        private string _address;
-        private string _file;
 
-        public string LastName
-        {
-            get { return _lastName; }
-            set { _lastName = value; }
-        }
-
-        public string FirstName
-        {
-            get { return _firstName; }
-            set { _firstName = value; }
-        }
-
-        public string SecondName
-        {
-            get { return _secondName; }
-            set { _secondName = value; }
-        }
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
+        public string SecondName { get; set; }
+        public string GiveOrg { get; set; }
+        public string Address { get; set; }
+        public string File { get; set; }
+        public DateTime GiveDate { get; set; }
+        public Driver Driver { get; private set; }
 
         public string Number
         {
@@ -43,39 +29,11 @@ namespace BBAuto.Domain
             set { _number = value.Replace(" ", ""); }
         }
 
-        public string GiveOrg
+        public Passport(Driver driver)
         {
-            get { return _giveOrg; }
-            set { _giveOrg = value; }
-        }
-
-        public string Address
-        {
-            get { return _address; }
-            set { _address = value; }
-        }
-
-        public string File
-        {
-            get { return _file; }
-            set { _file = value; }
-        }
-
-        public DateTime GiveDate
-        {
-            get { return _giveDate; }
-            set
-            {
-                if (value.Year == 1)
-                    _giveDate = DateTime.Today;
-            }
-        }
-
-        public Passport(int idDriver)
-        {
-            _id = 0;
-            _idDriver = idDriver;
-            _giveDate = DateTime.Today;
+            ID = 0;
+            Driver = driver;
+            GiveDate = DateTime.Today;
             _number = string.Empty;
         }
 
@@ -86,54 +44,57 @@ namespace BBAuto.Domain
 
         private void fillFields(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
-            int.TryParse(row.ItemArray[1].ToString(), out _idDriver);
-            _lastName = row.ItemArray[2].ToString();
-            _firstName = row.ItemArray[3].ToString();
-            _secondName = row.ItemArray[4].ToString();
+            int id;
+            int.TryParse(row.ItemArray[0].ToString(), out id);
+            ID = id;
+
+            int idDriver;
+            int.TryParse(row.ItemArray[1].ToString(), out idDriver);
+            Driver = DriverList.getInstance().getItem(idDriver);
+
+            LastName = row.ItemArray[2].ToString();
+            FirstName = row.ItemArray[3].ToString();
+            SecondName = row.ItemArray[4].ToString();
             _number = row.ItemArray[5].ToString();
-            _giveOrg = row.ItemArray[6].ToString();
-            DateTime.TryParse(row.ItemArray[7].ToString(), out _giveDate);
-            _address = row.ItemArray[8].ToString();
-            _file = row.ItemArray[9].ToString();
-            _fileBegin = _file;
+            GiveOrg = row.ItemArray[6].ToString();
+
+            DateTime giveDate;
+            DateTime.TryParse(row.ItemArray[7].ToString(), out giveDate);
+            GiveDate = giveDate;
+
+            Address = row.ItemArray[8].ToString();
+            File = row.ItemArray[9].ToString();
+            _fileBegin = File;
         }
 
         public override void Save()
         {
-            DeleteFile(_file);
+            DeleteFile(File);
 
-            _file = WorkWithFiles.fileCopyByID(_file, "drivers", _idDriver, "Passports", _number);
+            File = WorkWithFiles.fileCopyByID(File, "drivers", Driver.ID, "Passports", _number);
 
-            int.TryParse(_provider.Insert("Passport", _id, _idDriver, _lastName, _firstName, _secondName, _number, _giveOrg, _giveDate, _address, _file), out _id);
+            int id;
+            int.TryParse(_provider.Insert("Passport", ID, Driver.ID, LastName, FirstName, SecondName, Number, GiveOrg, GiveDate, Address, File), out id);
+            ID = id;
 
-            PassportList passportList = PassportList.getInstance();
-            passportList.Add(this);
+            PassportList.getInstance().Add(this);
         }
 
         internal override object[] getRow()
         {
-            return new object[3] { _id, _number, _giveDate.ToShortDateString()};
+            return new object[3] { ID, Number, GiveDate.ToShortDateString()};
         }
         
         internal override void Delete()
         {
-            DeleteFile(_file);
+            DeleteFile(File);
 
-            _provider.Delete("Passport", _id);
+            _provider.Delete("Passport", ID);
         }
-
-        internal bool isEqualDriverID(Driver driver)
-        {
-            return driver.IsEqualsID(_idDriver);
-        }
-
+        
         public override string ToString()
         {
-            if (_idDriver == 0)
-                return "нет данных";
-            else
-                return string.Concat("номер ", Number, "  выдан ", _giveDate.ToShortDateString());
+            return (Driver == null) ? "нет данных" : string.Concat("номер ", Number, "  выдан ", GiveDate.ToShortDateString());
         }
     }
 }

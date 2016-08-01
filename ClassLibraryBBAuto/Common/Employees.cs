@@ -3,37 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Tables;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Dictionary;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Common
 {
     public class Employees : MainDictionary
     {
-        private Region _region;
         private int idEmployeesName;
         private int idDriver;
 
         public string IDEmployeesName
         {
-            get
-            {
-                return idEmployeesName.ToString();
-            }
-            set
-            {
-                int.TryParse(value, out idEmployeesName);
-            }
+            get { return idEmployeesName.ToString(); }
+            set { int.TryParse(value, out idEmployeesName); }
         }
 
         public string IDDriver
         {
-            get
-            {
-                return idDriver.ToString();
-            }
-            set
-            {
-                int.TryParse(value, out idDriver);
-            }
+            get { return idDriver.ToString(); }
+            set { int.TryParse(value, out idDriver); }
         }
         public string Name
         {
@@ -65,9 +58,11 @@ namespace BBAuto.Domain
             }
         }
 
+        public Region Region { get; set; }
+        
         public Employees()
         {
-            _id = 0;
+            ID = 0;
         }
 
         public Employees(DataRow row)
@@ -80,21 +75,15 @@ namespace BBAuto.Domain
             int idRegion;
             int.TryParse(row.ItemArray[0].ToString(), out idRegion);
             RegionList regionList = RegionList.getInstance();
-            _region = regionList.getItem(idRegion);
+            Region = regionList.getItem(idRegion);
 
             int.TryParse(row.ItemArray[1].ToString(), out idEmployeesName);
             int.TryParse(row.ItemArray[2].ToString(), out idDriver);
         }
 
-        public Region Region
-        {
-            get { return _region; }
-            set { _region = value; }
-        }
-
         internal override void Delete()
         {
-            _provider.DoOther("exec Employees_Delete @p1, @p2", _id, idEmployeesName);
+            _provider.DoOther("exec Employees_Delete @p1, @p2", ID, idEmployeesName);
         }
 
         internal override object[] getRow()

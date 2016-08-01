@@ -3,29 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Lists;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Common
 {
     public class MailText : MainDictionary, IDictionaryMVC
     {
-        private string _name;
-        private string _text;
-
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
-
-        public string Text
-        {
-            get { return _text; }
-            set { _text = value; }
-        }
+        public string Name { get; set; }
+        public string Text { get; set; }
 
         public MailText()
         {
-            _id = 0;
+            ID = 0;
             Name = string.Empty;
             Text = string.Empty;
         }
@@ -37,14 +27,19 @@ namespace BBAuto.Domain
 
         private void FillFields(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
+            int id;
+            int.TryParse(row.ItemArray[0].ToString(), out id);
+            ID = id;
+
             Name = row.ItemArray[1].ToString();
             Text = row.ItemArray[2].ToString();
         }
 
         public override void Save()
         {
-            int.TryParse(_provider.Insert("MailText", _id, Name, Text), out _id);
+            int id;
+            int.TryParse(_provider.Insert("MailText", ID, Name, Text), out id);
+            ID = id;
 
             MailTextList mailTextList = MailTextList.getInstance();
             mailTextList.Add(this);
@@ -52,12 +47,12 @@ namespace BBAuto.Domain
 
         internal override void Delete()
         {
-            _provider.Delete("MailText", _id);
+            _provider.Delete("MailText", ID);
         }
 
         internal override object[] getRow()
         {
-            return new object[2] { _id, Name };
+            return new object[2] { ID, Name };
         }
     }
 }

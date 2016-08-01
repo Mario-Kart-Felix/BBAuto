@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using DataLayer;
+using BBAuto.Domain.DataBase;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Common
 {
     public abstract class MyDictionary
     {

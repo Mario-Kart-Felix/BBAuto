@@ -3,27 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.ForDriver;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Tables
 {
     public class Fuel : MainDictionary
     {
         public Fuel(DataRow row)
         {
-            _id = Convert.ToInt32(row[0].ToString());
+            ID = Convert.ToInt32(row[0].ToString());
 
             int idFuelCard;
             int.TryParse(row[1].ToString(), out idFuelCard);
-            FuelCardList fuelCardList = FuelCardList.getInstance();
-            FuelCard = fuelCardList.getItem(idFuelCard);
+            FuelCard = FuelCardList.getInstance().getItem(idFuelCard);
             
             Date = Convert.ToDateTime(row[2].ToString());
             Value = Convert.ToDouble(row[3].ToString());
 
             int idEngineType;
             int.TryParse(row[4].ToString(), out idEngineType);
-            EngineTypeList engineTypeList = EngineTypeList.getInstance();
-            EngineType = engineTypeList.getItem(idFuelCard);
+            EngineType = EngineTypeList.getInstance().getItem(idFuelCard);
         }
 
         internal Fuel(FuelCard fuelCard, DateTime date, EngineType engineType)
@@ -46,7 +47,7 @@ namespace BBAuto.Domain
 
         public override void Save()
         {
-            _id = Convert.ToInt32(_provider.Insert("Fuel", FuelCard.ID, Date, Value, EngineType.ID));
+            ID = Convert.ToInt32(_provider.Insert("Fuel", FuelCard.ID, Date, Value, EngineType.ID));
         }
 
         internal override object[] getRow()

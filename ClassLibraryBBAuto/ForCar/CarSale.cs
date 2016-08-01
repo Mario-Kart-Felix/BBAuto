@@ -1,10 +1,14 @@
-﻿using System;
+﻿using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Dictionary;
+using BBAuto.Domain.Entities;
+using BBAuto.Domain.Lists;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.ForCar
 {
     public class CarSale : MainDictionary
     {
@@ -24,15 +28,24 @@ namespace BBAuto.Domain
             fillFields(row);
         }
 
-        public CarSale(int idCar)
+        public Car Car
         {
-            _id = idCar;
+            get { return CarList.getInstance().getItem(ID); }
+            private set { ID = value.ID; }
+        }
+
+        public CarSale(Car car)
+        {
+            Car = car;
             comm = string.Empty;
         }
 
         private void fillFields(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
+            int id;
+            int.TryParse(row.ItemArray[0].ToString(), out id);
+            ID = id;
+
             Date = row.ItemArray[1].ToString();
             comm = row.ItemArray[2].ToString();
         }
@@ -43,7 +56,7 @@ namespace BBAuto.Domain
             if (Date != string.Empty)
                 Sqldate = string.Concat(_date.Year.ToString(), "-", _date.Month.ToString(), "-", _date.Day.ToString());
 
-            _provider.Insert("CarSale", _id, comm, Sqldate);
+            _provider.Insert("CarSale", ID, comm, Sqldate);
 
             CarSaleList carSaleList = CarSaleList.getInstance();
             carSaleList.Add(this);
@@ -51,39 +64,27 @@ namespace BBAuto.Domain
 
         internal override object[] getRow()
         {
-            CarList carList = CarList.getInstance();
-            Car car = carList.getItem(_id);
-
             InvoiceList invoiceList = InvoiceList.getInstance();
-            Invoice invoice = invoiceList.getItem(car);
+            Invoice invoice = invoiceList.getItem(Car);
 
             PTSList ptsList = PTSList.getInstance();
-            PTS pts = ptsList.getItem(car);
+            PTS pts = ptsList.getItem(Car);
 
             STSList stsList = STSList.getInstance();
-            STS sts = stsList.getItem(car);
+            STS sts = stsList.getItem(Car);
 
             int idRegion = 0;
-            int.TryParse(car.regionUsingID.ToString(), out idRegion);
+            int.TryParse(Car.regionUsingID.ToString(), out idRegion);
 
             Regions regions = Regions.getInstance();
-            string regionName;
-            if (invoice == null)
-                regionName = regions.getItem(idRegion);
-            else
-                regionName = regions.getItem(Convert.ToInt32(invoice.RegionToID));
+            string regionName = (invoice == null) ? regions.getItem(idRegion) : regions.getItem(Convert.ToInt32(invoice.RegionToID));
 
-            return new object[] { _id, _id, car.BBNumber, car.Grz, regionName, _date, comm, pts.Number, sts.Number, car.GetStatus() };
+            return new object[] { ID, ID, Car.BBNumber, Car.Grz, regionName, _date, comm, pts.Number, sts.Number, Car.GetStatus() };
         }
 
         internal override void Delete()
         {
-            _provider.Delete("CarSale", _id);
-        }
-
-        internal bool IsEqualsID(Car car)
-        {
-            return car.IsEqualsID(_id);
+            _provider.Delete("CarSale", ID);
         }
     }
 }

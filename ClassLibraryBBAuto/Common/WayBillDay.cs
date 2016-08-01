@@ -4,8 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Tables;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Common
 {
     public class WayBillDay : MainDictionary, IEnumerable
     {
@@ -17,7 +22,7 @@ namespace BBAuto.Domain
 
         public WayBillDay(DataRow row)
         {
-            int.TryParse(row[0].ToString(), out _id);
+            ID = Convert.ToInt32(row[0]);
 
             int idCar;
             int.TryParse(row[1].ToString(), out idCar);
@@ -70,7 +75,7 @@ namespace BBAuto.Domain
         {
             WayBillRouteList wayBillRouteList = WayBillRouteList.getInstance();
 
-            _routes = wayBillRouteList.GetList(this);
+            _routes = wayBillRouteList.GetList(this).ToList();
 
             if (_routes == null)
                 _routes = new List<Route>();
@@ -130,7 +135,7 @@ namespace BBAuto.Domain
 
         public override void Save()
         {
-            int.TryParse(_provider.Insert("WayBillDay", ID, Car.ID, Driver.ID, _date), out _id);
+            ID = Convert.ToInt32(_provider.Insert("WayBillDay", ID, Car.ID, Driver.ID, _date));
 
             WayBillDayList wayBillDayList = WayBillDayList.getInstance();
             wayBillDayList.Add(this);
@@ -155,40 +160,6 @@ namespace BBAuto.Domain
             {
                 yield return item;
             }
-
-            //return new WayBillDayEnumerator(this);
         }
-        /*
-        private class WayBillDayEnumerator : IEnumerator
-        {
-            private WayBillDay _wayBillDay;
-            private int _index;
-
-            public WayBillDayEnumerator(WayBillDay wayBillDay)
-            {
-                _wayBillDay = wayBillDay;
-                _index = -1;
-            }
-
-            public object Current
-            {
-                get { return _wayBillDay._routes[_index]; }
-            }
-
-            public bool MoveNext()
-            {
-                if (_index == _wayBillDay._routes.Count - 1)
-                    return false;
-
-                _index++;
-                return true;
-            }
-
-            public void Reset()
-            {
-                _index = -1;
-            }
-        }
-        */
     }
 }

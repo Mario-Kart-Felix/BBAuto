@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.ForDriver;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class InstractionList : MainList
     {
-        private List<Instraction> list;
         private static InstractionList uniqueInstance;
+        private List<Instraction> list;
 
         private InstractionList()
         {
@@ -47,19 +50,15 @@ namespace BBAuto.Domain
 
         public DataTable ToDataTable()
         {
-            return createTable(list);
+            return CreateTable(list);
         }
 
         public DataTable ToDataTable(Driver driver)
         {
-            var instractions = from instraction in list
-                               where instraction.isEqualDriverID(driver)
-                               select instraction;
-
-            return createTable(instractions.ToList());
+            return CreateTable(list.Where(i => i.Driver.ID == driver.ID));
         }
 
-        private DataTable createTable(List<Instraction> instractions)
+        private DataTable CreateTable(IEnumerable<Instraction> instractions)
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("id");
@@ -74,26 +73,12 @@ namespace BBAuto.Domain
 
         public Instraction getItem(int id)
         {
-            var instractions = from instraction in list
-                               where instraction.IsEqualsID(id)
-                               select instraction;
-
-            if (instractions.Count() > 0)
-                return instractions.First() as Instraction;
-            else
-                return null;
+            return list.FirstOrDefault(i => i.ID == id);
         }
 
         public Instraction getItem(Driver driver)
         {
-            var instractions = from instraction in list
-                               where instraction.isEqualDriverID(driver)
-                               select instraction;
-
-            if (instractions.Count() > 0)
-                return instractions.First() as Instraction;
-            else
-                return new Instraction(0);
+            return list.FirstOrDefault(i => i.Driver.ID == driver.ID);
         }
 
         public void Delete(int idInstraction)

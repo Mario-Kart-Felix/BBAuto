@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Static;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,7 +9,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BBAuto.Domain;
 
 namespace BBAuto
 {
@@ -30,7 +32,7 @@ namespace BBAuto
             loadData();
 
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-            _workWithForm.SetEditMode(shipPart.IsEqualsID(0));
+            _workWithForm.SetEditMode(shipPart.ID == 0);
         }
 
         private void loadDictionary()
@@ -48,8 +50,8 @@ namespace BBAuto
 
         private void loadData()
         {
-            cbCar.SelectedValue = shipPart.IDCar;
-            cbDriver.SelectedValue = shipPart.IDDriver;
+            cbCar.SelectedValue = shipPart.Car.ID;
+            cbDriver.SelectedValue = shipPart.Driver.ID;
             tbNumber.Text = shipPart.Number;
             mtbDateRequest.Text = shipPart.DateRequest;
             mtbDateSent.Text = shipPart.DateSent;
@@ -62,8 +64,8 @@ namespace BBAuto
         {
             if (_workWithForm.IsEditMode())
             {
-                shipPart.IDCar = cbCar.SelectedValue.ToString();
-                shipPart.IDDriver = cbDriver.SelectedValue.ToString();
+                shipPart.Car = CarList.getInstance().getItem(Convert.ToInt32(cbCar.SelectedValue));
+                shipPart.Driver = DriverList.getInstance().getItem(Convert.ToInt32(cbDriver.SelectedValue));
                 shipPart.Number = tbNumber.Text;
                 shipPart.DateRequest = mtbDateRequest.Text;
                 shipPart.DateSent = mtbDateSent.Text;

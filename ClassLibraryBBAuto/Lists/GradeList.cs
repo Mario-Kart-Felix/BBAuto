@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.ForCar;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class GradeList : MainList
     {
@@ -41,17 +43,15 @@ namespace BBAuto.Domain
 
         public void Add(Grade grade)
         {
-            if (_list.Exists(item => item == grade))
+            if (_list.Exists(item => item.ID == grade.ID))
                 return;
 
             _list.Add(grade);
         }
 
-        public Grade getItem(int key)
+        public Grade getItem(int id)
         {
-            var items = _list.Where(item => item.IsEqualsID(key));
-
-            return (items.Count() > 0) ? items.First() : null;
+            return _list.FirstOrDefault(g => g.ID == id);
         }
 
         public void Delete(int idGrade)
@@ -62,24 +62,14 @@ namespace BBAuto.Domain
 
             grade.Delete();
         }
-
+        
         public DataTable ToDataTable(int idModel)
-        {
-            var grades = from grade in _list
-                         where grade.isEqualModelID(idModel)
-                         orderby grade.Name
-                         select grade;
-
-            return createTable(grades.ToList());
-        }
-
-        private DataTable createTable(List<Grade> grades)
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("id");
             dt.Columns.Add("Название");
 
-            foreach (Grade grade in grades.ToList())
+            foreach (Grade grade in _list.Where(g => g.Model.ID == idModel))
                 dt.Rows.Add(grade.getRow());
 
             return dt;

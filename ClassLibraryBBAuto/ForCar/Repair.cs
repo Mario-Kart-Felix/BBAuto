@@ -1,21 +1,25 @@
-﻿using System;
+﻿using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Common;
+using BBAuto.Domain.Dictionary;
+using BBAuto.Domain.Entities;
+using BBAuto.Domain.Lists;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.ForCar
 {
     public class Repair : MainDictionary
     {
         private int _idRepairType;
         private int _idServiceStantion;
         private double _cost;
-        private int _idCar;
-        private DateTime _date;
-        private string _file;
 
-        public string CarID { get { return _idCar.ToString(); } }
+        public Car Car { get; private set; }
+        public DateTime Date { get; set; }
+        public string File { get; set; }
 
         public string RepairTypeID
         {
@@ -34,29 +38,17 @@ namespace BBAuto.Domain
             get { return _cost.ToString(); }
             set { double.TryParse(value, out _cost); }
         }
-
-        public DateTime Date
+        
+        public Repair(Car car)
         {
-            get { return _date; }
-            set { _date = value; }
+            ID = 0;
+            Car = car;
+            Date = DateTime.Today;
         }
 
-        public string File
+        public Repair(Car car, DataRow row)
         {
-            get { return _file; }
-            set { _file = value; }
-        }
-
-        public Repair(int idCar)
-        {
-            _id = 0;
-            this._idCar = idCar;
-            _date = DateTime.Today;
-        }
-
-        public Repair(int idCar, DataRow row)
-        {
-            this._idCar = idCar;
+            Car = car;
 
             fillFields(row);
         }
@@ -68,53 +60,61 @@ namespace BBAuto.Domain
 
         private void fillFields(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
-            int.TryParse(row.ItemArray[1].ToString(), out _idCar);
+            int id;
+            int.TryParse(row.ItemArray[0].ToString(), out id);
+            ID = id;
+
+            int idCar;
+            int.TryParse(row.ItemArray[1].ToString(), out idCar);
+            Car = CarList.getInstance().getItem(idCar);
+
             int.TryParse(row.ItemArray[2].ToString(), out _idRepairType);
             int.TryParse(row.ItemArray[3].ToString(), out _idServiceStantion);
-            DateTime.TryParse(row.ItemArray[4].ToString(), out _date);
+
+            DateTime date;
+            DateTime.TryParse(row.ItemArray[4].ToString(), out date);
+            Date = date;
+
             Cost = row.ItemArray[5].ToString();
-            _file = row.ItemArray[6].ToString();
-            _fileBegin = _file;
+            File = row.ItemArray[6].ToString();
+            _fileBegin = File;
         }
 
         internal override object[] getRow()
         {
             string show = "";
-            if (_file != string.Empty)
+            if (!string.IsNullOrEmpty(File))
                 show = "Показать";
-
-            CarList carList = CarList.getInstance();
-            Car car = carList.getItem(_idCar);
 
             RepairTypes repairTypes = RepairTypes.getInstance();
             ServiceStantions serviceStantions = ServiceStantions.getInstance();
 
-            return new object[] { _id, _idCar, car.BBNumber, car.Grz, repairTypes.getItem(_idRepairType), serviceStantions.getItem(_idServiceStantion),
-                _date, _cost, show };
+            return new object[] { ID, Car.ID, Car.BBNumber, Car.Grz, repairTypes.getItem(_idRepairType), serviceStantions.getItem(_idServiceStantion),
+                Date, _cost, show };
         }
 
         public override void Save()
         {
-            if (_id == 0)
-                int.TryParse(_provider.Insert("Repair", _id, _idCar, _idRepairType, _idServiceStantion, _date, _cost, _file), out _id);
+            int id;
 
-            DeleteFile(_file);
+            if (ID == 0)
+            {
+                int.TryParse(_provider.Insert("Repair", ID, Car.ID, _idRepairType, _idServiceStantion, Date, _cost, File), out id);
+                ID = id;
+            }
 
-            _file = WorkWithFiles.fileCopyByID(_file, "cars", _idCar, "Repair", _id.ToString());
-            int.TryParse(_provider.Insert("Repair", _id, _idCar, _idRepairType, _idServiceStantion, _date, _cost, _file), out _id);
+            DeleteFile(File);
+
+            File = WorkWithFiles.fileCopyByID(File, "cars", Car.ID, "Repair", ID.ToString());
+            int.TryParse(_provider.Insert("Repair", ID, Car.ID, _idRepairType, _idServiceStantion, Date, _cost, File), out id);
+            ID = id;
         }
 
         internal override void Delete()
         {
-            DeleteFile(_file);
+            DeleteFile(File);
 
-            _provider.Delete("Repair", _id);
-        }
-
-        internal bool isEqualCarID(Car car)
-        {
-            return car.IsEqualsID(_idCar);
+            _provider.Delete("Repair", ID);
         }
     }
 }

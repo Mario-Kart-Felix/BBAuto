@@ -5,7 +5,7 @@ using System.Text;
 using System.Data;
 using DataLayer;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.DataBase
 {
     public class ProviderWebService : IProvider
     {

@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class STSList : MainList
     {
@@ -56,14 +59,9 @@ namespace BBAuto.Domain
 
         public STS getItem(Car car)
         {
-            var STSs = from sts in list
-                          where sts.isEqualCarID(car)
-                          select sts;
+            var STSs = list.Where(s => s.Car.ID == car.ID);
 
-            if (STSs.Count() > 0)
-                return STSs.First() as STS;
-            else
-                return car.createSTS();
+            return (STSs.Count() > 0) ? STSs.First() : car.createSTS();
         }
     }
 }

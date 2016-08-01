@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Common
 {
     public class ColumnSize : MainDictionary
     {
@@ -64,7 +68,7 @@ namespace BBAuto.Domain
 
         internal bool IsEqualsIDs(Driver driver, Status status)
         {
-            return driver.IsEqualsID(_idDriver) && _idStatus == (int)status;
+            return driver.ID == _idDriver && _idStatus == (int)status;
         }
 
         public int GetSize(int index)

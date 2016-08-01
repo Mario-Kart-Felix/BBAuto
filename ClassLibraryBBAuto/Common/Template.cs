@@ -1,31 +1,20 @@
-﻿using System;
+﻿using BBAuto.Domain.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Common
 {
     public class Template : MainDictionary
     {
-        private string _name;
-        private string _file;
-
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
-
-        public string Path
-        {
-            get { return _file; }
-            set { _file = value; }
-        }
-
+        public string Name { get; set; }
+        public string File { get; set; }
+        
         public Template()
         {
-            _id = 0;
+            ID = 0;
         }
         
         public Template(DataRow row)
@@ -35,31 +24,34 @@ namespace BBAuto.Domain
 
         private void fillFields(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
-            _name = row.ItemArray[1].ToString();
-            _file = row.ItemArray[2].ToString();
-            _fileBegin = _file;
+            int id;
+            int.TryParse(row.ItemArray[0].ToString(), out id);
+            ID = id;
+
+            Name = row.ItemArray[1].ToString();
+            File = row.ItemArray[2].ToString();
+            _fileBegin = File;
         }
 
         public override void Save()
         {
-            DeleteFile(_file);
+            DeleteFile(File);
 
-            _file = WorkWithFiles.fileCopy(_file, "Template", _name);
+            File = WorkWithFiles.fileCopy(File, "Template", Name);
 
-            _provider.Insert("Template", _id, _name, _file);
+            _provider.Insert("Template", ID, Name, File);
         }
                 
         internal override void Delete()
         {
-            DeleteFile(_file);
+            DeleteFile(File);
 
-            _provider.Delete("Template", _id);
+            _provider.Delete("Template", ID);
         }
 
         internal override object[] getRow()
         {
-            return new object[] { _id, _name, _file };
+            return new object[] { ID, Name, File };
         }
     }
 }

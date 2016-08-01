@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Common;
+using BBAuto.Domain.Static;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class MailTextList : MainList
     {
@@ -56,14 +59,12 @@ namespace BBAuto.Domain
 
         public MailText getItem(int id)
         {
-            var mailTexts = _list.Where(mailText => mailText.IsEqualsID(id));
-
-            return (mailTexts.Count() == 0) ? null : mailTexts.First() as MailText;
+            return _list.FirstOrDefault(t => t.ID == id);
         }
 
         public MailText getItemByType(MailTextType type)
         {
-            var mailTexts = _list.Where(mailText => mailText.IsEqualsID((int)type));
+            var mailTexts = _list.Where(mailText => mailText.ID == (int)type);
 
             return (mailTexts.Count() == 0) ? null : mailTexts.First() as MailText;
         }

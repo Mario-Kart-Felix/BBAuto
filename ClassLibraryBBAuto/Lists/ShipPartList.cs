@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class ShipPartList : MainList
     {
@@ -45,11 +48,9 @@ namespace BBAuto.Domain
             list.Add(shipPart);
         }
 
-        public ShipPart getItem(int idShipPart)
+        public ShipPart getItem(int id)
         {
-            var shipParts = list.Where(item => item.IsEqualsID(idShipPart));
-
-            return (shipParts.Count() > 0) ? shipParts.First() : new ShipPart(0);
+            return list.FirstOrDefault(s => s.ID == id);
         }
 
         public void Delete(int idShipPart)
@@ -68,7 +69,7 @@ namespace BBAuto.Domain
 
         public DataTable ToDataTable(Car car)
         {
-            var shipParts = list.Where(item => item.isEqualCarID(car));
+            var shipParts = list.Where(item => item.Car.ID == car.ID);
 
             return createTable(shipParts.ToList());
         }

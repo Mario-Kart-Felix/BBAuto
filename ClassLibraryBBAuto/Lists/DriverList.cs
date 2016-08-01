@@ -3,8 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Tables;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.ForDriver;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class DriverList : MainList
     {
@@ -47,26 +52,26 @@ namespace BBAuto.Domain
         
         public DataTable ToDataTable(bool all = false)
         {
-            List<Driver> tempList = (all) ? _list.ToList() : _list.Where(item => item.IsDriver).ToList();
+            var tempList = (all) ? _list.ToList() : _list.Where(item => item.IsDriver);
 
             return CreateDataTable(tempList);
         }
 
         public DataTable ToDataTableNotDriver(int idOwner)
         {
-            List<Driver> tempList = _list.Where(item => !item.IsDriver && item.OwnerID == idOwner).ToList();
+            var tempList = _list.Where(item => !item.IsDriver && item.OwnerID == idOwner);
 
             return CreateDataTable(tempList);
         }
 
         public DataTable ToDataTableByRegion(Region region, bool all = false)
         {
-            List<Driver> tempList = (all) ? _list.Where(item => item.Region == region || item.IsEqualsID(1)).ToList() : _list.Where(item => (item.Region == region || item.IsEqualsID(1)) && item.IsDriver).ToList();
+            var tempList = (all) ? _list.Where(item => item.Region == region || item.ID == 1).ToList() : _list.Where(item => (item.Region == region || item.ID == 1) && item.IsDriver);
 
             return CreateDataTable(tempList);
         }
 
-        private DataTable CreateDataTable(List<Driver> MyList)
+        private DataTable CreateDataTable(IEnumerable<Driver> drivers)
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("id");
@@ -79,38 +84,36 @@ namespace BBAuto.Domain
             dt.Columns.Add("Компания");
             dt.Columns.Add("Статус");
             
-            foreach (Driver driver in MyList)
+            foreach (var driver in drivers)
                 dt.Rows.Add(driver.getRow());
 
             return dt;
         }
 
-        public Driver getItem(int idDriver)
+        public Driver getItem(int id)
         {
-            List<Driver> drivers = _list.Where(item => item.IsEqualsID(idDriver)).ToList();
-
-            return (drivers.Count() > 0) ? drivers.First() : new Driver();
+            return _list.FirstOrDefault(d => d.ID == id);
         }
 
         public Driver getItem(string login)
         {
             List<Driver> drivers = _list.Where(item => item.Login == login).OrderBy(item => item.ID).ToList();
 
-            return (drivers.Count() > 0) ? drivers.First() : null;
+            return drivers.FirstOrDefault();
         }
 
         public Driver getItemByNumber(string number)
         {
             List<Driver> drivers = _list.Where(item => item.Number == number).ToList();
 
-            return (drivers.Count() > 0) ? drivers.First() : new Driver();
+            return drivers.FirstOrDefault();
         }
 
         public Driver getItemByFIO(string fio)
         {
             List<Driver> drivers = _list.Where(item => item.GetName(NameType.Short).Replace(" ", "") == fio.Replace(" ", "") && item.IsDriver).ToList();
 
-            return (drivers.Count() == 1) ? drivers.First() : null;
+            return drivers.FirstOrDefault();
         }
 
         public List<Driver> GetDriverListByRole(RolesList role)
@@ -124,9 +127,7 @@ namespace BBAuto.Domain
 
                 foreach (UserAccess userAccess in userAccesses)
                 {
-                    int idDriver;
-                    int.TryParse(userAccess.IDDriver, out idDriver);
-                    drivers.Add(getItem(idDriver));
+                    drivers.Add(getItem(userAccess.Driver.ID));
                 }
 
                 return drivers;

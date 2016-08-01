@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class MileageList : MainList
     {
-        private List<Mileage> list;
         private static MileageList uniqueInstance;
+        private List<Mileage> list;
 
         private MileageList()
         {
@@ -47,28 +50,26 @@ namespace BBAuto.Domain
 
         public Mileage getItem(int id)
         {
-            var mileages = list.Where(item => item.IsEqualsID(id));
-
-            return getItem(mileages.ToList());
+            return getItem(list.Where(m => m.ID == id));
         }
 
         public Mileage getItem(Car car)
         {
-            var mileages = list.Where(item => item.isEqualCarID(car)).OrderByDescending(item => item.Date);
+            var mileages = list.Where(item => item.Car.ID == car.ID).OrderByDescending(item => item.Date);
 
-            return getItem(mileages.ToList());
+            return getItem(mileages);
         }
 
         public Mileage getItem(Car car, Mileage current)
         {
-            var mileages = list.Where(item => item.isEqualCarID(car) && item != current).OrderByDescending(item => item.Date);
+            var mileages = list.Where(item => item.Car.ID == car.ID && item != current).OrderByDescending(item => item.Date);
 
-            return getItem(mileages.ToList());
+            return getItem(mileages);
         }
 
-        private Mileage getItem(List<Mileage> mileages)
+        private Mileage getItem(IEnumerable<Mileage> mileages)
         {
-            return (mileages.Count() > 0) ? mileages.First() : new Mileage(0);
+            return mileages.FirstOrDefault();
         }
 
         public void Delete(int idMileage)
@@ -84,7 +85,7 @@ namespace BBAuto.Domain
         {
             DataTable dt = createTable();
 
-            var mileages = list.Where(item => item.isEqualCarID(car)).OrderBy(item => item.Date);
+            var mileages = list.Where(item => item.Car.ID == car.ID).OrderBy(item => item.Date);
 
             foreach (Mileage mileage in mileages)
                 dt.Rows.Add(mileage.getRow());
@@ -107,12 +108,12 @@ namespace BBAuto.Domain
             DateTime datePrev = (date.Month == 12) ? new DateTime(date.Year - 1, 11, 1) : (date.Month == 1) ? new DateTime(date.Year - 1, 12, 1) : new DateTime(date.Year, date.Month - 1, 1);
 
             var listPrev = (from item in list
-                           where item.isEqualCarID(car) && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
+                           where item.Car.ID == car.ID && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
                            orderby item.Count descending
                            select Convert.ToInt32(item.Count)).ToList();
 
             var listCurrent = (from item in list
-                           where item.isEqualCarID(car) && (item.Date.Year == date.Year && item.Date.Month == date.Month)
+                               where item.Car.ID == car.ID && (item.Date.Year == date.Year && item.Date.Month == date.Month)
                            orderby item.Count descending
                            select Convert.ToInt32(item.Count)).ToList();
 
@@ -131,12 +132,12 @@ namespace BBAuto.Domain
             DateTime datePrev = (date.Month == 12) ? new DateTime(date.Year - 1, 11, 1) : (date.Month == 1) ? new DateTime(date.Year - 1, 12, 1) : new DateTime(date.Year, date.Month - 1, 1);
 
             var listPrev = (from item in list
-                            where item.isEqualCarID(car) && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
+                            where item.Car.ID == car.ID && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
                             orderby item.Count descending
                             select Convert.ToInt32(item.Count)).ToList();
 
             var listCurrent = (from item in list
-                               where item.isEqualCarID(car) && (item.Date.Year == date.Year && item.Date.Month == date.Month)
+                               where item.Car.ID == car.ID && (item.Date.Year == date.Year && item.Date.Month == date.Month)
                                orderby item.Count descending
                                select Convert.ToInt32(item.Count)).ToList();
 
@@ -155,12 +156,12 @@ namespace BBAuto.Domain
             DateTime datePrev = (date.Month == 12) ? new DateTime(date.Year - 1, 11, 1) : (date.Month == 1) ? new DateTime(date.Year - 1, 12, 1) : new DateTime(date.Year, date.Month - 1, 1);
 
             var listPrev = (from item in list
-                            where item.isEqualCarID(car) && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
+                            where item.Car.ID == car.ID && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
                             orderby item.Count descending
                             select Convert.ToInt32(item.Count)).ToList();
 
             var listCurrent = (from item in list
-                               where item.isEqualCarID(car) && (item.Date.Year == date.Year && item.Date.Month == date.Month)
+                               where item.Car.ID == car.ID && (item.Date.Year == date.Year && item.Date.Month == date.Month)
                                orderby item.Count descending
                                select Convert.ToInt32(item.Count)).ToList();
 

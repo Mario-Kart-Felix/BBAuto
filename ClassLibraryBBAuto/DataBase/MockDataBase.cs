@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.DataBase
 {
     public class MockDataBase : IDataBase
     {
@@ -122,7 +124,7 @@ namespace BBAuto.Domain
 
         private void CarSaleInsert(int idCar)
         {
-            _carSale.Add(idCar, new CarSale(idCar));
+            _carSale.Add(idCar, new CarSale(new Car(idCar)));
         }
         
         private void CarSaleDelete(int idCar)

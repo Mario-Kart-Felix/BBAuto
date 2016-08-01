@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Tables;
+using BBAuto.Domain.Abstract;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class RouteList : MainList
     {
-        private List<Route> list;
         private static RouteList uniqueInstance;
+        private List<Route> list;
         
         private RouteList()
         {
@@ -59,9 +61,7 @@ namespace BBAuto.Domain
 
         public Route getItem(int id)
         {
-            var routes = list.Where(item => item.IsEqualsID(id));
-
-            return (routes.Count() > 0) ? routes.First() : null;
+            return list.FirstOrDefault(item => item.ID == id);
         }
 
         public DataTable ToDataTable(MyPoint myPoint1)

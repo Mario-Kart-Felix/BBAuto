@@ -1,4 +1,9 @@
-﻿using System;
+﻿using BBAuto.Domain.Common;
+using BBAuto.Domain.ForDriver;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Tables;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

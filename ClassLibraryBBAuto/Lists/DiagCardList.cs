@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class DiagCardList : MainList
     {
-        private List<DiagCard> list;
         private static DiagCardList uniqueInstance;
+        private List<DiagCard> list;
 
         private DiagCardList()
         {
@@ -47,14 +50,14 @@ namespace BBAuto.Domain
 
         public DataTable ToDataTable()
         {
-            var diagCards = list.Where(item => item.Date >= (DateTime.Today.AddYears(-1)) && !item.GetCar().info.IsSale).OrderByDescending(item => item.Date);
+            var diagCards = list.Where(item => item.Date >= (DateTime.Today.AddYears(-1)) && !item.Car.info.IsSale).OrderByDescending(item => item.Date);
 
             return createTable(diagCards.ToList());
         }
 
         public DataTable ToDataTable(Car car)
         {
-            var diagCards = list.Where(item => item.isEqualsCarID(car)).OrderByDescending(item => item.Date);
+            var diagCards = list.Where(item => item.Car.ID == car.ID).OrderByDescending(item => item.Date);
 
             return createTable(diagCards.ToList());
         }
@@ -77,16 +80,12 @@ namespace BBAuto.Domain
 
         public DiagCard getItem(int id)
         {
-            var diagCards = list.Where(item => item.IsEqualsID(id));
-
-            return diagCards.Count() == 0 ? new DiagCard(0) : diagCards.First() as DiagCard;
+            return list.FirstOrDefault(item => item.ID == id);
         }
 
         public DiagCard getItem(Car car)
         {
-            var diagCards = list.Where(item => item.isEqualsCarID(car)).OrderByDescending(item => item.Date);
-
-            return diagCards.Count() == 0 ? new DiagCard(0) : diagCards.First() as DiagCard;
+            return list.Where(item => item.Car.ID == car.ID).OrderByDescending(item => item.Date).FirstOrDefault();
         }
 
         public void Delete(int idDiagCard)
@@ -103,16 +102,16 @@ namespace BBAuto.Domain
             return list.Where(item => (item.Date.Year == date.Year && item.Date.Month == date.Month)).ToList();
         }
         
-        internal List<DiagCard> GetDiagCardEnds()
+        internal IEnumerable<DiagCard> GetDiagCardEnds()
         {
-            List<DiagCard> list = GetDiagCardList(DateTime.Today.AddMonths(1));
+            IEnumerable<DiagCard> list = GetDiagCardList(DateTime.Today.AddMonths(1));
 
-            return list.Where(item => !item.IsNotificationSent && !item.GetCar().info.IsSale).ToList();
+            return list.Where(item => !item.IsNotificationSent && !item.Car.info.IsSale).ToList();
         }
 
-        internal List<Car> GetCarListFromDiagCardList(List<DiagCard> list)
+        internal IEnumerable<Car> GetCarListFromDiagCardList(List<DiagCard> list)
         {
-            return list.Select(diagCard => diagCard.GetCar()).ToList();
+            return list.Select(diagCard => diagCard.Car);
         }
     }
 }

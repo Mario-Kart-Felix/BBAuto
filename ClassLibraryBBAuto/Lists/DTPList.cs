@@ -1,15 +1,18 @@
-﻿using System;
+﻿using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Entities;
+using BBAuto.Domain.ForCar;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class DTPList : MainList
     {
-        private List<DTP> list;
         private static DTPList uniqueInstance;
+        private List<DTP> list;
 
         private DTPList()
         {
@@ -49,9 +52,7 @@ namespace BBAuto.Domain
 
         public DTP getItem(int id)
         {
-            List<DTP> dtps = list.Where(item => item.IsEqualsID(id)).ToList();
-
-            return (dtps.Count() > 0) ? dtps.First() : null;
+            return list.FirstOrDefault(dtp => dtp.ID == id);
         }
 
         public DataTable ToDataTable()
@@ -63,7 +64,7 @@ namespace BBAuto.Domain
         
         public DataTable ToDataTable(Driver driver)
         {
-            if (driver.IsEqualsID(0))
+            if (driver.ID == 0)
                 return null;
 
             List<DTP> dtps = list.Where(item => item.isEqualDriverID(driver)).ToList();
@@ -82,12 +83,12 @@ namespace BBAuto.Domain
         {
             List<DTP> dtps = ToList(car);
 
-            return (dtps.Count > 0) ? dtps.First() : new DTP(0);
+            return (dtps.Count > 0) ? dtps.First() : new DTP(new Car());
         }
 
         private List<DTP> ToList(Car car)
         {
-            return list.Where(item => item.isEqualCarID(car)).OrderByDescending(item => item.Date).ToList();
+            return list.Where(item => item.Car.ID == car.ID).OrderByDescending(item => item.Date).ToList();
         }
 
         private DataTable createTable(List<DTP> dtpList)
@@ -128,12 +129,12 @@ namespace BBAuto.Domain
 
         public DTP getLastByDriver(Driver driver)
         {
-            if (driver.IsEqualsID(0))
-                return new DTP(0);
+            if (driver.ID == driver.ID)
+                return new DTP(new Car());
 
             List<DTP> dtps = list.Where(item => item.isEqualDriverID(driver)).OrderByDescending(item => item.Date).ToList();
 
-            return (dtps.Count() > 0) ? dtps.First() : new DTP(0);
+            return (dtps.Count() > 0) ? dtps.First() : new DTP(new Car());
         }
 
         public int GetMaxNumber()

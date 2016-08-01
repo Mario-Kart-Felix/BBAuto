@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BBAuto.Domain.Common;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Static;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,7 +9,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BBAuto.Domain;
 
 namespace BBAuto
 {
@@ -29,7 +31,7 @@ namespace BBAuto
         {
             loadDictionary();
 
-            if (_policy.IsEqualsID(0))
+            if (_policy.ID == 0)
                 changeDateEnd();
             else
                 fillFields();
@@ -37,7 +39,7 @@ namespace BBAuto
             setVisible();
 
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-            _workWithForm.SetEditMode(_policy.IsEqualsID(0));
+            _workWithForm.SetEditMode(_policy.ID == 0);
         }
 
         private void loadDictionary()

@@ -6,7 +6,10 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BBAuto.Domain;
+using BBAuto.Domain.Common;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Dictionary;
+using BBAuto.Domain.Lists;
 
 namespace BBAuto
 {
@@ -31,7 +34,7 @@ namespace BBAuto
 
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
             _workWithForm.EditModeChanged += EnableIfAccountWayBill;
-            _workWithForm.SetEditMode(_employees.IsEqualsID(0));
+            _workWithForm.SetEditMode(_employees.ID == 0);
         }
 
         private void EnableIfAccountWayBill(Object sender, EditModeEventArgs e)

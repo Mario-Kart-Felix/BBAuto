@@ -1,4 +1,5 @@
-﻿using BBAuto.Domain;
+﻿using BBAuto.Domain.Entities;
+using BBAuto.Domain.Lists;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

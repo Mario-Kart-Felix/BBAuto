@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class CarDocList : MainList
     {
-        private List<CarDoc> list;
         private static CarDocList uniqueInstance;
+        private List<CarDoc> list;
 
         private CarDocList()
         {
@@ -56,25 +59,14 @@ namespace BBAuto.Domain
 
         public CarDoc getItem(int id)
         {
-            var carDocs = from carDoc in list
-                          where carDoc.IsEqualsID(id)
-                          select carDoc;
-
-            if (carDocs.Count() > 0)
-                return carDocs.First() as CarDoc;
-            else
-                return new CarDoc(0);
+            return list.FirstOrDefault(c => c.ID == id);
         }
 
         public DataTable ToDataTableByCar(Car car)
         {
             DataTable dt = createTable();
-
-            var carDocs = from carDoc in list
-                          where carDoc.isEqualCarID(car)
-                          select carDoc;
-
-            foreach (CarDoc carDoc in carDocs)
+            
+            foreach (CarDoc carDoc in list.Where(c => c.Car.ID == car.ID))
                 dt.Rows.Add(carDoc.getRow());
 
             return dt;

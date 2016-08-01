@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.ForDriver;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class PassportList : MainList
     {
-        private List<Passport> list;
         private static PassportList uniqueInstance;
+        private List<Passport> list;
 
         private PassportList()
         {
@@ -54,25 +57,16 @@ namespace BBAuto.Domain
             passport.Delete();
         }
 
-        public Passport getPassport(int idPassport)
+        public Passport getPassport(int id)
         {
-            var passports = from passport in list
-                            where passport.IsEqualsID(idPassport)
-                            select passport;
-
-            return (passports.Count() > 0) ? passports.First() as Passport : null;
+            return list.FirstOrDefault(p => p.ID == id);
         }
 
         public DataTable ToDataTable(Driver driver)
         {
-            var passports = from passport in list
-                            where passport.isEqualDriverID(driver)
-                            orderby passport.GiveDate descending
-                            select passport;
-
             DataTable dt = createTable();
 
-            foreach (Passport passport in passports)
+            foreach (Passport passport in list.Where(p => p.Driver.ID == driver.ID))
                 dt.Rows.Add(passport.getRow());
 
             return dt;
@@ -90,9 +84,9 @@ namespace BBAuto.Domain
 
         public Passport getLastPassport(Driver driver)
         {
-            var passports = list.Where(item => item.isEqualDriverID(driver)).OrderByDescending(item => item.GiveDate).ToList();
+            var passports = list.Where(item => item.Driver.ID == driver.ID).OrderByDescending(item => item.GiveDate);
 
-            return (passports.Count() > 0) ? passports.First() : new Passport(0);
+            return passports.FirstOrDefault();
         }
 
         public Passport GetPassport(Driver driver, string number)

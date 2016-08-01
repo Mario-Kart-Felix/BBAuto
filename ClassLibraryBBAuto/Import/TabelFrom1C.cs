@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Common;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Import
 {
-    public class TabelFrom1C : IFrom1C
+    public class TabelFrom1C : IExcelImporter
     {
         private const string FILE_PATH = @"\\bbmru08\1cv77\Autoexchange\Lotus\BBAuto\Time";
 

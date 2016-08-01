@@ -4,8 +4,14 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using DataLayer;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Common;
+using BBAuto.Domain.Dictionary;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.ForCar
 {
     public sealed class Policy : MainDictionary, IActual
     {
@@ -18,11 +24,9 @@ namespace BBAuto.Domain
         private double _limitCost;
         private double _pay2;
         private int _idPolicyType;
-        private int _idCar;
         private DateTime _dateBegin;
         private DateTime _dateEnd;
         private int _notifacationSent;
-        private string _comment;
         
         public string File { get; set; }
         public DateTime DateCreate { get; private set; }
@@ -52,26 +56,17 @@ namespace BBAuto.Domain
             get { return _number == string.Empty ? "нет данных" : _number; }
             set { _number = value; }
         }
-        
-        public bool IsCarSale
-        {
-            get
-            {
-                Car car = GetCar();
-                return car.info.IsSale;
-            }
-        }
 
+        public bool IsCarSale { get { return Car.info.IsSale; } }
+        
         public bool IsCarSaleWithDate
         {
             get
             {
-                Car car = GetCar();
-
-                if (car.info.IsSale)
+                if (Car.info.IsSale)
                 {
                     CarSaleList carSaleList = CarSaleList.getInstance();
-                    return !string.IsNullOrEmpty(carSaleList.getItem(car).Date);
+                    return !string.IsNullOrEmpty(carSaleList.getItem(Car.ID).Date);
                 }
                 else
                     return false;
@@ -128,16 +123,13 @@ namespace BBAuto.Domain
             private set { _notifacationSent = Convert.ToInt32(value); }
         }
 
-        public string Comment
-        {
-            get { return _comment; }
-            set { _comment = value; }
-        }
+        public string Comment { get; set; }
+        public Car Car { get; private set; }
 
-        public Policy(int idCar)
+        public Policy(Car car)
         {
-            _idCar = idCar;
-            _id = 0;
+            Car = car;
+            ID = 0;
         }
 
         public Policy(DataRow row)
@@ -147,8 +139,14 @@ namespace BBAuto.Domain
         
         private void fillFields(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
-            int.TryParse(row.ItemArray[1].ToString(), out _idCar);
+            int id;
+            int.TryParse(row.ItemArray[0].ToString(), out id);
+            ID = id;
+
+            int idCar;
+            int.TryParse(row.ItemArray[1].ToString(), out idCar);
+            Car = CarList.getInstance().getItem(idCar);
+
             int.TryParse(row.ItemArray[2].ToString(), out _idPolicyType);
             IdOwner = row.ItemArray[3].ToString();
             IdComp = row.ItemArray[4].ToString();
@@ -171,7 +169,7 @@ namespace BBAuto.Domain
 
             int.TryParse(row.ItemArray[15].ToString(), out _notifacationSent);
 
-            _comment = row.ItemArray[16].ToString();
+            Comment = row.ItemArray[16].ToString();
 
             DateTime dateCreate;
             DateTime.TryParse(row.ItemArray[17].ToString(), out dateCreate);
@@ -180,7 +178,7 @@ namespace BBAuto.Domain
 
         public override void Save()
         {
-            if (_id == 0)
+            if (ID == 0)
             {
                 PolicyList.getInstance().Add(this);
 
@@ -189,7 +187,7 @@ namespace BBAuto.Domain
 
             DeleteFile(File);
 
-            File = WorkWithFiles.fileCopyByID(File, "cars", _idCar, "Policy", _number);
+            File = WorkWithFiles.fileCopyByID(File, "cars", Car.ID, "Policy", _number);
             _fileBegin = File;
 
             execSave();
@@ -197,34 +195,21 @@ namespace BBAuto.Domain
 
         private void execSave()
         {
-            int.TryParse(_provider.Insert("Policy", _id, _idPolicyType, _idCar, IdOwner, IdComp, _number, _dateBegin, _dateEnd, Pay, LimitCost, Pay2, DatePay2ForSQL, File, _notifacationSent, _comment), out _id);
+            int id;
+            int.TryParse(_provider.Insert("Policy", ID, _idPolicyType, Car.ID, IdOwner, IdComp, _number, _dateBegin, _dateEnd, Pay, LimitCost, Pay2, DatePay2ForSQL, File, _notifacationSent, Comment), out id);
+            ID = id;
         }
         
-        public bool isEqualCarID(Car car)
-        {
-            return car.IsEqualsID(_idCar);
-        }
-
         internal override void Delete()
         {
             DeleteFile(File);
 
-            _provider.Delete("Policy", _id);
-        }
-        
-        internal bool EqualsAccountID(Account account)
-        {
-            return _idAccount == account.ID && _idAccount != 0;
-        }
-
-        internal bool EqualsAccountID2(Account account)
-        {
-            return _idAccount == account.ID;
+            _provider.Delete("Policy", ID);
         }
 
         public void SetAccountID(int idAccount, int paymentNumber)
         {
-            _provider.DoOther("exec Policy_Insert_AccountID @p1, @p2, @p3", _id, idAccount, paymentNumber);
+            _provider.DoOther("exec Policy_Insert_AccountID @p1, @p2, @p3", ID, idAccount, paymentNumber);
         }
 
         public bool IsInList(Account account)
@@ -244,7 +229,7 @@ namespace BBAuto.Domain
             else
                 _idAccount = 0;
 
-            _provider.DoOther("exec Policy_Delete_AccountID @p1, @p2", _id, sqlPaymentNumber);
+            _provider.DoOther("exec Policy_Delete_AccountID @p1, @p2", ID, sqlPaymentNumber);
         }
 
         internal bool IsHaveAccountID(int paymentNumber)
@@ -269,13 +254,10 @@ namespace BBAuto.Domain
 
         internal override object[] getRow()
         {
-            CarList carList = CarList.getInstance();
-            Car car = carList.getItem(_idCar);
-
             Owners owners = Owners.getInstance();
             Comps comps = Comps.getInstance();
 
-            return new object[] { _id, _idCar, car.BBNumber, car.Grz, Type, owners.getItem(Convert.ToInt32(IdOwner)),
+            return new object[] { ID, Car.ID, Car.BBNumber, Car.Grz, Type, owners.getItem(Convert.ToInt32(IdOwner)),
                 comps.getItem(Convert.ToInt32(IdComp)), Number, _pay, DateBegin, DateEnd,
                 _limitCost, _pay2};
         }
@@ -285,24 +267,13 @@ namespace BBAuto.Domain
             return date == new DateTime();
         }
 
-        public Car GetCar()
-        {
-            CarList carList = CarList.getInstance();
-            Car car = carList.getItem(_idCar);
-
-            return car;
-        }
-
         public string ToMail()
         {
             IsNotificationSent = true;
             execSave();
-
-            CarList carList = CarList.getInstance();
-            Car car = carList.getItem(_idCar);
-
+            
             StringBuilder sb = new StringBuilder();
-            sb.Append(car.Grz);
+            sb.Append(Car.Grz);
             sb.Append(" ");
             sb.Append(Type);
             sb.Append(" ");

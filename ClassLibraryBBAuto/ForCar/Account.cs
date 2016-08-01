@@ -4,14 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using DataLayer;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Dictionary;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Common;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.ForCar
 {
     public class Account : MainDictionary
     {
         private const int NOT_SAVE_ID = 0;
 
-        private string _number;
         private int _agreed;
         private int _idPolicyType;
         private int _idOwner;
@@ -20,6 +25,8 @@ namespace BBAuto.Domain
         public string Number { get; set; }
         public bool Agreed { get { return Convert.ToBoolean(_agreed); } }
         private PolicyType policyType { get { return (PolicyType)_idPolicyType; } }
+        public string File { get; set; }
+        //public int Position { get { return ID; } }
 
         internal string Owner
         {
@@ -59,14 +66,10 @@ namespace BBAuto.Domain
             get { return Convert.ToBoolean(_businessTrip); }
             set { _businessTrip = Convert.ToInt32(value); }
         }
-
-        public string File { get; set; }
-
-        public int Position { get { return _id; } }
-
+        
         public Account()
         {
-            _id = NOT_SAVE_ID;
+            ID = NOT_SAVE_ID;
             _idPolicyType = 1;
         }
 
@@ -77,8 +80,11 @@ namespace BBAuto.Domain
 
         private void fillFields(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
-            _number = row.ItemArray[1].ToString();
+            int id;
+            int.TryParse(row.ItemArray[0].ToString(), out id);
+            ID = id;
+
+            Number = row.ItemArray[1].ToString();
             int.TryParse(row.ItemArray[2].ToString(), out _agreed);
             int.TryParse(row.ItemArray[3].ToString(), out _idPolicyType);
             int.TryParse(row.ItemArray[4].ToString(), out _idOwner);
@@ -99,7 +105,7 @@ namespace BBAuto.Domain
             string btnName = (CanAgree()) ? "Согласовать" : string.Empty;
             string btnFile = (string.IsNullOrEmpty(File)) ? string.Empty : "Просмотр";
             
-            return new object[8] { _id, idCar, _number, policyType, Owner, Sum, btnName, btnFile };
+            return new object[8] { ID, idCar, Number, policyType, Owner, Sum, btnName, btnFile };
         }
 
         private int GetIDCar()
@@ -154,14 +160,14 @@ namespace BBAuto.Domain
             Policy policy = policyList.getItem(idPolicy);
 
             if (IsPolicyKaskoAndPayment2())
-                policy.SetAccountID(_id, payment);
+                policy.SetAccountID(ID, payment);
             else
-                policy.SetAccountID(_id, payment);
+                policy.SetAccountID(ID, payment);
         }
 
         private bool IsNotSaved()
         {
-            return _id == NOT_SAVE_ID;
+            return ID == NOT_SAVE_ID;
         }
 
         public override void Save()
@@ -170,7 +176,7 @@ namespace BBAuto.Domain
             {
                 AccountList accountList = AccountList.getInstance();
 
-                if (accountList.Exists(_number))
+                if (accountList.Exists(Number))
                     throw new Exception("Счёт с таким номером уже существует");
 
                 ExecQuery();                
@@ -179,14 +185,16 @@ namespace BBAuto.Domain
 
             DeleteFile(File);
 
-            File = WorkWithFiles.fileCopy(File, "Accounts", _id.ToString());
+            File = WorkWithFiles.fileCopy(File, "Accounts", ID.ToString());
 
             ExecQuery();
         }
 
         private void ExecQuery()
         {
-            int.TryParse(_provider.Insert("Account", _id, _number, _agreed, _idPolicyType, _idOwner, PaymentIndex, _businessTrip, File), out _id);
+            int id;
+            int.TryParse(_provider.Insert("Account", ID, Number, _agreed, _idPolicyType, _idOwner, PaymentIndex, _businessTrip, File), out id);
+            ID = id;
         }
 
         public bool IsPolicyKaskoAndPayment2()

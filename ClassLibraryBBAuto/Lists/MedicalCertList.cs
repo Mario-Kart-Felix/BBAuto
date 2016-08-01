@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.ForDriver;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class MedicalCertList : MainList, INotificationList
     {
-        private List<MedicalCert> _list;
         private static MedicalCertList _uniqueInstance;
+        private List<MedicalCert> list;
 
         private MedicalCertList()
         {
-            _list = new List<MedicalCert>();
+            list = new List<MedicalCert>();
 
             loadFromSql();
         }
@@ -39,35 +42,35 @@ namespace BBAuto.Domain
 
         public void Add(MedicalCert medicalCert)
         {
-            if (_list.Exists(item => item == medicalCert))
+            if (list.Exists(item => item.ID == medicalCert.ID))
                 return;
 
-            _list.Add(medicalCert);
+            list.Add(medicalCert);
         }
 
         public DataTable ToDataTable()
         {
-            return createTable(_list);
+            return CreateTable(list);
         }
 
         public DataTable ToDataTable(Driver driver)
         {
-            var medicalCerts = from medicalCert in _list
-                               where medicalCert.idEqualDriverID(driver)
+            var medicalCerts = from medicalCert in list
+                               where medicalCert.Driver.ID == driver.ID
                                orderby medicalCert.DateEnd descending
                                select medicalCert;
 
-            return createTable(medicalCerts.ToList());
+            return CreateTable(medicalCerts);
         }
 
-        private DataTable createTable(List<MedicalCert> medicalCerts)
+        private DataTable CreateTable(IEnumerable<MedicalCert> medicalCerts)
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("id");
             dt.Columns.Add("Номер");
             dt.Columns.Add("Дата окончания действия");
 
-            foreach (MedicalCert medicalCert in medicalCerts.ToList())
+            foreach (MedicalCert medicalCert in medicalCerts)
                 dt.Rows.Add(medicalCert.getRow());
 
             return dt;
@@ -75,26 +78,19 @@ namespace BBAuto.Domain
 
         public MedicalCert getItem(int id)
         {
-            var medicalCerts = _list.Where(item => item.IsEqualsID(id));
-
-            return (medicalCerts.Count() > 0) ? medicalCerts.First() as MedicalCert : null;
+            return list.FirstOrDefault(mc => mc.ID == id);
         }
 
         public MedicalCert getItem(Driver driver)
         {
-            List<MedicalCert> medicalCerts = (from medicalCert in _list
-                               where medicalCert.idEqualDriverID(driver)
-                               orderby medicalCert.DateEnd descending
-                               select medicalCert).ToList();
-
-            return (medicalCerts.Count() > 0) ? medicalCerts.First() : driver.createMedicalCert();
+            return list.Where(m => m.Driver.ID == driver.ID).OrderByDescending(m => m.DateEnd).FirstOrDefault();
         }
 
         public void Delete(int idMedicalCert)
         {
             MedicalCert medicalCert = getItem(idMedicalCert);
 
-            _list.Remove(medicalCert);
+            list.Remove(medicalCert);
 
             medicalCert.Delete();
         }
@@ -102,9 +98,9 @@ namespace BBAuto.Domain
         public List<INotification> ToList()
         {
             DriverList driverList = DriverList.getInstance();
-            List<MedicalCert> listNew = _list.Where(item => !driverList.getItem(item.DriverID).Fired && !driverList.getItem(item.DriverID).Decret && driverList.getItem(item.DriverID).IsDriver).ToList();
+            IEnumerable<MedicalCert> listNew = list.Where(item => !driverList.getItem(item.Driver.ID).Fired && !driverList.getItem(item.Driver.ID).Decret && driverList.getItem(item.Driver.ID).IsDriver);
 
-            List<INotification> listNotification = new List<INotification>();
+            var listNotification = new List<INotification>();
 
             foreach (INotification item in listNew)
                 listNotification.Add(item);

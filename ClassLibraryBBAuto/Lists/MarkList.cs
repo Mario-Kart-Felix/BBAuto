@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Tables;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class MarkList : MainList
     {
-        private List<Mark> list;
         private static MarkList uniqueInstance;
+        private List<Mark> list;
 
         private MarkList()
         {
@@ -39,7 +41,7 @@ namespace BBAuto.Domain
 
         public void Add(Mark mark)
         {
-            if (list.Exists(item => item == mark))
+            if (list.Exists(item => item.ID == mark.ID))
                 return;
 
             list.Add(mark);
@@ -47,9 +49,7 @@ namespace BBAuto.Domain
         
         public Mark getItem(int id)
         {
-            var marks = list.Where(item => item.IsEqualsID(id));
-
-            return (marks.Count() > 0) ? marks.First() : null;
+            return list.FirstOrDefault(m => m.ID == id);
         }
     }
 }

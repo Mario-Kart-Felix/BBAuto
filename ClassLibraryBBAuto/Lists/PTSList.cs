@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class PTSList : MainList
     {
@@ -56,7 +59,7 @@ namespace BBAuto.Domain
 
         public PTS getItem(Car car)
         {
-            var PTSs = list.Where(item => item.isEqualCarID(car));
+            var PTSs = list.Where(item => item.Car.ID == car.ID);
 
             return (PTSs.Count() > 0) ? PTSs.First() : car.createPTS();
         }

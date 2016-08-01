@@ -4,8 +4,11 @@ using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using BBAuto.Domain;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Static
 {
     public static class User
     {

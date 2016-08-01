@@ -6,7 +6,7 @@ using Word = Microsoft.Office.Interop.Word;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Threading;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Common
 {
     internal class WordDoc : OfficeDoc, IDisposable
     {

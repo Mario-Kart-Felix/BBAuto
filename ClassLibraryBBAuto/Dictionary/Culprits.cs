@@ -1,10 +1,12 @@
-﻿using System;
+﻿using BBAuto.Domain.Common;
+using BBAuto.Domain.ForCar;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Dictionary
 {
     public class Culprits : MyDictionary
     {

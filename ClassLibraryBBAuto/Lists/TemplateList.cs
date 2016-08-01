@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Common;
+using BBAuto.Domain.Abstract;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class TemplateList : MainList
     {
@@ -40,7 +42,7 @@ namespace BBAuto.Domain
 
         public void Add(Template template)
         {
-            if (list.Exists(item => item == template))
+            if (list.Exists(item => item.ID == template.ID))
                 return;
 
             list.Add(template);
@@ -57,16 +59,12 @@ namespace BBAuto.Domain
 
         public Template getItem(int id)
         {
-            var templates = list.Where(item => item.IsEqualsID(id));
-
-            return (templates.Count() > 0) ? templates.First() : null;
+            return list.FirstOrDefault(t => t.ID == id);
         }
 
         public Template getItem(string name)
         {
-            var templates = list.Where(item => item.Name == name);
-
-            return (templates.Count() > 0) ? templates.First() : null;
+            return list.FirstOrDefault(t => t.Name == name);
         }
         
         public DataTable ToDataTable()

@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Tables;
+using BBAuto.Domain.ForDriver;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class FuelList : MainList
     {
-        private List<Fuel> list;
         private static FuelList uniqueInstance;
+        private List<Fuel> list;
 
         private FuelList()
         {
@@ -39,7 +43,7 @@ namespace BBAuto.Domain
 
         public void Add(Fuel fuel)
         {
-            if (list.Exists(item => item == fuel))
+            if (list.Exists(item => item.ID == fuel.ID))
                 return;
 
             list.Add(fuel);
@@ -47,14 +51,12 @@ namespace BBAuto.Domain
 
         public Fuel getItem(int id)
         {
-            var fuels = list.Where(item => item.IsEqualsID(id));
-
-            return (fuels.Count() > 0) ? fuels.First() : null;
+            return list.FirstOrDefault(f => f.ID == id);
         }
 
         public Fuel getItem(FuelCard fuelCard, DateTime date, EngineType engineType)
         {
-            var fuels = list.Where(item => item.FuelCard == fuelCard && item.Date == date && item.EngineType == engineType);
+            var fuels = list.Where(item => item.FuelCard.ID == fuelCard.ID && item.Date == date && item.EngineType.ID == engineType.ID);
 
             if (fuels.Count() > 0)
                 return fuels.First();
@@ -72,7 +74,7 @@ namespace BBAuto.Domain
             return CreateTable(listFiltred);
         }
         
-        public List<Fuel> GetListFiltred(Car car, DateTime date)
+        public IEnumerable<Fuel> GetListFiltred(Car car, DateTime date)
         {
             var dt = _provider.DoOther("exec FuelByCarAndDate_Select @p1, @p2", car.ID, date);
 
@@ -86,7 +88,7 @@ namespace BBAuto.Domain
             return listFiltred;
         }
                 
-        private DataTable CreateTable(List<Fuel> listNew)
+        private DataTable CreateTable(IEnumerable<Fuel> listNew)
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("id");

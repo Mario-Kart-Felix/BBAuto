@@ -1,10 +1,11 @@
-﻿using System;
+﻿using BBAuto.Domain.Common;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Dictionary
 {
     public class StatusAfterDTPs : MyDictionary
     {

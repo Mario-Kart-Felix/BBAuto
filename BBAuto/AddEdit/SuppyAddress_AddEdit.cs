@@ -1,4 +1,9 @@
-﻿using System;
+﻿using BBAuto.Domain.Common;
+using BBAuto.Domain.Dictionary;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Tables;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,7 +11,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BBAuto.Domain;
 
 namespace BBAuto
 {
@@ -31,7 +35,7 @@ namespace BBAuto
 
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
             _workWithForm.EditModeChanged += EnableIfAccountWayBill;
-            _workWithForm.SetEditMode(_suppyAddress.IsEqualsID(0));
+            _workWithForm.SetEditMode(_suppyAddress.ID == 0);
         }
 
         private void EnableIfAccountWayBill(Object sender, EditModeEventArgs e)

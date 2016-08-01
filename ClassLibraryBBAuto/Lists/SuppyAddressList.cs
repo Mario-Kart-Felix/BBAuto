@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Common;
+using BBAuto.Domain.Abstract;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class SuppyAddressList : MainList
     {
@@ -75,9 +77,9 @@ namespace BBAuto.Domain
             return (suppyAddresses.Count() > 0) ? suppyAddresses.First() : null;
         }
 
-        private List<SuppyAddress> getList(int idSuppyAddress)
+        private List<SuppyAddress> getList(int id)
         {
-            var suppyAddresses = list.Where(item => item.IsEqualsID(idSuppyAddress));
+            var suppyAddresses = list.Where(item => item.ID == id);
 
             return suppyAddresses.ToList();
         }

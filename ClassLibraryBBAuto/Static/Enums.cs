@@ -1,4 +1,4 @@
-﻿namespace BBAuto.Domain
+﻿namespace BBAuto.Domain.Static
 {
     public enum Status
     {

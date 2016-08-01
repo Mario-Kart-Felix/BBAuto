@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using DataLayer;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.DataBase
 {
     public static class DataBase
     {

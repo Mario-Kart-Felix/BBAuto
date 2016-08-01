@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.ForCar;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class ModelList : MainList
     {
@@ -41,7 +43,7 @@ namespace BBAuto.Domain
 
         public void Add(Model model)
         {
-            if (list.Exists(item => item == model))
+            if (list.Exists(item => item.ID == model.ID))
                 return;
 
             list.Add(model);
@@ -53,16 +55,9 @@ namespace BBAuto.Domain
                 list.Clear();
         }
 
-        public Model getItem(int key)
+        public Model getItem(int id)
         {
-            var models = from model in list
-                       where model.IsEqualsID(key)
-                       select model;
-
-            if (models.Count() > 0)
-                return models.First() as Model;
-            else
-                return new Model(0);
+            return list.FirstOrDefault(m => m.ID == id);
         }
 
         public void Delete(int idModel)
@@ -76,16 +71,11 @@ namespace BBAuto.Domain
 
         public DataTable ToDataTable(int idMark)
         {
-            var models = from model in list
-                         where model.isEqualMarkID(idMark)
-                         orderby model.Name
-                         select model;
-
             DataTable dt = new DataTable();
             dt.Columns.Add("id");
             dt.Columns.Add("Название");
 
-            foreach (Model model in models.ToList())
+            foreach (Model model in list.Where(m => m.MarkID == idMark))
             {
                 dt.Rows.Add(model.getRow());
             }

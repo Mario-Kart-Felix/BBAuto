@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BBAuto.Domain;
 using System.Windows.Forms;
+using BBAuto.Domain.Entities;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Lists;
 
 namespace BBAuto
 {

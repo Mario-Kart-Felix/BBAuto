@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using BBAuto.Domain;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Import;
+using BBAuto.Domain.DataBase;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Senders;
 
 namespace BBAutoConsoleApplication
 {
@@ -13,11 +18,11 @@ namespace BBAutoConsoleApplication
             DataBase.InitDataBase();
             Provider.InitSQLProvider();
 
-            IFrom1C employeesFrom1C = new EmployeesFrom1C();
-            employeesFrom1C.StartImport();
+            IExcelImporter employeesImporter = new EmployeesFrom1C();
+            employeesImporter.StartImport();
 
-            IFrom1C tabelFrom1C = new TabelFrom1C();
-            tabelFrom1C.StartImport();
+            IExcelImporter tabelImporter = new TabelFrom1C();
+            tabelImporter.StartImport();
             
             MedicalCertList medicalCertList = MedicalCertList.getInstance();
             NotificationSender medicalCertSender = new NotificationSender(medicalCertList);

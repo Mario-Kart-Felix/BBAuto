@@ -4,8 +4,9 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using DataLayer;
+using BBAuto.Domain.DataBase;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Static
 {
     public static class OneStringDictionary
     {

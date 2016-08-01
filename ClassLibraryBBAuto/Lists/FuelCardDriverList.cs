@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.ForDriver;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class FuelCardDriverList : MainList
     {
@@ -41,24 +44,20 @@ namespace BBAuto.Domain
 
         public void Add(FuelCardDriver fuelCardDriver)
         {
-            if (list.Exists(item => item == fuelCardDriver))
+            if ((list.Exists(item => item == fuelCardDriver)) || (fuelCardDriver.FuelCard == null))
                 return;
 
             list.Add(fuelCardDriver);
         }
 
-        public FuelCardDriver getItem(int idFuelCardDriver)
+        public FuelCardDriver getItem(int id)
         {
-            List<FuelCardDriver> list = this.list.Where(item => item.IsEqualsID(idFuelCardDriver)).ToList();
-
-            return (list.Count == 0) ? null : list.First();
+            return list.FirstOrDefault(item => item.ID == id);
         }
 
         public FuelCardDriver getItem(FuelCard fuelCard)
         {
-            List<FuelCardDriver> list = this.list.Where(item => item.FuelCard == fuelCard).OrderByDescending(item => item.DateBegin).ToList();
-
-            return (list.Count == 0) ? null : list.First();
+            return list.Where(item => item.FuelCard == fuelCard).OrderByDescending(item => item.DateBegin).FirstOrDefault();
         }
 
         /*
@@ -85,17 +84,19 @@ namespace BBAuto.Domain
 
         public DataTable ToDataTable()
         {
-            return createTable(this.list.OrderBy(item => item.FuelCard.Number).OrderBy(item => item.FuelCard.IsLost).ToList());
+            return createTable(
+                list.OrderBy(item => item.FuelCard.Number).OrderBy(item => item.FuelCard.IsLost).ToList()
+            );
         }
 
         public DataTable ToDataTable(FuelCard fuelCard)
         {
-            List<FuelCardDriver> list = this.list.Where(item => item.FuelCard == fuelCard).OrderByDescending(item => item.DateBegin).ToList();
-            
-            return createTable(list);
+            return createTable(
+                list.Where(item => item.FuelCard.ID == fuelCard.ID).OrderByDescending(item => item.DateBegin)
+            );
         }
 
-        private DataTable createTable(List<FuelCardDriver> list)
+        private DataTable createTable(IEnumerable<FuelCardDriver> list)
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("idFuelCardDriver");
@@ -118,19 +119,19 @@ namespace BBAuto.Domain
         {
             List<FuelCardDriver> list = ToList(driver);
 
-            return (list.Count > 0) ? list.First() : new FuelCardDriver(0);
+            return list.FirstOrDefault();
         }
 
         public FuelCardDriver getItemSecond(Driver driver)
         {
             List<FuelCardDriver> list = ToList(driver);
 
-            return (list.Count > 1) ? list[1] : new FuelCardDriver(0);
+            return (list.Count > 1) ? list[1] : null;
         }
 
         internal List<FuelCardDriver> ToList(Driver driver)
         {
-            return this.list.Where(item => item.Driver == driver && item.DateEnd == null).OrderByDescending(item => item.DateBegin).ToList();
+            return list.Where(item => item.Driver == driver && item.DateEnd == null).OrderByDescending(item => item.DateBegin).ToList();
         }
 
         public DataTable ToDataTable(Driver driver)

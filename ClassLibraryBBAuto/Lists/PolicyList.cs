@@ -1,10 +1,14 @@
-﻿using System;
+﻿using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Entities;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Static;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class PolicyList : MainList
     {
@@ -54,17 +58,15 @@ namespace BBAuto.Domain
                 list.Clear();
         }
 
-        public Policy getItem(int idPolicy)
+        public Policy getItem(int id)
         {
-            var policyList = list.Where(item => item.IsEqualsID(idPolicy));
-
-            return (policyList.Count() > 0) ? policyList.First() : null;
+            return list.FirstOrDefault(p => p.ID == id);
         }
 
         public Policy getItem(Car car, PolicyType policyType)
         {
             var policyList = from policy in list
-                         where policy.isEqualCarID(car) && policy.Type == policyType
+                         where policy.Car.ID == car.ID && policy.Type == policyType
                          orderby policy.DateEnd descending
                          select policy;
 
@@ -81,18 +83,16 @@ namespace BBAuto.Domain
         public DataTable ToDataTable(Car car)
         {
             var policies = from policy in list
-                           where policy.isEqualCarID(car)
+                           where policy.Car.ID == car.ID
                            orderby policy.DateEnd descending
                            select policy;
 
-            return createTable(policies.ToList());
+            return createTable(policies);
         }
 
         public DataTable ToDataTable(Account account)
         {
-            IEnumerable<Policy> policies = GetPolicyByAccount(account);
-
-            return createTable(policies);
+            return createTable(list.Where(p => p.IsInList(account)).OrderByDescending(p => p.DateEnd));
         }
 
         public DataTable ToDataTable(PolicyType policyType, string idOwner, int paymentNumber)
@@ -110,18 +110,9 @@ namespace BBAuto.Domain
 
         public double GetPaymentSum(Account account)
         {
-            return GetPolicyByAccount(account).Sum(p => GetSum(p, account));
+            return list.Where(p => p.IsInList(account)).Sum(p => GetSum(p, account));
         }
-
-        private IEnumerable<Policy> GetPolicyByAccount(Account account)
-        {
-            return from policy in list
-                   where ((policy.EqualsAccountID(account))
-                        || (account.IsPolicyKaskoAndPayment2() && (policy.EqualsAccountID2(account))))
-                   orderby policy.DateEnd descending
-                   select policy;
-        }
-
+        
         private double GetSum(Policy policy, Account account)
         {
             return (account.IsPolicyKaskoAndPayment2()) ? policy.Pay2ToDouble : policy.PayToDouble;
@@ -177,14 +168,7 @@ namespace BBAuto.Domain
 
         public List<Car> GetCarListByPolicyList(List<Policy> list)
         {
-            return list.OrderBy(policy => policy.GetCar().Grz).Select(policy => policy.GetCar()).Distinct().ToList();
-        }
-
-        public Policy GetPolicyFromList(Car car, List<Policy> list, PolicyType policyType)
-        {
-            List<Policy> policyList = list.Where(policy => policy.isEqualCarID(car) && policy.Type == policyType).ToList();
-
-            return policyList.Count == 0 ? new Policy(0) : policyList.First();
+            return list.OrderBy(policy => policy.Car.Grz).Select(policy => policy.Car).Distinct().ToList();
         }
     }
 }

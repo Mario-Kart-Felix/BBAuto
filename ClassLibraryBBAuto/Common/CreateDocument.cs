@@ -1,10 +1,17 @@
-﻿using System;
+﻿using BBAuto.Domain.Dictionary;
+using BBAuto.Domain.Entities;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.ForDriver;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Tables;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Common
 {
     public class CreateDocument
     {
@@ -145,7 +152,7 @@ namespace BBAuto.Domain
             PTS pts = ptsList.getItem(_car);
 
             string fullDetailAuto = string.Concat("VIN ", _car.vin, ", Двигатель ", _car.eNumber, ", № кузова ", _car.bodyNumber, ", Год выпуска ", _car.Year, " г., Паспорт ",
-                pts.Number, " от ", pts.Date.ToShortDateString(), ", мощность двигателя ", grade.ePower, " л.с.");
+                pts.Number, " от ", pts.Date.ToShortDateString(), ", мощность двигателя ", grade.EPower, " л.с.");
 
             _excelDoc.setValue(47, 2, fullDetailAuto);
 
@@ -206,8 +213,8 @@ namespace BBAuto.Domain
             Regions regions = Regions.getInstance();
 
             _excelDoc.setValue(30, 2, regions.getItem(Convert.ToInt32(dtp.IDRegion)));
-            _excelDoc.setValue(32, 13, dtp.damage);
-            _excelDoc.setValue(34, 1, dtp.facts);
+            _excelDoc.setValue(32, 13, dtp.Damage);
+            _excelDoc.setValue(34, 1, dtp.Facts);
 
             SsDTPList ssDTPs = SsDTPList.getInstance();
             int idMark;
@@ -590,7 +597,7 @@ namespace BBAuto.Domain
 
         private static string GetPolicyBeginDate(List<Policy> list, Car car, PolicyType policyType)
         {
-            List<Policy> newList = list.Where(policy => policy.isEqualCarID(car) && policy.Type == policyType).ToList();
+            List<Policy> newList = list.Where(policy => policy.Car.ID == car.ID && policy.Type == policyType).ToList();
 
             string osagoBeginDate = "не надо";
 
@@ -604,14 +611,14 @@ namespace BBAuto.Domain
         {
             TemplateList templateList = TemplateList.getInstance();
             Template template = templateList.getItem(name);
-            return new ExcelDoc(template.Path);
+            return new ExcelDoc(template.File);
         }
 
         private WordDoc openDocumentWord(string name)
         {
             TemplateList templateList = TemplateList.getInstance();
             Template template = templateList.getItem(name);
-            return new WordDoc(template.Path);
+            return new WordDoc(template.File);
         }
 
         public void Print()

@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.ForCar;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class DTPFileList : MainList
     {
-        private List<DTPFile> list;
         private static DTPFileList uniqueInstance;
+        private List<DTPFile> list;
 
         private DTPFileList()
         {
@@ -39,7 +41,7 @@ namespace BBAuto.Domain
         
         public void Add(DTPFile dtpFile)
         {
-            if (list.Exists(item => item == dtpFile))
+            if (list.Exists(item => item.ID == dtpFile.ID))
                 return;
 
             list.Add(dtpFile);
@@ -47,14 +49,7 @@ namespace BBAuto.Domain
 
         public DTPFile getItem(int id)
         {
-            var dtpFiles = from dtpFile in list
-                           where dtpFile.IsEqualsID(id)
-                           select dtpFile;
-
-            if (dtpFiles.Count() > 0)
-                return dtpFiles.First() as DTPFile;
-            else
-                return null;
+            return list.FirstOrDefault(f => f.ID == id);
         }
 
         public void Delete(int idDTPFile)
@@ -68,14 +63,10 @@ namespace BBAuto.Domain
 
         public DataTable ToDataTable(DTP dtp)
         {
-            var dtpFiles = from dtpFile in list
-                           where dtpFile.isEqualDtpID(dtp)
-                           select dtpFile;
-
-            return createTable(dtpFiles.ToList());
+            return createTable(list.Where(f => f.DTP.ID == dtp.ID));
         }
 
-        private DataTable createTable(List<DTPFile> dtpFiles)
+        private DataTable createTable(IEnumerable<DTPFile> dtpFiles)
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("id");

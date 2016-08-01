@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Tables;
+using BBAuto.Domain.ForDriver;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Import
 {
-    public class EmployeesFrom1C : IFrom1C
+    public class EmployeesFrom1C : IExcelImporter
     {
         private const string FILE_PATH = @"\\bbmru08\1cv77\Autoexchange\Lotus\BBAuto";
         
@@ -61,8 +66,7 @@ namespace BBAuto.Domain
                             continue;
 
                         PassportList passportList = PassportList.getInstance();
-                        Passport passport;
-                        passport = passportList.GetPassport(driver, passportNumber);
+                        Passport passport = passportList.GetPassport(driver, passportNumber);
                         passport.Number = passportNumber;
 
                         string[] fio = fields[0].Split(' ');

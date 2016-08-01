@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.ForCar;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class DilerList : MainList
     {
-        private List<Diler> list;
         private static DilerList uniqueInstance;
+        private List<Diler> list;
 
         private DilerList()
         {
@@ -56,14 +58,7 @@ namespace BBAuto.Domain
 
         public Diler getItem(int id)
         {
-            var dillers = from diller in list
-                          where diller.IsEqualsID(id)
-                          select diller;
-
-            if (dillers.Count() > 0)
-                return dillers.First() as Diler;
-            else
-                return null;
+            return list.FirstOrDefault(d => d.ID == id);
         }
         
         private DataTable createTable()

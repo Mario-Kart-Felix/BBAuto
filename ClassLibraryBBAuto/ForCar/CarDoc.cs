@@ -1,33 +1,26 @@
-﻿using System;
+﻿using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Common;
+using BBAuto.Domain.Entities;
+using BBAuto.Domain.Lists;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.ForCar
 {
     public class CarDoc : MainDictionary
     {
-        private int idCar;
-        private string _name;
-        private string _file;
+        public string Name { get; set; }
+        public string File { get; set; }
 
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
+        public Car Car { get; set; }
 
-        public string File
+        public CarDoc(Car car)
         {
-            get { return _file; }
-            set { _file = value; }
-        }
-
-        public CarDoc(int idCar)
-        {
-            this.idCar = idCar;
-            _id = 0;
+            Car = car;
+            ID = 0;
         }
         
         public CarDoc(DataRow row)
@@ -37,37 +30,40 @@ namespace BBAuto.Domain
 
         private void fillFields(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
+            int id;
+            int.TryParse(row.ItemArray[0].ToString(), out id);
+            ID = id;
+
+            int idCar;
             int.TryParse(row.ItemArray[1].ToString(), out idCar);
-            _name = row.ItemArray[2].ToString();
-            _file = row.ItemArray[3].ToString();
-            _fileBegin = _file;
+            Car = CarList.getInstance().getItem(idCar);
+
+            Name = row.ItemArray[2].ToString();
+            File = row.ItemArray[3].ToString();
+            _fileBegin = File;
         }
 
         public override void Save()
         {
-            DeleteFile(_file);
+            DeleteFile(File);
 
-            _file = WorkWithFiles.fileCopyByID(_file, "cars", idCar, "Documents", _name);
+            File = WorkWithFiles.fileCopyByID(File, "cars", Car.ID, "Documents", Name);
 
-            int.TryParse(_provider.Insert("CarDoc", _id, idCar, _name, _file), out _id);
+            int id;
+            int.TryParse(_provider.Insert("CarDoc", ID, Car.ID, Name, File), out id);
+            ID = id;
         }
 
         internal override object[] getRow()
         {
-            return new object[3] { _id, _name, (_file == string.Empty) ? string.Empty : "Показать" };
+            return new object[] { ID, Name, (File == string.Empty) ? string.Empty : "Показать" };
         }
 
         internal override void Delete()
         {
-            DeleteFile(_file);
+            DeleteFile(File);
 
-            _provider.Delete("CarDoc", _id);
-        }
-
-        internal bool isEqualCarID(Car car)
-        {
-            return car.IsEqualsID(idCar);
+            _provider.Delete("CarDoc", ID);
         }
     }
 }

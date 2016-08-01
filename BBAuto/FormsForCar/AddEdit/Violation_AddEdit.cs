@@ -6,7 +6,10 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BBAuto.Domain;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Dictionary;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Common;
 
 namespace BBAuto
 {
@@ -30,7 +33,7 @@ namespace BBAuto
             changeVisible();
 
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-            _workWithForm.SetEditMode(_violation.IsEqualsID(0));
+            _workWithForm.SetEditMode(_violation.ID == 0);
         }
 
         private void fillFields()
@@ -59,7 +62,7 @@ namespace BBAuto
             chbNoDeduction.Checked = _violation.NoDeduction;
 
             llDriver.Text = _violation.getDriver().GetName(NameType.Full);
-            llCar.Text = _violation.getCar().ToString();
+            llCar.Text = _violation.Car.ToString();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -82,10 +85,6 @@ namespace BBAuto
             catch (NullReferenceException)
             {
                 MessageBox.Show("Для сохранения выберите тип нарушения", "Не возможно сохранить", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -153,11 +152,6 @@ namespace BBAuto
                 MessageBox.Show("Не удалось отправить письмо. Нет ответа от сервера. Попытайтесь отправить через некоторое время", "Время ожидания истекло", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Время ожидания истекло", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
         }
 
         private void Send()
@@ -174,7 +168,7 @@ namespace BBAuto
 
         private void llCar_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Car_AddEdit carAE = new Car_AddEdit(_violation.getCar());
+            Car_AddEdit carAE = new Car_AddEdit(_violation.Car);
             carAE.ShowDialog();
         }
     }

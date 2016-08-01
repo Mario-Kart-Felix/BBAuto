@@ -1,4 +1,6 @@
 ﻿using BBAuto.Domain;
+using BBAuto.Domain.Entities;
+using BBAuto.Domain.ForCar;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,14 +10,8 @@ namespace BBAuto
 {
     internal static class InvoiceDialog
     {
-        internal static bool CreateNewInvoiceAndOpen(int idCar)
+        internal static bool CreateNewInvoiceAndOpen(Car car)
         {
-            if (idCar == 0)
-                return false;
-
-            CarList carList = CarList.getInstance();
-            Car car = carList.getItem(idCar);
-
             if (car == null)
                 return false;
 

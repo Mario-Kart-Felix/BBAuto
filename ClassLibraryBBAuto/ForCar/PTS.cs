@@ -1,52 +1,44 @@
-﻿using System;
+﻿using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Common;
+using BBAuto.Domain.Entities;
+using BBAuto.Domain.Lists;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.ForCar
 {
     public class PTS : MainDictionary
     {
         private string _number;
-        private string _giveOrg;
-        private DateTime _date;
-        private string _file;
-
+        
         public string Number
         {
             get { return _number; }
             set { _number = value.ToUpper(); }
         }
 
-        public string GiveOrg
-        {
-            get { return _giveOrg; }
-            set { _giveOrg = value; }
-        }
+        public string GiveOrg { get; set; }
+        public DateTime Date { get; set; }
+        public string File { get; set; }
 
-        public DateTime Date
-        {
-            get { return _date; }
-            set { _date = value; }
-        }
+        public Car Car { get; private set; }
 
-        public string File
+        internal PTS(Car car)
         {
-            get { return _file; }
-            set { _file = value; }
-        }
-
-        internal PTS(int idCar)
-        {
-            _id = idCar;
+            Car = car;
             Date = DateTime.Today;
         }
 
         public PTS(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
+            int idCar;
+            int.TryParse(row.ItemArray[0].ToString(), out idCar);
+            Car = CarList.getInstance().getItem(idCar);
+
             Number = row.ItemArray[1].ToString();
             Date = Convert.ToDateTime(row.ItemArray[2]);
             GiveOrg = row.ItemArray[3].ToString();
@@ -58,9 +50,9 @@ namespace BBAuto.Domain
         {
             DeleteFile(File);
 
-            File = WorkWithFiles.fileCopyByID(File, "cars", _id, "", "PTS");
+            File = WorkWithFiles.fileCopyByID(File, "cars", Car.ID, "", "PTS");
 
-            _provider.Insert("PTS", _id, Number, Date, GiveOrg, File);
+            _provider.Insert("PTS", Car.ID, Number, Date, GiveOrg, File);
 
             PTSList ptsList = PTSList.getInstance();
             ptsList.Add(this);
@@ -70,17 +62,12 @@ namespace BBAuto.Domain
         {
             DeleteFile(File);
 
-            _provider.Delete("PTS", _id);
+            _provider.Delete("PTS", Car.ID);
         }
 
         internal override object[] getRow()
         {
             return null;
-        }
-
-        internal bool isEqualCarID(Car car)
-        {
-            return car.IsEqualsID(_id);
         }
     }
 }

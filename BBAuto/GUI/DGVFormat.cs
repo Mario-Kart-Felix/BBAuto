@@ -1,4 +1,8 @@
-﻿using BBAuto.Domain;
+﻿using BBAuto.Domain.Entities;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.ForDriver;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Static;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -267,23 +271,19 @@ namespace BBAuto
 
             foreach (DataGridViewRow row in _dgv.Rows)
             {
+                if ((row.Cells["Скан водительского удостоверения"].Value.ToString() == "нет")
+                    || (row.Cells["Скан медицинской справки"].Value.ToString() == "нет"))
+                {
+                    row.DefaultCellStyle.BackColor = Color.LightYellow;
+                }
+
                 int idDriver = 0;
                 int.TryParse(row.Cells[0].Value.ToString(), out idDriver);
-
                 Driver driver = driverList.getItem(idDriver);
-
-                LicenseList licenseList = LicenseList.getInstance();
-                DriverLicense license = licenseList.getItem(driver);
-
-                MedicalCertList medicalCertList = MedicalCertList.getInstance();
-                MedicalCert medicalCert = medicalCertList.getItem(driver);
-
-                if (!license.IsActual() || !medicalCert.IsActual())
-                    row.DefaultCellStyle.BackColor = Color.LightYellow;
-
+                
                 if (driver.Fired)
                     row.DefaultCellStyle.ForeColor = Color.Red;
-
+                
                 if (((driver.OwnerID < 3) && (string.IsNullOrEmpty(driver.Number))) || (driver.Decret))
                     row.DefaultCellStyle.ForeColor = Color.Blue;
 

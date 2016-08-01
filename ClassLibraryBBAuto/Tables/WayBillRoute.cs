@@ -3,22 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Common;
+using BBAuto.Domain.Abstract;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Tables
 {
     public class WayBillRoute : MainDictionary
     {
-        private WayBillDay _wayBillDay;
-        private Route _route;
-
+        public WayBillDay WayBillDay { get; private set; }
+        public Route Route { get; set; }
+        
         public WayBillRoute(DataRow row)
         {
-            int.TryParse(row[0].ToString(), out _id);
+            int id;
+            int.TryParse(row[0].ToString(), out id);
+            ID = id;
 
-            WayBillDayList wayBillDayList = WayBillDayList.getInstance();
             int idWayBillDay;
             int.TryParse(row[1].ToString(), out idWayBillDay);
-            _wayBillDay = wayBillDayList.getItem(idWayBillDay);
+            WayBillDay = WayBillDayList.getInstance().getItem(idWayBillDay);
             
             MyPointList myPointList = MyPointList.getInstance();
             int idMyPoint1;
@@ -31,25 +35,17 @@ namespace BBAuto.Domain
 
             string distance = row[4].ToString();
 
-            _route = new Route(myPoint1, myPoint2, distance);
+            Route = new Route(myPoint1, myPoint2, distance);
         }
 
         public WayBillRoute(WayBillDay wayBillDay)
         {
-            _wayBillDay = wayBillDay;
-        }
-
-        public WayBillDay WayBillDay { get { return _wayBillDay; } }
-        
-        public Route Route
-        {
-            get { return _route; }
-            set { _route = value; }
+            WayBillDay = wayBillDay;
         }
 
         public override void Save()
         {
-            _provider.Insert("WayBillRoute", ID, _wayBillDay.ID, _route.MyPoint1.ID, _route.MyPoint2.ID, _route.Distance);
+            _provider.Insert("WayBillRoute", ID, WayBillDay.ID, Route.MyPoint1.ID, Route.MyPoint2.ID, Route.Distance);
 
             WayBillRouteList wayBillRouteList = WayBillRouteList.getInstance();
             wayBillRouteList.Add(this);

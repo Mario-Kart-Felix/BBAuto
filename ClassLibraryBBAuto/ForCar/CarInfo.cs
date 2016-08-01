@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Dictionary;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.ForCar
 {
     public class CarInfo
     {
@@ -16,50 +19,15 @@ namespace BBAuto.Domain
             _car = car;
         }
 
-        public string Mark
-        {
-            get
-            {
-                Marks marks = Marks.getInstance();
-                return marks.getItem(Convert.ToInt32(_car.MarkID));
-            }
-        }
-
-        public string Model
-        {
-            get
-            {
-                ModelList models = ModelList.getInstance();
-                return models.getItem(Convert.ToInt32(_car.ModelID)).Name;
-            }
-        }
-
-        public string Color
-        {
-            get
-            {
-                Colors colors = Colors.getInstance();
-                return colors.getItem(Convert.ToInt32(_car.ColorID));
-            }
-        }
-
-        public string Owner
-        {
-            get
-            {
-                Owners owners = Owners.getInstance();
-                return owners.getItem(Convert.ToInt32(_car.ownerID));
-            }
-        }
-
-        public Grade Grade
-        {
-            get
-            {
-                GradeList gradeList = GradeList.getInstance();
-                return gradeList.getItem(Convert.ToInt32(_car.GradeID));
-            } 
-        }
+        public string Mark { get { return Marks.getInstance().getItem(Convert.ToInt32(_car.MarkID)); } }
+        public string Model { get { return ModelList.getInstance().getItem(Convert.ToInt32(_car.ModelID)).Name; } }
+        public string Color { get { return Colors.getInstance().getItem(Convert.ToInt32(_car.ColorID)); } }
+        public string Owner { get { return Owners.getInstance().getItem(Convert.ToInt32(_car.ownerID)); } }
+        public Grade Grade { get { return GradeList.getInstance().getItem(Convert.ToInt32(_car.GradeID)); } }
+        public bool IsSale { get { return CarSaleList.getInstance().getItem(_car.ID) != null; } }
+        public Driver Driver { get { return DriverCarList.getInstance().GetDriver(_car) ?? new Driver(); } }
+        public PTS pts { get { return PTSList.getInstance().getItem(_car); } }
+        public STS sts { get { return STSList.getInstance().getItem(_car); } }
 
         public DateTime Guarantee
         {
@@ -77,43 +45,6 @@ namespace BBAuto.Domain
             }
         }
 
-        public bool IsSale
-        {
-            get
-            {
-                CarSaleList carSaleList = CarSaleList.getInstance();
-                CarSale carSale = carSaleList.getItem(_car);
-                return carSale != null;
-            }
-        }
-        
-        public Driver Driver
-        {
-            get
-            {
-                DriverCarList driverCarList = DriverCarList.getInstance();
-                return driverCarList.GetDriver(_car) ?? new Driver();
-            }
-        }
-        
-        public PTS pts
-        {
-            get
-            {
-                PTSList ptsList = PTSList.getInstance();
-                return ptsList.getItem(_car);
-            }
-        }
-
-        public STS sts
-        {
-            get
-            {
-                STSList stsList = STSList.getInstance();
-                return stsList.getItem(_car);
-            }
-        }
-        
         public DataTable ToDataTable()
         {
             DataTable dt = new DataTable();

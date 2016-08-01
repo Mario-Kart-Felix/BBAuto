@@ -6,7 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BBAuto.Domain;
+using BBAuto.Domain.Tables;
+using BBAuto.Domain.Dictionary;
+using BBAuto.Domain.Static;
 
 namespace BBAuto
 {
@@ -32,7 +34,7 @@ namespace BBAuto
 
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
             _workWithForm.EditModeChanged += SetEnable;
-            _workWithForm.SetEditMode(_mypoint.IsEqualsID(0));
+            _workWithForm.SetEditMode(_mypoint.ID == 0);
             
         }
 

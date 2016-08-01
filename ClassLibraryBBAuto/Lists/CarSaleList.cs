@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.ForCar;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class CarSaleList : MainList
     {
-        private List<CarSale> list;
         private static CarSaleList uniqueInstance;
+        private List<CarSale> list;
 
         private CarSaleList()
         {
@@ -72,20 +74,11 @@ namespace BBAuto.Domain
             return dt;
         }
 
-        public CarSale getItem(int idCar)
+        public CarSale getItem(int id)
         {
-            List<CarSale> carSales = list.Where(item => item.IsEqualsID(idCar)).ToList();
-
-            return (carSales.Count() > 0) ? carSales.First() : null;
+            return list.FirstOrDefault(item => item.Car.ID == id);
         }
-
-        public CarSale getItem(Car car)
-        {
-            List<CarSale> carSales = list.Where(item => item.IsEqualsID(car)).ToList();
-
-            return (carSales.Count() > 0) ? carSales.First() : null;
-        }
-
+        
         public void Delete(int idCarSale)
         {
             CarSale carSale = getItem(idCarSale);

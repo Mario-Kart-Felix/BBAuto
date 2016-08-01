@@ -7,6 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using BBAuto.Domain;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Tables;
 
 namespace BBAuto
 {
@@ -30,7 +34,7 @@ namespace BBAuto
             fillFields();
 
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-            _workWithForm.SetEditMode(_grade.IsEqualsID(0));
+            _workWithForm.SetEditMode(_grade.ID == 0);
         }
 
         private void loadTypeEngine()
@@ -43,10 +47,10 @@ namespace BBAuto
         private void fillFields()
         {
             tbName.Text = _grade.Name;
-            tbEPower.Text = _grade.ePower;
-            tbEVol.Text = _grade.eVol;
-            tbMaxLoad.Text = _grade.maxLoad;
-            tbNoLoad.Text = _grade.noLoad;
+            tbEPower.Text = _grade.EPower;
+            tbEVol.Text = _grade.EVol;
+            tbMaxLoad.Text = _grade.MaxLoad;
+            tbNoLoad.Text = _grade.NoLoad;
             cbEngineType.SelectedValue = _grade.EngineType.ID;
         }
 
@@ -58,10 +62,10 @@ namespace BBAuto
                     return;
 
                 _grade.Name = tbName.Text;
-                _grade.ePower = tbEPower.Text;
-                _grade.eVol = tbEVol.Text;
-                _grade.maxLoad = tbMaxLoad.Text;
-                _grade.noLoad = tbNoLoad.Text;
+                _grade.EPower = tbEPower.Text;
+                _grade.EVol = tbEVol.Text;
+                _grade.MaxLoad = tbMaxLoad.Text;
+                _grade.NoLoad = tbNoLoad.Text;
 
                 int idEngineType;
                 int.TryParse(cbEngineType.SelectedValue.ToString(), out idEngineType);

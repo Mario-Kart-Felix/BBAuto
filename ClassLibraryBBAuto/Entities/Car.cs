@@ -1,11 +1,16 @@
-﻿using System;
+﻿using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Dictionary;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Static;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Entities
 {
     public class Car : MainDictionary
     {
@@ -153,7 +158,7 @@ namespace BBAuto.Domain
 
         public Car()
         {
-            _id = 0;
+            ID = 0;
 
             CarList carList = CarList.getInstance();
             _number = carList.getNextBBNumber();
@@ -162,6 +167,11 @@ namespace BBAuto.Domain
             _year = DateTime.Today.Year;
 
             Init();
+        }
+
+        public Car(int id)
+        {
+            ID = id;
         }
 
         public Car(DataRow row)
@@ -178,7 +188,10 @@ namespace BBAuto.Domain
 
         private void fillField(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
+            int id;
+            int.TryParse(row.ItemArray[0].ToString(), out id);
+            ID = id;
+
             int.TryParse(row.ItemArray[1].ToString(), out _number);
             Grz = row.ItemArray[2].ToString();
             vin = row.ItemArray[3].ToString();
@@ -221,7 +234,9 @@ namespace BBAuto.Domain
 
         public override void Save()
         {
-            int.TryParse(_provider.Insert("Car", _id, _number, Grz, vin, Year, eNumber, bodyNumber, GradeID, ColorID, _isLising, _lisingDate, _invertoryNumber), out _id);
+            int id;
+            int.TryParse(_provider.Insert("Car", ID, _number, Grz, vin, Year, eNumber, bodyNumber, GradeID, ColorID, _isLising, _lisingDate, _invertoryNumber), out id);
+            ID = id;
 
             CarList carList = CarList.getInstance();
             carList.Add(this);
@@ -231,27 +246,27 @@ namespace BBAuto.Domain
 
         private void saveCarBuy()
         {
-            _provider.Insert("CarBuy", _id, _idOwner, _idRegionBuy, _idRegionUsing, driverID, dateOrder, _isGet, dateGet, cost, dop, events, idDiller);
+            _provider.Insert("CarBuy", ID, _idOwner, _idRegionBuy, _idRegionUsing, driverID, dateOrder, _isGet, dateGet, cost, dop, events, idDiller);
         }
 
         public DTP createDTP()
         {
-            return new DTP(_id);
+            return new DTP(this);
         }
         
         public Policy CreatePolicy()
         {
-            return new Policy(_id);
+            return new Policy(this);
         }
         
         public Violation createViolation()
         {
-            return new Violation(_id);
+            return new Violation(this);
         }
 
         public ShipPart createShipPart()
         {
-            return new ShipPart(_id);
+            return new ShipPart(this);
         }
 
         public DataTable getCarInfo()
@@ -264,10 +279,10 @@ namespace BBAuto.Domain
             dt2.Rows.Add("Цвет", info.Color);
             dt2.Rows.Add("Собственник", info.Owner);
             dt2.Rows.Add("Дата покупки", dateGet.ToShortDateString());
-            dt2.Rows.Add("Мощность двигателя", info.Grade.ePower);
-            dt2.Rows.Add("Объем двигателя", info.Grade.eVol);
-            dt2.Rows.Add("Разрешенная максимальная масса", info.Grade.maxLoad);
-            dt2.Rows.Add("Масса без нагрузки", info.Grade.noLoad);
+            dt2.Rows.Add("Мощность двигателя", info.Grade.EPower);
+            dt2.Rows.Add("Объем двигателя", info.Grade.EVol);
+            dt2.Rows.Add("Разрешенная максимальная масса", info.Grade.MaxLoad);
+            dt2.Rows.Add("Масса без нагрузки", info.Grade.NoLoad);
             dt2.Rows.Add("Модель № двигателя", eNumber);
             dt2.Rows.Add("№ кузова", bodyNumber);
 
@@ -283,37 +298,37 @@ namespace BBAuto.Domain
 
         public DiagCard createDiagCard()
         {
-            return new DiagCard(_id);
+            return new DiagCard(this);
         }
 
         public Mileage createMileage()
         {
-            return new Mileage(_id);
+            return new Mileage(this);
         }
 
         public Invoice createInvoice()
         {
-            return new Invoice(_id);
+            return new Invoice(this);
         }
         
         public Repair createRepair()
         {
-            return new Repair(_id);
+            return new Repair(this);
         }
 
         public PTS createPTS()
         {
-            return new PTS(_id);
+            return new PTS(this);
         }
 
         public STS createSTS()
         {
-            return new STS(_id);
+            return new STS(this);
         }
 
         public TempMove createTempMove()
         {
-            return new TempMove(_id);
+            return new TempMove(this);
         }
 
         internal override object[] getRow()
@@ -335,14 +350,14 @@ namespace BBAuto.Domain
             int mileageInt;
             int.TryParse(mileage.Count, out mileageInt);
 
-            return new object[] { _id, _id, BBNumber, Grz, info.Mark, info.Model, vin, regionName,
+            return new object[] { ID, ID, BBNumber, Grz, info.Mark, info.Model, vin, regionName,
                 info.Driver.GetName(NameType.Full), pts.Number, sts.Number, Year, mileageInt,
                 mileage.MonthToString(), info.Owner, info.Guarantee, GetStatus()};
         }
 
         public CarDoc createCarDoc(string file)
         {
-            CarDoc carDoc = new CarDoc(_id);
+            CarDoc carDoc = new CarDoc(this);
             carDoc.File = file;
             carDoc.Name = System.IO.Path.GetFileNameWithoutExtension(file);
 
@@ -351,12 +366,12 @@ namespace BBAuto.Domain
 
         public override string ToString()
         {
-            return (_id == 0) ? "нет данных" : string.Concat(info.Mark, " ", info.Model, " ", Grz);
+            return (ID == 0) ? "нет данных" : string.Concat(info.Mark, " ", info.Model, " ", Grz);
         }
 
         internal override void Delete()
         {
-            _provider.Delete("Car", _id);
+            _provider.Delete("Car", ID);
         }
 
         public string GetStatus()
@@ -368,7 +383,7 @@ namespace BBAuto.Domain
             string statusAfterDTP = statusAfterDTPs.getItem(Convert.ToInt32(dtp.IDStatusAfterDTP));
             
             CarSaleList carSaleList = CarSaleList.getInstance();
-            CarSale carSale = carSaleList.getItem(_id);
+            CarSale carSale = carSaleList.getItem(ID);
 
             if (info.IsSale && carSale.Date != string.Empty)
                 return "продан";

@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.ForCar;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class TempMoveList : MainList
     {
@@ -56,7 +59,7 @@ namespace BBAuto.Domain
             dt.Columns.Add("Начало", Type.GetType("System.DateTime"));
             dt.Columns.Add("Окончание", Type.GetType("System.DateTime"));
 
-            var tempMoves = list.OrderByDescending(item => item.dateEnd);
+            var tempMoves = list.OrderByDescending(item => item.DateEnd);
 
             foreach (TempMove tempMove in tempMoves)
                 dt.Rows.Add(tempMove.getRow());
@@ -66,9 +69,7 @@ namespace BBAuto.Domain
 
         public TempMove getItem(int id)
         {
-            var tempMoves = list.Where(item => item.IsEqualsID(id));
-
-            return (tempMoves.Count() > 0) ? tempMoves.First() : new TempMove(0);
+            return list.FirstOrDefault(t => t.ID == id);
         }
 
         internal Driver getDriver(Car car, DateTime date)
@@ -78,7 +79,7 @@ namespace BBAuto.Domain
             if (tempMoves.Count() > 0)
             {
                 TempMove tempMove = tempMoves.First() as TempMove;
-                return tempMove.getDriver();
+                return tempMove.Driver;
             }
             else
                 return null;

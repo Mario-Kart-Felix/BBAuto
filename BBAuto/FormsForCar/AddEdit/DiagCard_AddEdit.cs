@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BBAuto.Domain.ForCar;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,7 +7,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BBAuto.Domain;
 
 namespace BBAuto
 {
@@ -28,7 +28,7 @@ namespace BBAuto
             FillFields();
 
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-            _workWithForm.SetEditMode(_diagCard.IsEqualsID(0));
+            _workWithForm.SetEditMode(_diagCard.ID == 0);
         }
 
         private void FillFields()
@@ -39,7 +39,7 @@ namespace BBAuto
             TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
             tbFile.Text = _diagCard.File;
 
-            lbCarInfo.Text = _diagCard.GetCar().ToString();
+            lbCarInfo.Text = _diagCard.Car.ToString();
         }
 
         private void btnSave_Click(object sender, EventArgs e)

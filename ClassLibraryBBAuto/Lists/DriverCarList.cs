@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class DriverCarList : MainList
     {
-        private List<DriverCar> list;
         private static DriverCarList uniqueInstance;
+        private List<DriverCar> list;
 
         private DriverCarList()
         {
@@ -39,6 +41,9 @@ namespace BBAuto.Domain
         
         private void Add(DriverCar drCar)
         {
+            if ((drCar.Driver == null) || (drCar.Car == null))
+                return;
+
             if (list.Exists(item => item == drCar))
                 return;
 
@@ -48,8 +53,8 @@ namespace BBAuto.Domain
         public Driver GetDriver(Car car)
         {
             var driverCars = from driverCar in list
-                             where driverCar.isDriverCar(car)
-                             orderby driverCar.dateEnd descending, driverCar.number descending
+                             where driverCar.Car.ID == car.ID
+                             orderby driverCar.dateEnd descending, driverCar.Number descending
                              select driverCar;
 
             if ((driverCars.ToList().Count == 0) && (!car.IsGet))
@@ -67,7 +72,7 @@ namespace BBAuto.Domain
         {
             var driverCars = from driverCar in list
                              where driverCar.isDriverCar(car, date)
-                             orderby driverCar.dateEnd descending, driverCar.number descending
+                             orderby driverCar.dateEnd descending, driverCar.Number descending
                              select driverCar;
 
             TempMoveList tempMoveList = TempMoveList.getInstance();
@@ -82,7 +87,7 @@ namespace BBAuto.Domain
             {
                 DriverCar driverCar = driverCars.First() as DriverCar;
                 DriverList driverList = DriverList.getInstance();
-                return driverList.getItem(driverCar.idDriver);
+                return driverList.getItem(driverCar.Driver.ID);
             }
             else
             {
@@ -94,7 +99,7 @@ namespace BBAuto.Domain
         {
             DateTime date = DateTime.Today;
 
-            var driverCars = list.Where(item => item.isEqualDriverID(driver) && item.dateEnd == date).OrderByDescending(item => item.dateEnd);
+            var driverCars = list.Where(item => item.Driver.ID == driver.ID && item.dateEnd == date).OrderByDescending(item => item.dateEnd);
             
             if (driverCars.Count() > 0)
             {
@@ -102,8 +107,8 @@ namespace BBAuto.Domain
 
                 foreach (var driverCar in driverCars)
                 {
-                    if (list.Where(item => !item.isEqualDriverID(driver) && item.dateEnd == date && item.idCar == driverCar.idCar && item.number > driverCar.number).Count() == 0)
-                        return carList.getItem(driverCar.idCar);
+                    if (list.Where(item => !(item.Driver.ID == driver.ID) && item.dateEnd == date && item.Car.ID == driverCar.Car.ID && item.Number > driverCar.Number).Count() == 0)
+                        return carList.getItem(driverCar.Car.ID);
                 }
                 
                 return null;
@@ -115,11 +120,11 @@ namespace BBAuto.Domain
         public Car GetCar(Driver driver, DateTime date)
         {
             var driverCars = from driverCar in list
-                             where driverCar.isCarsDriver(driver)
-                             orderby driverCar.dateEnd descending, driverCar.number descending
+                             where driverCar.Driver.ID == driver.ID
+                             orderby driverCar.dateEnd descending, driverCar.Number descending
                              select driverCar;
 
-            return (driverCars.Count() > 0) ? CarList.getInstance().getItem(driverCars.First().idCar) : null;
+            return (driverCars.Count() > 0) ? CarList.getInstance().getItem(driverCars.First().Car.ID) : null;
         }
         
         public bool IsDriverHaveCar(Driver driver)
@@ -129,14 +134,14 @@ namespace BBAuto.Domain
 
         public DataTable ToDataTableCar(Driver driver)
         {
-            var driverCars = list.Where(item => item.isCarsDriver(driver)).OrderByDescending(item => item.dateEnd);
+            var driverCars = list.Where(item => item.Driver.ID == driver.ID).OrderByDescending(item => item.dateEnd);
 
             CarList carList = CarList.getInstance();
             List<Car> cars = new List<Car>();
 
             foreach (DriverCar driverCar in driverCars)
             {
-                Car car = carList.getItem(driverCar.idCar);
+                Car car = carList.getItem(driverCar.Car.ID);
                 cars.Add(car);
             }
 

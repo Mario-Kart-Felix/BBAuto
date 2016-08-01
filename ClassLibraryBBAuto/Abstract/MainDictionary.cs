@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DataLayer;
+using BBAuto.Domain.DataBase;
+using BBAuto.Domain.Common;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Abstract
 {
     public abstract class MainDictionary
     {
-        protected int _id;
         protected string _fileBegin;
         protected static IProvider _provider;
 
@@ -21,18 +22,13 @@ namespace BBAuto.Domain
         {
             _provider = Provider.GetProvider();
         }
-
-        public bool IsEqualsID(int id)
-        {
-            return ID == id;
-        }
-
+        
         protected void DeleteFile(string newFile)
         {
             if ((_fileBegin != string.Empty) && (_fileBegin != newFile))
                 WorkWithFiles.Delete(_fileBegin);
         }
 
-        public int ID { get { return _id; } }
+        public int ID { get; protected set; }
     }
 }

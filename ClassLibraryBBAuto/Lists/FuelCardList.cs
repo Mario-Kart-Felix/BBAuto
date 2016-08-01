@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.ForDriver;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.Lists
 {
     public class FuelCardList : MainList
     {
@@ -41,24 +43,20 @@ namespace BBAuto.Domain
 
         internal void Add(FuelCard fuelCard)
         {
-            if (_list.Exists(item => item == fuelCard))
+            if (_list.Exists(item => item.ID == fuelCard.ID))
                 return;
 
             _list.Add(fuelCard);
         }
 
-        public FuelCard getItem(int idFuelCard)
+        public FuelCard getItem(int id)
         {
-            List<FuelCard> list = _list.Where(item => item.IsEqualsID(idFuelCard)).ToList();
-
-            return (list.Count == 0) ? null : list.First();
+            return _list.FirstOrDefault(item => item.ID == id);
         }
 
         public FuelCard getItem(string number)
         {
-            List<FuelCard> list = _list.Where(item => item.Equals(number)).ToList();
-
-            return (list.Count == 0) ? null : list.First();
+            return _list.FirstOrDefault(item => item.Number == number);
         }
 
         public void Delete(int idFuelCard)
@@ -72,10 +70,10 @@ namespace BBAuto.Domain
         
         public DataTable ToDataTable()
         {
-            return createTable(_list.OrderBy(item => item.IsLost).ThenBy(item => item.DateEnd).ToList());
+            return CreateTable(_list.OrderBy(item => item.IsLost).ThenBy(item => item.DateEnd));
         }
         
-        private DataTable createTable(List<FuelCard> list)
+        private DataTable CreateTable(IEnumerable<FuelCard> list)
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("idFuelCardDriver");

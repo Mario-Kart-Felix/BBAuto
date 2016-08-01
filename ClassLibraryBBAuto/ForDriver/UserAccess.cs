@@ -4,51 +4,39 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using DataLayer;
+using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Lists;
+using BBAuto.Domain.Dictionary;
+using BBAuto.Domain.Static;
+using BBAuto.Domain.Entities;
 
-namespace BBAuto.Domain
+namespace BBAuto.Domain.ForDriver
 {
     public class UserAccess : MainDictionary
     {
-        private int _idRole;
-
-        public string IDDriver
+        public int RoleID { get; set; }
+        public Driver Driver
         {
-            get { return _id.ToString(); }
-            set { int.TryParse(value, out _id); }
-        }
-
-        public string IDRole
-        {
-            get { return _idRole.ToString(); }
-            set { int.TryParse(value, out _idRole); }
-        }
-
-        public Driver driver
-        {
-            get
-            {
-                DriverList driverList = DriverList.getInstance();
-                Driver driver = driverList.getItem(_id);
-                return driver;
-            }
+            get { return DriverList.getInstance().getItem(ID); }
+            set { ID = value.ID; }
         }
 
         public string Role
         {
             get
             {
-                if (_idRole == 0)
+                if (RoleID == 0)
                     return "Нет доступа";
 
                 Roles roles = Roles.getInstance();
-                return roles.getItem(_idRole);
+                return roles.getItem(RoleID);
             }
         }
 
         public UserAccess()
         {
-            _id = 0;
-            _idRole = 0;
+            ID = 0;
+            RoleID = 0;
         }
 
         internal UserAccess(DataRow row)
@@ -58,23 +46,28 @@ namespace BBAuto.Domain
 
         private void fillFields(DataRow row)
         {
-            int.TryParse(row.ItemArray[0].ToString(), out _id);
-            int.TryParse(row.ItemArray[1].ToString(), out _idRole);
+            int id;
+            int.TryParse(row.ItemArray[0].ToString(), out id);
+            ID = id;
+
+            int idRole;
+            int.TryParse(row.ItemArray[1].ToString(), out idRole);
+            RoleID = idRole;
         }
 
         internal override object[] getRow()
         {
-            return new object[] { _id, driver.Login, driver.GetName(NameType.Full), Role };
+            return new object[] { ID, Driver.Login, Driver.GetName(NameType.Full), Role };
         }
 
         internal override void Delete()
         {
-            _provider.DoOther("exec UserAccess_Delete @p1, @p2", _id, _idRole);
+            _provider.DoOther("exec UserAccess_Delete @p1, @p2", ID, RoleID);
         }
 
         public override void Save()
         {
-            _provider.Insert("UserAccess", _id, _idRole);
+            _provider.Insert("UserAccess", ID, RoleID);
         }
     }
 }
