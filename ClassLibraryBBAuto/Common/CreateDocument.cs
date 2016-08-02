@@ -423,7 +423,7 @@ namespace BBAuto.Domain.Common
 
         private string GetWaBillFullNumber(int currentNumber)
         {
-            string[] wayBillFullNumber = _excelDoc.getValue("AM4", "AM4").ToString().Split('/');
+            string[] wayBillFullNumber = _excelDoc.getValue("AM4").ToString().Split('/');
 
             wayBillFullNumber[1] = (currentNumber < 10) ? "0" : string.Empty;
             wayBillFullNumber[1] += currentNumber;

@@ -36,8 +36,10 @@ namespace BBAuto
         private void loadData()
         {
             loadDictionary();
-            
-            cbDriver.SelectedValue = _tempMove.Driver.ID;
+
+            if (_tempMove.Driver != null)
+                cbDriver.SelectedValue = _tempMove.Driver.ID;
+
             cbCar.SelectedValue = _tempMove.Car.ID;
             dtpDateBegin.Value = _tempMove.DateBegin;
             dtpDateEnd.Value = _tempMove.DateEnd;

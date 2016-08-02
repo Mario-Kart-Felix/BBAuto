@@ -89,6 +89,9 @@ namespace BBAuto.Domain.Common
         public ExcelDoc(string name)
             : base(name)
         {
+            xlApp.DisplayAlerts = false;
+            xlApp.EnableEvents = false;
+
             Init();
         }
 
@@ -121,14 +124,14 @@ namespace BBAuto.Domain.Common
             range.EntireColumn.ColumnWidth = width;
         }
 
-        public object getValue1(string rowCell, string columnCell)
+        public object getValue1(string cell)
         {
-            return xlSh.get_Range(rowCell, columnCell).Value;
+            return xlSh.get_Range(cell, cell).Value;
         }
 
-        public object getValue(string rowCell, string columnCell)
+        public object getValue(string cell)
         {
-            return xlSh.get_Range(rowCell, columnCell).Value2;
+            return xlSh.get_Range(cell, cell).Value2;
         }
         
         public void SetList(string pageName)

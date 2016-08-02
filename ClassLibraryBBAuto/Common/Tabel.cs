@@ -11,42 +11,38 @@ namespace BBAuto.Domain.Common
 {
     public class Tabel
     {
-        DriverList driverList = DriverList.getInstance();
+        private IProvider provider;
 
-        private IProvider _provider;
-
-        private Driver _driver;
-        private DateTime _date;
-
+        public Driver Driver { get; private set; }
+        public DateTime Date { get; private set; }
+        public string Comment { get; set; }
+        
         public Tabel(string number, DateTime date)
         {
-            _driver = driverList.getItemByNumber(number);
+            Driver = DriverList.getInstance().getItemByNumber(number);
+            Date = date;
+            Comment = string.Empty;
 
-            _date = date;
-
-            _provider = Provider.GetProvider();
+            provider = Provider.GetProvider();
         }
-
-        public Driver driver { get { return _driver; } }
-        public DateTime Date { get { return _date; } }
-
+        
         public Tabel(DataRow row)
         {
             int idDriver;
             int.TryParse(row[0].ToString(), out idDriver);
 
-            _driver = driverList.getItem(idDriver);
+            Driver = DriverList.getInstance().getItem(idDriver);
 
-            DateTime.TryParse(row[1].ToString(), out _date);
+            DateTime date;
+            DateTime.TryParse(row[1].ToString(), out date);
+            Date = date;
+
+            Comment = string.Empty;
         }
 
         public void Save()
         {
-            _provider.Insert("Tabel", _driver.ID, _date);
-
-            TabelList tabelList = TabelList.GetInstance();
-
-            tabelList.Add(this);
+            provider.Insert("Tabel", Driver.ID, Date, Comment);
         }
     }
 }

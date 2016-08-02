@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Entities\Car.cs" />
     <Compile Include="Abstract\IExcelImporter.cs" />
+    <Compile Include="Import\BusinessTripFromExcelFile.cs" />
     <Compile Include="Import\EmployeesFrom1C.cs" />
     <Compile Include="Common\MileAgeFill.cs" />
     <Compile Include="Common\MileageReport.cs" />

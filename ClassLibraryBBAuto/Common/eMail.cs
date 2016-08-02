@@ -324,5 +324,19 @@ namespace BBAuto.Domain.Common
 
             Send(new List<Driver> { driver }, copyEmails, listAttachment);
         }
+
+        internal void sendMailToAdmin(string message)
+        {
+            Driver admin = DriverList.getInstance().getItem("maslparu");
+
+            if (admin == null)
+                return;
+
+            _subject = "Ошибка в программе BBAuto";
+            _authorEmail = ROBOT_EMAIL;
+            _body = message;
+
+            Send(new List<Driver>() { admin });
+        }
     }
 }

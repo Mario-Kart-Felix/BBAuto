@@ -47,13 +47,13 @@ namespace BBAuto.Domain.Common
                         excelDoc.SetList("Расходы по а-м");
 
 
-                        string grz = (excelDoc.getValue("B4", "B4") != null) ? excelDoc.getValue("B4", "B4").ToString() : string.Empty;
+                        string grz = (excelDoc.getValue("B4") != null) ? excelDoc.getValue("B4").ToString() : string.Empty;
 
                         Car car = GetCar(grz);
 
                         if (car == null)
                         {
-                            string driverFIO = (excelDoc.getValue("B5", "B5") != null) ? excelDoc.getValue("B5", "B5").ToString() : string.Empty;
+                            string driverFIO = (excelDoc.getValue("B5") != null) ? excelDoc.getValue("B5").ToString() : string.Empty;
 
                             DriverList driverList = DriverList.getInstance();
                             Driver driver = driverList.getItemByFIO(driverFIO);
@@ -70,7 +70,7 @@ namespace BBAuto.Domain.Common
 
                         if (car != null)
                         {
-                            string value = (excelDoc.getValue("C8", "C8") != null) ? excelDoc.getValue("C8", "C8").ToString() : string.Empty;
+                            string value = (excelDoc.getValue("C8") != null) ? excelDoc.getValue("C8").ToString() : string.Empty;
 
                             SetMileage(car, value);
                         }

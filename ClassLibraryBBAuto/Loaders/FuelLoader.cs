@@ -56,10 +56,10 @@ namespace BBAuto.Domain.Loaders
             int i = 4; //начальный индекс
             
             string currentCell = "B" + i;
-            while (excel.getValue(currentCell, currentCell) != null)
+            while (excel.getValue(currentCell) != null)
             {
                 currentCell = "D" + i;
-                string number = excel.getValue(currentCell, currentCell).ToString();
+                string number = excel.getValue(currentCell).ToString();
                 FuelCard fuelCard = fuelCardList.getItem(number);
                 if (fuelCard == null)
                 {
@@ -70,17 +70,17 @@ namespace BBAuto.Domain.Loaders
                 }
 
                 currentCell = "B" + i;
-                string dateString = excel.getValue1(currentCell, currentCell).ToString();
+                string dateString = excel.getValue1(currentCell).ToString();
                 DateTime datetime;
                 DateTime.TryParse(dateString, out datetime);//присутствует время, не забываем убирать
 
                 currentCell = "G" + i;
-                string engineTypeName = excel.getValue(currentCell, currentCell).ToString();
+                string engineTypeName = excel.getValue(currentCell).ToString();
                 EngineType engineType = GetEngineType(engineTypeName);
 
                 currentCell = "H" + i;
                 double value;
-                double.TryParse(excel.getValue(currentCell, currentCell).ToString(), out value);
+                double.TryParse(excel.getValue(currentCell).ToString(), out value);
 
                 Fuel fuel = new Fuel(fuelCard, datetime.Date, engineType);
                 fuel.AddValue(value);
@@ -96,13 +96,13 @@ namespace BBAuto.Domain.Loaders
             int i = 4; //начальный индекс
 
             string currentCell = "A" + i;
-            while (excel.getValue(currentCell, currentCell) != null)
+            while (excel.getValue(currentCell) != null)
             {
-                if (excel.getValue(currentCell, currentCell).ToString() == "Grand Total")
+                if (excel.getValue(currentCell).ToString() == "Grand Total")
                     break;
 
                 currentCell = "B" + i;
-                if (excel.getValue(currentCell, currentCell) != null)
+                if (excel.getValue(currentCell) != null)
                 {
                     i++;
                     currentCell = "A" + i;
@@ -110,7 +110,7 @@ namespace BBAuto.Domain.Loaders
                 }
                 
                 currentCell = "A" + i;
-                string number = excel.getValue(currentCell, currentCell).ToString().Split(' ')[1]; //split example Карта: 7105066553656018
+                string number = excel.getValue(currentCell).ToString().Split(' ')[1]; //split example Карта: 7105066553656018
                 FuelCard fuelCard = fuelCardList.getItem(number);
                 if (fuelCard == null)
                 {
@@ -121,15 +121,15 @@ namespace BBAuto.Domain.Loaders
 
                 currentCell = "C" + i;
                 DateTime datetime;
-                DateTime.TryParse(excel.getValue(currentCell, currentCell).ToString(), out datetime);//присутствует время, не забываем убирать
+                DateTime.TryParse(excel.getValue(currentCell).ToString(), out datetime);//присутствует время, не забываем убирать
 
                 currentCell = "D" + i;
-                string engineTypeName = excel.getValue(currentCell, currentCell).ToString();
+                string engineTypeName = excel.getValue(currentCell).ToString();
                 EngineType engineType = GetEngineType(engineTypeName);
 
                 currentCell = "E" + i;
                 double value;
-                double.TryParse(excel.getValue(currentCell, currentCell).ToString(), out value);
+                double.TryParse(excel.getValue(currentCell).ToString(), out value);
 
                 Fuel fuel = new Fuel(fuelCard, datetime.Date, engineType);
                 fuel.AddValue(value);

@@ -104,7 +104,7 @@ namespace BBAuto.Domain.Lists
 
         public Driver getItemByNumber(string number)
         {
-            List<Driver> drivers = _list.Where(item => item.Number == number).ToList();
+            List<Driver> drivers = _list.Where(item => item.Number == number.Trim()).ToList();
 
             return drivers.FirstOrDefault();
         }

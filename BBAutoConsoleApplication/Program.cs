@@ -18,30 +18,36 @@ namespace BBAutoConsoleApplication
             DataBase.InitDataBase();
             Provider.InitSQLProvider();
 
-            IExcelImporter employeesImporter = new EmployeesFrom1C();
-            employeesImporter.StartImport();
+            IExcelImporter importer = new BusinessTripFromExcelFile { FilePath = @"J:\Accounting\Командировки\Реестр_" + DateTime.Today.Year + ".xls" };
+            importer.StartImport();
 
-            IExcelImporter tabelImporter = new TabelFrom1C();
-            tabelImporter.StartImport();
-            
-            MedicalCertList medicalCertList = MedicalCertList.getInstance();
-            NotificationSender medicalCertSender = new NotificationSender(medicalCertList);
+            importer = new EmployeesFrom1C { FilePath = @"\\bbmru08\1cv77\Autoexchange\Lotus\BBAuto" };
+            importer.StartImport();
+
+            importer = new TabelFrom1C { FilePath = @"\\bbmru08\1cv77\Autoexchange\Lotus\BBAuto\Time" };
+            importer.StartImport();
+
+            var medicalCertList = MedicalCertList.getInstance();
+            var medicalCertSender = new NotificationSender(medicalCertList);
             medicalCertSender.SendNotification();
             medicalCertSender.ClearStopIfNeed();
             medicalCertSender.SendNotificationOverdue();
             medicalCertSender.SendNotificationNotExist();
             
-            LicenseList licenseList = LicenseList.getInstance();
-            NotificationSender licenceSender = new NotificationSender(licenseList);
+            var licenseList = LicenseList.getInstance();
+            var licenceSender = new NotificationSender(licenseList);
             licenceSender.SendNotification();
             licenceSender.SendNotificationOverdue();
             licenceSender.SendNotificationNotExist();
 
-            PolicyListSender policySender = new PolicyListSender();
+            var policySender = new PolicyListSender();
             policySender.SendNotification();
 
-            DiagCardSender diagCardSender = new DiagCardSender();
+            var diagCardSender = new DiagCardSender();
             diagCardSender.SendNotification();
+
+            var violationSender = new ViolationSender();
+            violationSender.SendNotification();
         }
     }
 }

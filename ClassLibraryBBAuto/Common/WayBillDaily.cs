@@ -18,18 +18,18 @@ namespace BBAuto.Domain.Common
         private Dictionary<int, WayBillDay> _list;
 
         private MileageList _mileageList;
-        
+
         public WayBillDaily(Car car, DateTime date)
         {
             _car = car;
             _date = date;
 
             _mileageList = MileageList.getInstance();
-
-            LoadWayBillDay();
-
+            
             if (_list == null)
                 _list = new Dictionary<int, WayBillDay>();
+
+            LoadWayBillDay();
         }
 
         private void LoadWayBillDay()
@@ -53,16 +53,16 @@ namespace BBAuto.Domain.Common
             if (_list.Count > 0)
                 return;
 
-            Dictionary<int, Driver> drivers = GetDriversDictionary();
+            Dictionary<int, Driver> driverWithDay = GetDriversDictionary();
 
-            if (drivers.Count == 0)
+            if (driverWithDay.Count == 0)
                 return;
 
             int count = _mileageList.GetDistance(_car, _date);
 
             Random random = new Random();
 
-            int workDays = drivers.Count;
+            int workDays = driverWithDay.Count;
 
             bool isShortMonth = ((count / workDays) < MIN_DAILY_MILEAGE);
             if (isShortMonth)
@@ -82,16 +82,16 @@ namespace BBAuto.Domain.Common
 
                 int everyDayCount = curCount / (workDays - _list.Count);
 
-                if (drivers.ContainsKey(item.Date.Day))
+                if (driverWithDay.ContainsKey(item.Date.Day))
                 {
-                    WayBillDay wayBillDay = CreateWayBillDaily(drivers[item.Date.Day], date, everyDayCount, random);
+                    WayBillDay wayBillDay = CreateWayBillDaily(driverWithDay[item.Date.Day], date, everyDayCount, random);
                     AddToList(wayBillDay, item.Date.Day);
                 }
                 if (curCount < 10)
                     break;
             }
             
-            foreach(var item in drivers)
+            foreach(var item in driverWithDay)
             {
                 DateTime date = new DateTime(_date.Year, _date.Month, item.Key);
 
@@ -114,6 +114,9 @@ namespace BBAuto.Domain.Common
         
         private WayBillDay CreateWayBillDaily(Driver driver, DateTime date, int everyDayCount, Random random)
         {
+            if (_list.ContainsKey(date.Day))
+                return null;
+
             WayBillDay wayBillDay = new WayBillDay(_car, driver, date, everyDayCount);
             wayBillDay.Save();
             wayBillDay.ReadRoute(random);
@@ -123,7 +126,7 @@ namespace BBAuto.Domain.Common
 
         private void AddToList(WayBillDay wayBillDay, int day)
         {
-            if (wayBillDay.Distance > 0)
+            if ((wayBillDay != null) && (wayBillDay.Distance > 0))
             {
                 _list.Add(day, wayBillDay);
             }
@@ -132,6 +135,7 @@ namespace BBAuto.Domain.Common
         private Dictionary<int, Driver> GetDriversDictionary()
         {
             DriverCarList driverCarList = DriverCarList.getInstance();
+            //TODO: EF??
             TabelList tabelList = TabelList.GetInstance();
 
             Dictionary<int, Driver> drivers = new Dictionary<int, Driver>();
@@ -183,9 +187,9 @@ namespace BBAuto.Domain.Common
         
         public IEnumerator GetEnumerator()
         {
-            foreach (var item in _list)
+            foreach (var item in _list.OrderBy(w => w.Value.Day))
             {
-                yield return item;
+                yield return item.Value;
             }
         }
         

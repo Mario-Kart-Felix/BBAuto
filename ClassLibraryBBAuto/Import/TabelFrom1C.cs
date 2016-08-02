@@ -11,13 +11,13 @@ namespace BBAuto.Domain.Import
 {
     public class TabelFrom1C : IExcelImporter
     {
-        private const string FILE_PATH = @"\\bbmru08\1cv77\Autoexchange\Lotus\BBAuto\Time";
+        public string FilePath { get; set; }
 
         public void StartImport()
         {
             TabelList tabelList = TabelList.GetInstance();
 
-            string[] files = Directory.GetFiles(FILE_PATH, "*.txt");
+            string[] files = Directory.GetFiles(FilePath, "*.txt");
 
             foreach (var file in files)
             {
@@ -41,7 +41,7 @@ namespace BBAuto.Domain.Import
                     }
                 }
 
-                File.Move(file, FILE_PATH + @"\processed\" + DateTime.Today.ToShortDateString() + " " + Path.GetFileName(file));
+                File.Move(file, FilePath + @"\processed\" + DateTime.Today.ToShortDateString() + " " + Path.GetFileName(file));
             }
         }
     }
