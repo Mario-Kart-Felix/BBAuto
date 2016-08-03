@@ -139,7 +139,7 @@ namespace BBAuto.Domain.Common
             _excelDoc.setValue(16, 82, _invoice.Number);
             _excelDoc.setValue(16, 98, _invoice.Date.ToShortDateString());
 
-            string fullNameAuto = string.Concat("Автомобиль ", _car.info.Mark, " ", _car.info.Model, ", ", _car.Grz);
+            string fullNameAuto = string.Concat("Автомобиль ", _car.Mark.Name, " ", _car.info.Model, ", ", _car.Grz);
 
             _excelDoc.setValue(22, 10, fullNameAuto);
             _excelDoc.setValue(22, 53, _car.dateGet.ToShortDateString());
@@ -202,7 +202,7 @@ namespace BBAuto.Domain.Common
             Policy policy = policyList.getItem(_car, PolicyType.КАСКО);
             _excelDoc.setValue(15, 5, policy.Number);
 
-            _excelDoc.setValue(17, 5, string.Concat(_car.info.Mark, " ", _car.info.Model));
+            _excelDoc.setValue(17, 5, string.Concat(_car.Mark.Name, " ", _car.info.Model));
             _excelDoc.setValue(19, 5, _car.Grz);
             _excelDoc.setValue(21, 5, _car.vin);
 
@@ -216,10 +216,7 @@ namespace BBAuto.Domain.Common
             _excelDoc.setValue(32, 13, dtp.Damage);
             _excelDoc.setValue(34, 1, dtp.Facts);
 
-            SsDTPList ssDTPs = SsDTPList.getInstance();
-            int idMark;
-            int.TryParse(_car.MarkID, out idMark);
-            SsDTP ssDTP = ssDTPs.getItem(idMark);
+            SsDTP ssDTP = SsDTPList.getInstance().getItem(_car.Mark);
 
             _excelDoc.setValue(63, 11, ssDTP.ServiceStantion);
 
@@ -276,7 +273,7 @@ namespace BBAuto.Domain.Common
 
             _excelDoc.setValue(8, 8, owner);
 
-            _excelDoc.setValue(10, 11, string.Concat(_car.info.Mark, " ", _car.info.Model));
+            _excelDoc.setValue(10, 11, string.Concat(_car.Mark.Name, " ", _car.info.Model));
             _excelDoc.setValue(11, 17, _car.Grz);
 
             _excelDoc.setValue(12, 6, driver.GetName(NameType.Full));
@@ -445,7 +442,7 @@ namespace BBAuto.Domain.Common
         {
             _excelDoc = openDocumentExcel("Приложение к приказу");
 
-            string fullNameAuto = string.Concat(_car.info.Mark, " ", _car.info.Model);
+            string fullNameAuto = string.Concat(_car.Mark.Name, " ", _car.info.Model);
 
             _excelDoc.setValue(18, 2, fullNameAuto);
             _excelDoc.setValue(18, 3, _car.Grz);
@@ -500,7 +497,7 @@ namespace BBAuto.Domain.Common
 
             wordDoc.setValue("паспорт регионального представителя", passportToString);
 
-            string fullNameAuto = string.Concat(_car.info.Mark, " ", _car.info.Model);
+            string fullNameAuto = string.Concat(_car.Mark.Name, " ", _car.info.Model);
             wordDoc.setValue("Название марки автомобиля", fullNameAuto);
             wordDoc.setValue("VIN-автомобиля", _car.vin);
             wordDoc.setValue("Модель и марка двигателя автомобиля", _car.eNumber);
@@ -574,7 +571,7 @@ namespace BBAuto.Domain.Common
             foreach (Car car in listCar)
             {
                 _excelDoc.setValue(rowIndex, 2, car.Grz);
-                _excelDoc.setValue(rowIndex, 3, car.info.Mark);
+                _excelDoc.setValue(rowIndex, 3, car.Mark.Name);
                 _excelDoc.setValue(rowIndex, 4, car.info.Model);
                 _excelDoc.setValue(rowIndex, 5, car.vin);
                 _excelDoc.setValue(rowIndex, 6, car.Year);

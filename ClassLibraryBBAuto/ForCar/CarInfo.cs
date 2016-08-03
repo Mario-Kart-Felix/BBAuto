@@ -19,7 +19,6 @@ namespace BBAuto.Domain.ForCar
             _car = car;
         }
 
-        public string Mark { get { return Marks.getInstance().getItem(Convert.ToInt32(_car.MarkID)); } }
         public string Model { get { return ModelList.getInstance().getItem(Convert.ToInt32(_car.ModelID)).Name; } }
         public string Color { get { return Colors.getInstance().getItem(Convert.ToInt32(_car.ColorID)); } }
         public string Owner { get { return Owners.getInstance().getItem(Convert.ToInt32(_car.ownerID)); } }
@@ -51,7 +50,7 @@ namespace BBAuto.Domain.ForCar
             dt.Columns.Add("Название");
             dt.Columns.Add("Значение");
 
-            dt.Rows.Add("Марка", Mark);
+            dt.Rows.Add("Марка", _car.Mark.Name);
             dt.Rows.Add("Модель", Model);
             dt.Rows.Add("Год выпуска", _car.Year);
             dt.Rows.Add("Цвет", Color);

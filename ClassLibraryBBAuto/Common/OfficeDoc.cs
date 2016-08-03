@@ -89,9 +89,6 @@ namespace BBAuto.Domain.Common
         public ExcelDoc(string name)
             : base(name)
         {
-            xlApp.DisplayAlerts = false;
-            xlApp.EnableEvents = false;
-
             Init();
         }
 
@@ -108,6 +105,9 @@ namespace BBAuto.Domain.Common
         private void Init()
         {
             xlApp = new Excel.Application();
+
+            xlApp.DisplayAlerts = false;
+            xlApp.EnableEvents = false;
 
             xlWorkBook = xlApp.Workbooks.Open(name, 0, true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
             xlSh = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);

@@ -45,8 +45,7 @@ namespace BBAuto.Domain.Common
                     try
                     {
                         excelDoc.SetList("Расходы по а-м");
-
-
+                        
                         string grz = (excelDoc.getValue("B4") != null) ? excelDoc.getValue("B4").ToString() : string.Empty;
 
                         Car car = GetCar(grz);

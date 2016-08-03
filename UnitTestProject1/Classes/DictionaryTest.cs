@@ -1,6 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BBAuto.Domain;
+using BBAuto.Domain.Common;
+using BBAuto.Domain.DataBase;
+using BBAuto.Domain.Dictionary;
 
 namespace UnitTestProject1.Classes
 {

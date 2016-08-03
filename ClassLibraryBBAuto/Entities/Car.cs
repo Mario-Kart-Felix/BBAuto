@@ -3,6 +3,7 @@ using BBAuto.Domain.Dictionary;
 using BBAuto.Domain.ForCar;
 using BBAuto.Domain.Lists;
 using BBAuto.Domain.Static;
+using BBAuto.Domain.Tables;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -27,8 +28,7 @@ namespace BBAuto.Domain.Entities
         private int _isLising;
         private DateTime _lisingDate;
         private string _invertoryNumber;
-                
-        private int _idMark;
+
         private int _idModel;
         public string vin;
         public string Grz { get; set; }
@@ -56,11 +56,7 @@ namespace BBAuto.Domain.Entities
             set { int.TryParse(value, out _idModel); }
         }
 
-        public string MarkID
-        {
-            get { return _idMark.ToString(); }
-            set { int.TryParse(value, out _idMark); }
-        }
+        public Mark Mark { get; set; }
 
         public string Year
         {
@@ -198,7 +194,11 @@ namespace BBAuto.Domain.Entities
             Year = row.ItemArray[4].ToString();
             eNumber = row.ItemArray[5].ToString();
             bodyNumber = row.ItemArray[6].ToString();
-            int.TryParse(row.ItemArray[7].ToString(), out _idMark);
+
+            int idMark;
+            int.TryParse(row.ItemArray[7].ToString(), out idMark);
+            Mark = MarkList.getInstance().getItem(idMark);
+
             int.TryParse(row.ItemArray[8].ToString(), out _idModel);
             GradeID = row.ItemArray[9].ToString();
             ColorID = row.ItemArray[10];
@@ -350,7 +350,7 @@ namespace BBAuto.Domain.Entities
             int mileageInt;
             int.TryParse(mileage.Count, out mileageInt);
 
-            return new object[] { ID, ID, BBNumber, Grz, info.Mark, info.Model, vin, regionName,
+            return new object[] { ID, ID, BBNumber, Grz, Mark.Name, info.Model, vin, regionName,
                 info.Driver.GetName(NameType.Full), pts.Number, sts.Number, Year, mileageInt,
                 mileage.MonthToString(), info.Owner, info.Guarantee, GetStatus()};
         }
@@ -366,7 +366,7 @@ namespace BBAuto.Domain.Entities
 
         public override string ToString()
         {
-            return (ID == 0) ? "нет данных" : string.Concat(info.Mark, " ", info.Model, " ", Grz);
+            return (ID == 0) ? "нет данных" : string.Concat(Mark.Name, " ", info.Model, " ", Grz);
         }
 
         internal override void Delete()

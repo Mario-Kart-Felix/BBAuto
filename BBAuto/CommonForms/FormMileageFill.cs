@@ -27,11 +27,19 @@ namespace BBAuto
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            MileageFill mileageFill = new MileageFill(REPORT_PATH, dateTimePicker1.Value);
-            mileageFill.Begin();
+            try
+            {
+                MileageFill mileageFill = new MileageFill(REPORT_PATH, dateTimePicker1.Value);
+                mileageFill.Begin();
 
-            FormReport formReport = new FormReport(mileageFill.GetMileageReportList());
-            formReport.ShowDialog();
+                FormReport formReport = new FormReport(mileageFill.GetMileageReportList());
+                formReport.ShowDialog();
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show("Нет доступа к папке", "Ошибка авторизации", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
         }
     }
 }

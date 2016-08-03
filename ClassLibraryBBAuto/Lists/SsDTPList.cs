@@ -5,6 +5,7 @@ using System.Text;
 using System.Data;
 using BBAuto.Domain.ForCar;
 using BBAuto.Domain.Abstract;
+using BBAuto.Domain.Tables;
 
 namespace BBAuto.Domain.Lists
 {
@@ -55,9 +56,9 @@ namespace BBAuto.Domain.Lists
                 list.Clear();
         }
 
-        public SsDTP getItem(int idMark)
+        public SsDTP getItem(Mark mark)
         {
-            return list.FirstOrDefault(item => item.ID == idMark);
+            return list.FirstOrDefault(item => item.Mark.ID == mark.ID);
         }
 
         public DataTable ToDataTable()
@@ -75,9 +76,9 @@ namespace BBAuto.Domain.Lists
             return dt;
         }
 
-        public void Delete(int idMark)
+        public void Delete(Mark mark)
         {
-            SsDTP ssDTP = getItem(idMark);
+            SsDTP ssDTP = getItem(mark);
 
             list.Remove(ssDTP);
 

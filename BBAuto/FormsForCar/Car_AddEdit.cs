@@ -198,7 +198,7 @@ namespace BBAuto
 
         private void fillFields()
         {            
-            cbMark.SelectedValue = _car.MarkID;
+            cbMark.SelectedValue = _car.Mark.ID;
             cbModel.SelectedValue = _car.ModelID;
             cbGrade.SelectedValue = _car.GradeID;
             cbColor.SelectedValue = _car.ColorID;
@@ -311,7 +311,9 @@ namespace BBAuto
                 return false;
             }
 
-            _car.MarkID = cbMark.SelectedValue.ToString();
+            int idMark;
+            int.TryParse(cbMark.SelectedValue.ToString(), out idMark);
+            _car.Mark = MarkList.getInstance().getItem(idMark);
             _car.ModelID = cbModel.SelectedValue.ToString();
             _car.GradeID = cbGrade.SelectedValue.ToString();
             _car.ColorID = cbColor.SelectedValue;

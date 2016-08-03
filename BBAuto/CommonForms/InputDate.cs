@@ -31,14 +31,12 @@ namespace BBAuto
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            int idCar = 0;
-
             MainStatus _mainStatus = MainStatus.getInstance();
             Status status = _mainStatus.Get();
 
             foreach (DataGridViewCell cell in _dgvMain.SelectedCells)
             {
-                idCar = _dgvMain.GetCarID(cell.RowIndex);
+                Car car = _dgvMain.GetCar();
 
                 DateTime date = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, 1);
 
@@ -46,7 +44,7 @@ namespace BBAuto
 
                 try
                 {
-                    excelWayBill = (status == Status.Invoice) ? CreateWayBill(idCar, date, _dgvMain.GetID(cell.RowIndex)) : CreateWayBill(idCar, date);
+                    excelWayBill = (status == Status.Invoice) ? CreateWayBill(car, date, _dgvMain.GetID(cell.RowIndex)) : CreateWayBill(car, date);
                 }
                 catch (NullReferenceException)
                 {
@@ -66,11 +64,8 @@ namespace BBAuto
             }
         }
 
-        private CreateDocument CreateWayBill(int idCar, DateTime date, int idInvoice = 0)
+        private CreateDocument CreateWayBill(Car car, DateTime date, int idInvoice = 0)
         {
-            CarList carList = CarList.getInstance();
-            Car car = carList.getItem(idCar);
-
             CreateDocument waybill = new CreateDocument(car);
 
             Driver driver = null;
