@@ -197,8 +197,8 @@ namespace BBAuto
         }
 
         private void fillFields()
-        {            
-            cbMark.SelectedValue = _car.Mark.ID;
+        {
+            cbMark.SelectedValue = (_car.Mark != null) ? _car.Mark.ID.ToString() : "0";
             cbModel.SelectedValue = _car.ModelID;
             cbGrade.SelectedValue = _car.GradeID;
             cbColor.SelectedValue = _car.ColorID;

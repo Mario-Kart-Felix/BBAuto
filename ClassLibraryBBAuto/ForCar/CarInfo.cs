@@ -50,6 +50,9 @@ namespace BBAuto.Domain.ForCar
             dt.Columns.Add("Название");
             dt.Columns.Add("Значение");
 
+            if (_car.Mark == null)
+                return dt;
+
             dt.Rows.Add("Марка", _car.Mark.Name);
             dt.Rows.Add("Модель", Model);
             dt.Rows.Add("Год выпуска", _car.Year);
