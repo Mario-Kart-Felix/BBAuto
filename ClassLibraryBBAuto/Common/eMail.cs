@@ -38,8 +38,9 @@ namespace BBAuto.Domain.Common
         {
             _subject = string.Format("Штраф по а/м {0}", violation.Car.Grz);
 
-            _body = "Здравствуйте, коллеги.\n"
-                  + "Оплачиваем, удерживаем.";
+            _body = "Здравствуйте, коллеги!\n"
+                + violation.getDriver().GetName(NameType.Full) + " совершил нарушение ПДД.\n"
+                + "Оплачиваем, удерживаем.";
 
             string owner = Owners.getInstance().getItem(Convert.ToInt32(violation.Car.ownerID));
             var drivers = GetAccountants(owner);

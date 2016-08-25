@@ -53,8 +53,10 @@ namespace BBAuto.Domain.ForDriver
             DateBegin = dateBegin;
 
             DateTime dateEnd;
-            DateTime.TryParse(row.ItemArray[4].ToString(), out dateEnd);
-            DateEnd = dateEnd;
+            if (DateTime.TryParse(row.ItemArray[4].ToString(), out dateEnd))
+            {
+                DateEnd = dateEnd;
+            }
         }
 
         public override void Save()

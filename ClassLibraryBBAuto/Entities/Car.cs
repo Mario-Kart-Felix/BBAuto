@@ -347,12 +347,17 @@ namespace BBAuto.Domain.Entities
             Regions regions = Regions.getInstance();
             string regionName = (invoice == null) ? regions.getItem(_idRegionUsing) : regions.getItem(Convert.ToInt32(invoice.RegionToID));
 
-            int mileageInt;
-            int.TryParse(mileage.Count, out mileageInt);
+            int mileageInt = 0;
+            DateTime mileageDate = DateTime.Today;
+            if (mileage != null)
+            {
+                int.TryParse(mileage.Count, out mileageInt);
+                mileageDate = mileage.MonthToString();
+            }
 
             return new object[] { ID, ID, BBNumber, Grz, Mark.Name, info.Model, vin, regionName,
                 info.Driver.GetName(NameType.Full), pts.Number, sts.Number, Year, mileageInt,
-                mileage.MonthToString(), info.Owner, info.Guarantee, GetStatus()};
+                mileageDate, info.Owner, info.Guarantee, GetStatus()};
         }
 
         public CarDoc createCarDoc(string file)

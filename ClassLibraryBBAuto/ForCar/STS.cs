@@ -31,6 +31,7 @@ namespace BBAuto.Domain.ForCar
             Car = car;
 
             Date = DateTime.Today;
+            Number = string.Empty;
         }
 
         public STS(DataRow row)

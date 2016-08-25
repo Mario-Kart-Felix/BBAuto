@@ -214,7 +214,7 @@ namespace BBAuto.Domain.ForCar
 
         public bool IsInList(Account account)
         {
-            return ((_idAccount == account.ID) || (_idAccount2 == account.ID));
+            return (account.ID != 0) && ((_idAccount == account.ID) || (_idAccount2 == account.ID));
         }
 
         public void ClearAccountID(Account account)

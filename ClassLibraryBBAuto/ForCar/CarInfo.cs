@@ -37,8 +37,11 @@ namespace BBAuto.Domain.ForCar
 
                 DateTime dateEnd = _car.dateGet.AddYears(3);
 
-                int miles;
-                int.TryParse(mileage.Count, out miles);
+                int miles = 0;
+                if (mileage != null)
+                {
+                    int.TryParse(mileage.Count, out miles);
+                }
 
                 return ((miles < MILEAGE_GUARANTEE) && (DateTime.Today < dateEnd)) ? dateEnd : new DateTime(1, 1, 1);
             }
