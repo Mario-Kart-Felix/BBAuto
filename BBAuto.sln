@@ -6,22 +6,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{7FCEF0EC-8651-4D9E-9A1D-7DC7C92C2436}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBAuto.Domain", "ClassLibraryBBAuto\BBAuto.Domain.csproj", "{76A9009C-FABC-4E23-A1A8-7D169666CD3D}"
-	ProjectSection(ProjectDependencies) = postProject
-		{7E0CB45D-8ED0-492C-B78A-5EEFD4710B34} = {7E0CB45D-8ED0-492C-B78A-5EEFD4710B34}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckBoxComboBox", "CheckBoxComboBox\CheckBoxComboBox.csproj", "{70A25201-8EA4-48F8-A4A6-ED13ADF8823C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBAuto.UnitTests", "UnitTestProject1\BBAuto.UnitTests.csproj", "{64938D9E-CB2C-4E9D-862B-EF60DB59A893}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBAutoConsoleApplication", "BBAutoConsoleApplication\BBAutoConsoleApplication.csproj", "{FD9CC9CD-4D38-44DD-A2B9-CF4D38A340B5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServiceBBAuto", "WebServiceBBAuto\WebServiceBBAuto.csproj", "{7E0CB45D-8ED0-492C-B78A-5EEFD4710B34}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApplicationWorkingWithWebService", "WindowsFormsApplicationWorkingWithWebService\WindowsFormsApplicationWorkingWithWebService.csproj", "{23F1DA79-1898-424F-8B9F-A94F1EE4E9A0}"
-	ProjectSection(ProjectDependencies) = postProject
-		{7E0CB45D-8ED0-492C-B78A-5EEFD4710B34} = {7E0CB45D-8ED0-492C-B78A-5EEFD4710B34}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,14 +43,6 @@ Global
 		{FD9CC9CD-4D38-44DD-A2B9-CF4D38A340B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD9CC9CD-4D38-44DD-A2B9-CF4D38A340B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD9CC9CD-4D38-44DD-A2B9-CF4D38A340B5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7E0CB45D-8ED0-492C-B78A-5EEFD4710B34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7E0CB45D-8ED0-492C-B78A-5EEFD4710B34}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7E0CB45D-8ED0-492C-B78A-5EEFD4710B34}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7E0CB45D-8ED0-492C-B78A-5EEFD4710B34}.Release|Any CPU.Build.0 = Release|Any CPU
-		{23F1DA79-1898-424F-8B9F-A94F1EE4E9A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{23F1DA79-1898-424F-8B9F-A94F1EE4E9A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{23F1DA79-1898-424F-8B9F-A94F1EE4E9A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{23F1DA79-1898-424F-8B9F-A94F1EE4E9A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

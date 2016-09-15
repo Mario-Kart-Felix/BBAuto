@@ -22,7 +22,7 @@ namespace BBAuto.Domain.Senders
 
                 string mailText = CreateMail(list);
 
-                eMail email = new eMail();
+                EMail email = new EMail();
 
                 email.SendNotification(driversTo, mailText, false);
             }

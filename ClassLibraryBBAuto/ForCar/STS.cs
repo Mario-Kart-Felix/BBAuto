@@ -51,9 +51,9 @@ namespace BBAuto.Domain.ForCar
         {
             DeleteFile(File);
 
-            File = WorkWithFiles.fileCopyByID(File, "cars", ID, "", "STS");
+            File = WorkWithFiles.fileCopyByID(File, "cars", Car.ID, "", "STS");
 
-            _provider.Insert("STS", ID, Number, Date, GiveOrg, File);
+            _provider.Insert("STS", Car.ID, Number, Date, GiveOrg, File);
 
             STSList stsList = STSList.getInstance();
             stsList.Add(this);
@@ -68,7 +68,7 @@ namespace BBAuto.Domain.ForCar
         {
             DeleteFile(File);
 
-            _provider.Delete("STS", ID);
+            _provider.Delete("STS", Car.ID);
         }
     }
 }

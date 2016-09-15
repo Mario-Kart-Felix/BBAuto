@@ -99,7 +99,7 @@ namespace BBAuto.Domain.ForCar
         {
             Mileage mileage = GetPrev();
 
-            return mileage.ToString();
+            return (mileage == null) ? "0" : mileage.ToString();
         }
 
         private Mileage GetPrev()

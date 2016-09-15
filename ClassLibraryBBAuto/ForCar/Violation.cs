@@ -208,7 +208,7 @@ namespace BBAuto.Domain.ForCar
 
         public void Agree()
         {
-            eMail email = new eMail();
+            EMail email = new EMail();
             email.SendMailAccountViolation(this);
             
             Agreed = true;

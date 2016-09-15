@@ -12,7 +12,7 @@ using System.Text;
 
 namespace BBAuto.Domain.Common
 {
-    public class eMail
+    public class EMail
     {
         private const string SERVER_HOST = "212.0.16.135";
         private const int SERVER_PORT = 25;
@@ -26,7 +26,7 @@ namespace BBAuto.Domain.Common
         private string _subject;
         private string _body;
 
-        public eMail()
+        public EMail()
         {
             Driver driver = User.getDriver();
             DriverList driverList = DriverList.getInstance();
@@ -91,9 +91,13 @@ namespace BBAuto.Domain.Common
                 + "Информирую Вас о том, что пришло постановление о штрафе за нарушения ПДД.\n"
                 + "Оплатить штраф можно самостоятельно и в течении 5 дней предоставить документ об оплате.\n"
                 + "После указанного срока штраф автоматически уйдет в оплату в бухгалтерию без возможности льготной оплаты 50%\n"
-                + "Документ об оплате штрафа присылать {2} на почту, в виде вложенного файла.\n"
-                + "Если есть возражения по данному штрафу, то необходимо сообщить об этом {2}.\n"
-                + "Скан копия постановления во вложении.", appeal, driver.GetName(NameType.Full), User.getDriver().GetName(NameType.Genetive));
+                + "Документ об оплате штрафа следует присылать на эл. почту {2} в виде вложенного файла.\n"
+                + "Если есть возражения по данному штрафу, то необходимо сообщить об этом {3}.\n"
+                + "Скан копия постановления во вложении.",
+                appeal,
+                driver.GetName(NameType.Full),
+                User.getDriver().GetName(NameType.Genetive),
+                User.getDriver().GetName(NameType.Short));
         }
 
         private void CreateBodyViolationNoDeduction(Violation violation)

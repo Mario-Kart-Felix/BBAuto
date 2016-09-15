@@ -106,7 +106,7 @@ namespace BBAuto.Domain.ForDriver
         {            
             string message = CreateMessageNotification();
 
-            eMail email = new eMail();
+            EMail email = new EMail();
             email.SendNotification(Driver, message);
 
             IsNotificationSent = true;

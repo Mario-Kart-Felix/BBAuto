@@ -30,7 +30,7 @@ namespace BBAuto.Domain.Senders
                 
                 string mailText = CreateMail(list);
 
-                eMail email = new eMail();
+                EMail email = new EMail();
 
                 email.SendNotification(driversTo, mailText);
             }
@@ -47,7 +47,7 @@ namespace BBAuto.Domain.Senders
 
                 string mailText = CreateMailToBoss(list);
 
-                var email = new eMail();
+                var email = new EMail();
 
                 email.SendNotification(driversTo, mailText);
             }

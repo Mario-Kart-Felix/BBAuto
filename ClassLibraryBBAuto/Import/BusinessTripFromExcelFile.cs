@@ -55,7 +55,7 @@ namespace BBAuto.Domain.Import
             }
             catch (NullReferenceException)
             {
-                eMail email = new eMail();
+                EMail email = new EMail();
                 email.sendMailToAdmin("Не удалось открыть файл " + FilePath);
             }
         }

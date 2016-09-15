@@ -93,7 +93,7 @@
     <Compile Include="Lists\WayBillRouteList.cs" />
     <Compile Include="Loaders\FuelLoader.cs" />
     <Compile Include="Abstract\MainList.cs" />
-    <Compile Include="Common\eMail.cs" />
+    <Compile Include="Common\EMail.cs" />
     <Compile Include="Common\Employees.cs" />
     <Compile Include="Common\Ldap.cs" />
     <Compile Include="Common\MailText.cs" />

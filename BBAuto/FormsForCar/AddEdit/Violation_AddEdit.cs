@@ -156,7 +156,7 @@ namespace BBAuto
 
         private void Send()
         {
-            eMail mail = new eMail();
+            EMail mail = new EMail();
             mail.sendMailViolation(_violation);
         }
 

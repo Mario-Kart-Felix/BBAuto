@@ -385,7 +385,7 @@ namespace BBAuto
                 if (string.IsNullOrEmpty(driverList))
                     MessageBox.Show("Email-адреса не обнаружены", "Невозможно создать письмо", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 else
-                    eMail.OpenEmailProgram(driverList);
+                    EMail.OpenEmailProgram(driverList);
             };
             return item;
         }

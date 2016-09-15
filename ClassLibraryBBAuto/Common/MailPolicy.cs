@@ -12,7 +12,7 @@ namespace BBAuto.Domain.Common
     {
         public static string Send(Car car, PolicyType type)
         {
-            eMail mail = new eMail();
+            EMail mail = new EMail();
 
             mail.sendMailPolicy(car, type);
 

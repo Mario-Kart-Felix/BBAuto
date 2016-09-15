@@ -144,7 +144,7 @@ namespace BBAuto.Domain.ForCar
         {
             if (_agreed == 0)
             {
-                eMail mail = new eMail();
+                EMail mail = new EMail();
                 mail.sendMailAccount(this);
                 _agreed = 1;
                 ExecQuery();

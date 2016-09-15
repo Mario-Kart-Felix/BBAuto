@@ -52,7 +52,7 @@ namespace BBAuto.Domain.Senders
 
                     string mailText = CreateMail(listCut);
 
-                    eMail email = new eMail();
+                    EMail email = new EMail();
 
                     Driver employeeAutoDept = GetDriverForSending();
                     email.SendNotification(employeeAutoDept, mailText, true, files);
