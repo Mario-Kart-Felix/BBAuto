@@ -18,7 +18,7 @@ namespace BBAutoConsoleApplication
             DataBase.InitDataBase();
             Provider.InitSQLProvider();
 
-            IExcelImporter importer = new BusinessTripFromExcelFile { FilePath = @"J:\Accounting\Командировки\Реестр_" + DateTime.Today.Year + ".xls" };
+            IExcelImporter importer = new BusinessTripFromExcelFile { FilePath = @"\\bbmru08\depts\Accounting\Командировки\Реестр_" + DateTime.Today.Year + ".xls" };
             importer.StartImport();
 
             importer = new EmployeesFrom1C { FilePath = @"\\bbmru08\1cv77\Autoexchange\Lotus\BBAuto" };
