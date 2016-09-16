@@ -1,1 +1,0 @@
-﻿<%@ WebService Language="C#" CodeBehind="BBAutoService.asmx.cs" Class="WebServiceBBAuto.BBAutoService" %>
