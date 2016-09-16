@@ -583,8 +583,11 @@ namespace BBAuto.Domain.Common
 
                 DiagCard diagCard = diagCardList.getItem(car);
 
-                _excelDoc.setValue(rowIndex, 12, diagCard.Date.ToShortDateString());
-                _excelDoc.setValue(rowIndex, 13, diagCard.Number);
+                if (diagCard != null)
+                {
+                    _excelDoc.setValue(rowIndex, 12, diagCard.Date.ToShortDateString());
+                    _excelDoc.setValue(rowIndex, 13, diagCard.Number);
+                }
 
                 rowIndex++;
             }

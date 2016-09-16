@@ -29,7 +29,10 @@ namespace BBAuto.Domain.Import
 
                     DriverList driverList = DriverList.getInstance();
                     Driver driver = driverList.getItemByNumber(fields[1]);
-                    
+
+                    if (driver == null)
+                        driver = new Driver();
+
                     driver.Fio = fields[0];
                     driver.Number = fields[1];
                     driver.Sex = fields[2];
