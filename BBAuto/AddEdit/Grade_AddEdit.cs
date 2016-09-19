@@ -71,7 +71,6 @@ namespace BBAuto
                 int.TryParse(cbEngineType.SelectedValue.ToString(), out idEngineType);
                 EngineTypeList engineTypeList = EngineTypeList.getInstance();
                 EngineType engineType = engineTypeList.getItem(idEngineType);
-
                 _grade.EngineType = engineType;
 
                 _grade.Save();

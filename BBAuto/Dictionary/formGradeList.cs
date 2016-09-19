@@ -78,8 +78,9 @@ namespace BBAuto
         private void btnAdd_Click(object sender, EventArgs e)
         {
             int idModel = Convert.ToInt32(cbModel.SelectedValue);
-
-            Grade_AddEdit aeG = new Grade_AddEdit(new Grade(idModel));
+            Model model = ModelList.getInstance().getItem(idModel);
+            
+            Grade_AddEdit aeG = new Grade_AddEdit(new Grade(model));
             if (aeG.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 loadGrade();

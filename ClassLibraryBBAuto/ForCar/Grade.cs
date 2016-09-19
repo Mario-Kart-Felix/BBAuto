@@ -19,7 +19,7 @@ namespace BBAuto.Domain.ForCar
         public string Name { get; set; }
         public EngineType EngineType { get; set; }
 
-        public Grade(int idModel)
+        public Grade(Model model)
         {
             ID = 0;
             Name = string.Empty;
@@ -27,6 +27,7 @@ namespace BBAuto.Domain.ForCar
             EVol = string.Empty;
             MaxLoad = string.Empty;
             NoLoad = string.Empty;
+            Model = model;
 
             EngineType = EngineTypeList.getInstance().getItem(1);
         }
