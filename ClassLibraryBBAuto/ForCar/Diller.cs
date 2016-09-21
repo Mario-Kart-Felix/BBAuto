@@ -24,13 +24,13 @@ namespace BBAuto.Domain.ForCar
             int.TryParse(row.ItemArray[0].ToString(), out id);
             ID = id;
 
-            Text = row.ItemArray[1].ToString();
+            Name = row.ItemArray[1].ToString();
             Text = row.ItemArray[2].ToString();
         }
 
         public override void Save()
         {
-            _provider.Insert("Diller", ID, Text, Text);
+            _provider.Insert("Diller", ID, Name, Text);
         }
 
         internal override void Delete()
@@ -40,7 +40,7 @@ namespace BBAuto.Domain.ForCar
 
         internal override object[] getRow()
         {
-            return new object[3] { ID, Text, Text };
+            return new object[3] { ID, Name, Text };
         }
     }
 }

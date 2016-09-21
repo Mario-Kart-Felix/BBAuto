@@ -14,7 +14,7 @@ namespace BBAuto
 {
     public partial class formDillerList : Form
     {
-        DilerList dillerList;
+        private DilerList dillerList;
 
         public formDillerList()
         {
