@@ -1,8 +1,10 @@
 ﻿using BBAuto.Domain.Abstract;
 using BBAuto.Domain.Common;
+using BBAuto.Domain.Logger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace BBAuto.Domain.Import
@@ -53,10 +55,13 @@ namespace BBAuto.Domain.Import
                     }
                 }
             }
-            catch (NullReferenceException)
+            catch (NullReferenceException ex)
             {
-                EMail email = new EMail();
-                email.sendMailToAdmin("Не удалось открыть файл " + FilePath);
+                LogManager.Logger.Error(ex, "Error in file {file}", FilePath);
+            }
+            catch (COMException ex)
+            {
+                LogManager.Logger.Error(ex, "Error in file {file}", FilePath);
             }
         }
     }
