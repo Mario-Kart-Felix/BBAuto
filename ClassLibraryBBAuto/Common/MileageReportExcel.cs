@@ -11,11 +11,11 @@ namespace BBAuto.Logic.Common
 
     public void Create()
     {
-      ExcelDoc doc = new ExcelDoc();
+      var doc = new ExcelDoc();
 
       try
       {
-        int i = 1;
+        var i = 1;
 
         foreach (MileageReport item in _mileageReportList)
         {

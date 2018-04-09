@@ -41,22 +41,22 @@ namespace BBAuto.Logic.ForCar
       Date = Convert.ToDateTime(row.ItemArray[2]);
       GiveOrg = row.ItemArray[3].ToString();
       File = row.ItemArray[4].ToString();
-      _fileBegin = File;
+      FileBegin = File;
     }
 
     public override void Save()
     {
       DeleteFile(File);
 
-      File = WorkWithFiles.FileCopyById(File, "cars", Car.ID, "", "STS");
+      File = WorkWithFiles.FileCopyById(File, "cars", Car.Id, "", "STS");
 
-      _provider.Insert("STS", Car.ID, Number, Date, GiveOrg, File);
+      Provider.Insert("STS", Car.Id, Number, Date, GiveOrg, File);
 
       STSList stsList = STSList.getInstance();
       stsList.Add(this);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
       throw new NotImplementedException();
     }
@@ -65,7 +65,7 @@ namespace BBAuto.Logic.ForCar
     {
       DeleteFile(File);
 
-      _provider.Delete("STS", Car.ID);
+      Provider.Delete("STS", Car.Id);
     }
   }
 }

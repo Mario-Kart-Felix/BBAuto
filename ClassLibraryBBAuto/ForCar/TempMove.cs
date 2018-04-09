@@ -16,7 +16,7 @@ namespace BBAuto.Logic.ForCar
 
     internal TempMove(Car car)
     {
-      ID = 0;
+      Id = 0;
       Car = car;
       DateBegin = DateTime.Today;
       DateEnd = DateTime.Today;
@@ -31,7 +31,7 @@ namespace BBAuto.Logic.ForCar
     {
       int id;
       int.TryParse(row.ItemArray[0].ToString(), out id);
-      ID = id;
+      Id = id;
 
       int idCar;
       int.TryParse(row.ItemArray[1].ToString(), out idCar);
@@ -53,18 +53,18 @@ namespace BBAuto.Logic.ForCar
     public override void Save()
     {
       int id;
-      int.TryParse(_provider.Insert("TempMove", ID, Car.ID, Driver.ID, DateBegin, DateEnd), out id);
-      ID = id;
+      int.TryParse(Provider.Insert("TempMove", Id, Car.Id, Driver.Id, DateBegin, DateEnd), out id);
+      Id = id;
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
-      return new object[] {ID, Car.ID, Car.BBNumber, Car.Grz, Driver.GetName(NameType.Full), DateBegin, DateEnd};
+      return new object[] {Id, Car.Id, Car.BBNumber, Car.Grz, Driver.GetName(NameType.Full), DateBegin, DateEnd};
     }
 
     internal bool isDriverCar(Car car, DateTime date)
     {
-      return Car.ID == car.ID && date >= DateBegin && date <= DateEnd;
+      return Car.Id == car.Id && date >= DateBegin && date <= DateEnd;
     }
   }
 }

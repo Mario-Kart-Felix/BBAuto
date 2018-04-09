@@ -16,7 +16,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<Passport>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static PassportList getInstance()
@@ -27,9 +27,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("Passport");
+      DataTable dt = Provider.Select("Passport");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -57,15 +57,15 @@ namespace BBAuto.Logic.Lists
 
     public Passport getPassport(int id)
     {
-      return list.FirstOrDefault(p => p.ID == id);
+      return list.FirstOrDefault(p => p.Id == id);
     }
 
     public DataTable ToDataTable(Driver driver)
     {
       DataTable dt = createTable();
 
-      foreach (Passport passport in list.Where(p => p.Driver.ID == driver.ID))
-        dt.Rows.Add(passport.getRow());
+      foreach (Passport passport in list.Where(p => p.Driver.Id == driver.Id))
+        dt.Rows.Add(passport.GetRow());
 
       return dt;
     }
@@ -82,7 +82,7 @@ namespace BBAuto.Logic.Lists
 
     public Passport getLastPassport(Driver driver)
     {
-      var passports = list.Where(item => item.Driver.ID == driver.ID).OrderByDescending(item => item.GiveDate);
+      var passports = list.Where(item => item.Driver.Id == driver.Id).OrderByDescending(item => item.GiveDate);
 
       return passports.FirstOrDefault();
     }

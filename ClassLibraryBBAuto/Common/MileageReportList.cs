@@ -40,7 +40,7 @@ namespace BBAuto.Logic.Common
 
     private class MileageReportListEnumerator : IEnumerator
     {
-      private MileageReportList _mileageReportList;
+      private readonly MileageReportList _mileageReportList;
       private int _index;
 
       public MileageReportListEnumerator(MileageReportList mileageReportList)

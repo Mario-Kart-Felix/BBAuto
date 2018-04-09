@@ -15,7 +15,7 @@ namespace BBAuto.Logic.Lists
     {
       _list = new List<Grade>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static GradeList getInstance()
@@ -26,9 +26,9 @@ namespace BBAuto.Logic.Lists
       return _uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("Grade");
+      DataTable dt = Provider.Select("Grade");
 
       _list.Clear();
 
@@ -41,7 +41,7 @@ namespace BBAuto.Logic.Lists
 
     public void Add(Grade grade)
     {
-      if (_list.Exists(item => item.ID == grade.ID))
+      if (_list.Exists(item => item.Id == grade.Id))
         return;
 
       _list.Add(grade);
@@ -49,7 +49,7 @@ namespace BBAuto.Logic.Lists
 
     public Grade getItem(int id)
     {
-      return _list.FirstOrDefault(g => g.ID == id);
+      return _list.FirstOrDefault(g => g.Id == id);
     }
 
     public void Delete(int idGrade)
@@ -67,8 +67,8 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("id");
       dt.Columns.Add("Название");
 
-      foreach (Grade grade in _list.Where(g => g.Model.ID == idModel))
-        dt.Rows.Add(grade.getRow());
+      foreach (Grade grade in _list.Where(g => g.Model.Id == idModel))
+        dt.Rows.Add(grade.GetRow());
 
       return dt;
     }

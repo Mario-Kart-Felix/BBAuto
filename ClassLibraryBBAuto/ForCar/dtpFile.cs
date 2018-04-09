@@ -26,7 +26,7 @@ namespace BBAuto.Logic.ForCar
     {
       int id;
       int.TryParse(row.ItemArray[0].ToString(), out id);
-      ID = id;
+      Id = id;
 
       int idDTP;
       int.TryParse(row.ItemArray[1].ToString(), out idDTP);
@@ -34,37 +34,37 @@ namespace BBAuto.Logic.ForCar
 
       Name = row.ItemArray[2].ToString();
       File = row.ItemArray[3].ToString();
-      _fileBegin = File;
+      FileBegin = File;
     }
 
     public override void Save()
     {
       int id;
 
-      if (ID == 0)
+      if (Id == 0)
       {
-        int.TryParse(_provider.Insert("dtpFile", ID, DTP.ID, Name, File), out id);
-        ID = id;
+        int.TryParse(Provider.Insert("dtpFile", Id, DTP.Id, Name, File), out id);
+        Id = id;
       }
 
       DeleteFile(File);
 
-      File = WorkWithFiles.FileCopyById(File, "DTP", DTP.ID, string.Empty, Name);
+      File = WorkWithFiles.FileCopyById(File, "DTP", DTP.Id, string.Empty, Name);
 
-      int.TryParse(_provider.Insert("dtpFile", ID, DTP.ID, Name, File), out id);
-      ID = id;
+      int.TryParse(Provider.Insert("dtpFile", Id, DTP.Id, Name, File), out id);
+      Id = id;
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
-      return new object[] {ID, Name, File == string.Empty ? string.Empty : "Просмотр"};
+      return new object[] {Id, Name, File == string.Empty ? string.Empty : "Просмотр"};
     }
 
     internal override void Delete()
     {
       DeleteFile(File);
 
-      _provider.Delete("DtpFile", ID);
+      Provider.Delete("DtpFile", Id);
     }
   }
 }

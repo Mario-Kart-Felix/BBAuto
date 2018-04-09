@@ -35,7 +35,7 @@ namespace BBAuto.App.AddEdit
       LeaveTextBox();
 
       _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-      _workWithForm.SetEditMode(_fuelCard.ID == 0);
+      _workWithForm.SetEditMode(_fuelCard.Id == 0);
     }
 
     private void loadDictionaries()

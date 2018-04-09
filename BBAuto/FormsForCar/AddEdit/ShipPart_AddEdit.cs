@@ -27,7 +27,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
       loadData();
 
       _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-      _workWithForm.SetEditMode(_shipPart.ID == 0);
+      _workWithForm.SetEditMode(_shipPart.Id == 0);
     }
 
     private void loadDictionary()
@@ -45,8 +45,8 @@ namespace BBAuto.App.FormsForCar.AddEdit
 
     private void loadData()
     {
-      cbCar.SelectedValue = _shipPart.Car.ID;
-      cbDriver.SelectedValue = _shipPart.Driver.ID;
+      cbCar.SelectedValue = _shipPart.Car.Id;
+      cbDriver.SelectedValue = _shipPart.Driver.Id;
       tbNumber.Text = _shipPart.Number;
       mtbDateRequest.Text = _shipPart.DateRequest;
       mtbDateSent.Text = _shipPart.DateSent;

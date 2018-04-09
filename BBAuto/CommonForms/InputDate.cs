@@ -75,7 +75,7 @@ namespace BBAuto.App.CommonForms
         driver = driverList.getItem(Convert.ToInt32(invoice.DriverToID));
       }
 
-      waybill.createWaybill(date, driver);
+      waybill.CreateWaybill(date, driver);
 
       try
       {

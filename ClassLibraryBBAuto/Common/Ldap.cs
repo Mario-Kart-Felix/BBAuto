@@ -5,14 +5,14 @@ namespace BBAuto.Logic.Common
 {
   public class Ldap : IDisposable
   {
-    private const string SERVER_IP_ADDRESS = "LDAP://bbmag.bbraun.com";
+    private const string ServerIpAddress = "LDAP://bbmag.bbraun.com";
 
-    private DirectoryEntry _rootDE;
-    private DirectorySearcher _searcher;
+    private readonly DirectoryEntry _rootDE;
+    private readonly DirectorySearcher _searcher;
 
     public Ldap()
     {
-      _rootDE = new DirectoryEntry(SERVER_IP_ADDRESS);
+      _rootDE = new DirectoryEntry(ServerIpAddress);
       _searcher = new DirectorySearcher(_rootDE);
     }
 
@@ -21,7 +21,7 @@ namespace BBAuto.Logic.Common
       if (login == string.Empty)
         return string.Empty;
 
-      _searcher.Filter = string.Format("(&(objectClass=user)(samAccountName={0}))", login); //strLogonName);
+      _searcher.Filter = $"(&(objectClass=user)(samAccountName={login}))"; //strLogonName);
       //var queryFormat = "(&(objectClass=user)(objectCategory=person)(|(SAMAccountName=*{0}*)(cn=*{0}*)(gn=*{0}*)(sn=*{0}*)(email=*{0}*)))";
 
       _searcher.SearchScope = SearchScope.Subtree;

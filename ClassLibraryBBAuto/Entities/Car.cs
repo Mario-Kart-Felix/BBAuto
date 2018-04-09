@@ -150,7 +150,7 @@ namespace BBAuto.Logic.Entities
 
     public Car()
     {
-      ID = 0;
+      Id = 0;
 
       CarList carList = CarList.getInstance();
       _number = carList.getNextBBNumber();
@@ -163,7 +163,7 @@ namespace BBAuto.Logic.Entities
 
     public Car(int id)
     {
-      ID = id;
+      Id = id;
     }
 
     public Car(DataRow row)
@@ -182,7 +182,7 @@ namespace BBAuto.Logic.Entities
     {
       int id;
       int.TryParse(row.ItemArray[0].ToString(), out id);
-      ID = id;
+      Id = id;
 
       int.TryParse(row.ItemArray[1].ToString(), out _number);
       Grz = row.ItemArray[2].ToString();
@@ -232,9 +232,9 @@ namespace BBAuto.Logic.Entities
     {
       int id;
       int.TryParse(
-        _provider.Insert("Car", ID, _number, Grz, vin, Year, eNumber, bodyNumber, GradeID, ColorID, _isLising,
+        Provider.Insert("Car", Id, _number, Grz, vin, Year, eNumber, bodyNumber, GradeID, ColorID, _isLising,
           _lisingDate, _invertoryNumber), out id);
-      ID = id;
+      Id = id;
 
       CarList carList = CarList.getInstance();
       carList.Add(this);
@@ -244,7 +244,7 @@ namespace BBAuto.Logic.Entities
 
     private void saveCarBuy()
     {
-      _provider.Insert("CarBuy", ID, _idOwner, _idRegionBuy, _idRegionUsing, driverID, dateOrder, _isGet, dateGet, cost,
+      Provider.Insert("CarBuy", Id, _idOwner, _idRegionBuy, _idRegionUsing, driverID, dateOrder, _isGet, dateGet, cost,
         dop, events, idDiller);
     }
 
@@ -330,7 +330,7 @@ namespace BBAuto.Logic.Entities
       return new TempMove(this);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
       MileageList mileageList = MileageList.getInstance();
       Mileage mileage = mileageList.getItem(this);
@@ -358,7 +358,7 @@ namespace BBAuto.Logic.Entities
 
       return new object[]
       {
-        ID, ID, BBNumber, Grz, Mark.Name, info.Model, vin, regionName,
+        Id, Id, BBNumber, Grz, Mark.Name, info.Model, vin, regionName,
         info.Driver.GetName(NameType.Full), pts.Number, sts.Number, Year, mileageInt,
         mileageDate, info.Owner, info.Guarantee, GetStatus()
       };
@@ -375,12 +375,12 @@ namespace BBAuto.Logic.Entities
 
     public override string ToString()
     {
-      return (ID == 0) ? "нет данных" : string.Concat(Mark.Name, " ", info.Model, " ", Grz);
+      return (Id == 0) ? "нет данных" : string.Concat(Mark.Name, " ", info.Model, " ", Grz);
     }
 
     internal override void Delete()
     {
-      _provider.Delete("Car", ID);
+      Provider.Delete("Car", Id);
     }
 
     public string GetStatus()
@@ -392,7 +392,7 @@ namespace BBAuto.Logic.Entities
       string statusAfterDTP = statusAfterDTPs.getItem(Convert.ToInt32(dtp.IDStatusAfterDTP));
 
       CarSaleList carSaleList = CarSaleList.getInstance();
-      CarSale carSale = carSaleList.getItem(ID);
+      CarSale carSale = carSaleList.getItem(Id);
 
       if (info.IsSale && carSale.Date != string.Empty)
         return "продан";

@@ -38,7 +38,7 @@ namespace BBAuto.Logic.ForCar
 
     public bool IsSale
     {
-      get { return CarSaleList.getInstance().getItem(_car.ID) != null; }
+      get { return CarSaleList.getInstance().getItem(_car.Id) != null; }
     }
 
     public Driver Driver

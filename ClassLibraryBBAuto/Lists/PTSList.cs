@@ -16,7 +16,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<PTS>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static PTSList getInstance()
@@ -27,9 +27,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("PTS");
+      DataTable dt = Provider.Select("PTS");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -57,7 +57,7 @@ namespace BBAuto.Logic.Lists
 
     public PTS getItem(Car car)
     {
-      var PTSs = list.Where(item => item.Car.ID == car.ID);
+      var PTSs = list.Where(item => item.Car.Id == car.Id);
 
       return (PTSs.Count() > 0) ? PTSs.First() : car.createPTS();
     }

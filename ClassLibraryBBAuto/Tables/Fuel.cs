@@ -10,7 +10,7 @@ namespace BBAuto.Logic.Tables
   {
     public Fuel(DataRow row)
     {
-      ID = Convert.ToInt32(row[0].ToString());
+      Id = Convert.ToInt32(row[0].ToString());
 
       int idFuelCard;
       int.TryParse(row[1].ToString(), out idFuelCard);
@@ -44,12 +44,12 @@ namespace BBAuto.Logic.Tables
 
     public override void Save()
     {
-      ID = Convert.ToInt32(_provider.Insert("Fuel", FuelCard.ID, Date, Value, EngineType.ID));
+      Id = Convert.ToInt32(Provider.Insert("Fuel", FuelCard.Id, Date, Value, EngineType.Id));
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
-      return new object[] {ID, Date, Value};
+      return new object[] {Id, Date, Value};
     }
   }
 }

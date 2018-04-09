@@ -26,7 +26,7 @@ namespace BBAuto.Logic.ForDriver
 
     public DriverLicense(Driver driver)
     {
-      ID = 0;
+      Id = 0;
       Driver = driver;
 
       DateBegin = DateTime.Today;
@@ -42,7 +42,7 @@ namespace BBAuto.Logic.ForDriver
 
     private void fillFields(DataRow row)
     {
-      ID = Convert.ToInt32(row.ItemArray[0]);
+      Id = Convert.ToInt32(row.ItemArray[0]);
 
       int idDriver;
       int.TryParse(row.ItemArray[1].ToString(), out idDriver);
@@ -59,7 +59,7 @@ namespace BBAuto.Logic.ForDriver
       DateEnd = dateEnd;
 
       File = row.ItemArray[5].ToString();
-      _fileBegin = File;
+      FileBegin = File;
       int.TryParse(row.ItemArray[6].ToString(), out _notificationSent);
     }
 
@@ -67,7 +67,7 @@ namespace BBAuto.Logic.ForDriver
     {
       DeleteFile(File);
 
-      File = WorkWithFiles.FileCopyById(File, "drivers", Driver.ID, "DriverLicense", Number);
+      File = WorkWithFiles.FileCopyById(File, "drivers", Driver.Id, "DriverLicense", Number);
 
       ExecSave();
 
@@ -79,20 +79,20 @@ namespace BBAuto.Logic.ForDriver
     {
       int id;
       int.TryParse(
-        _provider.Insert("DriverLicense", ID, Driver.ID, Number, DateBegin, DateEnd, File, _notificationSent), out id);
-      ID = id;
+        Provider.Insert("DriverLicense", Id, Driver.Id, Number, DateBegin, DateEnd, File, _notificationSent), out id);
+      Id = id;
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
-      return new object[] {ID, Number, DateEnd.ToShortDateString()};
+      return new object[] {Id, Number, DateEnd.ToShortDateString()};
     }
 
     internal override void Delete()
     {
       WorkWithFiles.Delete(File);
 
-      _provider.Delete("DriverLicense", ID);
+      Provider.Delete("DriverLicense", Id);
     }
 
     public override string ToString()
@@ -108,7 +108,7 @@ namespace BBAuto.Logic.ForDriver
       email.SendNotification(Driver, message);
 
       IsNotificationSent = true;
-      if (ID != 0)
+      if (Id != 0)
         ExecSave();
     }
 

@@ -12,7 +12,7 @@ namespace BBAuto.Logic.Tables
     {
       int id;
       int.TryParse(row[0].ToString(), out id);
-      ID = id;
+      Id = id;
 
       Name = row[1].ToString();
     }
@@ -22,7 +22,7 @@ namespace BBAuto.Logic.Tables
       Name = name;
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
       throw new NotImplementedException();
     }
@@ -30,9 +30,9 @@ namespace BBAuto.Logic.Tables
     public override void Save()
     {
       int id;
-      int.TryParse(_provider.Insert("Region", ID, Name), out id);
+      int.TryParse(Provider.Insert("Region", Id, Name), out id);
 
-      ID = id;
+      Id = id;
     }
   }
 }

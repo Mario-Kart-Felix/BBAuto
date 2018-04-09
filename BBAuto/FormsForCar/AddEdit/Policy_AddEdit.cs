@@ -26,7 +26,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
     {
       loadDictionary();
 
-      if (_policy.ID == 0)
+      if (_policy.Id == 0)
         changeDateEnd();
       else
         fillFields();
@@ -34,7 +34,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
       setVisible();
 
       _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-      _workWithForm.SetEditMode(_policy.ID == 0);
+      _workWithForm.SetEditMode(_policy.Id == 0);
     }
 
     private void loadDictionary()

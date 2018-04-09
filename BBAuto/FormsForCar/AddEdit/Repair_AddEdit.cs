@@ -26,14 +26,14 @@ namespace BBAuto.App.FormsForCar.AddEdit
       FillFields();
 
       _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-      _workWithForm.SetEditMode(_repair.ID == 0);
+      _workWithForm.SetEditMode(_repair.Id == 0);
     }
 
     private void FillFields()
     {
       loadDictionary();
 
-      cbCar.SelectedValue = _repair.Car.ID;
+      cbCar.SelectedValue = _repair.Car.Id;
       cbRepairType.SelectedValue = _repair.RepairTypeID;
       cbServiceStantion.SelectedValue = _repair.ServiceStantionID;
 

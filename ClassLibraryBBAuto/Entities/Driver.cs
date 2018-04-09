@@ -164,7 +164,7 @@ namespace BBAuto.Logic.Entities
       get
       {
         UserAccessList userAccessList = UserAccessList.getInstance();
-        UserAccess userAccess = userAccessList.getItem(ID);
+        UserAccess userAccess = userAccessList.getItem(Id);
 
         return (RolesList) userAccess.RoleId;
       }
@@ -240,7 +240,7 @@ namespace BBAuto.Logic.Entities
 
     public Driver()
     {
-      ID = 0;
+      Id = 0;
       _isDriver = 0;
       _mobile = string.Empty;
       suppyAddress = string.Empty;
@@ -250,7 +250,7 @@ namespace BBAuto.Logic.Entities
     {
       int id;
       int.TryParse(row.ItemArray[0].ToString(), out id);
-      ID = id;
+      Id = id;
 
       _fio = row.ItemArray[1].ToString();
 
@@ -306,11 +306,11 @@ namespace BBAuto.Logic.Entities
           DateStopNotification.Month.ToString(), "-", DateStopNotification.Day.ToString());
 
       int id;
-      int.TryParse(_provider.Insert("Driver", ID, GetName(NameType.Full), Region.ID, dateBirthSql, _mobile, email,
+      int.TryParse(Provider.Insert("Driver", Id, GetName(NameType.Full), Region.Id, dateBirthSql, _mobile, email,
         _fired, _expSince, PositionID,
         DeptID, Login, OwnerID, suppyAddress, SexIndex, _decret,
         dateStopNotificationSql, _number, _isDriver, _from1C), out id);
-      ID = id;
+      Id = id;
 
       driverList.Add(this);
     }
@@ -337,10 +337,10 @@ namespace BBAuto.Logic.Entities
 
     public ColumnSize CreateColumnSize(Status status)
     {
-      return new ColumnSize(ID, status);
+      return new ColumnSize(Id, status);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
       MedicalCertList medicalCertList = MedicalCertList.getInstance();
       MedicalCert medicalCert = medicalCertList.getItem(this);
@@ -355,7 +355,7 @@ namespace BBAuto.Logic.Entities
 
       return new object[]
       {
-        ID,
+        Id,
         0,
         GetName(NameType.Full),
         licenseStatus,

@@ -15,7 +15,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<EngineType>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static EngineTypeList getInstance()
@@ -26,9 +26,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("EngineType");
+      DataTable dt = Provider.Select("EngineType");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -39,7 +39,7 @@ namespace BBAuto.Logic.Lists
 
     public void Add(EngineType engineType)
     {
-      if (list.Exists(et => et.ID == engineType.ID))
+      if (list.Exists(et => et.Id == engineType.Id))
         return;
 
       list.Add(engineType);
@@ -47,7 +47,7 @@ namespace BBAuto.Logic.Lists
 
     public EngineType getItem(int id)
     {
-      return list.FirstOrDefault(et => et.ID == id);
+      return list.FirstOrDefault(et => et.Id == id);
     }
   }
 }

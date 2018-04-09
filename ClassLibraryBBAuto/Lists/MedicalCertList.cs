@@ -16,7 +16,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<MedicalCert>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static MedicalCertList getInstance()
@@ -27,9 +27,9 @@ namespace BBAuto.Logic.Lists
       return _uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("MedicalCert");
+      DataTable dt = Provider.Select("MedicalCert");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -40,7 +40,7 @@ namespace BBAuto.Logic.Lists
 
     public void Add(MedicalCert medicalCert)
     {
-      if (list.Exists(item => item.ID == medicalCert.ID))
+      if (list.Exists(item => item.Id == medicalCert.Id))
         return;
 
       list.Add(medicalCert);
@@ -54,7 +54,7 @@ namespace BBAuto.Logic.Lists
     public DataTable ToDataTable(Driver driver)
     {
       var medicalCerts = from medicalCert in list
-        where medicalCert.Driver.ID == driver.ID
+        where medicalCert.Driver.Id == driver.Id
         orderby medicalCert.DateEnd descending
         select medicalCert;
 
@@ -69,19 +69,19 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Дата окончания действия");
 
       foreach (MedicalCert medicalCert in medicalCerts)
-        dt.Rows.Add(medicalCert.getRow());
+        dt.Rows.Add(medicalCert.GetRow());
 
       return dt;
     }
 
     public MedicalCert getItem(int id)
     {
-      return list.FirstOrDefault(mc => mc.ID == id);
+      return list.FirstOrDefault(mc => mc.Id == id);
     }
 
     public MedicalCert getItem(Driver driver)
     {
-      return list.Where(m => m.Driver.ID == driver.ID).OrderByDescending(m => m.DateEnd).FirstOrDefault();
+      return list.Where(m => m.Driver.Id == driver.Id).OrderByDescending(m => m.DateEnd).FirstOrDefault();
     }
 
     public void Delete(int idMedicalCert)
@@ -97,8 +97,8 @@ namespace BBAuto.Logic.Lists
     {
       DriverList driverList = DriverList.getInstance();
       IEnumerable<MedicalCert> listNew =
-        list.Where(item => !driverList.getItem(item.Driver.ID).Fired && !driverList.getItem(item.Driver.ID).Decret &&
-                           driverList.getItem(item.Driver.ID).IsDriver);
+        list.Where(item => !driverList.getItem(item.Driver.Id).Fired && !driverList.getItem(item.Driver.Id).Decret &&
+                           driverList.getItem(item.Driver.Id).IsDriver);
 
       var listNotification = new List<INotification>();
 

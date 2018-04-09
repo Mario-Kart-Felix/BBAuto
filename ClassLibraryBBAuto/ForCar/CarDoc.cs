@@ -16,7 +16,7 @@ namespace BBAuto.Logic.ForCar
     public CarDoc(Car car)
     {
       Car = car;
-      ID = 0;
+      Id = 0;
     }
 
     public CarDoc(DataRow row)
@@ -28,7 +28,7 @@ namespace BBAuto.Logic.ForCar
     {
       int id;
       int.TryParse(row.ItemArray[0].ToString(), out id);
-      ID = id;
+      Id = id;
 
       int idCar;
       int.TryParse(row.ItemArray[1].ToString(), out idCar);
@@ -36,30 +36,30 @@ namespace BBAuto.Logic.ForCar
 
       Name = row.ItemArray[2].ToString();
       File = row.ItemArray[3].ToString();
-      _fileBegin = File;
+      FileBegin = File;
     }
 
     public override void Save()
     {
       DeleteFile(File);
 
-      File = WorkWithFiles.FileCopyById(File, "cars", Car.ID, "Documents", Name);
+      File = WorkWithFiles.FileCopyById(File, "cars", Car.Id, "Documents", Name);
 
       int id;
-      int.TryParse(_provider.Insert("CarDoc", ID, Car.ID, Name, File), out id);
-      ID = id;
+      int.TryParse(Provider.Insert("CarDoc", Id, Car.Id, Name, File), out id);
+      Id = id;
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
-      return new object[] {ID, Name, (File == string.Empty) ? string.Empty : "Показать"};
+      return new object[] {Id, Name, (File == string.Empty) ? string.Empty : "Показать"};
     }
 
     internal override void Delete()
     {
       DeleteFile(File);
 
-      _provider.Delete("CarDoc", ID);
+      Provider.Delete("CarDoc", Id);
     }
   }
 }

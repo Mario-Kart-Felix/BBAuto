@@ -25,11 +25,11 @@ namespace BBAuto.App.AddEdit
       loadDictionary();
 
       if (_userAccess.Driver != null)
-        cbDriver.SelectedValue = _userAccess.Driver.ID;
+        cbDriver.SelectedValue = _userAccess.Driver.Id;
       cbRole.SelectedValue = _userAccess.RoleId;
 
       _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-      _workWithForm.SetEditMode(_userAccess.ID == 0);
+      _workWithForm.SetEditMode(_userAccess.Id == 0);
     }
 
     private void loadDictionary()

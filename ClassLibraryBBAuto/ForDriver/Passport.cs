@@ -35,7 +35,7 @@ namespace BBAuto.Logic.ForDriver
 
     public Passport(Driver driver)
     {
-      ID = 0;
+      Id = 0;
       Driver = driver;
       GiveDate = DateTime.Today;
       _number = string.Empty;
@@ -50,7 +50,7 @@ namespace BBAuto.Logic.ForDriver
     {
       int id;
       int.TryParse(row.ItemArray[0].ToString(), out id);
-      ID = id;
+      Id = id;
 
       int idDriver;
       int.TryParse(row.ItemArray[1].ToString(), out idDriver);
@@ -68,34 +68,34 @@ namespace BBAuto.Logic.ForDriver
 
       Address = row.ItemArray[8].ToString();
       File = row.ItemArray[9].ToString();
-      _fileBegin = File;
+      FileBegin = File;
     }
 
     public override void Save()
     {
       DeleteFile(File);
 
-      File = WorkWithFiles.FileCopyById(File, "drivers", Driver.ID, "Passports", _number);
+      File = WorkWithFiles.FileCopyById(File, "drivers", Driver.Id, "Passports", _number);
 
       int id;
       int.TryParse(
-        _provider.Insert("Passport", ID, Driver.ID, LastName, FirstName, SecondName, Number, GiveOrg, GiveDate, Address,
+        Provider.Insert("Passport", Id, Driver.Id, LastName, FirstName, SecondName, Number, GiveOrg, GiveDate, Address,
           File), out id);
-      ID = id;
+      Id = id;
 
       PassportList.getInstance().Add(this);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
-      return new object[3] {ID, Number, GiveDate.ToShortDateString()};
+      return new object[3] {Id, Number, GiveDate.ToShortDateString()};
     }
 
     internal override void Delete()
     {
       DeleteFile(File);
 
-      _provider.Delete("Passport", ID);
+      Provider.Delete("Passport", Id);
     }
 
     public override string ToString()

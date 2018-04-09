@@ -188,7 +188,7 @@ namespace BBAuto.Logic.Common
 
       foreach (WayBillDay item in this)
       {
-        dt.Rows.Add(item.getRow());
+        dt.Rows.Add(item.GetRow());
       }
 
       return dt;

@@ -31,7 +31,7 @@ namespace BBAuto.App.AddEdit
 
       _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
       _workWithForm.EditModeChanged += EnableIfAccountWayBill;
-      _workWithForm.SetEditMode(_suppyAddress.ID == 0);
+      _workWithForm.SetEditMode(_suppyAddress.Id == 0);
     }
 
     private void EnableIfAccountWayBill(Object sender, EditModeEventArgs e)
@@ -42,7 +42,7 @@ namespace BBAuto.App.AddEdit
 
     private void loadData()
     {
-      cbRegion.SelectedValue = _suppyAddress.ID;
+      cbRegion.SelectedValue = _suppyAddress.Id;
     }
 
     private void loadRegions()

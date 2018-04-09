@@ -16,7 +16,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<MyPoint>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static MyPointList getInstance()
@@ -27,9 +27,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("MyPoint");
+      DataTable dt = Provider.Select("MyPoint");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -62,7 +62,7 @@ namespace BBAuto.Logic.Lists
 
     public MyPoint getItem(int id)
     {
-      return list.FirstOrDefault(p => p.ID == id);
+      return list.FirstOrDefault(p => p.Id == id);
     }
 
     public DataTable ToDataTable(int idRegion)
@@ -92,7 +92,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Название");
 
       foreach (MyPoint myPoint in myPoints)
-        dt.Rows.Add(myPoint.getRow());
+        dt.Rows.Add(myPoint.GetRow());
 
       return dt;
     }

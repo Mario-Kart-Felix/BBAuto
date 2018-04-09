@@ -38,7 +38,7 @@ namespace BBAuto.Logic.ForCar
 
     public Repair(Car car)
     {
-      ID = 0;
+      Id = 0;
       Car = car;
       Date = DateTime.Today;
     }
@@ -59,7 +59,7 @@ namespace BBAuto.Logic.ForCar
     {
       int id;
       int.TryParse(row.ItemArray[0].ToString(), out id);
-      ID = id;
+      Id = id;
 
       int idCar;
       int.TryParse(row.ItemArray[1].ToString(), out idCar);
@@ -74,10 +74,10 @@ namespace BBAuto.Logic.ForCar
 
       Cost = row.ItemArray[5].ToString();
       File = row.ItemArray[6].ToString();
-      _fileBegin = File;
+      FileBegin = File;
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
       string show = "";
       if (!string.IsNullOrEmpty(File))
@@ -88,7 +88,7 @@ namespace BBAuto.Logic.ForCar
 
       return new object[]
       {
-        ID, Car.ID, Car.BBNumber, Car.Grz, repairTypes.getItem(_idRepairType),
+        Id, Car.Id, Car.BBNumber, Car.Grz, repairTypes.getItem(_idRepairType),
         serviceStantions.getItem(_idServiceStantion),
         Date, _cost, show
       };
@@ -98,26 +98,26 @@ namespace BBAuto.Logic.ForCar
     {
       int id;
 
-      if (ID == 0)
+      if (Id == 0)
       {
-        int.TryParse(_provider.Insert("Repair", ID, Car.ID, _idRepairType, _idServiceStantion, Date, _cost, File),
+        int.TryParse(Provider.Insert("Repair", Id, Car.Id, _idRepairType, _idServiceStantion, Date, _cost, File),
           out id);
-        ID = id;
+        Id = id;
       }
 
       DeleteFile(File);
 
-      File = WorkWithFiles.FileCopyById(File, "cars", Car.ID, "Repair", ID.ToString());
-      int.TryParse(_provider.Insert("Repair", ID, Car.ID, _idRepairType, _idServiceStantion, Date, _cost, File),
+      File = WorkWithFiles.FileCopyById(File, "cars", Car.Id, "Repair", Id.ToString());
+      int.TryParse(Provider.Insert("Repair", Id, Car.Id, _idRepairType, _idServiceStantion, Date, _cost, File),
         out id);
-      ID = id;
+      Id = id;
     }
 
     internal override void Delete()
     {
       DeleteFile(File);
 
-      _provider.Delete("Repair", ID);
+      Provider.Delete("Repair", Id);
     }
   }
 }

@@ -29,7 +29,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
       changeVisible();
 
       _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-      _workWithForm.SetEditMode(_violation.ID == 0);
+      _workWithForm.SetEditMode(_violation.Id == 0);
     }
 
     private void fillFields()
@@ -156,7 +156,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
     private void Send()
     {
       EMail mail = new EMail();
-      mail.sendMailViolation(_violation);
+      mail.SendMailViolation(_violation);
     }
 
     private void llDriver_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

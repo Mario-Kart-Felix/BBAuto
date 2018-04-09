@@ -34,7 +34,7 @@ namespace BBAuto.App.AddEdit
 
       _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
       _workWithForm.EditModeChanged += SetEnable;
-      _workWithForm.SetEditMode(_route.ID == 0);
+      _workWithForm.SetEditMode(_route.Id == 0);
     }
 
     private void SetEnable(Object sender, EditModeEventArgs e)

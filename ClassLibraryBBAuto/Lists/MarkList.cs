@@ -15,7 +15,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<Mark>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static MarkList getInstance()
@@ -26,9 +26,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("Mark");
+      DataTable dt = Provider.Select("Mark");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -39,7 +39,7 @@ namespace BBAuto.Logic.Lists
 
     public void Add(Mark mark)
     {
-      if (list.Exists(item => item.ID == mark.ID))
+      if (list.Exists(item => item.Id == mark.Id))
         return;
 
       list.Add(mark);
@@ -47,7 +47,7 @@ namespace BBAuto.Logic.Lists
 
     public Mark getItem(int id)
     {
-      return list.FirstOrDefault(m => m.ID == id);
+      return list.FirstOrDefault(m => m.Id == id);
     }
   }
 }

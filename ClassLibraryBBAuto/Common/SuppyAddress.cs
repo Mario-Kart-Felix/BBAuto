@@ -21,7 +21,7 @@ namespace BBAuto.Logic.Common
 
     public SuppyAddress()
     {
-      ID = 0;
+      Id = 0;
     }
 
     public SuppyAddress(DataRow row)
@@ -34,17 +34,17 @@ namespace BBAuto.Logic.Common
 
     internal override void Delete()
     {
-      _provider.Delete("SuppyAddress", ID);
+      Provider.Delete("SuppyAddress", Id);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
-      return new object[] {Point.ID, Region, Point.Name};
+      return new object[] {Point.Id, Region, Point.Name};
     }
 
     public override void Save()
     {
-      _provider.Insert("SuppyAddress", Point.ID);
+      Provider.Insert("SuppyAddress", Point.Id);
 
       SuppyAddressList suppyAddressList = SuppyAddressList.getInstance();
       suppyAddressList.Add(this);

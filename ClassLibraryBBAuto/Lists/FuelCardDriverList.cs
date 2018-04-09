@@ -17,7 +17,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<FuelCardDriver>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static FuelCardDriverList getInstance()
@@ -28,9 +28,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("FuelCardDriver");
+      DataTable dt = Provider.Select("FuelCardDriver");
 
       list.Clear();
 
@@ -51,7 +51,7 @@ namespace BBAuto.Logic.Lists
 
     public FuelCardDriver getItem(int id)
     {
-      return list.FirstOrDefault(item => item.ID == id);
+      return list.FirstOrDefault(item => item.Id == id);
     }
 
     public FuelCardDriver getItem(FuelCard fuelCard)
@@ -91,7 +91,7 @@ namespace BBAuto.Logic.Lists
     public DataTable ToDataTable(FuelCard fuelCard)
     {
       return createTable(
-        list.Where(item => item.FuelCard.ID == fuelCard.ID).OrderByDescending(item => item.DateBegin)
+        list.Where(item => item.FuelCard.Id == fuelCard.Id).OrderByDescending(item => item.DateBegin)
       );
     }
 
@@ -109,7 +109,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Окончание использования", Type.GetType("System.DateTime"));
 
       foreach (FuelCardDriver fuelCarsDriver in list)
-        dt.Rows.Add(fuelCarsDriver.getRow());
+        dt.Rows.Add(fuelCarsDriver.GetRow());
 
       return dt;
     }

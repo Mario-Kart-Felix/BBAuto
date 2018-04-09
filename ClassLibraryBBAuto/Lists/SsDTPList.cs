@@ -16,7 +16,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<SsDTP>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static SsDTPList getInstance()
@@ -27,9 +27,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("ssDTP");
+      DataTable dt = Provider.Select("ssDTP");
 
       clearList();
 
@@ -56,7 +56,7 @@ namespace BBAuto.Logic.Lists
 
     public SsDTP getItem(Mark mark)
     {
-      return list.FirstOrDefault(item => item.Mark.ID == mark.ID);
+      return list.FirstOrDefault(item => item.Mark.Id == mark.Id);
     }
 
     public DataTable ToDataTable()
@@ -68,7 +68,7 @@ namespace BBAuto.Logic.Lists
 
       foreach (SsDTP ssDTP in list)
       {
-        dt.Rows.Add(ssDTP.getRow());
+        dt.Rows.Add(ssDTP.GetRow());
       }
 
       return dt;

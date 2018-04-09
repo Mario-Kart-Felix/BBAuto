@@ -10,31 +10,31 @@ namespace BBAuto.Logic.Common
 {
   public class ColumnSize : MainDictionary
   {
-    private const int DEFAULT_COLUMN_SIZE = 100;
+    private const int DefaultColumnSize = 100;
 
     private int _idDriver;
     private int _idStatus;
     private int[] _arrayOfSize;
 
-    private Status status
+    private Status Status
     {
-      set { _idStatus = (int) value; }
+      set => _idStatus = (int) value;
     }
 
     internal ColumnSize(int idDriver, Status status)
     {
       _idDriver = idDriver;
-      this.status = status;
+      Status = status;
 
       Init();
-      for (int i = 0; i < _arrayOfSize.Count(); i++)
-        _arrayOfSize[i] = DEFAULT_COLUMN_SIZE;
+      for (var i = 0; i < _arrayOfSize.Count(); i++)
+        _arrayOfSize[i] = DefaultColumnSize;
     }
 
     public ColumnSize(DataRow row)
     {
       Init();
-      fillFields(row);
+      FillFields(row);
     }
 
     private void Init()
@@ -42,12 +42,12 @@ namespace BBAuto.Logic.Common
       _arrayOfSize = new int[17];
     }
 
-    private void fillFields(DataRow row)
+    private void FillFields(DataRow row)
     {
       int.TryParse(row.ItemArray[0].ToString(), out _idDriver);
       int.TryParse(row.ItemArray[1].ToString(), out _idStatus);
 
-      for (int i = 2; i < row.ItemArray.Count(); i++)
+      for (var i = 2; i < row.ItemArray.Count(); i++)
       {
         int.TryParse(row.ItemArray[i].ToString(), out _arrayOfSize[i - 2]);
       }
@@ -55,23 +55,23 @@ namespace BBAuto.Logic.Common
 
     public override void Save()
     {
-      _provider.Insert("ColumnSize", _idDriver, _idStatus, _arrayOfSize[0], _arrayOfSize[1], _arrayOfSize[2],
+      Provider.Insert("ColumnSize", _idDriver, _idStatus, _arrayOfSize[0], _arrayOfSize[1], _arrayOfSize[2],
         _arrayOfSize[3], _arrayOfSize[4], _arrayOfSize[5], _arrayOfSize[6], _arrayOfSize[7],
         _arrayOfSize[8], _arrayOfSize[9], _arrayOfSize[10], _arrayOfSize[11], _arrayOfSize[12], _arrayOfSize[13],
         _arrayOfSize[14], _arrayOfSize[15], _arrayOfSize[16]);
 
-      ColumnSizeList columnSizeList = ColumnSizeList.getInstance();
+      var columnSizeList = ColumnSizeList.getInstance();
       columnSizeList.Add(this);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
       throw new NotImplementedException();
     }
 
     internal bool IsEqualsIDs(Driver driver, Status status)
     {
-      return driver.ID == _idDriver && _idStatus == (int) status;
+      return driver.Id == _idDriver && _idStatus == (int) status;
     }
 
     public int GetSize(int index)

@@ -17,7 +17,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<ShipPart>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static ShipPartList getInstance()
@@ -28,9 +28,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("ShipPart");
+      DataTable dt = Provider.Select("ShipPart");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -49,7 +49,7 @@ namespace BBAuto.Logic.Lists
 
     public ShipPart getItem(int id)
     {
-      return list.FirstOrDefault(s => s.ID == id);
+      return list.FirstOrDefault(s => s.Id == id);
     }
 
     public void Delete(int idShipPart)
@@ -68,7 +68,7 @@ namespace BBAuto.Logic.Lists
 
     public DataTable ToDataTable(Car car)
     {
-      var shipParts = list.Where(item => item.Car.ID == car.ID);
+      var shipParts = list.Where(item => item.Car.Id == car.Id);
 
       return createTable(shipParts.ToList());
     }
@@ -86,7 +86,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Дата отправки", Type.GetType("System.DateTime"));
 
       foreach (ShipPart shipPart in shipParts)
-        dt.Rows.Add(shipPart.getRow());
+        dt.Rows.Add(shipPart.GetRow());
 
       return dt;
     }

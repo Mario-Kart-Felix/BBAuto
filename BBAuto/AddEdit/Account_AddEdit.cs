@@ -37,7 +37,7 @@ namespace BBAuto.App.AddEdit
       ChangeEnableComboBoxes();
 
       _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-      _workWithForm.SetEditMode(_account.ID == 0);
+      _workWithForm.SetEditMode(_account.Id == 0);
       _workWithForm.SetEnableValue(btnSave, (!_account.Agreed));
     }
 

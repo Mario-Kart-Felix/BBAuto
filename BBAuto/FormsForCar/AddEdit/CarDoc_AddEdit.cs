@@ -23,7 +23,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
       fillFields();
 
       _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-      _workWithForm.SetEditMode(_carDoc.ID == 0);
+      _workWithForm.SetEditMode(_carDoc.Id == 0);
     }
 
     private void fillFields()

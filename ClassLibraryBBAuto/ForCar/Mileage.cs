@@ -20,7 +20,7 @@ namespace BBAuto.Logic.ForCar
     {
       Car = car;
       Date = DateTime.Today.Date;
-      ID = 0;
+      Id = 0;
     }
 
     public Mileage(DataRow row)
@@ -30,7 +30,7 @@ namespace BBAuto.Logic.ForCar
 
     private void fillFields(DataRow row)
     {
-      ID = Convert.ToInt32(row.ItemArray[0]);
+      Id = Convert.ToInt32(row.ItemArray[0]);
 
       int idCar;
       int.TryParse(row.ItemArray[1].ToString(), out idCar);
@@ -45,20 +45,20 @@ namespace BBAuto.Logic.ForCar
 
     public override void Save()
     {
-      ID = Convert.ToInt32(_provider.Insert("Mileage", ID, Car.ID, Date, _count));
+      Id = Convert.ToInt32(Provider.Insert("Mileage", Id, Car.Id, Date, _count));
 
       MileageList mileageList = MileageList.getInstance();
       mileageList.Add(this);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
-      return new object[3] {ID, Date, _count};
+      return new object[3] {Id, Date, _count};
     }
 
     internal override void Delete()
     {
-      _provider.Delete("Mileage", ID);
+      Provider.Delete("Mileage", Id);
     }
 
     internal DateTime MonthToString()

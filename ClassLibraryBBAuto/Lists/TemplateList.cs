@@ -16,7 +16,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<Template>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static TemplateList getInstance()
@@ -27,9 +27,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("Template");
+      DataTable dt = Provider.Select("Template");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -40,7 +40,7 @@ namespace BBAuto.Logic.Lists
 
     public void Add(Template template)
     {
-      if (list.Exists(item => item.ID == template.ID))
+      if (list.Exists(item => item.Id == template.Id))
         return;
 
       list.Add(template);
@@ -57,7 +57,7 @@ namespace BBAuto.Logic.Lists
 
     public Template getItem(int id)
     {
-      return list.FirstOrDefault(t => t.ID == id);
+      return list.FirstOrDefault(t => t.Id == id);
     }
 
     public Template getItem(string name)
@@ -74,7 +74,7 @@ namespace BBAuto.Logic.Lists
 
       foreach (var item in list)
       {
-        dt.Rows.Add(item.getRow());
+        dt.Rows.Add(item.GetRow());
       }
 
       return dt;

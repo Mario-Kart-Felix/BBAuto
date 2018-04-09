@@ -370,7 +370,7 @@ namespace BBAuto.App.ContextMenu
             == DialogResult.Yes)
         {
           CarSaleList carSaleList = CarSaleList.getInstance();
-          carSaleList.Delete(car.ID);
+          carSaleList.Delete(car.Id);
 
           _mainStatus.Set(_mainStatus.Get());
         }
@@ -525,7 +525,7 @@ namespace BBAuto.App.ContextMenu
         CreateDocument doc = createDocument(_dgvMain.CurrentCell);
 
         if (doc != null)
-          doc.ShowProxyOnSTO();
+          doc.ShowProxyOnSto();
       };
       return item;
     }
@@ -540,7 +540,7 @@ namespace BBAuto.App.ContextMenu
           CreateDocument doc = createDocument(cell);
 
           if (doc != null)
-            doc.PrintProxyOnSTO();
+            doc.PrintProxyOnSto();
         }
       };
       return item;
@@ -607,7 +607,7 @@ namespace BBAuto.App.ContextMenu
 
           CreateDocument doc = new CreateDocument(car);
 
-          doc.showNotice(dtp);
+          doc.ShowNotice(dtp);
         }
         else
           MessageBox.Show("Для формирования извещения необходимо перейти на вид \"ДТП\"", "Предупреждение",
@@ -769,7 +769,7 @@ namespace BBAuto.App.ContextMenu
     private CreateDocument DgvToExcel()
     {
       CreateDocument doc = new CreateDocument();
-      doc.CreateExcelFromAllDGV(_dgvMain.GetDGV());
+      doc.CreateExcelFromAllDgv(_dgvMain.GetDGV());
       doc.CreateHeader("Справочник \"" + _mainStatus.ToString() + "\"");
 
       return doc;

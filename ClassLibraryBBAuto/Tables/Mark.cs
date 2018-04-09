@@ -10,14 +10,14 @@ namespace BBAuto.Logic.Tables
     {
       int id;
       int.TryParse(row[0].ToString(), out id);
-      ID = id;
+      Id = id;
 
       Name = row[1].ToString();
     }
 
     public string Name { get; private set; }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
       throw new NotImplementedException();
     }

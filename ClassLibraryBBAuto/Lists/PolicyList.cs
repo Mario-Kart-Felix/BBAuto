@@ -18,7 +18,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<Policy>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static PolicyList getInstance()
@@ -26,9 +26,9 @@ namespace BBAuto.Logic.Lists
       return _uniqueInstance ?? (_uniqueInstance = new PolicyList());
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("Policy");
+      DataTable dt = Provider.Select("Policy");
 
       ClearList();
 
@@ -56,13 +56,13 @@ namespace BBAuto.Logic.Lists
 
     public Policy getItem(int id)
     {
-      return list.FirstOrDefault(p => p.ID == id);
+      return list.FirstOrDefault(p => p.Id == id);
     }
 
     public Policy getItem(Car car, PolicyType policyType)
     {
       var policyList = from policy in list
-        where policy.Car.ID == car.ID && policy.Type == policyType
+        where policy.Car.Id == car.Id && policy.Type == policyType
         orderby policy.DateEnd descending
         select policy;
 
@@ -79,7 +79,7 @@ namespace BBAuto.Logic.Lists
     public DataTable ToDataTable(Car car)
     {
       var policies = from policy in list
-        where policy.Car.ID == car.ID
+        where policy.Car.Id == car.Id
         orderby policy.DateEnd descending
         select policy;
 
@@ -131,7 +131,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("LimitCost", Type.GetType("System.Double"));
       dt.Columns.Add("Pay2", Type.GetType("System.Double"));
 
-      policies.ToList().ForEach(item => dt.Rows.Add(item.getRow()));
+      policies.ToList().ForEach(item => dt.Rows.Add(item.GetRow()));
 
       return dt;
     }

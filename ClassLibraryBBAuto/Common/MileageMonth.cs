@@ -4,7 +4,7 @@ namespace BBAuto.Logic.Common
 {
   public class MileageMonth
   {
-    private IProvider provider;
+    private readonly IProvider _provider;
 
     public double PSN { get; set; }
     public double PSK { get; set; }
@@ -31,12 +31,12 @@ namespace BBAuto.Logic.Common
       Num = _number;
       Date = _date;
 
-      provider = Provider.GetProvider();
+      _provider = Provider.GetProvider();
     }
 
     public string Save()
     {
-      return provider.Insert("MileageMonth", Num, Date, Gas, GasBegin, GasEnd, GasNorm, PSN, PSK, Mileage);
+      return _provider.Insert("MileageMonth", Num, Date, Gas, GasBegin, GasEnd, GasNorm, PSN, PSK, Mileage);
     }
   }
 }

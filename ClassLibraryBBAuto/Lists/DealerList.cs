@@ -15,7 +15,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<Dealer>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static DealerList getInstance()
@@ -26,9 +26,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("Diller");
+      DataTable dt = Provider.Select("Diller");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -56,7 +56,7 @@ namespace BBAuto.Logic.Lists
 
     public Dealer getItem(int id)
     {
-      return list.FirstOrDefault(d => d.ID == id);
+      return list.FirstOrDefault(d => d.Id == id);
     }
 
     private DataTable createTable()
@@ -74,7 +74,7 @@ namespace BBAuto.Logic.Lists
       DataTable dt = createTable();
 
       foreach (Dealer diller in list)
-        dt.Rows.Add(diller.getRow());
+        dt.Rows.Add(diller.GetRow());
 
       return dt;
     }

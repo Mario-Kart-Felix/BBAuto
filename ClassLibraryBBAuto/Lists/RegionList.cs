@@ -15,7 +15,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<Region>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static RegionList getInstance()
@@ -26,9 +26,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("Region");
+      DataTable dt = Provider.Select("Region");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -47,7 +47,7 @@ namespace BBAuto.Logic.Lists
 
     public Region getItem(int id)
     {
-      var regions = list.Where(item => item.ID == id);
+      var regions = list.Where(item => item.Id == id);
 
       return (regions.Count() > 0) ? regions.First() : null;
     }

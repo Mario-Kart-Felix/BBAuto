@@ -17,7 +17,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<Mileage>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static MileageList getInstance()
@@ -28,9 +28,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("Mileage");
+      DataTable dt = Provider.Select("Mileage");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -49,19 +49,19 @@ namespace BBAuto.Logic.Lists
 
     public Mileage getItem(int id)
     {
-      return getItem(list.Where(m => m.ID == id));
+      return getItem(list.Where(m => m.Id == id));
     }
 
     public Mileage getItem(Car car)
     {
-      var mileages = list.Where(item => item.Car.ID == car.ID).OrderByDescending(item => item.Date);
+      var mileages = list.Where(item => item.Car.Id == car.Id).OrderByDescending(item => item.Date);
 
       return getItem(mileages);
     }
 
     public Mileage getItem(Car car, Mileage current)
     {
-      var mileages = list.Where(item => item.Car.ID == car.ID && item != current).OrderByDescending(item => item.Date);
+      var mileages = list.Where(item => item.Car.Id == car.Id && item != current).OrderByDescending(item => item.Date);
 
       return getItem(mileages);
     }
@@ -84,10 +84,10 @@ namespace BBAuto.Logic.Lists
     {
       DataTable dt = createTable();
 
-      var mileages = list.Where(item => item.Car.ID == car.ID).OrderByDescending(item => item.Date);
+      var mileages = list.Where(item => item.Car.Id == car.Id).OrderByDescending(item => item.Date);
 
       foreach (Mileage mileage in mileages)
-        dt.Rows.Add(mileage.getRow());
+        dt.Rows.Add(mileage.GetRow());
 
       return dt;
     }
@@ -111,12 +111,12 @@ namespace BBAuto.Logic.Lists
           : new DateTime(date.Year, date.Month - 1, 1);
 
       var listPrev = (from item in list
-        where item.Car.ID == car.ID && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
+        where item.Car.Id == car.Id && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
         orderby item.Count descending
         select Convert.ToInt32(item.Count)).ToList();
 
       var listCurrent = (from item in list
-        where item.Car.ID == car.ID && (item.Date.Year == date.Year && item.Date.Month == date.Month)
+        where item.Car.Id == car.Id && (item.Date.Year == date.Year && item.Date.Month == date.Month)
         orderby item.Count descending
         select Convert.ToInt32(item.Count)).ToList();
 
@@ -141,12 +141,12 @@ namespace BBAuto.Logic.Lists
           : new DateTime(date.Year, date.Month - 1, 1);
 
       var listPrev = (from item in list
-        where item.Car.ID == car.ID && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
+        where item.Car.Id == car.Id && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
         orderby item.Count descending
         select Convert.ToInt32(item.Count)).ToList();
 
       var listCurrent = (from item in list
-        where item.Car.ID == car.ID && (item.Date.Year == date.Year && item.Date.Month == date.Month)
+        where item.Car.Id == car.Id && (item.Date.Year == date.Year && item.Date.Month == date.Month)
         orderby item.Count descending
         select Convert.ToInt32(item.Count)).ToList();
 
@@ -171,12 +171,12 @@ namespace BBAuto.Logic.Lists
           : new DateTime(date.Year, date.Month - 1, 1);
 
       var listPrev = (from item in list
-        where item.Car.ID == car.ID && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
+        where item.Car.Id == car.Id && (item.Date.Year == datePrev.Year && item.Date.Month == datePrev.Month)
         orderby item.Count descending
         select Convert.ToInt32(item.Count)).ToList();
 
       var listCurrent = (from item in list
-        where item.Car.ID == car.ID && (item.Date.Year == date.Year && item.Date.Month == date.Month)
+        where item.Car.Id == car.Id && (item.Date.Year == date.Year && item.Date.Month == date.Month)
         orderby item.Count descending
         select Convert.ToInt32(item.Count)).ToList();
 

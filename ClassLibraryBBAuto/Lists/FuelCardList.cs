@@ -16,7 +16,7 @@ namespace BBAuto.Logic.Lists
     {
       _list = new List<FuelCard>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static FuelCardList getInstance()
@@ -27,9 +27,9 @@ namespace BBAuto.Logic.Lists
       return _uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("FuelCard");
+      DataTable dt = Provider.Select("FuelCard");
 
       _list.Clear();
 
@@ -42,7 +42,7 @@ namespace BBAuto.Logic.Lists
 
     internal void Add(FuelCard fuelCard)
     {
-      if (_list.Exists(item => item.ID == fuelCard.ID))
+      if (_list.Exists(item => item.Id == fuelCard.Id))
         return;
 
       _list.Add(fuelCard);
@@ -50,7 +50,7 @@ namespace BBAuto.Logic.Lists
 
     public FuelCard getItem(int id)
     {
-      return _list.FirstOrDefault(item => item.ID == id);
+      return _list.FirstOrDefault(item => item.Id == id);
     }
 
     public FuelCard getItem(string number)
@@ -86,7 +86,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Окончание использования", Type.GetType("System.DateTime"));
 
       foreach (FuelCard fuelCard in list)
-        dt.Rows.Add(fuelCard.getRow());
+        dt.Rows.Add(fuelCard.GetRow());
 
       return dt;
     }

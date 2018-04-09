@@ -100,7 +100,7 @@ namespace BBAuto.Logic.ForDriver
 
     public FuelCard()
     {
-      ID = 0;
+      Id = 0;
       _idRegion = 0;
       _idFuelCardType = 0;
     }
@@ -112,7 +112,7 @@ namespace BBAuto.Logic.ForDriver
 
     private void fillFields(DataRow row)
     {
-      ID = Convert.ToInt32(row.ItemArray[0]);
+      Id = Convert.ToInt32(row.ItemArray[0]);
       int.TryParse(row.ItemArray[1].ToString(), out _idFuelCardType);
       _number = row.ItemArray[2].ToString();
       DateTime.TryParse(row.ItemArray[3].ToString(), out _dateEnd);
@@ -129,7 +129,7 @@ namespace BBAuto.Logic.ForDriver
         dateEndSql = string.Concat(_dateEnd.Year.ToString(), "-", _dateEnd.Month.ToString(), "-",
           _dateEnd.Day.ToString());
 
-      ID = Convert.ToInt32(_provider.Insert("FuelCard", ID, _idFuelCardType, _number, dateEndSql, _idRegion, _pin,
+      Id = Convert.ToInt32(Provider.Insert("FuelCard", Id, _idFuelCardType, _number, dateEndSql, _idRegion, _pin,
         _lost, Comment));
 
       FuelCardList fuelCardList = FuelCardList.getInstance();
@@ -148,20 +148,20 @@ namespace BBAuto.Logic.ForDriver
 
     internal override void Delete()
     {
-      _provider.Delete("FuelCard", ID);
+      Provider.Delete("FuelCard", Id);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
       FuelCardDriverList fuelCardDriverList = FuelCardDriverList.getInstance();
       FuelCardDriver fuelCardDriver = fuelCardDriverList.getItem(this);
 
-      return fuelCardDriver.getRow();
+      return fuelCardDriver.GetRow();
     }
 
     public FuelCardDriver CreateFuelCardDriver()
     {
-      if (ID == 0)
+      if (Id == 0)
         throw new NullReferenceException();
 
       return new FuelCardDriver(this);

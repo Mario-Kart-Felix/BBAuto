@@ -35,17 +35,17 @@ namespace BBAuto.Logic.Entities
     internal bool isDriverCar(Car car, DateTime date)
     {
       if ((date >= DateTime.Today) && (dateEnd == DateTime.Today))
-        return car.ID == Car.ID && date >= dateBegin;
+        return car.Id == Car.Id && date >= dateBegin;
       else
-        return car.ID == Car.ID && date >= dateBegin && date < dateEnd;
+        return car.Id == Car.Id && date >= dateBegin && date < dateEnd;
     }
 
     internal bool isCarsDriver(Driver driver, DateTime date)
     {
       if ((date >= DateTime.Today) && (dateEnd == DateTime.Today))
-        return driver.ID == Driver.ID && date >= dateBegin;
+        return driver.Id == Driver.Id && date >= dateBegin;
       else
-        return driver.ID == Driver.ID && date >= dateBegin && date < dateEnd;
+        return driver.Id == Driver.Id && date >= dateBegin && date < dateEnd;
     }
   }
 }

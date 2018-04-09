@@ -17,7 +17,7 @@ namespace BBAuto.Logic.Lists
     {
       _list = new List<DriverLicense>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static LicenseList getInstance()
@@ -28,9 +28,9 @@ namespace BBAuto.Logic.Lists
       return _uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("DriverLicense");
+      DataTable dt = Provider.Select("DriverLicense");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -49,7 +49,7 @@ namespace BBAuto.Logic.Lists
 
     public DataTable ToDataTable(Driver driver)
     {
-      var driverLicenses = _list.Where(item => item.Driver.ID == driver.ID).ToList();
+      var driverLicenses = _list.Where(item => item.Driver.Id == driver.Id).ToList();
 
       driverLicenses.Sort(Compare);
 
@@ -64,19 +64,19 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Дата окончания действия");
 
       foreach (DriverLicense driverLicense in driverLicenses)
-        dt.Rows.Add(driverLicense.getRow());
+        dt.Rows.Add(driverLicense.GetRow());
 
       return dt;
     }
 
     public DriverLicense getItem(int id)
     {
-      return _list.FirstOrDefault(l => l.ID == id);
+      return _list.FirstOrDefault(l => l.Id == id);
     }
 
     public DriverLicense getItem(Driver driver)
     {
-      var driverLicenses = _list.Where(item => item.Driver.ID == driver.ID).ToList();
+      var driverLicenses = _list.Where(item => item.Driver.Id == driver.Id).ToList();
 
       driverLicenses.Sort(Compare);
 
@@ -87,8 +87,8 @@ namespace BBAuto.Logic.Lists
     {
       DriverList driverList = DriverList.getInstance();
       List<DriverLicense> listNew = _list
-        .Where(item => !driverList.getItem(item.Driver.ID).Fired && !driverList.getItem(item.Driver.ID).Decret &&
-                       driverList.getItem(item.Driver.ID).IsDriver).ToList();
+        .Where(item => !driverList.getItem(item.Driver.Id).Fired && !driverList.getItem(item.Driver.Id).Decret &&
+                       driverList.getItem(item.Driver.Id).IsDriver).ToList();
 
       List<INotification> listNotification = new List<INotification>();
       foreach (INotification item in listNew)

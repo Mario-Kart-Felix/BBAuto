@@ -18,7 +18,7 @@ namespace BBAuto.Logic.ForCar
 
     public Grade(Model model)
     {
-      ID = 0;
+      Id = 0;
       Name = string.Empty;
       EPower = string.Empty;
       EVol = string.Empty;
@@ -36,7 +36,7 @@ namespace BBAuto.Logic.ForCar
 
     private void fillFields(DataRow row)
     {
-      ID = Convert.ToInt32(row.ItemArray[0]);
+      Id = Convert.ToInt32(row.ItemArray[0]);
       Name = row.ItemArray[1].ToString();
       EPower = row.ItemArray[2].ToString();
       EVol = row.ItemArray[3].ToString();
@@ -54,20 +54,20 @@ namespace BBAuto.Logic.ForCar
 
     internal override void Delete()
     {
-      _provider.Delete("Grade", ID);
+      Provider.Delete("Grade", Id);
     }
 
     public override void Save()
     {
-      ID = Convert.ToInt32(_provider.Insert("Grade", ID, Name, EPower, EVol, MaxLoad, NoLoad, EngineType.ID, Model.ID));
+      Id = Convert.ToInt32(Provider.Insert("Grade", Id, Name, EPower, EVol, MaxLoad, NoLoad, EngineType.Id, Model.Id));
 
       GradeList gradeList = GradeList.getInstance();
       gradeList.Add(this);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
-      return new object[] {ID, Name};
+      return new object[] {Id, Name};
     }
 
     public DataTable ToDataTable()

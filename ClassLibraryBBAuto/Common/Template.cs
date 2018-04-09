@@ -10,7 +10,7 @@ namespace BBAuto.Logic.Common
 
     public Template()
     {
-      ID = 0;
+      Id = 0;
     }
 
     public Template(DataRow row)
@@ -22,11 +22,11 @@ namespace BBAuto.Logic.Common
     {
       int id;
       int.TryParse(row.ItemArray[0].ToString(), out id);
-      ID = id;
+      Id = id;
 
       Name = row.ItemArray[1].ToString();
       File = row.ItemArray[2].ToString();
-      _fileBegin = File;
+      FileBegin = File;
     }
 
     public override void Save()
@@ -35,19 +35,19 @@ namespace BBAuto.Logic.Common
 
       File = WorkWithFiles.FileCopy(File, "Template", Name);
 
-      _provider.Insert("Template", ID, Name, File);
+      Provider.Insert("Template", Id, Name, File);
     }
 
     internal override void Delete()
     {
       DeleteFile(File);
 
-      _provider.Delete("Template", ID);
+      Provider.Delete("Template", Id);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
-      return new object[] {ID, Name, File};
+      return new object[] {Id, Name, File};
     }
   }
 }

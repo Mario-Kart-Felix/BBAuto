@@ -16,7 +16,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<Instraction>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static InstractionList getInstance()
@@ -27,9 +27,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("Instraction");
+      DataTable dt = Provider.Select("Instraction");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -53,7 +53,7 @@ namespace BBAuto.Logic.Lists
 
     public DataTable ToDataTable(Driver driver)
     {
-      return CreateTable(list.Where(i => i.Driver.ID == driver.ID));
+      return CreateTable(list.Where(i => i.Driver.Id == driver.Id));
     }
 
     private DataTable CreateTable(IEnumerable<Instraction> instractions)
@@ -64,19 +64,19 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Дата инструктажа");
 
       foreach (Instraction instraction in instractions)
-        dt.Rows.Add(instraction.getRow());
+        dt.Rows.Add(instraction.GetRow());
 
       return dt;
     }
 
     public Instraction getItem(int id)
     {
-      return list.FirstOrDefault(i => i.ID == id);
+      return list.FirstOrDefault(i => i.Id == id);
     }
 
     public Instraction getItem(Driver driver)
     {
-      return list.FirstOrDefault(i => i.Driver.ID == driver.ID);
+      return list.FirstOrDefault(i => i.Driver.Id == driver.Id);
     }
 
     public void Delete(int idInstraction)

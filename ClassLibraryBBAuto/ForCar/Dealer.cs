@@ -3,14 +3,14 @@ using BBAuto.Logic.Abstract;
 
 namespace BBAuto.Logic.ForCar
 {
-  public class Dealer : MainDictionary, IDictionaryMVC
+  public class Dealer : MainDictionary, IDictionaryMvc
   {
     public string Name { get; set; }
     public string Text { get; set; }
 
     public Dealer()
     {
-      ID = 0;
+      Id = 0;
       Text = string.Empty;
     }
 
@@ -18,7 +18,7 @@ namespace BBAuto.Logic.ForCar
     {
       int id;
       int.TryParse(row.ItemArray[0].ToString(), out id);
-      ID = id;
+      Id = id;
 
       Name = row.ItemArray[1].ToString();
       Text = row.ItemArray[2].ToString();
@@ -26,17 +26,17 @@ namespace BBAuto.Logic.ForCar
 
     public override void Save()
     {
-      _provider.Insert("Diller", ID, Name, Text);
+      Provider.Insert("Diller", Id, Name, Text);
     }
 
     internal override void Delete()
     {
-      _provider.Delete("Diller", ID);
+      Provider.Delete("Diller", Id);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
-      return new object[3] {ID, Name, Text};
+      return new object[3] {Id, Name, Text};
     }
   }
 }

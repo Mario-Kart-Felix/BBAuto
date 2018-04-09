@@ -29,7 +29,7 @@ namespace BBAuto.Logic.ForDriver
     {
       Driver = driver;
       Date = "";
-      ID = 0;
+      Id = 0;
     }
 
     public Instraction(DataRow row)
@@ -39,7 +39,7 @@ namespace BBAuto.Logic.ForDriver
 
     private void fillFields(DataRow row)
     {
-      ID = Convert.ToInt32(row.ItemArray[0]);
+      Id = Convert.ToInt32(row.ItemArray[0]);
       Name = row.ItemArray[1].ToString();
       Date = row.ItemArray[2].ToString();
 
@@ -48,31 +48,31 @@ namespace BBAuto.Logic.ForDriver
       Driver = DriverList.getInstance().getItem(idDriver);
 
       File = row.ItemArray[4].ToString();
-      _fileBegin = File;
+      FileBegin = File;
     }
 
     internal override void Delete()
     {
       DeleteFile(File);
 
-      _provider.Delete("Instraction", ID);
+      Provider.Delete("Instraction", Id);
     }
 
     public override void Save()
     {
       DeleteFile(File);
 
-      File = WorkWithFiles.FileCopyById(File, "drivers", Driver.ID, "Instraction", Name);
+      File = WorkWithFiles.FileCopyById(File, "drivers", Driver.Id, "Instraction", Name);
 
-      ID = Convert.ToInt32(_provider.Insert("Instraction", ID, Driver.ID, Name, date, File));
+      Id = Convert.ToInt32(Provider.Insert("Instraction", Id, Driver.Id, Name, date, File));
 
       InstractionList instractionList = InstractionList.getInstance();
       instractionList.Add(this);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
-      return new object[] {ID, Name, Date};
+      return new object[] {Id, Name, Date};
     }
 
     public override string ToString()

@@ -6,10 +6,10 @@ namespace BBAuto.Logic.Presenters
 {
   public class DictionaryPresenter
   {
-    private IDictionaryMVC _dictionary;
+    private IDictionaryMvc _dictionary;
     private IViewDictionary _view;
 
-    public DictionaryPresenter(IViewDictionary view, IDictionaryMVC dictionary)
+    public DictionaryPresenter(IViewDictionary view, IDictionaryMvc dictionary)
     {
       _view = view;
       _dictionary = dictionary;

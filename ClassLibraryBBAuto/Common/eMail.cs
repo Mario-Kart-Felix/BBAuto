@@ -15,12 +15,12 @@ namespace BBAuto.Logic.Common
 {
   public class EMail
   {
-    private const string SERVER_HOST = "212.0.16.135";
-    private const int SERVER_PORT = 25;
-    private const string SERVER_PASSWORD = "";
-    private const string SERVER_USER_NAME = "";
+    private const string ServerHost = "212.0.16.135";
+    private const int ServerPort = 25;
+    private const string ServerPassword = "";
+    private const string ServerUserName = "";
 
-    private const string ROBOT_EMAIL = "ru.robot@bbraun.com";
+    private const string RobotEmail = "ru.robot@bbraun.com";
 
     private string _authorEmail;
 
@@ -29,37 +29,37 @@ namespace BBAuto.Logic.Common
 
     public EMail()
     {
-      Driver driver = User.getDriver();
-      DriverList driverList = DriverList.getInstance();
-      Driver employeeTransport = driverList.GetDriverListByRole(RolesList.Editor).First();
-      _authorEmail = driver == null ? employeeTransport == null ? ROBOT_EMAIL : employeeTransport.email : driver.email;
+      var driver = User.getDriver();
+      var driverList = DriverList.getInstance();
+      var employeeTransport = driverList.GetDriverListByRole(RolesList.Editor).First();
+      _authorEmail = driver == null ? employeeTransport == null ? RobotEmail : employeeTransport.email : driver.email;
     }
 
     public void SendMailAccountViolation(Violation violation)
     {
-      _subject = string.Format("Штраф по а/м {0}", violation.Car.Grz);
+      _subject = $"Штраф по а/м {violation.Car.Grz}";
 
       _body = "Здравствуйте, коллеги!\n"
               + violation.getDriver().GetName(NameType.Full) + " совершил нарушение ПДД.\n"
               + "Оплачиваем, удерживаем.";
 
-      string owner = Owners.getInstance().getItem(Convert.ToInt32(violation.Car.ownerID));
+      var owner = Owners.getInstance().getItem(Convert.ToInt32(violation.Car.ownerID));
       var drivers = GetAccountants(owner);
 
-      List<Attachment> list = new List<Attachment>();
+      var list = new List<Attachment>();
       list.Add(new Attachment(violation.File));
-      Driver transportEmployee = DriverList.getInstance().GetDriverListByRole(RolesList.Editor).First();
+      var transportEmployee = DriverList.getInstance().GetDriverListByRole(RolesList.Editor).First();
 
       /* TO DO: добавила в копию Шелякову Марию */
       Send(drivers,
-        new string[]
+        new[]
           {_authorEmail, /*transportEmployee.email - не работает так, не отправляется*/ "maria.shelyakova@bbraun.com"},
         list);
     }
 
-    public void sendMailViolation(Violation violation)
+    public void SendMailViolation(Violation violation)
     {
-      _subject = string.Format("Штраф по а/м {0}", violation.Car.Grz);
+      _subject = $"Штраф по а/м {violation.Car.Grz}";
 
       CreateMailAndSendViolation(violation);
     }
@@ -71,46 +71,41 @@ namespace BBAuto.Logic.Common
       if (violation.NoDeduction)
       {
         CreateBodyViolationNoDeduction(violation);
-        string owner = Owners.getInstance().getItem(Convert.ToInt32(violation.Car.ownerID));
+        var owner = Owners.getInstance().getItem(Convert.ToInt32(violation.Car.ownerID));
         drivers = GetAccountants(owner);
       }
       else
       {
         CreateBodyViolation(violation);
-        drivers = new List<Driver>() {violation.getDriver()};
+        drivers = new List<Driver> {violation.getDriver()};
       }
 
-      List<Attachment> list = new List<Attachment>();
+      var list = new List<Attachment>();
       list.Add(new Attachment(violation.File));
 
-      Send(drivers, new string[] {_authorEmail}, list);
+      Send(drivers, new[] {_authorEmail}, list);
     }
 
     private void CreateBodyViolation(Violation violation)
     {
-      Driver driver = violation.getDriver();
+      var driver = violation.getDriver();
 
-      string appeal;
-      appeal = (driver.Sex == "мужской") ? "Уважаемый" : "Уважаемая";
+      var appeal = (driver.Sex == "мужской") ? "Уважаемый" : "Уважаемая";
 
-      _body = string.Format("{0} {1}!\n\n"
-                            + "Информирую Вас о том, что пришло постановление о штрафе за нарушения ПДД.\n"
-                            + "Оплатить штраф можно самостоятельно и в течении 5 дней предоставить документ об оплате.\n"
-                            + "После указанного срока штраф автоматически уйдет в оплату в бухгалтерию без возможности льготной оплаты 50%\n"
-                            + "Документ об оплате штрафа следует присылать на эл. почту {2} в виде вложенного файла.\n"
-                            + "Если есть возражения по данному штрафу, то необходимо сообщить об этом {3}.\n"
-                            + "Скан копия постановления во вложении.",
-        appeal,
-        driver.GetName(NameType.Full),
-        User.getDriver().GetName(NameType.Genetive),
-        User.getDriver().GetName(NameType.Short));
+      _body = $"{appeal} {driver.GetName(NameType.Full)}!\n\n" +
+              "Информирую Вас о том, что пришло постановление о штрафе за нарушения ПДД.\n" +
+              "Оплатить штраф можно самостоятельно и в течении 5 дней предоставить документ об оплате.\n" +
+              "После указанного срока штраф автоматически уйдет в оплату в бухгалтерию без возможности льготной оплаты 50%\n" +
+              $"Документ об оплате штрафа следует присылать на эл. почту {User.getDriver().GetName(NameType.Genetive)} в виде вложенного файла.\n" +
+              $"Если есть возражения по данному штрафу, то необходимо сообщить об этом {User.getDriver().GetName(NameType.Short)}.\n" +
+              "Скан копия постановления во вложении.";
     }
 
     private void CreateBodyViolationNoDeduction(Violation violation)
     {
       Driver driver = violation.getDriver();
 
-      StringBuilder sb = new StringBuilder();
+      var sb = new StringBuilder();
       sb.AppendLine("Добрый день!");
       sb.AppendLine("");
       sb.AppendLine("Сообщаю о том, что произошло нарушение ПДД.");
@@ -125,30 +120,28 @@ namespace BBAuto.Logic.Common
       _body = sb.ToString();
     }
 
-    public void sendMailPolicy(Car car, PolicyType type)
+    public void SendMailPolicy(Car car, PolicyType type)
     {
-      PolicyList policyList = PolicyList.getInstance();
-      Policy policy = policyList.getItem(car, type);
+      var policyList = PolicyList.getInstance();
+      var policy = policyList.getItem(car, type);
 
       if (string.IsNullOrEmpty(policy.File))
         throw new Exception("Не найден файл полиса");
-      else
-      {
-        _subject = "Полис " + type.ToString();
 
-        CreateBodyPolicy(type);
+      _subject = "Полис " + type;
 
-        DriverCarList driverCarList = DriverCarList.getInstance();
-        Driver driver = driverCarList.GetDriver(car);
+      CreateBodyPolicy(type);
 
-        Send(new List<Driver> {driver}, new string[] {_authorEmail},
-          new List<Attachment>() {new Attachment(policy.File)});
-      }
+      var driverCarList = DriverCarList.getInstance();
+      var driver = driverCarList.GetDriver(car);
+
+      Send(new List<Driver> {driver}, new [] {_authorEmail},
+        new List<Attachment> {new Attachment(policy.File)});
     }
 
     private void CreateBodyPolicy(PolicyType type)
     {
-      StringBuilder sb = new StringBuilder();
+      var sb = new StringBuilder();
       sb.AppendLine("Добрый день!");
       sb.AppendLine("");
       if (type == PolicyType.КАСКО)
@@ -165,16 +158,16 @@ namespace BBAuto.Logic.Common
       _body = sb.ToString();
     }
 
-    internal void sendMailAccount(Account account)
+    internal void SendMailAccount(Account account)
     {
       _subject = "Согласование счета " + account.Number;
 
-      createMailAndSendAccount(account);
+      CreateMailAndSendAccount(account);
     }
 
-    private void createMailAndSendAccount(Account account)
+    private void CreateMailAndSendAccount(Account account)
     {
-      createBodyAccount(account);
+      CreateBodyAccount(account);
 
       var driverList = DriverList.getInstance();
 
@@ -183,40 +176,43 @@ namespace BBAuto.Logic.Common
       if (accountants.Count == 0)
         throw new NullReferenceException("Не найдены e-mail адреса бухгалтеров");
 
-      Driver boss = driverList.GetDriverListByRole(RolesList.Boss).First();
+      var boss = driverList.GetDriverListByRole(RolesList.Boss).First();
 
-      Send(accountants, new string[] {boss.email}, new List<Attachment>() {new Attachment(account.File)});
+      Send(accountants, new [] {boss.email}, new List<Attachment> {new Attachment(account.File)});
     }
 
-    private List<Driver> GetAccountants(string owner)
+    private static List<Driver> GetAccountants(string owner)
     {
-      DriverList driverList = DriverList.getInstance();
+      var driverList = DriverList.getInstance();
 
-      if (owner == "ООО \"Б.Браун Медикал\"")
-        return driverList.GetDriverListByRole(RolesList.AccountantBBraun);
-      else if (owner == "ООО \"ГЕМАТЕК\"")
-        return driverList.GetDriverListByRole(RolesList.AccountantGematek);
-      else
-        throw new NotImplementedException("Не заданы бухгалтеры для данной фирмы.");
+      switch (owner)
+      {
+        case "ООО \"Б.Браун Медикал\"":
+          return driverList.GetDriverListByRole(RolesList.AccountantBBraun);
+        case "ООО \"ГЕМАТЕК\"":
+          return driverList.GetDriverListByRole(RolesList.AccountantGematek);
+        default:
+          throw new NotImplementedException("Не заданы бухгалтеры для данной фирмы.");
+      }
     }
 
-    private void createBodyAccount(Account account)
+    private void CreateBodyAccount(Account account)
     {
-      StringBuilder sb = new StringBuilder();
+      var sb = new StringBuilder();
       sb.AppendLine("Добрый день!");
       sb.AppendLine("");
 
-      Driver driver = account.GetDriver();
-      string employeeSex = string.Empty;
+      var driver = account.GetDriver();
+      var employeeSex = string.Empty;
 
       if (driver != null)
       {
         employeeSex = (driver.Sex == "мужской") ? "сотрудника" : "сотрудницы";
       }
 
-      PolicyType policyType = (PolicyType) Convert.ToInt32(account.IDPolicyType);
+      var policyType = (PolicyType) int.Parse(account.IDPolicyType);
 
-      if ((policyType == PolicyType.расш_КАСКО) && ((!account.BusinessTrip)))
+      if (policyType == PolicyType.расш_КАСКО && !account.BusinessTrip)
       {
         sb.AppendLine("В связи с личной поездкой за пределы РФ был сделан полис по расширению КАСКО.");
         sb.Append("Прошу оплатить счет с удержанием из заработной платы ");
@@ -225,7 +221,7 @@ namespace BBAuto.Logic.Common
         sb.Append(driver.GetName(NameType.Genetive));
         sb.Append(" сумму в размере ");
       }
-      else if ((policyType == PolicyType.расш_КАСКО) && ((account.BusinessTrip)))
+      else if (policyType == PolicyType.расш_КАСКО && account.BusinessTrip)
       {
         sb.Append("В связи с командировкой ");
         sb.Append(employeeSex);
@@ -264,7 +260,7 @@ namespace BBAuto.Logic.Common
       _body = sb.ToString();
     }
 
-    private void Send(List<Driver> drivers, string[] copyEmails = null, List<Attachment> files = null)
+    private void Send(IEnumerable<Driver> drivers, string[] copyEmails = null, List<Attachment> files = null)
     {
       if (string.IsNullOrEmpty(_authorEmail))
         throw new Exception("ваш email не найден");
@@ -291,18 +287,19 @@ namespace BBAuto.Logic.Common
         }
 
         msg.Subject = _subject;
-        msg.SubjectEncoding = System.Text.Encoding.UTF8;
+        msg.SubjectEncoding = Encoding.UTF8;
         msg.Body = _body;
 
-        if (files != null)
-          files.ForEach(item => msg.Attachments.Add(item));
+        files?.ForEach(item => msg.Attachments.Add(item));
 
-        msg.BodyEncoding = System.Text.Encoding.UTF8;
+        msg.BodyEncoding = Encoding.UTF8;
         msg.IsBodyHtml = false;
-        var client = new SmtpClient(SERVER_HOST, SERVER_PORT);
-
-        client.Credentials = new System.Net.NetworkCredential(SERVER_USER_NAME, SERVER_PASSWORD);
-
+        var client =
+          new SmtpClient(ServerHost, ServerPort)
+          {
+            Credentials = new System.Net.NetworkCredential(ServerUserName, ServerPassword)
+          };
+        
         client.Send(msg);
       }
     }
@@ -329,30 +326,29 @@ namespace BBAuto.Logic.Common
       if (addTransportToCopy)
       {
         Driver transportEmployee = DriverList.getInstance().GetDriverListByRole(RolesList.Editor).First();
-        copyEmails = new string[] {transportEmployee.email};
+        copyEmails = new [] {transportEmployee.email};
       }
 
       var listAttachment = new List<Attachment>();
-      if (fileNames != null)
-        fileNames.ForEach(item => listAttachment.Add(new Attachment(item)));
+      fileNames?.ForEach(item => listAttachment.Add(new Attachment(item)));
 
 
       Send(new List<Driver> {driver}, copyEmails, listAttachment);
       LogManager.Logger.Debug(message);
     }
 
-    internal void sendMailToAdmin(string message)
+    internal void SendMailToAdmin(string message)
     {
-      Driver admin = DriverList.getInstance().getItem("kasytaru");
+      var admin = DriverList.getInstance().getItem("kasytaru");
 
       if (admin == null)
         return;
 
       _subject = "Ошибка в программе BBAuto";
-      _authorEmail = ROBOT_EMAIL;
+      _authorEmail = RobotEmail;
       _body = message;
 
-      Send(new List<Driver>() {admin});
+      Send(new List<Driver> {admin});
     }
   }
 }

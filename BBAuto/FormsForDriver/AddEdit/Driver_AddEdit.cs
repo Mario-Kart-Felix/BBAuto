@@ -33,7 +33,7 @@ namespace BBAuto.App.FormsForDriver.AddEdit
 
       _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
       _workWithForm.EditModeChanged += SetEnable;
-      _workWithForm.SetEditMode(_driver.ID == 0);
+      _workWithForm.SetEditMode(_driver.Id == 0);
     }
 
     private void loadData()
@@ -93,7 +93,7 @@ namespace BBAuto.App.FormsForDriver.AddEdit
       tbEmail.Text = _driver.email;
       mtbDateBirth.Text = _driver.DateBirth;
       if (_driver.Region != null)
-        cbRegion.SelectedValue = _driver.Region.ID;
+        cbRegion.SelectedValue = _driver.Region.Id;
       tbCompany.Text = _driver.CompanyName;
       chbFired.Checked = _driver.Fired;
       tbPosition.Text = _driver.Position;

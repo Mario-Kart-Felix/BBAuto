@@ -12,7 +12,7 @@ namespace BBAuto.Logic.Tables
 
     public MyPoint(int idRegion)
     {
-      ID = 0;
+      Id = 0;
       RegionID = idRegion;
       Name = string.Empty;
     }
@@ -21,7 +21,7 @@ namespace BBAuto.Logic.Tables
     {
       int id;
       int.TryParse(row[0].ToString(), out id);
-      ID = id;
+      Id = id;
 
       int idRegion;
       int.TryParse(row[1].ToString(), out idRegion);
@@ -33,8 +33,8 @@ namespace BBAuto.Logic.Tables
     public override void Save()
     {
       int id;
-      int.TryParse(_provider.Insert("MyPoint", ID, RegionID, Name), out id);
-      ID = id;
+      int.TryParse(Provider.Insert("MyPoint", Id, RegionID, Name), out id);
+      Id = id;
 
       MyPointList pointList = MyPointList.getInstance();
       pointList.Add(this);
@@ -42,14 +42,14 @@ namespace BBAuto.Logic.Tables
 
     internal override void Delete()
     {
-      _provider.Delete("MyPoint", ID);
+      Provider.Delete("MyPoint", Id);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
       Regions regions = Regions.getInstance();
 
-      return new object[] {ID, Name};
+      return new object[] {Id, Name};
     }
   }
 }

@@ -11,7 +11,7 @@ namespace BBAuto.Logic.ForCar
 
     public Model(int idMark)
     {
-      ID = 0;
+      Id = 0;
       MarkId = idMark;
     }
 
@@ -22,7 +22,7 @@ namespace BBAuto.Logic.ForCar
 
     private void fillFields(DataRow row)
     {
-      ID = Convert.ToInt32(row.ItemArray[0]);
+      Id = Convert.ToInt32(row.ItemArray[0]);
       Name = row.ItemArray[1].ToString();
 
       int idMark;
@@ -32,17 +32,17 @@ namespace BBAuto.Logic.ForCar
 
     internal override void Delete()
     {
-      _provider.Delete("Model", ID);
+      Provider.Delete("Model", Id);
     }
 
     public override void Save()
     {
-      _provider.Insert("Model", ID, Name, MarkId);
+      Provider.Insert("Model", Id, Name, MarkId);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
-      return new object[2] {ID, Name};
+      return new object[2] {Id, Name};
     }
   }
 }

@@ -16,7 +16,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<STS>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static STSList getInstance()
@@ -27,9 +27,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("STS");
+      DataTable dt = Provider.Select("STS");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -57,7 +57,7 @@ namespace BBAuto.Logic.Lists
 
     public STS getItem(Car car)
     {
-      var STSs = list.Where(s => s.Car.ID == car.ID);
+      var STSs = list.Where(s => s.Car.Id == car.Id);
 
       return (STSs.Count() > 0) ? STSs.First() : car.createSTS();
     }

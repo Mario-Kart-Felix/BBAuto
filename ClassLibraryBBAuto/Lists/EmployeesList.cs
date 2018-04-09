@@ -17,7 +17,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<Employees>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static EmployeesList getInstance()
@@ -28,9 +28,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("Employees");
+      DataTable dt = Provider.Select("Employees");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -93,7 +93,7 @@ namespace BBAuto.Logic.Lists
     private List<Employees> getList(Region region, int idEmployeesName)
     {
       var EmployeesList = from employees in list
-        where employees.Region == region && employees.IDEmployeesName == idEmployeesName.ToString()
+        where employees.Region == region && employees.IdEmployeesName == idEmployeesName.ToString()
         select employees;
 
       return EmployeesList.ToList();
@@ -114,7 +114,7 @@ namespace BBAuto.Logic.Lists
                     select employee;
       */
       foreach (Employees employees in list.ToList()) //empList.ToList())
-        dt.Rows.Add(employees.getRow());
+        dt.Rows.Add(employees.GetRow());
 
       return dt;
     }

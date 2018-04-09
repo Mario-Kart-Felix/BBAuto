@@ -13,8 +13,8 @@ namespace BBAuto.Logic.ForDriver
 
     public Driver Driver
     {
-      get => DriverList.getInstance().getItem(ID);
-      set => ID = value.ID;
+      get => DriverList.getInstance().getItem(Id);
+      set => Id = value.Id;
     }
 
     public string Role
@@ -31,7 +31,7 @@ namespace BBAuto.Logic.ForDriver
 
     public UserAccess()
     {
-      ID = 0;
+      Id = 0;
       RoleId = 0;
     }
 
@@ -44,26 +44,26 @@ namespace BBAuto.Logic.ForDriver
     {
       int id;
       int.TryParse(row.ItemArray[0].ToString(), out id);
-      ID = id;
+      Id = id;
 
       int idRole;
       int.TryParse(row.ItemArray[1].ToString(), out idRole);
       RoleId = idRole;
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
-      return new object[] {ID, Driver.Login, Driver.GetName(NameType.Full), Role};
+      return new object[] {Id, Driver.Login, Driver.GetName(NameType.Full), Role};
     }
 
     internal override void Delete()
     {
-      _provider.DoOther("exec UserAccess_Delete @p1, @p2", ID, RoleId);
+      Provider.DoOther("exec UserAccess_Delete @p1, @p2", Id, RoleId);
     }
 
     public override void Save()
     {
-      _provider.Insert("UserAccess", ID, RoleId);
+      Provider.Insert("UserAccess", Id, RoleId);
     }
   }
 }

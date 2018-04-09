@@ -30,8 +30,8 @@ namespace BBAuto.Logic.ForCar
 
     public Car Car
     {
-      get { return CarList.getInstance().getItem(ID); }
-      private set { ID = value.ID; }
+      get { return CarList.getInstance().getItem(Id); }
+      private set { Id = value.Id; }
     }
 
     public CarSale(Car car)
@@ -44,7 +44,7 @@ namespace BBAuto.Logic.ForCar
     {
       int id;
       int.TryParse(row.ItemArray[0].ToString(), out id);
-      ID = id;
+      Id = id;
 
       Date = row.ItemArray[1].ToString();
       comm = row.ItemArray[2].ToString();
@@ -56,13 +56,13 @@ namespace BBAuto.Logic.ForCar
       if (Date != string.Empty)
         Sqldate = string.Concat(_date.Year.ToString(), "-", _date.Month.ToString(), "-", _date.Day.ToString());
 
-      _provider.Insert("CarSale", ID, comm, Sqldate);
+      Provider.Insert("CarSale", Id, comm, Sqldate);
 
       CarSaleList carSaleList = CarSaleList.getInstance();
       carSaleList.Add(this);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
       InvoiceList invoiceList = InvoiceList.getInstance();
       Invoice invoice = invoiceList.getItem(Car);
@@ -82,12 +82,12 @@ namespace BBAuto.Logic.ForCar
         : regions.getItem(Convert.ToInt32(invoice.RegionToID));
 
       return new object[]
-        {ID, ID, Car.BBNumber, Car.Grz, regionName, _date, comm, pts.Number, sts.Number, Car.GetStatus()};
+        {Id, Id, Car.BBNumber, Car.Grz, regionName, _date, comm, pts.Number, sts.Number, Car.GetStatus()};
     }
 
     internal override void Delete()
     {
-      _provider.Delete("CarSale", ID);
+      Provider.Delete("CarSale", Id);
     }
   }
 }

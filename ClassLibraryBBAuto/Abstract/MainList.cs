@@ -4,18 +4,18 @@ namespace BBAuto.Logic.Abstract
 {
   public abstract class MainList
   {
-    protected IProvider _provider;
+    protected IProvider Provider;
 
-    protected abstract void loadFromSql();
+    protected abstract void LoadFromSql();
 
     protected MainList()
     {
-      _provider = Provider.GetProvider();
+      Provider = DataBase.Provider.GetProvider();
     }
 
     public void ReLoad()
     {
-      loadFromSql();
+      LoadFromSql();
     }
   }
 }

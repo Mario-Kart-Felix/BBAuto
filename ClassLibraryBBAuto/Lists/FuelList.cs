@@ -18,7 +18,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<Fuel>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static FuelList getInstance()
@@ -29,9 +29,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("Fuel");
+      DataTable dt = Provider.Select("Fuel");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -42,7 +42,7 @@ namespace BBAuto.Logic.Lists
 
     public void Add(Fuel fuel)
     {
-      if (list.Exists(item => item.ID == fuel.ID))
+      if (list.Exists(item => item.Id == fuel.Id))
         return;
 
       list.Add(fuel);
@@ -50,13 +50,13 @@ namespace BBAuto.Logic.Lists
 
     public Fuel getItem(int id)
     {
-      return list.FirstOrDefault(f => f.ID == id);
+      return list.FirstOrDefault(f => f.Id == id);
     }
 
     public Fuel getItem(FuelCard fuelCard, DateTime date, EngineType engineType)
     {
-      var fuels = list.Where(item => item.FuelCard.ID == fuelCard.ID && item.Date == date &&
-                                     item.EngineType.ID == engineType.ID);
+      var fuels = list.Where(item => item.FuelCard.Id == fuelCard.Id && item.Date == date &&
+                                     item.EngineType.Id == engineType.Id);
 
       if (fuels.Count() > 0)
         return fuels.First();
@@ -76,7 +76,7 @@ namespace BBAuto.Logic.Lists
 
     public IEnumerable<Fuel> GetListFiltred(Car car, DateTime date)
     {
-      var dt = _provider.DoOther("exec FuelByCarAndDate_Select @p1, @p2", car.ID, date);
+      var dt = Provider.DoOther("exec FuelByCarAndDate_Select @p1, @p2", car.Id, date);
 
       var listFiltred = new List<Fuel>();
 
@@ -97,7 +97,7 @@ namespace BBAuto.Logic.Lists
 
       foreach (var item in listNew)
       {
-        dt.Rows.Add(item.getRow());
+        dt.Rows.Add(item.GetRow());
       }
 
       return dt;

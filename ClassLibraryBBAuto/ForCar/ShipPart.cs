@@ -64,7 +64,7 @@ namespace BBAuto.Logic.ForCar
     {
       int id;
       int.TryParse(row.ItemArray[0].ToString(), out id);
-      ID = id;
+      Id = id;
 
       int idCar;
       int.TryParse(row.ItemArray[1].ToString(), out idCar);
@@ -78,31 +78,31 @@ namespace BBAuto.Logic.ForCar
       DateRequest = row.ItemArray[4].ToString();
       DateSent = row.ItemArray[5].ToString();
       File = row.ItemArray[6].ToString();
-      _fileBegin = File;
+      FileBegin = File;
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
       return new object[]
-        {ID, Car.ID, Car.BBNumber, Car.Grz, Driver.GetName(NameType.Full), Number, _dateRequest, _dateSent};
+        {Id, Car.Id, Car.BBNumber, Car.Grz, Driver.GetName(NameType.Full), Number, _dateRequest, _dateSent};
     }
 
     internal override void Delete()
     {
-      _provider.Delete("ShipPart", ID);
+      Provider.Delete("ShipPart", Id);
     }
 
     public override void Save()
     {
       DeleteFile(File);
 
-      File = WorkWithFiles.FileCopyById(File, "cars", Car.ID, "ShipPart", Number);
+      File = WorkWithFiles.FileCopyById(File, "cars", Car.Id, "ShipPart", Number);
 
       int id;
       int.TryParse(
-        _provider.Insert("ShipPart", ID, Car.ID, Driver.ID, Number, DateRequestForSQL, DateSentForSQL, File).ToString(),
+        Provider.Insert("ShipPart", Id, Car.Id, Driver.Id, Number, DateRequestForSQL, DateSentForSQL, File).ToString(),
         out id);
-      ID = id;
+      Id = id;
     }
   }
 }

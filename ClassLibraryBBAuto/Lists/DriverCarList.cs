@@ -16,7 +16,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<DriverCar>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static DriverCarList getInstance()
@@ -27,9 +27,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("DriverCar");
+      DataTable dt = Provider.Select("DriverCar");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -52,7 +52,7 @@ namespace BBAuto.Logic.Lists
     public Driver GetDriver(Car car)
     {
       var driverCars = from driverCar in list
-        where driverCar.Car.ID == car.ID
+        where driverCar.Car.Id == car.Id
         orderby driverCar.dateEnd descending, driverCar.Number descending
         select driverCar;
 
@@ -86,7 +86,7 @@ namespace BBAuto.Logic.Lists
       {
         DriverCar driverCar = driverCars.First() as DriverCar;
         DriverList driverList = DriverList.getInstance();
-        return driverList.getItem(driverCar.Driver.ID);
+        return driverList.getItem(driverCar.Driver.Id);
       }
       else
       {
@@ -98,7 +98,7 @@ namespace BBAuto.Logic.Lists
     {
       DateTime date = DateTime.Today;
 
-      var driverCars = list.Where(item => item.Driver.ID == driver.ID && item.dateEnd == date)
+      var driverCars = list.Where(item => item.Driver.Id == driver.Id && item.dateEnd == date)
         .OrderByDescending(item => item.dateEnd);
 
       if (driverCars.Count() > 0)
@@ -107,9 +107,9 @@ namespace BBAuto.Logic.Lists
 
         foreach (var driverCar in driverCars)
         {
-          if (list.Where(item => !(item.Driver.ID == driver.ID) && item.dateEnd == date &&
-                                 item.Car.ID == driverCar.Car.ID && item.Number > driverCar.Number).Count() == 0)
-            return carList.getItem(driverCar.Car.ID);
+          if (list.Where(item => !(item.Driver.Id == driver.Id) && item.dateEnd == date &&
+                                 item.Car.Id == driverCar.Car.Id && item.Number > driverCar.Number).Count() == 0)
+            return carList.getItem(driverCar.Car.Id);
         }
 
         return null;
@@ -121,11 +121,11 @@ namespace BBAuto.Logic.Lists
     public Car GetCar(Driver driver, DateTime date)
     {
       var driverCars = from driverCar in list
-        where driverCar.Driver.ID == driver.ID
+        where driverCar.Driver.Id == driver.Id
         orderby driverCar.dateEnd descending, driverCar.Number descending
         select driverCar;
 
-      return (driverCars.Count() > 0) ? CarList.getInstance().getItem(driverCars.First().Car.ID) : null;
+      return (driverCars.Count() > 0) ? CarList.getInstance().getItem(driverCars.First().Car.Id) : null;
     }
 
     public bool IsDriverHaveCar(Driver driver)
@@ -135,14 +135,14 @@ namespace BBAuto.Logic.Lists
 
     public DataTable ToDataTableCar(Driver driver)
     {
-      var driverCars = list.Where(item => item.Driver.ID == driver.ID).OrderByDescending(item => item.dateEnd);
+      var driverCars = list.Where(item => item.Driver.Id == driver.Id).OrderByDescending(item => item.dateEnd);
 
       CarList carList = CarList.getInstance();
       List<Car> cars = new List<Car>();
 
       foreach (DriverCar driverCar in driverCars)
       {
-        Car car = carList.getItem(driverCar.Car.ID);
+        Car car = carList.getItem(driverCar.Car.Id);
         cars.Add(car);
       }
 

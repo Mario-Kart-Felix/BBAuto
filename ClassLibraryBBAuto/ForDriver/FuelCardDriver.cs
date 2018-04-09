@@ -38,7 +38,7 @@ namespace BBAuto.Logic.ForDriver
 
     private void fillFields(DataRow row)
     {
-      ID = Convert.ToInt32(row.ItemArray[0]);
+      Id = Convert.ToInt32(row.ItemArray[0]);
 
       int idFuelCard;
       int.TryParse(row.ItemArray[1].ToString(), out idFuelCard);
@@ -72,7 +72,7 @@ namespace BBAuto.Logic.ForDriver
           DateEnd.Value.Day.ToString());
       }
 
-      ID = Convert.ToInt32(_provider.Insert("FuelCardDriver", ID, (FuelCard == null) ? 0 : FuelCard.ID, Driver.ID,
+      Id = Convert.ToInt32(Provider.Insert("FuelCardDriver", Id, (FuelCard == null) ? 0 : FuelCard.Id, Driver.Id,
         dateBeginSql, dateEndSql));
 
       FuelCardDriverList fuelCardDriverList = FuelCardDriverList.getInstance();
@@ -81,14 +81,14 @@ namespace BBAuto.Logic.ForDriver
 
     internal override void Delete()
     {
-      _provider.Delete("FuelCardDriver", ID);
+      Provider.Delete("FuelCardDriver", Id);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
       return new object[]
       {
-        ID, FuelCard.ID, FuelCard.Number, Driver.GetName(NameType.Full), FuelCard.Region, FuelCard.DateEnd,
+        Id, FuelCard.Id, FuelCard.Number, Driver.GetName(NameType.Full), FuelCard.Region, FuelCard.DateEnd,
         FuelCard.FuelCardType,
         DateBegin, (DateEnd == null) ? new DateTime(1, 1, 1) : DateEnd.Value
       };

@@ -87,7 +87,7 @@ namespace BBAuto.Logic.ForCar
     {
       int id;
       int.TryParse(row[0].ToString(), out id);
-      ID = id;
+      Id = id;
 
       int idCar;
       int.TryParse(row[1].ToString(), out idCar);
@@ -99,7 +99,7 @@ namespace BBAuto.Logic.ForCar
 
       Number = row[3].ToString();
       File = row[4].ToString();
-      _fileBegin = File;
+      FileBegin = File;
 
       DateTime datePay;
       DateTime.TryParse(row[5].ToString(), out datePay);
@@ -128,8 +128,8 @@ namespace BBAuto.Logic.ForCar
       DeleteFile(File);
       deleteFilePay();
 
-      File = WorkWithFiles.FileCopyById(File, "cars", Car.ID, "Violation", Number);
-      FilePay = WorkWithFiles.FileCopyById(FilePay, "cars", Car.ID, "ViolationPay", Number);
+      File = WorkWithFiles.FileCopyById(File, "cars", Car.Id, "Violation", Number);
+      FilePay = WorkWithFiles.FileCopyById(FilePay, "cars", Car.Id, "ViolationPay", Number);
 
       string datePay = string.Empty;
       if (DatePay != null)
@@ -139,9 +139,9 @@ namespace BBAuto.Logic.ForCar
       }
 
       int id;
-      int.TryParse(_provider.Insert("Violation", ID, Car.ID, Date, Number, File, datePay,
+      int.TryParse(Provider.Insert("Violation", Id, Car.Id, Date, Number, File, datePay,
         FilePay, _idViolationType, _sum, _sent, _noDeduction, Agreed.ToString()), out id);
-      ID = id;
+      Id = id;
     }
 
     internal override void Delete()
@@ -149,10 +149,10 @@ namespace BBAuto.Logic.ForCar
       DeleteFile(File);
       deleteFilePay();
 
-      _provider.Delete("Violation", ID);
+      Provider.Delete("Violation", Id);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
       Driver driver = getDriver();
 
@@ -167,7 +167,7 @@ namespace BBAuto.Logic.ForCar
 
       return new object[]
       {
-        ID, Car.ID, Car.BBNumber, Car.Grz, regionName, Date, driver.GetName(NameType.Full), Number, DatePay,
+        Id, Car.Id, Car.BBNumber, Car.Grz, regionName, Date, driver.GetName(NameType.Full), Number, DatePay,
         violationType.getItem(_idViolationType), _sum
       };
     }
@@ -178,8 +178,8 @@ namespace BBAuto.Logic.ForCar
 
       return new object[]
       {
-        ID,
-        Car.ID,
+        Id,
+        Car.Id,
         Car.BBNumber,
         Car.Grz,
         Number,

@@ -30,7 +30,7 @@ namespace BBAuto.Logic.Tables
     {
       int id;
       int.TryParse(row[0].ToString(), out id);
-      ID = id;
+      Id = id;
 
       MyPointList myPointList = MyPointList.getInstance();
       int idMyPoint1;
@@ -48,31 +48,31 @@ namespace BBAuto.Logic.Tables
 
     public override void Save()
     {
-      if (ID == 0)
+      if (Id == 0)
         return;
 
       int id;
-      int.TryParse(_provider.Insert("Route", ID, MyPoint1.ID, MyPoint2.ID, Distance), out id);
-      ID = id;
+      int.TryParse(Provider.Insert("Route", Id, MyPoint1.Id, MyPoint2.Id, Distance), out id);
+      Id = id;
 
       RouteList.getInstance().Add(this);
     }
 
     internal override void Delete()
     {
-      _provider.Delete("Route", ID);
+      Provider.Delete("Route", Id);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
-      return new object[] {ID, MyPoint2.Name, Distance};
+      return new object[] {Id, MyPoint2.Name, Distance};
     }
 
     internal object[] getRow(MyPoint myPoint1)
     {
-      MyPoint myPoint = (MyPoint1.ID == myPoint1.ID) ? MyPoint2 : MyPoint1;
+      MyPoint myPoint = (MyPoint1.Id == myPoint1.Id) ? MyPoint2 : MyPoint1;
 
-      return new object[] {ID, myPoint.Name, Distance};
+      return new object[] {Id, myPoint.Name, Distance};
     }
   }
 }

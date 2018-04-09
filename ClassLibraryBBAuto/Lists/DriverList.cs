@@ -18,7 +18,7 @@ namespace BBAuto.Logic.Lists
     {
       _list = new List<Driver>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static DriverList getInstance()
@@ -29,9 +29,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("Driver");
+      DataTable dt = Provider.Select("Driver");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -65,8 +65,8 @@ namespace BBAuto.Logic.Lists
     public DataTable ToDataTableByRegion(Region region, bool all = false)
     {
       var tempList = (all)
-        ? _list.Where(item => item.Region == region || item.ID == 1).ToList()
-        : _list.Where(item => (item.Region == region || item.ID == 1) && item.IsDriver);
+        ? _list.Where(item => item.Region == region || item.Id == 1).ToList()
+        : _list.Where(item => (item.Region == region || item.Id == 1) && item.IsDriver);
 
       return CreateDataTable(tempList);
     }
@@ -85,19 +85,19 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Статус");
 
       foreach (var driver in drivers)
-        dt.Rows.Add(driver.getRow());
+        dt.Rows.Add(driver.GetRow());
 
       return dt;
     }
 
     public Driver getItem(int id)
     {
-      return _list.FirstOrDefault(d => d.ID == id);
+      return _list.FirstOrDefault(d => d.Id == id);
     }
 
     public Driver getItem(string login)
     {
-      List<Driver> drivers = _list.Where(item => item.Login == login).OrderBy(item => item.ID).ToList();
+      List<Driver> drivers = _list.Where(item => item.Login == login).OrderBy(item => item.Id).ToList();
 
       return drivers.FirstOrDefault();
     }
@@ -137,7 +137,7 @@ namespace BBAuto.Logic.Lists
 
         foreach (UserAccess userAccess in userAccesses)
         {
-          drivers.Add(getItem(userAccess.Driver.ID));
+          drivers.Add(getItem(userAccess.Driver.Id));
         }
 
         return drivers;

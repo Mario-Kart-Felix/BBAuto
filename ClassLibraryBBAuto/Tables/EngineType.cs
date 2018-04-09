@@ -8,7 +8,7 @@ namespace BBAuto.Logic.Tables
   {
     public EngineType(DataRow row)
     {
-      ID = Convert.ToInt32(row[0]);
+      Id = Convert.ToInt32(row[0]);
       Name = row[1].ToString();
       ShortName = row[2].ToString();
     }
@@ -16,7 +16,7 @@ namespace BBAuto.Logic.Tables
     public string Name { get; private set; }
     public string ShortName { get; private set; }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
       throw new NotImplementedException();
     }

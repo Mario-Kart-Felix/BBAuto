@@ -16,7 +16,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<WayBillRoute>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static WayBillRouteList getInstance()
@@ -27,9 +27,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("WayBillRoute");
+      DataTable dt = Provider.Select("WayBillRoute");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -48,7 +48,7 @@ namespace BBAuto.Logic.Lists
 
     public MainDictionary GetItem(int id)
     {
-      return list.FirstOrDefault(i => i.ID == id);
+      return list.FirstOrDefault(i => i.Id == id);
     }
 
     public IEnumerable<Route> GetList(WayBillDay wayBillDay)

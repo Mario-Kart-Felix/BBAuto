@@ -63,7 +63,7 @@ namespace BBAuto.App.FormsForCar
 
       _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
       _workWithForm.EditModeChanged += SetNotEditableItems;
-      _workWithForm.SetEditMode(_car.ID == 0 || (!_car.IsGet));
+      _workWithForm.SetEditMode(_car.Id == 0 || (!_car.IsGet));
 
 
       /*TODO: Столярова видит основную инфу */
@@ -200,7 +200,7 @@ namespace BBAuto.App.FormsForCar
 
     private void fillFields()
     {
-      cbMark.SelectedValue = (_car.Mark != null) ? _car.Mark.ID.ToString() : "0";
+      cbMark.SelectedValue = (_car.Mark != null) ? _car.Mark.Id.ToString() : "0";
       cbModel.SelectedValue = _car.ModelID;
       cbGrade.SelectedValue = _car.GradeID;
       /* когда Audi не заполняется таблица с инфо о машине */
@@ -930,7 +930,7 @@ namespace BBAuto.App.FormsForCar
 
       CreateDocument doc = new CreateDocument(_car);
 
-      doc.showNotice(dtp);
+      doc.ShowNotice(dtp);
     }
 
     private void btnDelDTP_Click(object sender, EventArgs e)

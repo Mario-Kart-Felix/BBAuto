@@ -8,12 +8,12 @@ namespace BBAuto.Logic.Common
   {
     public static string Send(Car car, PolicyType type)
     {
-      EMail mail = new EMail();
+      var mail = new EMail();
 
-      mail.sendMailPolicy(car, type);
+      mail.SendMailPolicy(car, type);
 
-      DriverCarList driverCarList = DriverCarList.getInstance();
-      Driver driver = driverCarList.GetDriver(car);
+      var driverCarList = DriverCarList.getInstance();
+      var driver = driverCarList.GetDriver(car);
 
       return string.Concat("Полис ", type.ToString(), " отправлен на адрес ", driver.email);
     }

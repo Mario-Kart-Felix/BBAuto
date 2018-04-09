@@ -26,20 +26,20 @@ namespace BBAuto.App.AddEdit
       LoadData();
 
       _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-      _workWithForm.SetEditMode(_fuelCardDriver.ID == 0);
+      _workWithForm.SetEditMode(_fuelCardDriver.Id == 0);
     }
 
     private void LoadDictionary()
     {
       DriverList driverList = DriverList.getInstance();
-      cbDriver.DataSource = driverList.ToDataTable(_fuelCardDriver.Driver.ID != 0);
+      cbDriver.DataSource = driverList.ToDataTable(_fuelCardDriver.Driver.Id != 0);
       cbDriver.DisplayMember = "ФИО";
       cbDriver.ValueMember = "id";
     }
 
     private void LoadData()
     {
-      cbDriver.SelectedValue = _fuelCardDriver.Driver.ID;
+      cbDriver.SelectedValue = _fuelCardDriver.Driver.Id;
       dtpDateBegin.Value = _fuelCardDriver.DateBegin;
 
       chbNotUse.Checked = _fuelCardDriver.IsNotUse;

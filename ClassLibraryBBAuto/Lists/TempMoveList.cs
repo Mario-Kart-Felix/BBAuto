@@ -17,7 +17,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<TempMove>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static TempMoveList getInstance()
@@ -28,9 +28,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("TempMove");
+      DataTable dt = Provider.Select("TempMove");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -61,14 +61,14 @@ namespace BBAuto.Logic.Lists
       var tempMoves = list.OrderByDescending(item => item.DateEnd);
 
       foreach (TempMove tempMove in tempMoves)
-        dt.Rows.Add(tempMove.getRow());
+        dt.Rows.Add(tempMove.GetRow());
 
       return dt;
     }
 
     public TempMove getItem(int id)
     {
-      return list.FirstOrDefault(t => t.ID == id);
+      return list.FirstOrDefault(t => t.Id == id);
     }
 
     internal Driver getDriver(Car car, DateTime date)

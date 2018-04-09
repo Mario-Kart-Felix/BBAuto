@@ -63,7 +63,7 @@ namespace BBAuto.Logic.ForCar
         if (Car.info.IsSale)
         {
           var carSaleList = CarSaleList.getInstance();
-          return !string.IsNullOrEmpty(carSaleList.getItem(Car.ID).Date);
+          return !string.IsNullOrEmpty(carSaleList.getItem(Car.Id).Date);
         }
 
         return false;
@@ -122,7 +122,7 @@ namespace BBAuto.Logic.ForCar
     public Policy(Car car)
     {
       Car = car;
-      ID = 0;
+      Id = 0;
     }
 
     public Policy(DataRow row)
@@ -133,7 +133,7 @@ namespace BBAuto.Logic.ForCar
     private void FillFields(DataRow row)
     {
       int.TryParse(row.ItemArray[0].ToString(), out int id);
-      ID = id;
+      Id = id;
 
       int.TryParse(row.ItemArray[1].ToString(), out int idCar);
       Car = CarList.getInstance().getItem(idCar);
@@ -146,7 +146,7 @@ namespace BBAuto.Logic.ForCar
       DateTime.TryParse(row.ItemArray[7].ToString(), out _dateEnd);
       Pay = row.ItemArray[8].ToString();
       File = row.ItemArray[9].ToString();
-      _fileBegin = File;
+      FileBegin = File;
 
       LimitCost = row.ItemArray[10].ToString();
       Pay2 = row.ItemArray[11].ToString();
@@ -167,7 +167,7 @@ namespace BBAuto.Logic.ForCar
 
     public override void Save()
     {
-      if (ID == 0)
+      if (Id == 0)
       {
         PolicyList.getInstance().Add(this);
 
@@ -176,8 +176,8 @@ namespace BBAuto.Logic.ForCar
 
       DeleteFile(File);
 
-      File = WorkWithFiles.FileCopyById(File, "cars", Car.ID, "Policy", _number);
-      _fileBegin = File;
+      File = WorkWithFiles.FileCopyById(File, "cars", Car.Id, "Policy", _number);
+      FileBegin = File;
 
       ExecSave();
     }
@@ -185,26 +185,26 @@ namespace BBAuto.Logic.ForCar
     private void ExecSave()
     {
       int.TryParse(
-        _provider.Insert("Policy", ID, _idPolicyType, Car.ID, IdOwner, IdComp, _number, _dateBegin, _dateEnd, Pay,
+        Provider.Insert("Policy", Id, _idPolicyType, Car.Id, IdOwner, IdComp, _number, _dateBegin, _dateEnd, Pay,
           LimitCost, Pay2, DatePay2ForSql, File, _notifacationSent, Comment), out int id);
-      ID = id;
+      Id = id;
     }
 
     internal override void Delete()
     {
       DeleteFile(File);
 
-      _provider.Delete("Policy", ID);
+      Provider.Delete("Policy", Id);
     }
 
     public void SetAccountId(int idAccount, int paymentNumber)
     {
-      _provider.DoOther("exec Policy_Insert_AccountID @p1, @p2, @p3", ID, idAccount, paymentNumber);
+      Provider.DoOther("exec Policy_Insert_AccountID @p1, @p2, @p3", Id, idAccount, paymentNumber);
     }
 
     public bool IsInList(Account account)
     {
-      return account.ID != 0 && (_idAccount == account.ID || _idAccount2 == account.ID);
+      return account.Id != 0 && (_idAccount == account.Id || _idAccount2 == account.Id);
     }
 
     public void ClearAccountId(Account account)
@@ -219,7 +219,7 @@ namespace BBAuto.Logic.ForCar
       else
         _idAccount = 0;
 
-      _provider.DoOther("exec Policy_Delete_AccountID @p1, @p2", ID, sqlPaymentNumber);
+      Provider.DoOther("exec Policy_Delete_AccountID @p1, @p2", Id, sqlPaymentNumber);
     }
 
     internal bool IsHaveAccountId(int paymentNumber)
@@ -242,14 +242,14 @@ namespace BBAuto.Logic.ForCar
       return false;
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
       var owners = Owners.getInstance();
       var comps = Comps.GetInstance();
 
       return new object[]
       {
-        ID, Car.ID, Car.BBNumber, Car.Grz, Type, owners.getItem(Convert.ToInt32(IdOwner)),
+        Id, Car.Id, Car.BBNumber, Car.Grz, Type, owners.getItem(Convert.ToInt32(IdOwner)),
         comps.getItem(Convert.ToInt32(IdComp)), Number, _pay, DateBegin, DateEnd,
         _limitCost, _pay2
       };

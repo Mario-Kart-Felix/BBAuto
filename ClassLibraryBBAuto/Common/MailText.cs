@@ -4,14 +4,14 @@ using BBAuto.Logic.Lists;
 
 namespace BBAuto.Logic.Common
 {
-  public class MailText : MainDictionary, IDictionaryMVC
+  public class MailText : MainDictionary, IDictionaryMvc
   {
     public string Name { get; set; }
     public string Text { get; set; }
 
     public MailText()
     {
-      ID = 0;
+      Id = 0;
       Name = string.Empty;
       Text = string.Empty;
     }
@@ -23,9 +23,8 @@ namespace BBAuto.Logic.Common
 
     private void FillFields(DataRow row)
     {
-      int id;
-      int.TryParse(row.ItemArray[0].ToString(), out id);
-      ID = id;
+      int.TryParse(row.ItemArray[0].ToString(), out int id);
+      Id = id;
 
       Name = row.ItemArray[1].ToString();
       Text = row.ItemArray[2].ToString();
@@ -33,22 +32,21 @@ namespace BBAuto.Logic.Common
 
     public override void Save()
     {
-      int id;
-      int.TryParse(_provider.Insert("MailText", ID, Name, Text), out id);
-      ID = id;
+      int.TryParse(Provider.Insert("MailText", Id, Name, Text), out int id);
+      Id = id;
 
-      MailTextList mailTextList = MailTextList.getInstance();
+      var mailTextList = MailTextList.getInstance();
       mailTextList.Add(this);
     }
 
     internal override void Delete()
     {
-      _provider.Delete("MailText", ID);
+      Provider.Delete("MailText", Id);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
-      return new object[2] {ID, Name};
+      return new object[] {Id, Name};
     }
   }
 }

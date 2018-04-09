@@ -26,7 +26,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
 
       _check = new CheckBox();
 
-      if (_invoice.ID == 0)
+      if (_invoice.Id == 0)
       {
         _check.Location = new System.Drawing.Point(12, 225);
         _check.Width = 250;
@@ -45,12 +45,12 @@ namespace BBAuto.App.FormsForCar.AddEdit
 
       _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
       _workWithForm.EditModeChanged += EditModeChanged;
-      _workWithForm.SetEditMode(_invoice.ID == 0);
+      _workWithForm.SetEditMode(_invoice.Id == 0);
     }
 
     private void EditModeChanged(Object sender, EditModeEventArgs e)
     {
-      if (_invoice.ID != 0)
+      if (_invoice.Id != 0)
       {
         cbDriverFrom.Enabled = false;
         cbRegionFrom.Enabled = false;
@@ -93,7 +93,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
     {
       DriverList driverList = DriverList.getInstance();
 
-      combo.DataSource = driverList.ToDataTable(_invoice.ID != 0);
+      combo.DataSource = driverList.ToDataTable(_invoice.Id != 0);
       combo.DisplayMember = "ФИО";
       combo.ValueMember = "id";
     }
@@ -147,7 +147,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
         Region region = getRegion();
 
         DriverList driverList = DriverList.getInstance();
-        cbDriverTo.DataSource = driverList.ToDataTableByRegion(region, _invoice.ID != 0);
+        cbDriverTo.DataSource = driverList.ToDataTableByRegion(region, _invoice.Id != 0);
         cbDriverTo.DisplayMember = "ФИО";
         cbDriverTo.ValueMember = "id";
       }
@@ -177,7 +177,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
       if (int.TryParse(cbDriverTo.SelectedValue.ToString(), out idDriver))
       {
         Driver driver = driverList.getItem(idDriver);
-        cbRegionTo.SelectedValue = driver.Region.ID;
+        cbRegionTo.SelectedValue = driver.Region.Id;
       }
     }
   }

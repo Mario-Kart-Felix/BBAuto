@@ -28,7 +28,7 @@ namespace BBAuto.App.AddEdit
       fillFields();
 
       _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-      _workWithForm.SetEditMode(_grade.ID == 0);
+      _workWithForm.SetEditMode(_grade.Id == 0);
     }
 
     private void loadTypeEngine()
@@ -45,7 +45,7 @@ namespace BBAuto.App.AddEdit
       tbEVol.Text = _grade.EVol;
       tbMaxLoad.Text = _grade.MaxLoad;
       tbNoLoad.Text = _grade.NoLoad;
-      cbEngineType.SelectedValue = _grade.EngineType.ID;
+      cbEngineType.SelectedValue = _grade.EngineType.Id;
     }
 
     private void btnOK_Click(object sender, EventArgs e)

@@ -68,7 +68,7 @@ namespace BBAuto.Logic.ForCar
     internal Invoice(Car car)
     {
       Car = car;
-      ID = 0;
+      Id = 0;
       Number = getNextNumber();
       Date = DateTime.Today;
 
@@ -82,7 +82,7 @@ namespace BBAuto.Logic.ForCar
 
     private void fillFields(DataRow row)
     {
-      ID = Convert.ToInt32(row.ItemArray[0]);
+      Id = Convert.ToInt32(row.ItemArray[0]);
 
       int idCar;
       int.TryParse(row.ItemArray[1].ToString(), out idCar);
@@ -100,7 +100,7 @@ namespace BBAuto.Logic.ForCar
       int.TryParse(row.ItemArray[7].ToString(), out _idRegionFrom);
       int.TryParse(row.ItemArray[8].ToString(), out _idRegionTo);
       File = row.ItemArray[9].ToString();
-      _fileBegin = File;
+      FileBegin = File;
     }
 
     private void fillNewInvoice()
@@ -135,13 +135,13 @@ namespace BBAuto.Logic.ForCar
     {
       DeleteFile(File);
 
-      File = WorkWithFiles.FileCopyById(File, "cars", Car.ID, "Invoices", Number);
+      File = WorkWithFiles.FileCopyById(File, "cars", Car.Id, "Invoices", Number);
 
-      ID = Convert.ToInt32(_provider.Insert("Invoice", ID, Car.ID, Number, DriverFromID, DriverToID, Date,
+      Id = Convert.ToInt32(Provider.Insert("Invoice", Id, Car.Id, Number, DriverFromID, DriverToID, Date,
         DateMoveForSQL, RegionFromID, RegionToID, File));
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
       Regions regions = Regions.getInstance();
 
@@ -152,7 +152,7 @@ namespace BBAuto.Logic.ForCar
 
       return new object[]
       {
-        ID, Car.ID, Car.BBNumber, Car.Grz, Number, regions.getItem(_idRegionFrom), driverFrom.GetName(NameType.Full),
+        Id, Car.Id, Car.BBNumber, Car.Grz, Number, regions.getItem(_idRegionFrom), driverFrom.GetName(NameType.Full),
         regions.getItem(_idRegionTo), driverTo.GetName(NameType.Full), Date, _dateMove
       };
     }
@@ -161,7 +161,7 @@ namespace BBAuto.Logic.ForCar
     {
       DeleteFile(File);
 
-      _provider.Delete("Invoice", ID);
+      Provider.Delete("Invoice", Id);
     }
   }
 }

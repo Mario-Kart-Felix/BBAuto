@@ -17,7 +17,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<ColumnSize>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static ColumnSizeList getInstance()
@@ -28,9 +28,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("ColumnSize");
+      DataTable dt = Provider.Select("ColumnSize");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -77,7 +77,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Файл");
 
       foreach (ColumnSize columnSize in columnSizes)
-        dt.Rows.Add(columnSize.getRow());
+        dt.Rows.Add(columnSize.GetRow());
 
       return dt;
     }

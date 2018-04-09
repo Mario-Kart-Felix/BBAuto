@@ -207,7 +207,7 @@ namespace BBAuto.App
       else
       {
         CarSaleList carSaleList = CarSaleList.getInstance();
-        CarSale carSale = carSaleList.getItem(car.ID);
+        CarSale carSale = carSaleList.getItem(car.Id);
 
         Car_Sale carSaleForm = new Car_Sale(carSale);
         if (carSaleForm.ShowDialog() == DialogResult.OK)

@@ -8,16 +8,15 @@ namespace BBAuto.Logic.Common
 {
   public class MileageFill
   {
-    private string[,] literal = new string[,]
-    {
+    private readonly string[,] _literal = {
       {"A", "А"}, {"B", "В"}, {"E", "Е"}, {"K", "К"}, {"M", "М"}, {"H", "Н"}, {"O", "О"}, {"P", "Р"}, {"C", "С"},
       {"T", "Т"}, {"Y", "У"}, {"X", "Х"}, {"RUS", ""}, {"/", ""}
     };
 
-    private DateTime _date;
-    private MileageReportList _mileageReportList;
+    private readonly DateTime _date;
+    private readonly MileageReportList _mileageReportList;
 
-    private string _folder;
+    private readonly string _folder;
 
     public MileageFill(string folder, DateTime date)
     {
@@ -29,9 +28,9 @@ namespace BBAuto.Logic.Common
 
     public void Begin()
     {
-      string[] filenames = Directory.GetFiles(_folder);
+      var filenames = Directory.GetFiles(_folder);
 
-      foreach (string fileName in filenames)
+      foreach (var fileName in filenames)
       {
         ReadFile(fileName);
       }
@@ -41,37 +40,37 @@ namespace BBAuto.Logic.Common
     {
       try
       {
-        using (ExcelDoc excelDoc = new ExcelDoc(filename))
+        using (var excelDoc = new ExcelDoc(filename))
         {
           try
           {
             excelDoc.SetList("Расходы по а-м");
 
-            string grz = (excelDoc.getValue("B4") != null) ? excelDoc.getValue("B4").ToString() : string.Empty;
+            var grz = (excelDoc.getValue("B4") != null) ? excelDoc.getValue("B4").ToString() : string.Empty;
 
-            Car car = GetCar(grz);
+            var car = GetCar(grz);
 
             if (car == null)
             {
-              string driverFIO = (excelDoc.getValue("B5") != null) ? excelDoc.getValue("B5").ToString() : string.Empty;
+              var driverFio = (excelDoc.getValue("B5") != null) ? excelDoc.getValue("B5").ToString() : string.Empty;
 
-              DriverList driverList = DriverList.getInstance();
-              Driver driver = driverList.getItemByFIO(driverFIO);
+              var driverList = DriverList.getInstance();
+              var driver = driverList.getItemByFIO(driverFio);
 
               if (driver != null)
               {
-                DriverCarList driverCarList = DriverCarList.getInstance();
+                var driverCarList = DriverCarList.getInstance();
                 car = driverCarList.GetCar(driver);
               }
 
               if (car == null)
                 _mileageReportList.Add(new MileageReport(null,
-                  string.Concat("Не найден автомобиль: ", grz, " сотрудник: ", driverFIO, ". Файл: ", filename)));
+                  string.Concat("Не найден автомобиль: ", grz, " сотрудник: ", driverFio, ". Файл: ", filename)));
             }
 
             if (car != null)
             {
-              string value = (excelDoc.getValue("C8") != null) ? excelDoc.getValue("C8").ToString() : string.Empty;
+              string value = excelDoc.getValue("C8") != null ? excelDoc.getValue("C8").ToString() : string.Empty;
 
               SetMileage(car, value);
             }
@@ -99,17 +98,17 @@ namespace BBAuto.Logic.Common
       if (grz == string.Empty)
         return null;
 
-      CarList carList = CarList.getInstance();
-      return carList.getItem(FormatGRZ(grz));
+      var carList = CarList.getInstance();
+      return carList.getItem(FormatGrz(grz));
     }
 
-    private string FormatGRZ(string value)
+    private string FormatGrz(string value)
     {
       value = value.ToUpper();
 
-      for (int i = 0; i < 14; i++)
+      for (var i = 0; i < 14; i++)
       {
-        value = value.Replace(literal[i, 0], literal[i, 1]);
+        value = value.Replace(_literal[i, 0], _literal[i, 1]);
       }
 
       return value;
@@ -117,14 +116,13 @@ namespace BBAuto.Logic.Common
 
     private void SetMileage(Car car, string value)
     {
-      int count;
-      int.TryParse(value, out count);
+      int.TryParse(value, out int count);
 
       if (count == 0)
         return;
 
-      MileageList mileageList = MileageList.getInstance();
-      Mileage mileage = mileageList.getItem(car);
+      var mileageList = MileageList.getInstance();
+      var mileage = mileageList.getItem(car);
 
       if (count > Convert.ToInt32(mileage.Count))
       {

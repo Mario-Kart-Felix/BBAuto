@@ -17,7 +17,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<DTP>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static DTPList getInstance()
@@ -28,11 +28,11 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
       list.Clear();
 
-      DataTable dt = _provider.Select("DTP");
+      DataTable dt = Provider.Select("DTP");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -51,7 +51,7 @@ namespace BBAuto.Logic.Lists
 
     public DTP getItem(int id)
     {
-      return list.FirstOrDefault(dtp => dtp.ID == id);
+      return list.FirstOrDefault(dtp => dtp.Id == id);
     }
 
     public DataTable ToDataTable()
@@ -63,7 +63,7 @@ namespace BBAuto.Logic.Lists
 
     public DataTable ToDataTable(Driver driver)
     {
-      if (driver.ID == 0)
+      if (driver.Id == 0)
         return null;
 
       List<DTP> dtps = list.Where(item => item.isEqualDriverID(driver)).ToList();
@@ -87,7 +87,7 @@ namespace BBAuto.Logic.Lists
 
     private List<DTP> ToList(Car car)
     {
-      return list.Where(item => item.Car.ID == car.ID).OrderByDescending(item => item.Date).ToList();
+      return list.Where(item => item.Car.Id == car.Id).OrderByDescending(item => item.Date).ToList();
     }
 
     private DataTable createTable(List<DTP> dtpList)
@@ -112,7 +112,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("№ убытка страховой");
 
       foreach (DTP dtp in dtpList)
-        dt.Rows.Add(dtp.getRow());
+        dt.Rows.Add(dtp.GetRow());
 
       return dt;
     }
@@ -128,7 +128,7 @@ namespace BBAuto.Logic.Lists
 
     public DTP getLastByDriver(Driver driver)
     {
-      if (driver.ID == driver.ID)
+      if (driver.Id == driver.Id)
         return new DTP(new Car());
 
       List<DTP> dtps = list.Where(item => item.isEqualDriverID(driver)).OrderByDescending(item => item.Date).ToList();

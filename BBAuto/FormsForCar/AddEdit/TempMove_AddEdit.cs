@@ -25,7 +25,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
       loadData();
 
       _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-      _workWithForm.SetEditMode(_tempMove.ID == 0);
+      _workWithForm.SetEditMode(_tempMove.Id == 0);
     }
 
     private void loadData()
@@ -33,9 +33,9 @@ namespace BBAuto.App.FormsForCar.AddEdit
       loadDictionary();
 
       if (_tempMove.Driver != null)
-        cbDriver.SelectedValue = _tempMove.Driver.ID;
+        cbDriver.SelectedValue = _tempMove.Driver.Id;
 
-      cbCar.SelectedValue = _tempMove.Car.ID;
+      cbCar.SelectedValue = _tempMove.Car.Id;
       dtpDateBegin.Value = _tempMove.DateBegin;
       dtpDateEnd.Value = _tempMove.DateEnd;
     }

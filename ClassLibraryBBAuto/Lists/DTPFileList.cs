@@ -15,7 +15,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<DTPFile>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static DTPFileList getInstance()
@@ -26,9 +26,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("DTPFile");
+      DataTable dt = Provider.Select("DTPFile");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -39,7 +39,7 @@ namespace BBAuto.Logic.Lists
 
     public void Add(DTPFile dtpFile)
     {
-      if (list.Exists(item => item.ID == dtpFile.ID))
+      if (list.Exists(item => item.Id == dtpFile.Id))
         return;
 
       list.Add(dtpFile);
@@ -47,7 +47,7 @@ namespace BBAuto.Logic.Lists
 
     public DTPFile getItem(int id)
     {
-      return list.FirstOrDefault(f => f.ID == id);
+      return list.FirstOrDefault(f => f.Id == id);
     }
 
     public void Delete(int idDTPFile)
@@ -61,7 +61,7 @@ namespace BBAuto.Logic.Lists
 
     public DataTable ToDataTable(DTP dtp)
     {
-      return createTable(list.Where(f => f.DTP.ID == dtp.ID));
+      return createTable(list.Where(f => f.DTP.Id == dtp.Id));
     }
 
     private DataTable createTable(IEnumerable<DTPFile> dtpFiles)
@@ -72,7 +72,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Просмотр скана");
 
       foreach (DTPFile dtpFile in dtpFiles)
-        dt.Rows.Add(dtpFile.getRow());
+        dt.Rows.Add(dtpFile.GetRow());
 
       return dt;
     }

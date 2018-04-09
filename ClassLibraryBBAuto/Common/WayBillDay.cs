@@ -19,7 +19,7 @@ namespace BBAuto.Logic.Common
 
     public WayBillDay(DataRow row)
     {
-      ID = Convert.ToInt32(row[0]);
+      Id = Convert.ToInt32(row[0]);
 
       int idCar;
       int.TryParse(row[1].ToString(), out idCar);
@@ -84,7 +84,7 @@ namespace BBAuto.Logic.Common
     private void Create(Random random)
     {
       SuppyAddressList suppyAddressList = SuppyAddressList.getInstance();
-      SuppyAddress suppyAddress = suppyAddressList.getItemByRegion(Driver.Region.ID);
+      SuppyAddress suppyAddress = suppyAddressList.getItemByRegion(Driver.Region.Id);
 
       if (suppyAddress == null)
         throw new NullReferenceException("Не задан адрес подачи");
@@ -133,7 +133,7 @@ namespace BBAuto.Logic.Common
 
     public override void Save()
     {
-      ID = Convert.ToInt32(_provider.Insert("WayBillDay", ID, Car.ID, Driver.ID, _date));
+      Id = Convert.ToInt32(Provider.Insert("WayBillDay", Id, Car.Id, Driver.Id, _date));
 
       WayBillDayList wayBillDayList = WayBillDayList.getInstance();
       wayBillDayList.Add(this);
@@ -141,10 +141,10 @@ namespace BBAuto.Logic.Common
 
     internal override void Delete()
     {
-      _provider.Delete("WayBillDay", ID);
+      Provider.Delete("WayBillDay", Id);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
       return new object[] {_date.ToShortDateString(), Driver.GetName(NameType.Short)};
     }

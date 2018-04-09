@@ -1,6 +1,6 @@
 namespace BBAuto.Logic.Abstract
 {
-  public interface IDictionaryMVC
+  public interface IDictionaryMvc
   {
     string Name { get; set; }
     string Text { get; set; }

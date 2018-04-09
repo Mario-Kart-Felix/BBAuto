@@ -40,17 +40,17 @@ namespace BBAuto.Logic.ForCar
 
     public override void Save()
     {
-      _provider.Insert("ssDTP", Mark.ID, idServiceStantion);
+      Provider.Insert("ssDTP", Mark.Id, idServiceStantion);
     }
 
     internal override void Delete()
     {
-      _provider.Delete("ssDTP", Mark.ID);
+      Provider.Delete("ssDTP", Mark.Id);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
-      return new object[3] {Mark.ID, Mark.Name, ServiceStantion};
+      return new object[3] {Mark.Id, Mark.Name, ServiceStantion};
     }
   }
 }

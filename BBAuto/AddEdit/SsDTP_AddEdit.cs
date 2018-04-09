@@ -24,11 +24,11 @@ namespace BBAuto.App.AddEdit
     {
       loadDictionary();
 
-      cbMark.SelectedValue = _ssDTP.ID;
+      cbMark.SelectedValue = _ssDTP.Id;
       cbServiceStantion.SelectedValue = _ssDTP.IDServiceStantion;
 
       _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-      _workWithForm.SetEditMode(_ssDTP.ID == 0);
+      _workWithForm.SetEditMode(_ssDTP.Id == 0);
     }
 
     private void loadDictionary()

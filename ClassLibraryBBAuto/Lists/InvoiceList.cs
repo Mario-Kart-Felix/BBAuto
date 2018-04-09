@@ -17,7 +17,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<Invoice>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static InvoiceList getInstance()
@@ -28,9 +28,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("Invoice");
+      DataTable dt = Provider.Select("Invoice");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -49,13 +49,13 @@ namespace BBAuto.Logic.Lists
 
     public Invoice getItem(int id)
     {
-      return list.FirstOrDefault(i => i.ID == id);
+      return list.FirstOrDefault(i => i.Id == id);
     }
 
     public Invoice getItem(Car car)
     {
       var invoices = from invoice in list
-        where invoice.Car.ID == car.ID && invoice.DateMove != string.Empty
+        where invoice.Car.Id == car.Id && invoice.DateMove != string.Empty
         orderby invoice.Date descending, Convert.ToInt32(invoice.Number) descending
         select invoice;
 
@@ -74,7 +74,7 @@ namespace BBAuto.Logic.Lists
     public DataTable ToDataTable(Car car)
     {
       var invoices = from invoice in list
-        where invoice.Car.ID == car.ID
+        where invoice.Car.Id == car.Id
         orderby invoice.Date descending, Convert.ToInt32(invoice.Number) descending
         select invoice;
 
@@ -97,7 +97,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Дата передачи", Type.GetType("System.DateTime"));
 
       foreach (Invoice invoice in invoices)
-        dt.Rows.Add(invoice.getRow());
+        dt.Rows.Add(invoice.GetRow());
 
       return dt;
     }

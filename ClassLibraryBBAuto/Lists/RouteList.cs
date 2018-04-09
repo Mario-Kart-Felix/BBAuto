@@ -16,7 +16,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<Route>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static RouteList getInstance()
@@ -27,9 +27,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("Route");
+      DataTable dt = Provider.Select("Route");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -60,7 +60,7 @@ namespace BBAuto.Logic.Lists
 
     public Route getItem(int id)
     {
-      return list.FirstOrDefault(item => item.ID == id);
+      return list.FirstOrDefault(item => item.Id == id);
     }
 
     public DataTable ToDataTable(MyPoint myPoint1)

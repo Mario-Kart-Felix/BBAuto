@@ -37,7 +37,7 @@ namespace BBAuto.Logic.Senders
 
     private bool IsExistNewItem(INotification notification)
     {
-      return _list.ToList().Exists(item => item.Driver.ID == notification.Driver.ID &&
+      return _list.ToList().Exists(item => item.Driver.Id == notification.Driver.Id &&
                                            item.DateEnd > notification.DateEnd);
     }
 
@@ -78,7 +78,7 @@ namespace BBAuto.Logic.Senders
        */
 
       var temp = (from item in list
-        group item by item.Driver.ID
+        group item by item.Driver.Id
         into t
         orderby t.Key
         select t.OrderByDescending(y => y.DateEnd).FirstOrDefault()).ToList();
@@ -91,9 +91,9 @@ namespace BBAuto.Logic.Senders
       DriverList driverList = DriverList.getInstance();
 
       return (from item1 in temp
-        join item2 in list2 on item1.Driver.ID equals item2.Driver.ID into table1
+        join item2 in list2 on item1.Driver.Id equals item2.Driver.Id into table1
         from item3 in table1.DefaultIfEmpty()
-        where item3 == null && (!driverList.getItem(item1.Driver.ID).NotificationStop)
+        where item3 == null && (!driverList.getItem(item1.Driver.Id).NotificationStop)
         select item1).ToList();
     }
 
@@ -122,7 +122,7 @@ namespace BBAuto.Logic.Senders
       List<INotification> list = _list.ToList();
 
       List<Driver> listNotExist = (from itemDriver in listDriver
-        join itemMC in list on itemDriver.ID equals itemMC.Driver.ID into table1
+        join itemMC in list on itemDriver.Id equals itemMC.Driver.Id into table1
         from itemRes in table1.DefaultIfEmpty()
         where itemRes == null
         select itemDriver).ToList();
@@ -149,7 +149,7 @@ namespace BBAuto.Logic.Senders
       List<INotification> list = _list.ToList();
 
       List<INotification> listExist = (from itemMC in list
-        join itemDriver in listDriver on itemMC.Driver.ID equals itemDriver.ID into table1
+        join itemDriver in listDriver on itemMC.Driver.Id equals itemDriver.Id into table1
         from itemRes in table1.DefaultIfEmpty()
         where itemRes != null
         select itemMC).ToList();

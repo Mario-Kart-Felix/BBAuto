@@ -70,7 +70,7 @@ namespace BBAuto.Logic.ForCar
 
     public DTP(Car car)
     {
-      ID = 0;
+      Id = 0;
       Car = car;
       _idStatusAfterDTP = 0;
       _idRegion = 0;
@@ -82,7 +82,7 @@ namespace BBAuto.Logic.ForCar
     {
       int id;
       int.TryParse(row.ItemArray[0].ToString(), out id);
-      ID = id;
+      Id = id;
 
       int idCar;
       int.TryParse(row.ItemArray[1].ToString(), out idCar);
@@ -111,10 +111,10 @@ namespace BBAuto.Logic.ForCar
     public override void Save()
     {
       int id;
-      int.TryParse(_provider.Insert("DTP", ID, Car.ID, Date, _idRegion, _dateCallInsure, IDCulprit, IDStatusAfterDTP,
+      int.TryParse(Provider.Insert("DTP", Id, Car.Id, Date, _idRegion, _dateCallInsure, IDCulprit, IDStatusAfterDTP,
         NumberLoss,
         _sum, Damage, Facts, Comm, IDcurrentStatusAfterDTP), out id);
-      ID = id;
+      Id = id;
 
       DTPList dtpList = DTPList.getInstance();
       dtpList.Add(this);
@@ -125,15 +125,15 @@ namespace BBAuto.Logic.ForCar
 
     private DataTable getCulpritDataTable()
     {
-      return _provider.DoOther("exec Culprit_SelectWithUser @p1, @p2", Car.ID, Date);
+      return Provider.DoOther("exec Culprit_SelectWithUser @p1, @p2", Car.Id, Date);
     }
 
     internal override void Delete()
     {
-      _provider.Delete("DTP", ID);
+      Provider.Delete("DTP", Id);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
       Regions regions = Regions.getInstance();
 
@@ -148,7 +148,7 @@ namespace BBAuto.Logic.ForCar
 
       return new object[]
       {
-        ID, Car.ID, Car.BBNumber, Car.Grz, Number, Date, regions.getItem(_idRegion), driver.GetName(NameType.Full),
+        Id, Car.Id, Car.BBNumber, Car.Grz, Number, Date, regions.getItem(_idRegion), driver.GetName(NameType.Full),
         _dateCallInsure, GetCurrentStatusAfterDTP(), culpritList.getItem(_idCulprit), _sum, Comm, Facts, Damage,
         statusAfterDTP.getItem(_idStatusAfterDTP), NumberLoss
       };

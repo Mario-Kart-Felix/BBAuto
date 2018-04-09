@@ -129,7 +129,7 @@ namespace BBAuto.App.CommonForms
 
       try
       {
-        excelWayBill.createWaybill(dtpDate.Value, null);
+        excelWayBill.CreateWaybill(dtpDate.Value, null);
         excelWayBill.AddRouteInWayBill(dtpDate.Value, fields);
 
         if (action == Logic.Static.Actions.Print)

@@ -78,7 +78,7 @@ namespace BBAuto.Logic.ForCar
 
     public Account()
     {
-      ID = NOT_SAVE_ID;
+      Id = NOT_SAVE_ID;
       _idPolicyType = 1;
     }
 
@@ -91,7 +91,7 @@ namespace BBAuto.Logic.ForCar
     {
       int id;
       int.TryParse(row.ItemArray[0].ToString(), out id);
-      ID = id;
+      Id = id;
 
       Number = row.ItemArray[1].ToString();
       int.TryParse(row.ItemArray[2].ToString(), out _agreed);
@@ -104,17 +104,17 @@ namespace BBAuto.Logic.ForCar
 
       int.TryParse(row.ItemArray[6].ToString(), out _businessTrip);
       File = row.ItemArray[7].ToString();
-      _fileBegin = File;
+      FileBegin = File;
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
       int idCar = GetIDCar();
 
       string btnName = (CanAgree()) ? "Согласовать" : string.Empty;
       string btnFile = (string.IsNullOrEmpty(File)) ? string.Empty : "Просмотр";
 
-      return new object[8] {ID, idCar, Number, policyType, Owner, Sum, btnName, btnFile};
+      return new object[8] {Id, idCar, Number, policyType, Owner, Sum, btnName, btnFile};
     }
 
     private int GetIDCar()
@@ -154,7 +154,7 @@ namespace BBAuto.Logic.ForCar
       if (_agreed == 0)
       {
         EMail mail = new EMail();
-        mail.sendMailAccount(this);
+        mail.SendMailAccount(this);
         _agreed = 1;
         ExecQuery();
       }
@@ -169,14 +169,14 @@ namespace BBAuto.Logic.ForCar
       Policy policy = policyList.getItem(idPolicy);
 
       if (IsPolicyKaskoAndPayment2())
-        policy.SetAccountId(ID, payment);
+        policy.SetAccountId(Id, payment);
       else
-        policy.SetAccountId(ID, payment);
+        policy.SetAccountId(Id, payment);
     }
 
     private bool IsNotSaved()
     {
-      return ID == NOT_SAVE_ID;
+      return Id == NOT_SAVE_ID;
     }
 
     public override void Save()
@@ -194,7 +194,7 @@ namespace BBAuto.Logic.ForCar
 
       DeleteFile(File);
 
-      File = WorkWithFiles.FileCopy(File, "Accounts", ID.ToString());
+      File = WorkWithFiles.FileCopy(File, "Accounts", Id.ToString());
 
       ExecQuery();
     }
@@ -203,9 +203,9 @@ namespace BBAuto.Logic.ForCar
     {
       int id;
       int.TryParse(
-        _provider.Insert("Account", ID, Number, _agreed, _idPolicyType, _idOwner, PaymentIndex, _businessTrip, File),
+        Provider.Insert("Account", Id, Number, _agreed, _idPolicyType, _idOwner, PaymentIndex, _businessTrip, File),
         out id);
-      ID = id;
+      Id = id;
     }
 
     public bool IsPolicyKaskoAndPayment2()

@@ -15,11 +15,11 @@ namespace BBAuto.Logic.Common
 {
   public class CreateDocument
   {
-    private Invoice _invoice;
-    private Car _car;
+    private readonly Invoice _invoice;
+    private readonly Car _car;
     private ExcelDoc _excelDoc;
 
-    private DriverList driverList;
+    private DriverList _driverList;
 
     public CreateDocument()
     {
@@ -35,15 +35,15 @@ namespace BBAuto.Logic.Common
 
     private void Init()
     {
-      driverList = DriverList.getInstance();
+      _driverList = DriverList.getInstance();
     }
 
     public void CreateExcelFromDGV(DataGridView dgv)
     {
-      int minRowIndex = 0;
-      int maxRowIndex = 0;
-      int minColumnIndex = 0;
-      int maxColumnIndex = 0;
+      var minRowIndex = 0;
+      var maxRowIndex = 0;
+      var minColumnIndex = 0;
+      var maxColumnIndex = 0;
 
       foreach (DataGridViewCell cell in dgv.SelectedCells)
       {
@@ -58,13 +58,13 @@ namespace BBAuto.Logic.Common
           minColumnIndex = cell.ColumnIndex;
       }
 
-      int rowCount = maxRowIndex + 1;
-      int columnCount = maxColumnIndex + 1;
+      var rowCount = maxRowIndex + 1;
+      var columnCount = maxColumnIndex + 1;
 
       CreateExcelFromDGV(dgv, minRowIndex, rowCount, minColumnIndex, columnCount);
     }
 
-    public void CreateExcelFromAllDGV(DataGridView dgv)
+    public void CreateExcelFromAllDgv(DataGridView dgv)
     {
       CreateExcelFromDGV(dgv, 0, dgv.Rows.Count, 0, dgv.Columns.Count);
     }
@@ -81,17 +81,17 @@ namespace BBAuto.Logic.Common
 
       for (int i = minRow; i < rowCount; i++)
       {
-        bool IsAdded = false;
+        var isAdded = false;
         for (int j = minColumn; j < columnCount; j++)
         {
           if (dgv.Rows[i].Cells[j].Visible)
           {
             _excelDoc.setValue(index, dgv.Rows[i].Cells[j].ColumnIndex - diffColumn,
               dgv.Rows[i].Cells[j].Value.ToString());
-            IsAdded = true;
+            isAdded = true;
           }
         }
-        if (IsAdded)
+        if (isAdded)
           index++;
       }
     }
@@ -112,18 +112,18 @@ namespace BBAuto.Logic.Common
       }
     }
 
-    private int GetDiffColumns(int minColumn)
+    private static int GetDiffColumns(int minColumn)
     {
-      int diff = 1;
+      var diff = 1;
       if (minColumn > 1)
         diff = minColumn - 1;
 
       return diff;
     }
 
-    private int GetDiffRows(int minRow)
+    private static int GetDiffRows(int minRow)
     {
-      int diff = 0;
+      var diff = 0;
       if (minRow > 0)
         diff = minRow - 1;
 
@@ -144,21 +144,21 @@ namespace BBAuto.Logic.Common
       _excelDoc.setValue(22, 10, fullNameAuto);
       _excelDoc.setValue(22, 53, _car.dateGet.ToShortDateString());
 
-      GradeList grades = GradeList.getInstance();
+      var grades = GradeList.getInstance();
 
-      Grade grade = grades.getItem(Convert.ToInt32(_car.GradeID));
+      var grade = grades.getItem(Convert.ToInt32(_car.GradeID));
 
-      PTSList ptsList = PTSList.getInstance();
-      PTS pts = ptsList.getItem(_car);
+      var ptsList = PTSList.getInstance();
+      var pts = ptsList.getItem(_car);
 
-      string fullDetailAuto = string.Concat("VIN ", _car.vin, ", Двигатель ", _car.eNumber, ", № кузова ",
+      var fullDetailAuto = string.Concat("VIN ", _car.vin, ", Двигатель ", _car.eNumber, ", № кузова ",
         _car.bodyNumber, ", Год выпуска ", _car.Year, " г., Паспорт ",
         pts.Number, " от ", pts.Date.ToShortDateString(), ", мощность двигателя ", grade.EPower, " л.с.");
 
       _excelDoc.setValue(47, 2, fullDetailAuto);
 
-      Driver driver1 = driverList.getItem(Convert.ToInt32(_invoice.DriverFromID));
-      Driver driver2 = driverList.getItem(Convert.ToInt32(_invoice.DriverToID));
+      Driver driver1 = _driverList.getItem(Convert.ToInt32(_invoice.DriverFromID));
+      Driver driver2 = _driverList.getItem(Convert.ToInt32(_invoice.DriverToID));
 
       _excelDoc.setValue(9, 10, driver1.Dept);
       _excelDoc.setValue(56, 11, driver1.Position);
@@ -171,26 +171,26 @@ namespace BBAuto.Logic.Common
       _excelDoc.Show();
     }
 
-    public void showNotice(DTP dtp)
+    public void ShowNotice(DTP dtp)
     {
       _excelDoc = openDocumentExcel("Извещение о страховом случае");
 
-      Owners owners = Owners.getInstance();
+      var owners = Owners.getInstance();
 
       _excelDoc.setValue(6, 5, owners.getItem(Convert.ToInt32(_car.ownerID))); //страхователь
       _excelDoc.setValue(7, 6, "а/я 34, 196128"); //почтовый адрес
       _excelDoc.setValue(8, 7, "320-40-04"); //телефон
 
-      DriverCarList driverCarList = DriverCarList.getInstance();
-      Driver driver = driverCarList.GetDriver(_car, dtp.Date);
+      var driverCarList = DriverCarList.getInstance();
+      var driver = driverCarList.GetDriver(_car, dtp.Date);
 
-      PassportList passportList = PassportList.getInstance();
-      Passport passport = passportList.getLastPassport(driver);
+      var passportList = PassportList.getInstance();
+      var passport = passportList.getLastPassport(driver);
 
       if (passport.Number != string.Empty)
       {
-        string number = passport.Number;
-        string[] numbers = number.Split(' ');
+        var number = passport.Number;
+        var numbers = number.Split(' ');
 
         _excelDoc.setValue(10, 3, numbers[0]); //серия
         _excelDoc.setValue(10, 6, numbers[1]); //номер
@@ -199,8 +199,8 @@ namespace BBAuto.Logic.Common
         _excelDoc.setValue(12, 4, passport.GiveDate.ToShortDateString()); //дата выдачи
       }
 
-      PolicyList policyList = PolicyList.getInstance();
-      Policy policy = policyList.getItem(_car, PolicyType.КАСКО);
+      var policyList = PolicyList.getInstance();
+      var policy = policyList.getItem(_car, PolicyType.КАСКО);
       _excelDoc.setValue(14, 6, policy.Number); //полис
 
       _excelDoc.setValue(16, 6, string.Concat(_car.Mark.Name, " ", _car.info.Model)); //марка а/м
@@ -211,7 +211,7 @@ namespace BBAuto.Logic.Common
 
       _excelDoc.setValue(27, 2, driver.GetName(NameType.Full)); //водитель фио
 
-      Regions regions = Regions.getInstance();
+      var regions = Regions.getInstance();
 
       _excelDoc.setValue(29, 3, regions.getItem(Convert.ToInt32(dtp.IDRegion))); //город
       _excelDoc.setValue(31, 14, dtp.Damage); //повреждения
@@ -294,26 +294,25 @@ namespace BBAuto.Logic.Common
      
      */
 
-    public void createWaybill(DateTime date, Driver driver = null)
+    public void CreateWaybill(DateTime date, Driver driver = null)
     {
       date = new DateTime(date.Year, date.Month, 1);
 
       if (driver == null)
       {
-        DriverCarList driverCarList = DriverCarList.getInstance();
+        var driverCarList = DriverCarList.getInstance();
         driver = driverCarList.GetDriver(_car, date);
 
         if (driver == null)
         {
           driver = driverCarList.GetDriver(_car);
-          InvoiceList invoiceList = InvoiceList.getInstance();
-          Invoice invoice = invoiceList.getItem(_car);
+          var invoiceList = InvoiceList.getInstance();
+          var invoice = invoiceList.getItem(_car);
 
-          if ((invoice != null) && (!string.IsNullOrEmpty(invoice.DateMove)))
+          if (!string.IsNullOrEmpty(invoice?.DateMove))
           {
-            DateTime dateMove;
-            DateTime.TryParse(invoice.DateMove, out dateMove);
-            if ((dateMove.Year == date.Year) && (dateMove.Month == date.Month))
+            DateTime.TryParse(invoice.DateMove, out DateTime dateMove);
+            if (dateMove.Year == date.Year && dateMove.Month == date.Month)
               date = new DateTime(date.Year, date.Month, dateMove.Day);
           }
         }
@@ -321,18 +320,18 @@ namespace BBAuto.Logic.Common
 
       _excelDoc = openDocumentExcel("Путевой лист");
 
-      _excelDoc.setValue(4, 28, _car.BBNumber.ToString());
+      _excelDoc.setValue(4, 28, _car.BBNumber);
 
-      MyDateTime myDate = new MyDateTime(date.ToShortDateString());
+      var myDate = new MyDateTime(date.ToShortDateString());
 
-      _excelDoc.setValue(4, 39, driver.ID.ToString() + "/01/" + myDate.MonthSlashYear());
+      _excelDoc.setValue(4, 39, driver.Id + "/01/" + myDate.MonthSlashYear());
       _excelDoc.setValue(6, 15, myDate.DaysRange);
       _excelDoc.setValue(6, 19, myDate.MonthToStringNominative());
       _excelDoc.setValue(6, 32, date.Year.ToString());
 
       _excelDoc.setValue(29, 35, _car.info.Grade.EngineType.ShortName);
 
-      MileageMonthList mml = new MileageMonthList(_car.ID, date.Year + "-" + date.Month + "-01");
+      var mml = new MileageMonthList(_car.Id, date.Year + "-" + date.Month + "-01");
       /* Из файла Татьяны Мироновой пробег за месяц */
       _excelDoc.setValue(19, 39, mml.PSN);
       _excelDoc.setValue(33, 41, mml.Gas);
@@ -343,8 +342,8 @@ namespace BBAuto.Logic.Common
       _excelDoc.setValue(43, 39, mml.PSK);
       _excelDoc.setValue(41, 59, mml.Mileage);
 
-      Owners owners = Owners.getInstance();
-      string owner = owners.getItem(1);
+      var owners = Owners.getInstance();
+      var owner = owners.getItem(1);
 
       _excelDoc.setValue(8, 8, owner);
 
@@ -355,8 +354,8 @@ namespace BBAuto.Logic.Common
       _excelDoc.setValue(44, 16, driver.GetName(NameType.Short));
       _excelDoc.setValue(26, 40, driver.GetName(NameType.Short));
 
-      LicenseList licencesList = LicenseList.getInstance();
-      DriverLicense driverLicense = licencesList.getItem(driver);
+      var licencesList = LicenseList.getInstance();
+      var driverLicense = licencesList.getItem(driver);
 
       _excelDoc.setValue(14, 10, driverLicense.Number);
 
@@ -370,24 +369,24 @@ namespace BBAuto.Logic.Common
       }
       else
       {
-        SuppyAddressList suppyAddressList = SuppyAddressList.getInstance();
-        SuppyAddress suppyAddress = suppyAddressList.getItemByRegion(driver.Region.ID);
+        var suppyAddressList = SuppyAddressList.getInstance();
+        var suppyAddress = suppyAddressList.getItemByRegion(driver.Region.Id);
 
         if (suppyAddress != null)
           suppyAddressName = suppyAddress.ToString();
         else
         {
-          PassportList passportList = PassportList.getInstance();
-          Passport passport = passportList.getLastPassport(driver);
+          var passportList = PassportList.getInstance();
+          var passport = passportList.getLastPassport(driver);
           suppyAddressName = passport.Address;
         }
       }
 
-      string suppyAddressName2 = string.Empty;
+      var suppyAddressName2 = string.Empty;
 
       if (suppyAddressName.Length > 40)
       {
-        for (int i = 30; i < suppyAddressName.Length; i++)
+        for (var i = 30; i < suppyAddressName.Length; i++)
         {
           if (suppyAddressName[i] == ' ')
           {
@@ -402,8 +401,8 @@ namespace BBAuto.Logic.Common
 
       string mechanicName;
 
-      EmployeesList employeesList = EmployeesList.getInstance();
-      Employees accountant = employeesList.getItem(driver.Region, "Бухгалтер Б.Браун");
+      var employeesList = EmployeesList.getInstance();
+      var accountant = employeesList.getItem(driver.Region, "Бухгалтер Б.Браун");
 
       if (driver.IsOne)
       {
@@ -411,15 +410,14 @@ namespace BBAuto.Logic.Common
       }
       else
       {
-        Employees mechanic = employeesList.getItem(driver.Region, "Механик", true);
-        if (mechanic == null)
-          mechanicName = driver.GetName(NameType.Short);
-        else
-          mechanicName = mechanic.Name;
+        var mechanic = employeesList.getItem(driver.Region, "Механик", true);
+        mechanicName = mechanic == null
+          ? driver.GetName(NameType.Short)
+          : mechanic.Name;
       }
 
-      Employees dispatcher = employeesList.getItem(driver.Region, "Диспечер-нарядчик");
-      string dispatcherName = dispatcher.Name;
+      var dispatcher = employeesList.getItem(driver.Region, "Диспечер-нарядчик");
+      var dispatcherName = dispatcher.Name;
 
       _excelDoc.setValue(22, 40, mechanicName);
       _excelDoc.setValue(44, 40, mechanicName);
@@ -432,24 +430,24 @@ namespace BBAuto.Logic.Common
 
     public void AddRouteInWayBill(DateTime date, Fields fields)
     {
-      WayBillDaily wayBillDaily = new WayBillDaily(_car, date);
+      var wayBillDaily = new WayBillDaily(_car, date);
       wayBillDaily.Load();
 
       CopyWayBill(wayBillDaily);
 
-      int k = 0;
-      int beginDistance = wayBillDaily.BeginDistance;
-      int endDistance = wayBillDaily.EndDistance;
+      var k = 0;
+      var beginDistance = wayBillDaily.BeginDistance;
+      var endDistance = wayBillDaily.EndDistance;
 
-      int curDistance = beginDistance;
+      var curDistance = beginDistance;
 
       foreach (WayBillDay wayBillDay in wayBillDaily)
       {
-        int i = 6 + (47 * k);
+        var i = 6 + (47 * k);
         foreach (Route route in wayBillDay)
         {
-          MyPoint pointBegin = route.MyPoint1;
-          MyPoint pointEnd = route.MyPoint2;
+          var pointBegin = route.MyPoint1;
+          var pointEnd = route.MyPoint2;
 
           _excelDoc.setValue(i, 59, pointBegin.Name);
           _excelDoc.setValue(i, 64, pointEnd.Name);
@@ -469,13 +467,13 @@ namespace BBAuto.Logic.Common
         k++;
       }
 
-      if ((k > 0) && (fields == Fields.All))
+      if (k > 0 && fields == Fields.All)
         _excelDoc.setValue(43 + (47 * (k - 1)), 39, endDistance.ToString());
     }
 
     private void CopyWayBill(WayBillDaily wayBillDaily)
     {
-      int i = 0;
+      var i = 0;
       foreach (WayBillDay item in wayBillDaily)
       {
         if (i > 0)
@@ -497,7 +495,7 @@ namespace BBAuto.Logic.Common
     {
       string[] wayBillFullNumber = _excelDoc.getValue("AM4").ToString().Split('/');
 
-      wayBillFullNumber[1] = (currentNumber < 10) ? "0" : string.Empty;
+      wayBillFullNumber[1] = currentNumber < 10 ? "0" : string.Empty;
       wayBillFullNumber[1] += currentNumber;
 
       StringBuilder sb = new StringBuilder();
@@ -522,7 +520,7 @@ namespace BBAuto.Logic.Common
       _excelDoc.setValue(18, 2, fullNameAuto);
       _excelDoc.setValue(18, 3, _car.Grz);
 
-      Driver driver = driverList.getItem(Convert.ToInt32(_invoice.DriverToID));
+      var driver = _driverList.getItem(Convert.ToInt32(_invoice.DriverToID));
 
       _excelDoc.setValue(18, 4, driver.GetName(NameType.Full));
       _excelDoc.setValue(18, 5, driver.Position);
@@ -530,52 +528,52 @@ namespace BBAuto.Logic.Common
       _excelDoc.Show();
     }
 
-    public void ShowProxyOnSTO()
+    public void ShowProxyOnSto()
     {
-      WordDoc wordDoc = CreateProxyOnSTO();
+      var wordDoc = CreateProxyOnSto();
 
       wordDoc.Show();
     }
 
-    public void PrintProxyOnSTO()
+    public void PrintProxyOnSto()
     {
-      WordDoc wordDoc = CreateProxyOnSTO();
+      var wordDoc = CreateProxyOnSto();
 
       wordDoc.setValue("до 31 декабря 2017 года", "до 31 декабря 2018 года");
 
-      MyDateTime myDate = new MyDateTime(DateTime.Today.ToShortDateString());
+      var myDate = new MyDateTime(DateTime.Today.ToShortDateString());
       wordDoc.setValue(myDate.ToLongString(), "01 января 2018");
 
       //wordDoc.Show();
       wordDoc.Print();
     }
 
-    private WordDoc CreateProxyOnSTO()
+    private WordDoc CreateProxyOnSto()
     {
-      WordDoc wordDoc = openDocumentWord("Доверенность на предоставление интересов на СТО");
+      var wordDoc = openDocumentWord("Доверенность на предоставление интересов на СТО");
 
-      DriverCarList driverCarList = DriverCarList.getInstance();
+      var driverCarList = DriverCarList.getInstance();
 
-      Driver driver = (_invoice == null)
+      var driver = _invoice == null
         ? driverCarList.GetDriver(_car)
-        : driverList.getItem(Convert.ToInt32(_invoice.DriverToID));
+        : _driverList.getItem(Convert.ToInt32(_invoice.DriverToID));
 
-      MyDateTime myDate = new MyDateTime(DateTime.Today.ToShortDateString());
+      var myDate = new MyDateTime(DateTime.Today.ToShortDateString());
       wordDoc.setValue("текущая дата", myDate.ToLongString());
 
-      String fio = String.Empty;
+      var fio = string.Empty;
       if (driver != null)
         fio = driver.GetName(NameType.Full);
 
       wordDoc.setValue("ФИО регионального представителя", fio);
 
-      PassportList passportList = PassportList.getInstance();
+      var passportList = PassportList.getInstance();
 
       Passport passport = null;
       if (driver != null)
         passport = passportList.getLastPassport(driver);
 
-      string passportToString = "нет данных";
+      var passportToString = "нет данных";
 
       if (passport != null)
         passportToString = string.Concat(passport.Number, ", выдан ", passport.GiveDate.ToShortDateString(), ", ",
@@ -583,7 +581,7 @@ namespace BBAuto.Logic.Common
 
       wordDoc.setValue("паспорт регионального представителя", passportToString);
 
-      string fullNameAuto = string.Concat(_car.Mark.Name, " ", _car.info.Model);
+      var fullNameAuto = string.Concat(_car.Mark.Name, " ", _car.info.Model);
       wordDoc.setValue("Название марки автомобиля", fullNameAuto);
       wordDoc.setValue("VIN-автомобиля", _car.vin);
       wordDoc.setValue("Модель и марка двигателя автомобиля", _car.eNumber);
@@ -591,10 +589,10 @@ namespace BBAuto.Logic.Common
       wordDoc.setValue("Год выпуска автомобиля", _car.Year);
       wordDoc.setValue("Цвет автомобиля", _car.info.Color);
 
-      PTSList ptsList = PTSList.getInstance();
-      PTS pts = ptsList.getItem(_car);
+      var ptsList = PTSList.getInstance();
+      var pts = ptsList.getItem(_car);
 
-      string ptsName = string.Concat(pts.Number, ", выдан ", pts.Date.ToShortDateString(), " ", pts.GiveOrg);
+      var ptsName = string.Concat(pts.Number, ", выдан ", pts.Date.ToShortDateString(), " ", pts.GiveOrg);
 
       wordDoc.setValue("ПТС автомобиля", ptsName);
       wordDoc.setValue("ГРЗ автомобиля", _car.Grz);
@@ -605,19 +603,19 @@ namespace BBAuto.Logic.Common
 
     public void ShowActFuelCard()
     {
-      WordDoc wordDoc = openDocumentWord("Акт передачи топливной карты");
+      var wordDoc = openDocumentWord("Акт передачи топливной карты");
 
-      FuelCardDriverList fuelCardDriverList = FuelCardDriverList.getInstance();
+      var fuelCardDriverList = FuelCardDriverList.getInstance();
 
-      Driver driverTo = driverList.getItem(Convert.ToInt32(_invoice.DriverToID));
-      List<FuelCardDriver> list = fuelCardDriverList.ToList(driverTo);
+      var driverTo = _driverList.getItem(Convert.ToInt32(_invoice.DriverToID));
+      var list = fuelCardDriverList.ToList(driverTo);
 
-      Regions regions = Regions.getInstance();
-      string regionName = regions.getItem(Convert.ToInt32(_invoice.RegionToID));
+      var regions = Regions.getInstance();
+      var regionName = regions.getItem(Convert.ToInt32(_invoice.RegionToID));
 
-      int i = 1;
+      var i = 1;
 
-      foreach (FuelCardDriver fuelCardDriver in list)
+      foreach (var fuelCardDriver in list)
       {
         wordDoc.AddRowInTable(1, i.ToString(), driverTo.GetName(NameType.Full), regionName,
           fuelCardDriver.FuelCard.Number);
@@ -632,31 +630,31 @@ namespace BBAuto.Logic.Common
       else if (list.Count == 2)
         wordDoc.setValue("Количество карт", "2 (две) карты.");
       else if (list.Count != 0)
-        wordDoc.setValue("Количество карт", list.Count.ToString() + "карт(ы).");
+        wordDoc.setValue("Количество карт", list.Count + "карт(ы).");
 
       wordDoc.Show();
     }
 
     public void CreatePolicyTable()
     {
-      const int INDEX_BEGIN = 6;
-      DateTime date = DateTime.Today.AddMonths(1);
+      const int indexBegin = 6;
+      var date = DateTime.Today.AddMonths(1);
 
       _excelDoc = openDocumentExcel("Таблица страхования");
 
-      MyDateTime myDate = new MyDateTime(date.ToShortDateString());
+      var myDate = new MyDateTime(date.ToShortDateString());
 
       _excelDoc.setValue(2, 1, "Страхуем в " + myDate.MonthToStringPrepositive() + " " + myDate.Year + " г.");
 
-      PolicyList policyList = PolicyList.getInstance();
-      List<Policy> list = policyList.GetPolicyList(date);
-      List<Car> listCar = policyList.GetCarListByPolicyList(list);
+      var policyList = PolicyList.getInstance();
+      var list = policyList.GetPolicyList(date);
+      var listCar = policyList.GetCarListByPolicyList(list);
 
-      DiagCardList diagCardList = DiagCardList.getInstance();
+      var diagCardList = DiagCardList.getInstance();
 
-      int rowIndex = INDEX_BEGIN;
+      var rowIndex = indexBegin;
 
-      foreach (Car car in listCar)
+      foreach (var car in listCar)
       {
         _excelDoc.setValue(rowIndex, 2, car.Grz);
         _excelDoc.setValue(rowIndex, 3, car.Mark.Name);
@@ -669,7 +667,7 @@ namespace BBAuto.Logic.Common
         _excelDoc.setValue(rowIndex, 10, car.info.Owner);
         _excelDoc.setValue(rowIndex, 11, car.info.Owner);
 
-        DiagCard diagCard = diagCardList.getItem(car);
+        var diagCard = diagCardList.getItem(car);
 
         if (diagCard != null)
         {
@@ -683,11 +681,11 @@ namespace BBAuto.Logic.Common
       _excelDoc.Show();
     }
 
-    private static string GetPolicyBeginDate(List<Policy> list, Car car, PolicyType policyType)
+    private static string GetPolicyBeginDate(IEnumerable<Policy> list, Car car, PolicyType policyType)
     {
-      List<Policy> newList = list.Where(policy => policy.Car.ID == car.ID && policy.Type == policyType).ToList();
+      var newList = list.Where(policy => policy.Car.Id == car.Id && policy.Type == policyType).ToList();
 
-      string osagoBeginDate = "не надо";
+      var osagoBeginDate = "не надо";
 
       if (newList.Count > 0)
         osagoBeginDate = newList.First().DateBegin.ToShortDateString();
@@ -697,15 +695,15 @@ namespace BBAuto.Logic.Common
 
     private ExcelDoc openDocumentExcel(string name)
     {
-      TemplateList templateList = TemplateList.getInstance();
-      Template template = templateList.getItem(name);
+      var templateList = TemplateList.getInstance();
+      var template = templateList.getItem(name);
       return new ExcelDoc(template.File);
     }
 
     private WordDoc openDocumentWord(string name)
     {
-      TemplateList templateList = TemplateList.getInstance();
-      Template template = templateList.getItem(name);
+      var templateList = TemplateList.getInstance();
+      var template = templateList.getItem(name);
       return new WordDoc(template.File);
     }
 

@@ -29,7 +29,7 @@ namespace BBAuto.App.AddEdit
 
       _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
       _workWithForm.EditModeChanged += EnableIfAccountWayBill;
-      _workWithForm.SetEditMode(_employees.ID == 0);
+      _workWithForm.SetEditMode(_employees.Id == 0);
     }
 
     private void EnableIfAccountWayBill(Object sender, EditModeEventArgs e)
@@ -58,9 +58,9 @@ namespace BBAuto.App.AddEdit
 
     private void loadData()
     {
-      cbRegion.SelectedValue = _employees.ID;
-      cbEmployeesName.SelectedValue = _employees.IDEmployeesName;
-      cbDriver.SelectedValue = _employees.IDDriver;
+      cbRegion.SelectedValue = _employees.Id;
+      cbEmployeesName.SelectedValue = _employees.IdEmployeesName;
+      cbDriver.SelectedValue = _employees.IdDriver;
     }
 
     private void btnSave_Click(object sender, EventArgs e)
@@ -72,8 +72,8 @@ namespace BBAuto.App.AddEdit
         int.TryParse(cbRegion.SelectedValue.ToString(), out idRegion);
         _employees.Region = regionList.getItem(idRegion);
 
-        _employees.IDEmployeesName = cbEmployeesName.SelectedValue.ToString();
-        _employees.IDDriver = cbDriver.SelectedValue.ToString();
+        _employees.IdEmployeesName = cbEmployeesName.SelectedValue.ToString();
+        _employees.IdDriver = cbDriver.SelectedValue.ToString();
 
         _employees.Save();
 

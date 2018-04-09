@@ -4,28 +4,28 @@ using System.Data.SqlClient;
 
 namespace BBAuto.DataLayer
 {
-  public class SQL : IDataBase
+  public class Sql : IDataBase
   {
-    private const int TIMEOUT = 600;
+    private const int Timeout = 600;
 
-    private String _server = @"bbmru07";
-    private String _database = "BBAuto";
-    private Boolean _winAuth = false;
-    private String _userID;
-    private String _password;
+    private readonly string _server = @"bbmru07";
+    private readonly string _database = "BBAuto";
+    private readonly bool _winAuth = false;
+    private readonly string _userId;
+    private readonly string _password;
 
     private SqlConnection _con;
 
-    public SQL()
+    public Sql()
     {
       if (_server == @"bbmru09")
       {
-        _userID = "sa";
+        _userId = "sa";
         _password = "gfdtk";
       }
       else
       {
-        _userID = "RegionalR_user";
+        _userId = "RegionalR_user";
         _password = "regionalr78";
       }
 
@@ -34,20 +34,23 @@ namespace BBAuto.DataLayer
 
     private string Init()
     {
-      SqlConnectionStringBuilder csb = new SqlConnectionStringBuilder();
-      csb.DataSource = _server;
-      csb.InitialCatalog = _database;
-      csb.IntegratedSecurity = _winAuth;
+      var csb = new SqlConnectionStringBuilder
+      {
+        DataSource = _server,
+        InitialCatalog = _database,
+        IntegratedSecurity = _winAuth
+      };
+
       if (!_winAuth)
       {
-        csb.UserID = _userID;
+        csb.UserID = _userId;
         csb.Password = _password;
       }
       try
       {
         _con = new SqlConnection(csb.ConnectionString);
         _con.Open();
-        return String.Empty;
+        return string.Empty;
       }
       catch (Exception ex)
       {
@@ -55,16 +58,11 @@ namespace BBAuto.DataLayer
       }
     }
 
-    private String Disconnect()
+    private void Disconnect()
     {
       try
       {
         _con.Close();
-        return String.Empty;
-      }
-      catch (Exception ex)
-      {
-        return ex.Message;
       }
       finally
       {
@@ -72,70 +70,66 @@ namespace BBAuto.DataLayer
       }
     }
 
-    public DataTable GetRecords(String SQL, params Object[] Params)
+    public DataTable GetRecords(string sql, params object[] Params)
     {
-      if (isOpenedConnection())
-        return tryToGetRecords(SQL, Params);
-      else
-        return null;
+      return IsOpenedConnection() ? TryToGetRecords(sql, Params) : null;
     }
 
-    public string GetRecordsOne(String SQL, params Object[] Params)
+    public string GetRecordsOne(string sql, params object[] Params)
     {
-      if (isOpenedConnection())
-        return tryGetRecordsOne(SQL, Params);
-      else
-        return string.Empty;
+      return IsOpenedConnection() ? TryGetRecordsOne(sql, Params) : string.Empty;
     }
 
-    private bool isOpenedConnection()
+    private bool IsOpenedConnection()
     {
-      if ((_con == null) || (_con.State != ConnectionState.Open))
+      if (_con == null || _con.State != ConnectionState.Open)
         _con.Open();
 
-      return (_con != null) && (_con.State == ConnectionState.Open);
+      return _con != null && _con.State == ConnectionState.Open;
     }
 
-    private string tryGetRecordsOne(String SQL, params Object[] Params)
+    private string TryGetRecordsOne(string sql, params object[] Params)
     {
-      DataTable dt1 = tryToGetRecords(SQL, Params);
+      var dt1 = TryToGetRecords(sql, Params);
 
-      if ((dt1 != null) && (dt1.Rows.Count > 0))
+      if (dt1 != null && dt1.Rows.Count > 0)
         return dt1.Rows[0].ItemArray[0].ToString();
 
       return string.Empty;
     }
 
-    private DataTable tryToGetRecords(String SQL, params Object[] Params)
+    private DataTable TryToGetRecords(string sql, params object[] Params)
     {
-      DataTable Out = new DataTable();
+      var Out = new DataTable();
 
-      SqlDataAdapter sqlDataAdapter = CreateSqlDataAdapter(SQL, Params);
+      var sqlDataAdapter = CreateSqlDataAdapter(sql, Params);
       sqlDataAdapter.Fill(Out);
       Disconnect();
       return Out;
     }
 
-    private SqlDataAdapter CreateSqlDataAdapter(String SQL, params Object[] Params)
+    private SqlDataAdapter CreateSqlDataAdapter(string sql, params object[] Params)
     {
-      SqlCommand sqlCommand = CreateSqlCommand(SQL, Params);
+      var sqlCommand = CreateSqlCommand(sql, Params);
       return new SqlDataAdapter(sqlCommand);
     }
 
-    private SqlCommand CreateSqlCommand(String SQL, params Object[] Params)
+    private SqlCommand CreateSqlCommand(string sql, params object[] Params)
     {
-      SqlCommand sqlCommand = new SqlCommand(SQL, _con);
-      sqlCommand.CommandTimeout = TIMEOUT;
+      var sqlCommand = new SqlCommand(sql, _con)
+      {
+        CommandTimeout = Timeout
+      };
 
-      for (int i = 0; i < Params.Length; i++)
+      for (var i = 0; i < Params.Length; i++)
         sqlCommand.Parameters.Add(GetParam(i, Params));
 
       return sqlCommand;
     }
 
-    private SqlParameter GetParam(int paramIndex, params Object[] Params)
+    private static SqlParameter GetParam(int paramIndex, params object[] Params)
     {
-      return new SqlParameter(String.Format("p{0}", (paramIndex + 1).ToString()), Params[paramIndex]);
+      return new SqlParameter($"p{(paramIndex + 1)}", Params[paramIndex]);
     }
   }
 }

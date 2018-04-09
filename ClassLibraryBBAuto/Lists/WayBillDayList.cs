@@ -17,7 +17,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<WayBillDay>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static WayBillDayList getInstance()
@@ -28,9 +28,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("WayBillDay");
+      DataTable dt = Provider.Select("WayBillDay");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -49,12 +49,12 @@ namespace BBAuto.Logic.Lists
 
     public WayBillDay getItem(int id)
     {
-      return list.FirstOrDefault(item => item.ID == id);
+      return list.FirstOrDefault(item => item.Id == id);
     }
 
     public IEnumerable<WayBillDay> getList(Car car, DateTime date)
     {
-      return list.Where(item => item.Car.ID == car.ID && item.Date.Year == date.Year && item.Date.Month == date.Month)
+      return list.Where(item => item.Car.Id == car.Id && item.Date.Year == date.Year && item.Date.Month == date.Month)
         .OrderBy(item => item.Date);
     }
   }

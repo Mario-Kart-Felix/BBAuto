@@ -25,7 +25,7 @@ namespace BBAuto.Logic.ForCar
 
     internal DiagCard(Car car)
     {
-      ID = 0;
+      Id = 0;
       Car = car;
       Number = string.Empty;
       Date = DateTime.Today;
@@ -41,7 +41,7 @@ namespace BBAuto.Logic.ForCar
     {
       int id;
       int.TryParse(row.ItemArray[0].ToString(), out id);
-      ID = id;
+      Id = id;
 
       int idCar;
       int.TryParse(row.ItemArray[1].ToString(), out idCar);
@@ -54,7 +54,7 @@ namespace BBAuto.Logic.ForCar
       Date = date;
 
       File = row.ItemArray[4].ToString();
-      _fileBegin = File;
+      FileBegin = File;
       int.TryParse(row.ItemArray[5].ToString(), out _notifacationSent);
     }
 
@@ -62,7 +62,7 @@ namespace BBAuto.Logic.ForCar
     {
       DeleteFile(File);
 
-      File = WorkWithFiles.FileCopyById(File, "cars", Car.ID, "DiagCard", Number);
+      File = WorkWithFiles.FileCopyById(File, "cars", Car.Id, "DiagCard", Number);
 
       ExecSave();
     }
@@ -70,20 +70,20 @@ namespace BBAuto.Logic.ForCar
     private void ExecSave()
     {
       int id;
-      int.TryParse(_provider.Insert("DiagCard", ID, Car.ID, Number, Date, File, _notifacationSent), out id);
-      ID = id;
+      int.TryParse(Provider.Insert("DiagCard", Id, Car.Id, Number, Date, File, _notifacationSent), out id);
+      Id = id;
     }
 
     internal override void Delete()
     {
       DeleteFile(File);
 
-      _provider.Delete("DiagCard", ID);
+      Provider.Delete("DiagCard", Id);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
-      return new object[] {ID, Car.ID, Car.BBNumber, Car.Grz, Number, Date};
+      return new object[] {Id, Car.Id, Car.BBNumber, Car.Grz, Number, Date};
     }
 
     internal string ToMail()

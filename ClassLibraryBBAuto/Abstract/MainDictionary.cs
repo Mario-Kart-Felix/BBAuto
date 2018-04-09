@@ -5,10 +5,10 @@ namespace BBAuto.Logic.Abstract
 {
   public abstract class MainDictionary
   {
-    protected string _fileBegin;
-    protected static IProvider _provider;
+    protected string FileBegin;
+    protected static IProvider Provider;
 
-    internal abstract object[] getRow();
+    internal abstract object[] GetRow();
 
     public virtual void Save()
     {
@@ -20,15 +20,15 @@ namespace BBAuto.Logic.Abstract
 
     protected MainDictionary()
     {
-      _provider = Provider.GetProvider();
+      Provider = DataBase.Provider.GetProvider();
     }
 
     protected void DeleteFile(string newFile)
     {
-      if ((_fileBegin != string.Empty) && (_fileBegin != newFile))
-        WorkWithFiles.Delete(_fileBegin);
+      if (FileBegin != string.Empty && FileBegin != newFile)
+        WorkWithFiles.Delete(FileBegin);
     }
 
-    public int ID { get; protected set; }
+    public int Id { get; protected set; }
   }
 }

@@ -28,7 +28,7 @@ namespace BBAuto.Logic.ForDriver
     public MedicalCert(Driver driver)
     {
       Driver = driver;
-      ID = 0;
+      Id = 0;
       DateBegin = DateTime.Today;
       DateEnd = DateTime.Today;
 
@@ -44,7 +44,7 @@ namespace BBAuto.Logic.ForDriver
     {
       int id;
       int.TryParse(row.ItemArray[0].ToString(), out id);
-      ID = id;
+      Id = id;
 
       Number = row.ItemArray[1].ToString();
 
@@ -61,7 +61,7 @@ namespace BBAuto.Logic.ForDriver
       Driver = DriverList.getInstance().getItem(idDriver);
 
       File = row.ItemArray[5].ToString();
-      _fileBegin = File;
+      FileBegin = File;
       int.TryParse(row.ItemArray[6].ToString(), out _notifacationSent);
     }
 
@@ -69,7 +69,7 @@ namespace BBAuto.Logic.ForDriver
     {
       DeleteFile(File);
 
-      File = WorkWithFiles.FileCopyById(File, "drivers", Driver.ID, "MedicalCert", Number);
+      File = WorkWithFiles.FileCopyById(File, "drivers", Driver.Id, "MedicalCert", Number);
 
       ExecSave();
 
@@ -79,21 +79,21 @@ namespace BBAuto.Logic.ForDriver
     private void ExecSave()
     {
       int id;
-      int.TryParse(_provider.Insert("MedicalCert", ID, Driver.ID, Number, DateBegin, DateEnd, File, _notifacationSent),
+      int.TryParse(Provider.Insert("MedicalCert", Id, Driver.Id, Number, DateBegin, DateEnd, File, _notifacationSent),
         out id);
-      ID = id;
+      Id = id;
     }
 
     internal override void Delete()
     {
       DeleteFile(File);
 
-      _provider.Delete("MedicalCert", ID);
+      Provider.Delete("MedicalCert", Id);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
-      return new object[3] {ID, Number, DateEnd.ToShortDateString()};
+      return new object[3] {Id, Number, DateEnd.ToShortDateString()};
     }
 
     public override string ToString()
@@ -109,13 +109,13 @@ namespace BBAuto.Logic.ForDriver
       email.SendNotification(Driver, message);
 
       IsNotificationSent = true;
-      if (ID != 0)
+      if (Id != 0)
         ExecSave();
     }
 
     private string CreateMessageNotification()
     {
-      if (ID == 0)
+      if (Id == 0)
       {
         return "Добрый день, " + Driver.GetName(NameType.Full)
                + "!\r\n\r\nНапоминаем, что Вы своевременно не оформили водительскую медицинскую справку.\r\nПросим оформить данную справку.\r\nОригинал необходимо прислать в отдел кадров, а скан копию в транспортный отдел.\r\n\r\nС уважением,\r\nТранспортный отдел.";

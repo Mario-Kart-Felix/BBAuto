@@ -16,7 +16,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<CarSale>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static CarSaleList getInstance()
@@ -27,9 +27,9 @@ namespace BBAuto.Logic.Lists
       return _uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("CarSale");
+      DataTable dt = Provider.Select("CarSale");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -68,14 +68,14 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Статус");
 
       foreach (CarSale carSale in carSales)
-        dt.Rows.Add(carSale.getRow());
+        dt.Rows.Add(carSale.GetRow());
 
       return dt;
     }
 
     public CarSale getItem(int id)
     {
-      return list.FirstOrDefault(item => item.Car.ID == id);
+      return list.FirstOrDefault(item => item.Car.Id == id);
     }
 
     public void Delete(int idCarSale)

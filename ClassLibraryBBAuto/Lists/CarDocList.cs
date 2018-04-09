@@ -16,7 +16,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<CarDoc>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static CarDocList getInstance()
@@ -27,9 +27,9 @@ namespace BBAuto.Logic.Lists
       return _uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("CarDoc");
+      DataTable dt = Provider.Select("CarDoc");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -57,7 +57,7 @@ namespace BBAuto.Logic.Lists
 
     public CarDoc getItem(int id)
     {
-      return list.FirstOrDefault(c => c.ID == id);
+      return list.FirstOrDefault(c => c.Id == id);
     }
 
     public DataTable ToDataTableByCar(Car car)
@@ -66,8 +66,8 @@ namespace BBAuto.Logic.Lists
       {
         DataTable dt = createTable();
 
-        foreach (CarDoc carDoc in list.Where(c => c.Car.ID == car.ID))
-          dt.Rows.Add(carDoc.getRow());
+        foreach (CarDoc carDoc in list.Where(c => c.Car.Id == car.Id))
+          dt.Rows.Add(carDoc.GetRow());
 
         return dt;
       }

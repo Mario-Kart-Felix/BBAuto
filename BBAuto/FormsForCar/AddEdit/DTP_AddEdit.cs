@@ -35,7 +35,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
       loadData();
 
       _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-      _workWithForm.SetEditMode(_dtp.ID == 0);
+      _workWithForm.SetEditMode(_dtp.Id == 0);
     }
 
     private void loadData()
@@ -236,7 +236,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
     {
       Driver driver = _dtp.GetDriver();
 
-      if (driver.ID == 0)
+      if (driver.Id == 0)
         return;
 
       Driver_AddEdit driverAE = new Driver_AddEdit(driver);

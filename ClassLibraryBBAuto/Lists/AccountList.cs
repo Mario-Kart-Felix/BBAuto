@@ -16,7 +16,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<Account>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static AccountList GetInstance()
@@ -27,9 +27,9 @@ namespace BBAuto.Logic.Lists
       return _uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("Account");
+      DataTable dt = Provider.Select("Account");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -57,12 +57,12 @@ namespace BBAuto.Logic.Lists
 
     public Account getItem(int id)
     {
-      return list.FirstOrDefault(a => a.ID == id);
+      return list.FirstOrDefault(a => a.Id == id);
     }
 
     public DataTable ToDataTable()
     {
-      var accounts = list.OrderByDescending(item => item.ID);
+      var accounts = list.OrderByDescending(item => item.Id);
 
       return CreateTable(accounts.ToList());
     }
@@ -80,7 +80,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Файл");
 
       foreach (Account account in accounts)
-        dt.Rows.Add(account.getRow());
+        dt.Rows.Add(account.GetRow());
 
       return dt;
     }

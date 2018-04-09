@@ -17,7 +17,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<Violation>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static ViolationList getInstance()
@@ -28,12 +28,12 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
       if (list.Count > 0)
         return;
 
-      DataTable dt = _provider.Select("Violation");
+      DataTable dt = Provider.Select("Violation");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -44,7 +44,7 @@ namespace BBAuto.Logic.Lists
 
     public void Add(Violation violation)
     {
-      if (list.Exists(item => item.ID == violation.ID))
+      if (list.Exists(item => item.Id == violation.Id))
         return;
 
       list.Add(violation);
@@ -52,14 +52,14 @@ namespace BBAuto.Logic.Lists
 
     public Violation getItem(int id)
     {
-      var violations = list.Where(item => item.ID == id);
+      var violations = list.Where(item => item.Id == id);
 
       return (violations.Count() > 0) ? violations.First() : null;
     }
 
     public Violation getItem(Driver driver)
     {
-      return list.FirstOrDefault(item => item.getDriver().ID == driver.ID);
+      return list.FirstOrDefault(item => item.getDriver().Id == driver.Id);
     }
 
     public DataTable ToDataTable()
@@ -81,7 +81,7 @@ namespace BBAuto.Logic.Lists
     public DataTable ToDataTable(Car car)
     {
       var violations = from violation in list
-        where violation.Car.ID == car.ID
+        where violation.Car.Id == car.Id
         orderby violation.Date descending
         select violation;
 
@@ -91,7 +91,7 @@ namespace BBAuto.Logic.Lists
     public DataTable ToDataTable(Driver driver)
     {
       var violations = from violation in list
-        where violation.getDriver().ID == driver.ID
+        where violation.getDriver().Id == driver.Id
         orderby violation.Date descending
         select violation;
 
@@ -114,7 +114,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Сумма штрафа", Type.GetType("System.Int32"));
 
       foreach (Violation violation in violations)
-        dt.Rows.Add(violation.getRow());
+        dt.Rows.Add(violation.GetRow());
 
       return dt;
     }

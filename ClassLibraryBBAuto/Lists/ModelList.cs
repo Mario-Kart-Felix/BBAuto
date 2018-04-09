@@ -15,7 +15,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<Model>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static ModelList getInstance()
@@ -26,9 +26,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("Model");
+      DataTable dt = Provider.Select("Model");
 
       clearList();
 
@@ -41,7 +41,7 @@ namespace BBAuto.Logic.Lists
 
     public void Add(Model model)
     {
-      if (list.Exists(item => item.ID == model.ID))
+      if (list.Exists(item => item.Id == model.Id))
         return;
 
       list.Add(model);
@@ -55,7 +55,7 @@ namespace BBAuto.Logic.Lists
 
     public Model getItem(int id)
     {
-      return list.FirstOrDefault(m => m.ID == id);
+      return list.FirstOrDefault(m => m.Id == id);
     }
 
     public void Delete(int idModel)
@@ -75,7 +75,7 @@ namespace BBAuto.Logic.Lists
 
       foreach (Model model in list.Where(m => m.MarkId == idMark))
       {
-        dt.Rows.Add(model.getRow());
+        dt.Rows.Add(model.GetRow());
       }
 
       return dt;

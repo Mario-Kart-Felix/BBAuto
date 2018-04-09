@@ -17,7 +17,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<Repair>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static RepairList getInstance()
@@ -28,9 +28,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("Repair");
+      DataTable dt = Provider.Select("Repair");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -49,7 +49,7 @@ namespace BBAuto.Logic.Lists
 
     public Repair getItem(int id)
     {
-      return list.FirstOrDefault(r => r.ID == id);
+      return list.FirstOrDefault(r => r.Id == id);
     }
 
     public void Delete(int idRepair)
@@ -70,7 +70,7 @@ namespace BBAuto.Logic.Lists
         select repair;
 
       foreach (Repair repair in repairs)
-        dt.Rows.Add(repair.getRow());
+        dt.Rows.Add(repair.GetRow());
 
       return dt;
     }
@@ -80,12 +80,12 @@ namespace BBAuto.Logic.Lists
       DataTable dt = createTable();
 
       var repairs = from repair in list
-        where repair.Car.ID == car.ID
+        where repair.Car.Id == car.Id
         orderby repair.Date ascending
         select repair;
 
       foreach (Repair repair in repairs)
-        dt.Rows.Add(repair.getRow());
+        dt.Rows.Add(repair.GetRow());
 
       return dt;
     }

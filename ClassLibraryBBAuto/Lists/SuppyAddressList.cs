@@ -15,7 +15,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<SuppyAddress>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static SuppyAddressList getInstance()
@@ -26,9 +26,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("SuppyAddress");
+      DataTable dt = Provider.Select("SuppyAddress");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -77,7 +77,7 @@ namespace BBAuto.Logic.Lists
 
     private List<SuppyAddress> getList(int id)
     {
-      var suppyAddresses = list.Where(item => item.ID == id);
+      var suppyAddresses = list.Where(item => item.Id == id);
 
       return suppyAddresses.ToList();
     }
@@ -90,7 +90,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Адрес");
 
       foreach (SuppyAddress suppyAddress in list.OrderBy(item => item.Region))
-        dt.Rows.Add(suppyAddress.getRow());
+        dt.Rows.Add(suppyAddress.GetRow());
 
       return dt;
     }

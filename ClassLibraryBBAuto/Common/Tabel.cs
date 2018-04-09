@@ -52,12 +52,12 @@ namespace BBAuto.Logic.Common
 
     public void Save()
     {
-      provider.Insert("Tabel", Driver.ID, Date, Comment);
+      provider.Insert("Tabel", Driver.Id, Date, Comment);
     }
 
     public void Save2()
     {
-      provider.Insert("Tabel_test", Driver.ID, Date, Comment);
+      provider.Insert("Tabel_test", Driver.Id, Date, Comment);
     }
   }
 }

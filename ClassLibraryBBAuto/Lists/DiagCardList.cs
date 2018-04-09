@@ -17,7 +17,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<DiagCard>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static DiagCardList getInstance()
@@ -28,9 +28,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("DiagCard");
+      DataTable dt = Provider.Select("DiagCard");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -57,7 +57,7 @@ namespace BBAuto.Logic.Lists
 
     public DataTable ToDataTable(Car car)
     {
-      var diagCards = list.Where(item => item.Car.ID == car.ID).OrderByDescending(item => item.Date);
+      var diagCards = list.Where(item => item.Car.Id == car.Id).OrderByDescending(item => item.Date);
 
       return createTable(diagCards.ToList());
     }
@@ -73,19 +73,19 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Срок действия до", Type.GetType("System.DateTime"));
 
       foreach (DiagCard diagCard in diagCards)
-        dt.Rows.Add(diagCard.getRow());
+        dt.Rows.Add(diagCard.GetRow());
 
       return dt;
     }
 
     public DiagCard getItem(int id)
     {
-      return list.FirstOrDefault(item => item.ID == id);
+      return list.FirstOrDefault(item => item.Id == id);
     }
 
     public DiagCard getItem(Car car)
     {
-      return list.Where(item => item.Car.ID == car.ID).OrderByDescending(item => item.Date).FirstOrDefault();
+      return list.Where(item => item.Car.Id == car.Id).OrderByDescending(item => item.Date).FirstOrDefault();
     }
 
     public void Delete(int idDiagCard)

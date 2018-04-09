@@ -16,7 +16,7 @@ namespace BBAuto.Logic.Lists
     {
       _list = new List<MailText>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static MailTextList getInstance()
@@ -27,9 +27,9 @@ namespace BBAuto.Logic.Lists
       return _uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("MailText");
+      DataTable dt = Provider.Select("MailText");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -57,12 +57,12 @@ namespace BBAuto.Logic.Lists
 
     public MailText getItem(int id)
     {
-      return _list.FirstOrDefault(t => t.ID == id);
+      return _list.FirstOrDefault(t => t.Id == id);
     }
 
     public MailText getItemByType(MailTextType type)
     {
-      var mailTexts = _list.Where(mailText => mailText.ID == (int) type);
+      var mailTexts = _list.Where(mailText => mailText.Id == (int) type);
 
       return (mailTexts.Count() == 0) ? null : mailTexts.First() as MailText;
     }
@@ -79,7 +79,7 @@ namespace BBAuto.Logic.Lists
       dt.Columns.Add("Название");
 
       foreach (MailText mailText in mailTexts)
-        dt.Rows.Add(mailText.getRow());
+        dt.Rows.Add(mailText.GetRow());
 
       return dt;
     }

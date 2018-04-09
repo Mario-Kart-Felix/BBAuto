@@ -15,7 +15,7 @@ namespace BBAuto.Logic.Tables
     {
       int id;
       int.TryParse(row[0].ToString(), out id);
-      ID = id;
+      Id = id;
 
       int idWayBillDay;
       int.TryParse(row[1].ToString(), out idWayBillDay);
@@ -42,13 +42,13 @@ namespace BBAuto.Logic.Tables
 
     public override void Save()
     {
-      _provider.Insert("WayBillRoute", ID, WayBillDay.ID, Route.MyPoint1.ID, Route.MyPoint2.ID, Route.Distance);
+      Provider.Insert("WayBillRoute", Id, WayBillDay.Id, Route.MyPoint1.Id, Route.MyPoint2.Id, Route.Distance);
 
       WayBillRouteList wayBillRouteList = WayBillRouteList.getInstance();
       wayBillRouteList.Add(this);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
       throw new NotImplementedException();
     }

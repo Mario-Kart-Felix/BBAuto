@@ -16,7 +16,7 @@ namespace BBAuto.Logic.Lists
     {
       list = new List<UserAccess>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static UserAccessList getInstance()
@@ -27,9 +27,9 @@ namespace BBAuto.Logic.Lists
       return uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("UserAccess");
+      DataTable dt = Provider.Select("UserAccess");
 
       foreach (DataRow row in dt.Rows)
       {
@@ -57,7 +57,7 @@ namespace BBAuto.Logic.Lists
 
     public UserAccess getItem(int id)
     {
-      return list.FirstOrDefault(item => item.Driver.ID == id);
+      return list.FirstOrDefault(item => item.Driver.Id == id);
     }
 
     public UserAccess getItem(RolesList role)
@@ -74,7 +74,7 @@ namespace BBAuto.Logic.Lists
       List<UserAccess> userAccesses = list.OrderBy(item => item.Driver.GetName(NameType.Full)).ToList();
 
       foreach (UserAccess userAccess in userAccesses)
-        dt.Rows.Add(userAccess.getRow());
+        dt.Rows.Add(userAccess.GetRow());
 
       return dt;
     }

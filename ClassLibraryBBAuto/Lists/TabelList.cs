@@ -17,7 +17,7 @@ namespace BBAuto.Logic.Lists
     {
       _list = new List<Tabel>();
 
-      loadFromSql();
+      LoadFromSql();
     }
 
     public static TabelList GetInstance()
@@ -28,9 +28,9 @@ namespace BBAuto.Logic.Lists
       return _uniqueInstance;
     }
 
-    protected override void loadFromSql()
+    protected override void LoadFromSql()
     {
-      DataTable dt = _provider.Select("Tabel");
+      DataTable dt = Provider.Select("Tabel");
 
       foreach (DataRow row in dt.Rows)
       {

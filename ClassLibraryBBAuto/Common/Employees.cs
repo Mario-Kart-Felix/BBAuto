@@ -10,27 +10,27 @@ namespace BBAuto.Logic.Common
 {
   public class Employees : MainDictionary
   {
-    private int idEmployeesName;
-    private int idDriver;
+    private int _idEmployeesName;
+    private int _idDriver;
 
-    public string IDEmployeesName
+    public string IdEmployeesName
     {
-      get { return idEmployeesName.ToString(); }
-      set { int.TryParse(value, out idEmployeesName); }
+      get => _idEmployeesName.ToString();
+      set => int.TryParse(value, out _idEmployeesName);
     }
 
-    public string IDDriver
+    public string IdDriver
     {
-      get { return idDriver.ToString(); }
-      set { int.TryParse(value, out idDriver); }
+      get => _idDriver.ToString();
+      set => int.TryParse(value, out _idDriver);
     }
 
     public string Name
     {
       get
       {
-        DriverList driverList = DriverList.getInstance();
-        Driver driver = driverList.getItem(idDriver);
+        var driverList = DriverList.getInstance();
+        var driver = driverList.getItem(_idDriver);
 
         return driver.GetName(NameType.Short);
       }
@@ -40,8 +40,8 @@ namespace BBAuto.Logic.Common
     {
       get
       {
-        DriverList driverList = DriverList.getInstance();
-        Driver driver = driverList.getItem(idDriver);
+        var driverList = DriverList.getInstance();
+        var driver = driverList.getItem(_idDriver);
         return driver.GetName(NameType.Full);
       }
     }
@@ -50,8 +50,8 @@ namespace BBAuto.Logic.Common
     {
       get
       {
-        EmployeesNames employeesNames = EmployeesNames.getInstance();
-        return employeesNames.getItem(idEmployeesName);
+        var employeesNames = EmployeesNames.getInstance();
+        return employeesNames.getItem(_idEmployeesName);
       }
     }
 
@@ -59,38 +59,37 @@ namespace BBAuto.Logic.Common
 
     public Employees()
     {
-      ID = 0;
+      Id = 0;
     }
 
     public Employees(DataRow row)
     {
-      fillFields(row);
+      FillFields(row);
     }
 
-    private void fillFields(DataRow row)
+    private void FillFields(DataRow row)
     {
-      int idRegion;
-      int.TryParse(row.ItemArray[0].ToString(), out idRegion);
-      RegionList regionList = RegionList.getInstance();
+      int.TryParse(row.ItemArray[0].ToString(), out int idRegion);
+      var regionList = RegionList.getInstance();
       Region = regionList.getItem(idRegion);
 
-      int.TryParse(row.ItemArray[1].ToString(), out idEmployeesName);
-      int.TryParse(row.ItemArray[2].ToString(), out idDriver);
+      int.TryParse(row.ItemArray[1].ToString(), out _idEmployeesName);
+      int.TryParse(row.ItemArray[2].ToString(), out _idDriver);
     }
 
     internal override void Delete()
     {
-      _provider.DoOther("exec Employees_Delete @p1, @p2", ID, idEmployeesName);
+      Provider.DoOther("exec Employees_Delete @p1, @p2", Id, _idEmployeesName);
     }
 
-    internal override object[] getRow()
+    internal override object[] GetRow()
     {
-      return new object[5] {Region.ID, idEmployeesName, Region.Name, EmployeeName, DriverName};
+      return new object[] {Region.Id, _idEmployeesName, Region.Name, EmployeeName, DriverName};
     }
 
     public override void Save()
     {
-      _provider.Insert("Employees", Region.ID, idEmployeesName, idDriver);
+      Provider.Insert("Employees", Region.Id, _idEmployeesName, _idDriver);
     }
   }
 }
