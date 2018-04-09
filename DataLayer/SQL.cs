@@ -9,7 +9,7 @@ namespace BBAuto.DataLayer
     private const int Timeout = 600;
 
     private readonly string _server = @"bbmru07";
-    private readonly string _database = "BBAuto";
+    private readonly string _database = "BBAuto_04042018";
     private readonly bool _winAuth = false;
     private readonly string _userId;
     private readonly string _password;
