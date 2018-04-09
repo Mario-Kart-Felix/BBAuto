@@ -1,4 +1,6 @@
-﻿namespace BBAuto
+using BBAuto.Logic;
+
+namespace BBAuto.App.FormsForCar.AddEdit
 {
     partial class DiagCard_AddEdit
     {
@@ -36,7 +38,7 @@
             this.btnClose = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.lbCarInfo = new System.Windows.Forms.Label();
-            this.ucFile = new BBAuto.Domain.FileOpenTextBox();
+            this.ucFile = new FileOpenTextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -155,7 +157,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Button btnSave;
-        private BBAuto.Domain.FileOpenTextBox ucFile;
+        private FileOpenTextBox ucFile;
         private System.Windows.Forms.Label lbCarInfo;
     }
 }

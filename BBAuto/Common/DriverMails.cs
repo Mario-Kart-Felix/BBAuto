@@ -2,11 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BBAuto.Domain.Entities;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.Lists;
+using BBAuto.App.GUI;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.Common
 {
   public class DriverMails
   {

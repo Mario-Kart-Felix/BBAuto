@@ -1,9 +1,9 @@
 using System;
 using System.Security.Principal;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Entities;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.Lists;
 
-namespace BBAuto.Domain.Static
+namespace BBAuto.Logic.Static
 {
   public static class User
   {

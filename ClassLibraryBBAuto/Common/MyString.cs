@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace BBAuto.Domain.Common
+namespace BBAuto.Logic.Common
 {
   public static class MyString
   {

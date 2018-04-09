@@ -1,9 +1,9 @@
 using System;
 using System.Windows.Forms;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.DataBase;
+using BBAuto.Logic.DataBase;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App
 {
   static class Program
   {

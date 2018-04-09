@@ -1,12 +1,12 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Data;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Common;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.Entities;
+using System.Linq;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.Static;
 
-namespace BBAuto.Domain.Lists
+namespace BBAuto.Logic.Lists
 {
   public class ColumnSizeList : MainList
   {

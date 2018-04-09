@@ -1,4 +1,6 @@
-﻿namespace BBAuto
+using BBAuto.Logic;
+
+namespace BBAuto.App.FormsForDriver.AddEdit
 {
     partial class MedicalCert_AddEdit
     {
@@ -37,7 +39,7 @@
             this.dtpDateEnd = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.ucFile = new BBAuto.Domain.FileOpenTextBox();
+            this.ucFile = new FileOpenTextBox();
             this.SuspendLayout();
             // 
             // btnClose
@@ -166,7 +168,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DateTimePicker dtpDateEnd;
         private System.Windows.Forms.Label label3;
-        private BBAuto.Domain.FileOpenTextBox ucFile;
+        private FileOpenTextBox ucFile;
         private System.Windows.Forms.Label label4;
     }
 }

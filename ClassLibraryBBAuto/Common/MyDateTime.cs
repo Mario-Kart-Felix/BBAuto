@@ -1,6 +1,6 @@
 using System;
 
-namespace BBAuto.Domain.Common
+namespace BBAuto.Logic.Common
 {
   public class MyDateTime
   {

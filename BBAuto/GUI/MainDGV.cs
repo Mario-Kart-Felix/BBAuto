@@ -1,10 +1,10 @@
-using BBAuto.Domain.Entities;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
 using System;
 using System.Windows.Forms;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.GUI
 {
   public class MainDGV
   {

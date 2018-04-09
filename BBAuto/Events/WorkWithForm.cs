@@ -1,15 +1,15 @@
-using BBAuto.Domain.Static;
 using System;
 using System.Windows.Forms;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.Events
 {
   public class WorkWithForm
   {
     private bool _editMode;
-    private Control.ControlCollection _controls;
-    private Button _btnSave;
-    private Button _btnClose;
+    private readonly Control.ControlCollection _controls;
+    private readonly Button _btnSave;
+    private readonly Button _btnClose;
 
     public event EventHandler<EditModeEventArgs> EditModeChanged;
 

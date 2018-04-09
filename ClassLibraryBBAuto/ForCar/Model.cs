@@ -1,18 +1,18 @@
-using BBAuto.Domain.Abstract;
 using System;
 using System.Data;
+using BBAuto.Logic.Abstract;
 
-namespace BBAuto.Domain.ForCar
+namespace BBAuto.Logic.ForCar
 {
   public class Model : MainDictionary
   {
-    public int MarkID { get; private set; }
+    public int MarkId { get; private set; }
     public string Name { get; set; }
 
     public Model(int idMark)
     {
       ID = 0;
-      MarkID = idMark;
+      MarkId = idMark;
     }
 
     public Model(DataRow row)
@@ -27,7 +27,7 @@ namespace BBAuto.Domain.ForCar
 
       int idMark;
       int.TryParse(row.ItemArray[2].ToString(), out idMark);
-      MarkID = idMark;
+      MarkId = idMark;
     }
 
     internal override void Delete()
@@ -37,7 +37,7 @@ namespace BBAuto.Domain.ForCar
 
     public override void Save()
     {
-      _provider.Insert("Model", ID, Name, MarkID);
+      _provider.Insert("Model", ID, Name, MarkId);
     }
 
     internal override object[] getRow()

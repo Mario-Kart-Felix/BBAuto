@@ -1,6 +1,6 @@
-using BBAuto.Domain.DataBase;
+using BBAuto.Logic.DataBase;
 
-namespace BBAuto.Domain.Abstract
+namespace BBAuto.Logic.Abstract
 {
   public abstract class MainList
   {

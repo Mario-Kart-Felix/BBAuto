@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Data;
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Tables;
+using System.Linq;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Tables;
 
-namespace BBAuto.Domain.Lists
+namespace BBAuto.Logic.Lists
 {
   public class SsDTPList : MainList
   {

@@ -1,4 +1,4 @@
-﻿namespace BBAuto
+namespace BBAuto.App.CommonForms
 {
     partial class formMyPointList
     {

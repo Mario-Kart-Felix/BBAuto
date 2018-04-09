@@ -1,4 +1,6 @@
-﻿namespace BBAuto
+using BBAuto.Logic;
+
+namespace BBAuto.App.FormsForCar.AddEdit
 {
     partial class CarDoc_AddEdit
     {
@@ -31,7 +33,7 @@
             this.btnClose = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.ucFile = new BBAuto.Domain.FileOpenTextBox();
+            this.ucFile = new FileOpenTextBox();
             this.tbName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -120,7 +122,7 @@
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Label label2;
-        private BBAuto.Domain.FileOpenTextBox ucFile;
+        private FileOpenTextBox ucFile;
         private System.Windows.Forms.TextBox tbName;
         private System.Windows.Forms.Label label1;
     }

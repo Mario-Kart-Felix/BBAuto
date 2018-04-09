@@ -1,11 +1,13 @@
 using System;
 using System.Data;
 using System.Windows.Forms;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Dictionary;
-using BBAuto.Domain.Tables;
+using BBAuto.App.AddEdit;
+using BBAuto.App.GUI;
+using BBAuto.Logic.Dictionary;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Tables;
 
-namespace BBAuto
+namespace BBAuto.App.CommonForms
 {
   public partial class formMyPointList : Form
   {

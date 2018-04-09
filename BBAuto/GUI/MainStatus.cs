@@ -1,8 +1,9 @@
 using System;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.Dictionary;
+using BBAuto.App.Events;
+using BBAuto.Logic.Dictionary;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.GUI
 {
   internal class MainStatus
   {

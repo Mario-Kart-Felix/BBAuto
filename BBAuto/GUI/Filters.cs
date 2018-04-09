@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Windows.Forms;
-using System.Data;
-using BBAuto.Domain.Common;
+using BBAuto.Logic.Common;
 
-namespace BBAuto
+namespace BBAuto.App.GUI
 {
   public static class Filters
   {

@@ -1,12 +1,12 @@
 using System;
 using System.Windows.Forms;
-using BBAuto.Domain.Common;
+using BBAuto.Logic.Common;
 
-namespace BBAuto
+namespace BBAuto.App.CommonForms
 {
   public partial class FormReport : Form
   {
-    MileageReportList _mileageReportList;
+    private readonly MileageReportList _mileageReportList;
 
     public FormReport(MileageReportList mileageReportList)
     {

@@ -1,15 +1,17 @@
 using System;
 using System.Windows.Forms;
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.Dictionary;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.Common;
+using BBAuto.App.Events;
+using BBAuto.App.FormsForDriver.AddEdit;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Dictionary;
+using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.FormsForCar.AddEdit
 {
   public partial class Violation_AddEdit : Form
   {
-    private Violation _violation;
+    private readonly Violation _violation;
 
     private WorkWithForm _workWithForm;
 

@@ -1,12 +1,13 @@
 using System.Windows.Forms;
-using BBAuto.Domain.Static;
+using BBAuto.App.GUI;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.ContextMenu
 {
   public class MyMenu
   {
-    private MainStatus _mainStatus;
-    private MyMenuItemFactory _factory;
+    private readonly MainStatus _mainStatus;
+    private readonly MyMenuItemFactory _factory;
 
     public MyMenu(MainDGV dgvMain)
     {

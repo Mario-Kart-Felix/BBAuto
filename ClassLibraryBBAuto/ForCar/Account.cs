@@ -1,13 +1,13 @@
 using System;
 using System.Data;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Dictionary;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Common;
-using BBAuto.Domain.Entities;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Dictionary;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto.Domain.ForCar
+namespace BBAuto.Logic.ForCar
 {
   public class Account : MainDictionary
   {
@@ -183,7 +183,7 @@ namespace BBAuto.Domain.ForCar
     {
       if (IsNotSaved())
       {
-        AccountList accountList = AccountList.getInstance();
+        AccountList accountList = AccountList.GetInstance();
 
         if (accountList.Exists(Number))
           throw new Exception("Счёт с таким номером уже существует");

@@ -1,13 +1,13 @@
 using System;
 using System.Data;
 
-namespace BBAuto.Domain.DataBase
+namespace BBAuto.Logic.DataBase
 {
   public class ProviderWebService : IProvider
   {
     public DataTable Select(string tableName)
     {
-      var service = new BBAutoWebService.BBAutoServiceSoapClient();
+      var service = new Logic.BBAutoWebService.BBAutoServiceSoapClient();
       var ds = service.GetTable(tableName);
       if (ds.Tables.Count > 0 && ds.Tables[0] != null)
         return ds.Tables[0];

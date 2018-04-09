@@ -1,10 +1,10 @@
 using System;
+using System.Data;
 using System.Linq;
 using System.Text;
-using System.Data;
-using DataLayer;
+using BBAuto.DataLayer;
 
-namespace BBAuto.Domain.DataBase
+namespace BBAuto.Logic.DataBase
 {
   public class ProviderSQL : IProvider
   {
@@ -12,7 +12,7 @@ namespace BBAuto.Domain.DataBase
 
     public ProviderSQL()
     {
-      _db = DataBase.GetDataBase();
+      _db = Logic.DataBase.DataBase.GetDataBase();
     }
 
     public DataTable Select(string tableName)

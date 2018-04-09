@@ -1,10 +1,10 @@
 using System.Data;
-using BBAuto.Domain.Tables;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Dictionary;
-using BBAuto.Domain.Lists;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Dictionary;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Tables;
 
-namespace BBAuto.Domain.Common
+namespace BBAuto.Logic.Common
 {
   public class SuppyAddress : MainDictionary
   {

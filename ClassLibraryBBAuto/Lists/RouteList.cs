@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data;
-using BBAuto.Domain.Tables;
-using BBAuto.Domain.Abstract;
+using System.Linq;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Tables;
 
-namespace BBAuto.Domain.Lists
+namespace BBAuto.Logic.Lists
 {
   public class RouteList : MainList
   {

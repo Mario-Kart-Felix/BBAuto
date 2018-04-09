@@ -1,7 +1,7 @@
 using System;
 using System.DirectoryServices;
 
-namespace BBAuto.Domain.Common
+namespace BBAuto.Logic.Common
 {
   public class Ldap : IDisposable
   {

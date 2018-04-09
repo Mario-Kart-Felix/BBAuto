@@ -1,11 +1,12 @@
 using System;
 using System.Windows.Forms;
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Tables;
+using BBAuto.App.Events;
+using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
+using BBAuto.Logic.Tables;
 
-namespace BBAuto
+namespace BBAuto.App.AddEdit
 {
   public partial class Grade_AddEdit : Form
   {

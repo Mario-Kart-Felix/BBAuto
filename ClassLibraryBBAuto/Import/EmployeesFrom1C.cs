@@ -1,13 +1,13 @@
 using System;
 using System.IO;
 using System.Linq;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Tables;
-using BBAuto.Domain.ForDriver;
-using BBAuto.Domain.Entities;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.ForDriver;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Tables;
 
-namespace BBAuto.Domain.Import
+namespace BBAuto.Logic.Import
 {
   public class EmployeesFrom1C : IExcelImporter
   {

@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Data;
-using BBAuto.Domain.Common;
-using BBAuto.Domain.Abstract;
+using System.Linq;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Common;
 
-namespace BBAuto.Domain.Lists
+namespace BBAuto.Logic.Lists
 {
   public class SuppyAddressList : MainList
   {

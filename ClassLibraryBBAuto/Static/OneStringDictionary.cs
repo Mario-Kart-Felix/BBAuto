@@ -1,7 +1,7 @@
 using System.Data;
-using BBAuto.Domain.DataBase;
+using BBAuto.Logic.DataBase;
 
-namespace BBAuto.Domain.Static
+namespace BBAuto.Logic.Static
 {
   public static class OneStringDictionary
   {

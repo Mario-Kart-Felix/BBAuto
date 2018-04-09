@@ -1,4 +1,6 @@
-﻿namespace BBAuto
+using BBAuto.Logic;
+
+namespace BBAuto.App.FormsForCar.AddEdit
 {
     partial class Invoice_AddEdit
     {
@@ -44,7 +46,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.lbMoveCar = new System.Windows.Forms.Label();
-            this.ucFile = new BBAuto.Domain.FileOpenTextBox();
+            this.ucFile = new FileOpenTextBox();
             this.lbNumber = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -269,7 +271,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox cbRegionFrom;
         private System.Windows.Forms.Label label7;
-        private BBAuto.Domain.FileOpenTextBox ucFile;
+        private FileOpenTextBox ucFile;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label lbMoveCar;
         private System.Windows.Forms.Label lbNumber;

@@ -1,7 +1,8 @@
-using BBAuto.Domain.Entities;
-using BBAuto.Domain.ForCar;
+using BBAuto.App.FormsForCar.AddEdit;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.ForCar;
 
-namespace BBAuto
+namespace BBAuto.App.Actions
 {
   internal static class InvoiceDialog
   {

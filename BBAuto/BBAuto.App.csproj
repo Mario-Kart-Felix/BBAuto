@@ -7,8 +7,8 @@
     <ProjectGuid>{248BB9B6-AA42-4B33-BAC4-E980246EBB98}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BBAuto</RootNamespace>
-    <AssemblyName>BBAuto</AssemblyName>
+    <RootNamespace>BBAuto.App</RootNamespace>
+    <AssemblyName>BBAuto.App</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -316,11 +316,11 @@
     <Compile Include="FormsForCar\AddEdit\Invoice_AddEdit.Designer.cs">
       <DependentUpon>Invoice_AddEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dictionary\formDillerList.cs">
+    <Compile Include="Dictionary\FormDealerList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dictionary\formDillerList.Designer.cs">
-      <DependentUpon>formDillerList.cs</DependentUpon>
+    <Compile Include="Dictionary\FormDealerList.Designer.cs">
+      <DependentUpon>FormDealerList.cs</DependentUpon>
     </Compile>
     <Compile Include="FormsForDriver\formDriversList.cs">
       <SubType>Form</SubType>
@@ -576,8 +576,8 @@
     <EmbeddedResource Include="FormsForCar\AddEdit\Invoice_AddEdit.resx">
       <DependentUpon>Invoice_AddEdit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dictionary\formDillerList.resx">
-      <DependentUpon>formDillerList.cs</DependentUpon>
+    <EmbeddedResource Include="Dictionary\FormDealerList.resx">
+      <DependentUpon>FormDealerList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormsForDriver\formDriversList.resx">
       <DependentUpon>formDriversList.cs</DependentUpon>
@@ -659,9 +659,9 @@
       <Project>{70a25201-8ea4-48f8-a4a6-ed13adf8823c}</Project>
       <Name>CheckBoxComboBox</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ClassLibraryBBAuto\BBAuto.Domain.csproj">
+    <ProjectReference Include="..\ClassLibraryBBAuto\BBAuto.Logic.csproj">
       <Project>{76a9009c-fabc-4e23-a1a8-7d169666cd3d}</Project>
-      <Name>BBAuto.Domain</Name>
+      <Name>BBAuto.Logic</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -1,6 +1,6 @@
 using Serilog;
 
-namespace BBAuto.Domain.Logger
+namespace BBAuto.Logic.Logger
 {
   public static class LogManager
   {

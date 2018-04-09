@@ -1,7 +1,7 @@
-using BBAuto.Domain.Common;
 using System.Data;
+using BBAuto.Logic.Common;
 
-namespace BBAuto.Domain.Dictionary
+namespace BBAuto.Logic.Dictionary
 {
   public class StatusAfterDTPs : MyDictionary
   {

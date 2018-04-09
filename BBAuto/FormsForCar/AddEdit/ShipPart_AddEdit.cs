@@ -1,14 +1,15 @@
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
 using System;
 using System.Windows.Forms;
+using BBAuto.App.Events;
+using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.FormsForCar.AddEdit
 {
   public partial class ShipPart_AddEdit : Form
   {
-    ShipPart shipPart;
+    private readonly ShipPart _shipPart;
 
     private WorkWithForm _workWithForm;
 
@@ -16,7 +17,7 @@ namespace BBAuto
     {
       InitializeComponent();
 
-      this.shipPart = shipPart;
+      _shipPart = shipPart;
     }
 
     private void ShipPart_AddEdit_Load(object sender, EventArgs e)
@@ -26,7 +27,7 @@ namespace BBAuto
       loadData();
 
       _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
-      _workWithForm.SetEditMode(shipPart.ID == 0);
+      _workWithForm.SetEditMode(_shipPart.ID == 0);
     }
 
     private void loadDictionary()
@@ -44,30 +45,30 @@ namespace BBAuto
 
     private void loadData()
     {
-      cbCar.SelectedValue = shipPart.Car.ID;
-      cbDriver.SelectedValue = shipPart.Driver.ID;
-      tbNumber.Text = shipPart.Number;
-      mtbDateRequest.Text = shipPart.DateRequest;
-      mtbDateSent.Text = shipPart.DateSent;
+      cbCar.SelectedValue = _shipPart.Car.ID;
+      cbDriver.SelectedValue = _shipPart.Driver.ID;
+      tbNumber.Text = _shipPart.Number;
+      mtbDateRequest.Text = _shipPart.DateRequest;
+      mtbDateSent.Text = _shipPart.DateSent;
 
       TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
-      tbFile.Text = shipPart.File;
+      tbFile.Text = _shipPart.File;
     }
 
     private void btnSave_Click(object sender, EventArgs e)
     {
       if (_workWithForm.IsEditMode())
       {
-        shipPart.Car = CarList.getInstance().getItem(Convert.ToInt32(cbCar.SelectedValue));
-        shipPart.Driver = DriverList.getInstance().getItem(Convert.ToInt32(cbDriver.SelectedValue));
-        shipPart.Number = tbNumber.Text;
-        shipPart.DateRequest = mtbDateRequest.Text;
-        shipPart.DateSent = mtbDateSent.Text;
+        _shipPart.Car = CarList.getInstance().getItem(Convert.ToInt32(cbCar.SelectedValue));
+        _shipPart.Driver = DriverList.getInstance().getItem(Convert.ToInt32(cbDriver.SelectedValue));
+        _shipPart.Number = tbNumber.Text;
+        _shipPart.DateRequest = mtbDateRequest.Text;
+        _shipPart.DateSent = mtbDateSent.Text;
 
         TextBox tbFile = ucFile.Controls["tbFile"] as TextBox;
-        shipPart.File = tbFile.Text;
+        _shipPart.File = tbFile.Text;
 
-        shipPart.Save();
+        _shipPart.Save();
       }
       else
         _workWithForm.SetEditMode(true);

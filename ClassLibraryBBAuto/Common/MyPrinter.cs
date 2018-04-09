@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace BBAuto.Domain.Common
+namespace BBAuto.Logic.Common
 {
   public class MyPrinter
   {

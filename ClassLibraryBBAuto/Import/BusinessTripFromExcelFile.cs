@@ -1,9 +1,9 @@
 using System;
 using System.IO;
 using System.Linq;
-using BBAuto.Domain.Common;
+using BBAuto.Logic.Common;
 
-namespace BBAuto.Domain.Import
+namespace BBAuto.Logic.Import
 {
   public class BusinessTripFromExcelFile //: IExcelImporter
   {

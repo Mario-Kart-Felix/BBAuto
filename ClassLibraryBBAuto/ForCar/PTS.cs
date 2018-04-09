@@ -1,11 +1,11 @@
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Common;
-using BBAuto.Domain.Entities;
-using BBAuto.Domain.Lists;
 using System;
 using System.Data;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.Lists;
 
-namespace BBAuto.Domain.ForCar
+namespace BBAuto.Logic.ForCar
 {
   public class PTS : MainDictionary
   {
@@ -13,8 +13,8 @@ namespace BBAuto.Domain.ForCar
 
     public string Number
     {
-      get { return _number; }
-      set { _number = value.ToUpper(); }
+      get => _number;
+      set => _number = value.ToUpper();
     }
 
     public string GiveOrg { get; set; }

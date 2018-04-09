@@ -1,4 +1,6 @@
-﻿namespace BBAuto
+using BBAuto.Logic;
+
+namespace BBAuto.App.FormsForCar.AddEdit
 {
     partial class Repair_AddEdit
     {
@@ -38,7 +40,7 @@
             this.dtpDate = new System.Windows.Forms.DateTimePicker();
             this.label5 = new System.Windows.Forms.Label();
             this.tbCost = new System.Windows.Forms.TextBox();
-            this.ucFile = new BBAuto.Domain.FileOpenTextBox();
+            this.ucFile = new FileOpenTextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
@@ -216,7 +218,7 @@
         private System.Windows.Forms.DateTimePicker dtpDate;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox tbCost;
-        private BBAuto.Domain.FileOpenTextBox ucFile;
+        private FileOpenTextBox ucFile;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnClose;

@@ -1,8 +1,8 @@
-using BBAuto.Domain.Lists;
 using System;
 using System.Data;
+using BBAuto.Logic.Lists;
 
-namespace BBAuto.Domain.Entities
+namespace BBAuto.Logic.Entities
 {
   public class DriverCar
   {
@@ -18,8 +18,6 @@ namespace BBAuto.Domain.Entities
       int.TryParse(row.ItemArray[0].ToString(), out idCar);
       Car = CarList.getInstance().getItem(idCar);
 
-      if (idCar == 191)
-        idCar = 191;
       int idDriver;
       int.TryParse(row.ItemArray[1].ToString(), out idDriver);
       Driver = DriverList.getInstance().getItem(idDriver);

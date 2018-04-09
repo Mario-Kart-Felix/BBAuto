@@ -1,12 +1,12 @@
-using DataLayer;
 using System;
 using System.Collections;
-using System.Linq;
 using System.Data;
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.Entities;
+using System.Linq;
+using BBAuto.DataLayer;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.ForCar;
 
-namespace BBAuto.Domain.DataBase
+namespace BBAuto.Logic.DataBase
 {
   public class MockDataBase : IDataBase
   {

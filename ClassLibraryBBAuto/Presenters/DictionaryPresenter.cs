@@ -1,8 +1,8 @@
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Views;
 using System;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Views;
 
-namespace BBAuto.Domain.Presenter
+namespace BBAuto.Logic.Presenters
 {
   public class DictionaryPresenter
   {

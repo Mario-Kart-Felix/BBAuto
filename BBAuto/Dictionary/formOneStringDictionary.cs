@@ -1,12 +1,13 @@
 using System;
 using System.Windows.Forms;
-using BBAuto.Domain.Static;
+using BBAuto.App.AddEdit;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.Dictionary
 {
   public partial class formOneStringDictionary : Form
   {
-    private string _dicName;
+    private readonly string _dicName;
 
     public formOneStringDictionary(string dicName, string header)
     {

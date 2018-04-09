@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Data;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Tables;
+using System.Linq;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Tables;
 
-namespace BBAuto.Domain.Lists
+namespace BBAuto.Logic.Lists
 {
   public class EngineTypeList : MainList
   {

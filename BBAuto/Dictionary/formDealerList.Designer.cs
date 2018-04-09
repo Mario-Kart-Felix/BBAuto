@@ -1,6 +1,6 @@
-﻿namespace BBAuto
+namespace BBAuto.App.Dictionary
 {
-    partial class formDillerList
+    partial class FormDealerList
     {
         /// <summary>
         /// Required designer variable.

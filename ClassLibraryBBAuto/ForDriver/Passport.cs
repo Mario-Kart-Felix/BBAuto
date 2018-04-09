@@ -1,11 +1,11 @@
 using System;
 using System.Data;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Common;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Entities;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.Lists;
 
-namespace BBAuto.Domain.ForDriver
+namespace BBAuto.Logic.ForDriver
 {
   public class Passport : MainDictionary
   {

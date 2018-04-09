@@ -1,6 +1,6 @@
-using BBAuto.Domain.Entities;
+using BBAuto.Logic.Entities;
 
-namespace BBAuto.Domain.Common
+namespace BBAuto.Logic.Common
 {
   public class MileageReport
   {

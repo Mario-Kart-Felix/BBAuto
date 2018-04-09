@@ -1,11 +1,11 @@
 using System;
 using System.IO;
 using System.Linq;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Common;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Lists;
 
-namespace BBAuto.Domain.Import
+namespace BBAuto.Logic.Import
 {
   public class TabelFrom1C : IExcelImporter
   {

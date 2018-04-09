@@ -1,13 +1,13 @@
-using BBAuto.Domain.Entities;
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.ForDriver;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.ForCar;
+using BBAuto.Logic.ForDriver;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.GUI
 {
   internal class DGVFormat
   {
@@ -225,7 +225,7 @@ namespace BBAuto
       SetRightAligment("Сумма");
       SetCellFormat("Сумма", "N2");
 
-      AccountList accountList = AccountList.getInstance();
+      AccountList accountList = AccountList.GetInstance();
 
       foreach (DataGridViewRow row in _dgv.Rows)
       {

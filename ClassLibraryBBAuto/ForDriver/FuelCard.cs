@@ -1,11 +1,11 @@
 using System;
 using System.Data;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Dictionary;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.Lists;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Dictionary;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto.Domain.ForDriver
+namespace BBAuto.Logic.ForDriver
 {
   public class FuelCard : MainDictionary
   {

@@ -1,11 +1,11 @@
 using System;
 using System.Data;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.Entities;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto.Domain.ForDriver
+namespace BBAuto.Logic.ForDriver
 {
   public class FuelCardDriver : MainDictionary
   {
@@ -16,7 +16,7 @@ namespace BBAuto.Domain.ForDriver
 
     public bool IsNotUse
     {
-      get { return DateEnd != null; }
+      get => DateEnd != null;
       set
       {
         if (!value) DateEnd = null;

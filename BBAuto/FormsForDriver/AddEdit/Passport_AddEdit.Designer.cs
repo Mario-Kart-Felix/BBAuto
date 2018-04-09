@@ -1,4 +1,6 @@
-﻿namespace BBAuto
+using BBAuto.Logic;
+
+namespace BBAuto.App.FormsForDriver.AddEdit
 {
     partial class Passport_AddEdit
     {
@@ -43,7 +45,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
-            this.ucFile = new BBAuto.Domain.FileOpenTextBox();
+            this.ucFile = new FileOpenTextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.mtbGiveDate = new System.Windows.Forms.MaskedTextBox();
             this.SuspendLayout();
@@ -255,7 +257,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnClose;
-        private BBAuto.Domain.FileOpenTextBox ucFile;
+        private FileOpenTextBox ucFile;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.MaskedTextBox mtbGiveDate;
     }

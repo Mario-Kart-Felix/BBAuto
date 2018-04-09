@@ -1,14 +1,15 @@
-using BBAuto.Domain.Common;
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.Static;
 using System;
 using System.Windows.Forms;
+using BBAuto.App.Events;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.FormsForCar.AddEdit
 {
   public partial class Policy_AddEdit : Form
   {
-    private Policy _policy;
+    private readonly Policy _policy;
     private bool _loadCompleted;
 
     private WorkWithForm _workWithForm;

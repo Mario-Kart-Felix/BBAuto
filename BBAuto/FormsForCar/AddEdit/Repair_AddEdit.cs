@@ -1,15 +1,16 @@
-using BBAuto.Domain.Dictionary;
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
 using System;
 using System.Windows.Forms;
+using BBAuto.App.Events;
+using BBAuto.Logic.Dictionary;
+using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.FormsForCar.AddEdit
 {
   public partial class Repair_AddEdit : Form
   {
-    private Repair _repair;
+    private readonly Repair _repair;
 
     private WorkWithForm _workWithForm;
 

@@ -1,4 +1,4 @@
-﻿namespace BBAuto
+namespace BBAuto.App.FormsForDriver
 {
     partial class AddNewDriver
     {

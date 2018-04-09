@@ -1,13 +1,13 @@
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Entities;
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.Static;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Static;
 
-namespace BBAuto.Domain.Lists
+namespace BBAuto.Logic.Lists
 {
   public class PolicyList : MainList
   {

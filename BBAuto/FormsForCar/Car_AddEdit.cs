@@ -1,35 +1,39 @@
 using System;
 using System.Data;
 using System.Windows.Forms;
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.Tables;
-using BBAuto.Domain.Entities;
-using BBAuto.Domain.ForDriver;
-using BBAuto.Domain.Common;
+using BBAuto.App.Events;
+using BBAuto.App.FormsForCar.AddEdit;
+using BBAuto.App.FormsForDriver.AddEdit;
+using BBAuto.App.GUI;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.ForCar;
+using BBAuto.Logic.ForDriver;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
+using BBAuto.Logic.Tables;
 
-namespace BBAuto
+namespace BBAuto.App.FormsForCar
 {
   public partial class Car_AddEdit : Form
   {
     private System.Drawing.Point _curPosition;
-    private Car _car;
-    STS sts;
-    PTS pts;
+    private readonly Car _car;
+    private STS _sts;
+    private PTS _pts;
 
     private bool _load;
 
-    DiagCardList diagCardList;
-    DriverCarList driverCarList;
-    DriverList driverList;
-    DTPList dtpList;
-    InvoiceList invoiceList;
-    MileageList mileageList;
-    PolicyList policyList;
-    RepairList repairList;
-    ViolationList violationList;
-    ShipPartList shipPartList;
+    private readonly DiagCardList _diagCardList;
+    private readonly DriverCarList _driverCarList;
+    private readonly DriverList _driverList;
+    private readonly DTPList _dtpList;
+    private readonly InvoiceList _invoiceList;
+    private readonly MileageList _mileageList;
+    private readonly PolicyList _policyList;
+    private readonly RepairList _repairList;
+    private readonly ViolationList _violationList;
+    private readonly ShipPartList _shipPartList;
 
     private WorkWithForm _workWithForm;
 
@@ -39,16 +43,16 @@ namespace BBAuto
 
       _car = car;
 
-      diagCardList = DiagCardList.getInstance();
-      driverCarList = DriverCarList.getInstance();
-      driverList = DriverList.getInstance();
-      dtpList = DTPList.getInstance();
-      invoiceList = InvoiceList.getInstance();
-      mileageList = MileageList.getInstance();
-      policyList = PolicyList.getInstance();
-      repairList = RepairList.getInstance();
-      violationList = ViolationList.getInstance();
-      shipPartList = ShipPartList.getInstance();
+      _diagCardList = DiagCardList.getInstance();
+      _driverCarList = DriverCarList.getInstance();
+      _driverList = DriverList.getInstance();
+      _dtpList = DTPList.getInstance();
+      _invoiceList = InvoiceList.getInstance();
+      _mileageList = MileageList.getInstance();
+      _policyList = PolicyList.getInstance();
+      _repairList = RepairList.getInstance();
+      _violationList = ViolationList.getInstance();
+      _shipPartList = ShipPartList.getInstance();
     }
 
     private void Car_AddEdit_Load(object sender, EventArgs e)
@@ -90,7 +94,7 @@ namespace BBAuto
 
       Region region = getRegion();
 
-      cbDriver.DataSource = driverList.ToDataTableByRegion(region);
+      cbDriver.DataSource = _driverList.ToDataTableByRegion(region);
       cbDriver.DisplayMember = "ФИО";
       cbDriver.ValueMember = "id";
       _load = true;
@@ -222,7 +226,7 @@ namespace BBAuto
       tbCost.Text = _car.cost.ToString();
       tbDOP.Text = _car.dop;
 
-      Driver driver = driverCarList.GetDriver(_car) ?? new Driver();
+      Driver driver = _driverCarList.GetDriver(_car) ?? new Driver();
       llDriver.Text = driver.GetName(NameType.Full);
 
       //если не назначен водитель
@@ -232,22 +236,22 @@ namespace BBAuto
       }
 
       PTSList ptsList = PTSList.getInstance();
-      pts = ptsList.getItem(_car);
-      mtbNumberPTS.Text = pts.Number;
-      dtpDatePTS.Value = pts.Date;
-      tbGiveOrgPTS.Text = pts.GiveOrg;
+      _pts = ptsList.getItem(_car);
+      mtbNumberPTS.Text = _pts.Number;
+      dtpDatePTS.Value = _pts.Date;
+      tbGiveOrgPTS.Text = _pts.GiveOrg;
       TextBox tbFilePTS = ucFilePTS.Controls["tbFile"] as TextBox;
-      tbFilePTS.Text = pts.File;
+      tbFilePTS.Text = _pts.File;
 
       STSList stsList = STSList.getInstance();
-      sts = stsList.getItem(_car);
-      mtbNumberSTS.Text = sts.Number;
-      dtpDateSTS.Value = sts.Date;
-      tbGiveOrgSTS.Text = sts.GiveOrg;
+      _sts = stsList.getItem(_car);
+      mtbNumberSTS.Text = _sts.Number;
+      dtpDateSTS.Value = _sts.Date;
+      tbGiveOrgSTS.Text = _sts.GiveOrg;
       TextBox tbFileSTS = ucFileSTS.Controls["tbFile"] as TextBox;
-      tbFileSTS.Text = sts.File;
+      tbFileSTS.Text = _sts.File;
 
-      Mileage mileage = mileageList.getItem(_car);
+      Mileage mileage = _mileageList.getItem(_car);
       if (mileage != null)
         lbMileage.Text = mileage.ToString();
 
@@ -278,8 +282,8 @@ namespace BBAuto
 
     private void changeDiler(int idDiler)
     {
-      DilerList dilerList = DilerList.getInstance();
-      Diler diller = dilerList.getItem(idDiler);
+      DealerList dilerList = DealerList.getInstance();
+      Dealer diller = dilerList.getItem(idDiler);
 
       if (diller != null)
         tbDealerContacts.Text = diller.Text;
@@ -337,21 +341,21 @@ namespace BBAuto
       _car.events = tbEvents.Text;
       _car.idDiller = Convert.ToInt32(cbDealer.SelectedValue);
 
-      pts.Number = mtbNumberPTS.Text;
-      pts.Date = Convert.ToDateTime(dtpDatePTS.Text);
-      pts.GiveOrg = tbGiveOrgPTS.Text;
+      _pts.Number = mtbNumberPTS.Text;
+      _pts.Date = Convert.ToDateTime(dtpDatePTS.Text);
+      _pts.GiveOrg = tbGiveOrgPTS.Text;
 
       TextBox tbFilePTS = ucFilePTS.Controls["tbFile"] as TextBox;
-      pts.File = tbFilePTS.Text;
-      pts.Save();
+      _pts.File = tbFilePTS.Text;
+      _pts.Save();
 
-      sts.Number = mtbNumberSTS.Text;
-      sts.Date = Convert.ToDateTime(dtpDateSTS.Text);
-      sts.GiveOrg = tbGiveOrgSTS.Text;
+      _sts.Number = mtbNumberSTS.Text;
+      _sts.Date = Convert.ToDateTime(dtpDateSTS.Text);
+      _sts.GiveOrg = tbGiveOrgSTS.Text;
 
       TextBox tbFileSTS = ucFileSTS.Controls["tbFile"] as TextBox;
-      sts.File = tbFileSTS.Text;
-      sts.Save();
+      _sts.File = tbFileSTS.Text;
+      _sts.Save();
 
       _car.Lising = (chbLising.Checked) ? mtbLising.Text : string.Empty;
 
@@ -362,7 +366,7 @@ namespace BBAuto
 
     private void loadInvoice()
     {
-      _dgvInvoice.DataSource = invoiceList.ToDataTable(_car);
+      _dgvInvoice.DataSource = _invoiceList.ToDataTable(_car);
 
       formatDGVInvoice();
     }
@@ -393,7 +397,7 @@ namespace BBAuto
       {
         Region region = getRegion();
 
-        cbDriver.DataSource = driverList.ToDataTableByRegion(region);
+        cbDriver.DataSource = _driverList.ToDataTableByRegion(region);
       }
     }
 
@@ -433,7 +437,7 @@ namespace BBAuto
 
     private void loadPolicy()
     {
-      _dgvPolicy.DataSource = policyList.ToDataTable(_car);
+      _dgvPolicy.DataSource = _policyList.ToDataTable(_car);
 
       formatDGVPolicy();
     }
@@ -449,7 +453,7 @@ namespace BBAuto
 
     private void loadDTP()
     {
-      _dgvDTP.DataSource = dtpList.ToDataTable(_car);
+      _dgvDTP.DataSource = _dtpList.ToDataTable(_car);
       FormatDgvDTP();
     }
 
@@ -477,7 +481,7 @@ namespace BBAuto
 
     private void loadMileage()
     {
-      _dgvMileage.DataSource = mileageList.ToDataTable(_car);
+      _dgvMileage.DataSource = _mileageList.ToDataTable(_car);
       FormatDGVMileage();
     }
 
@@ -490,7 +494,7 @@ namespace BBAuto
 
     private void loadRepair()
     {
-      dgvRepair.DataSource = repairList.ToDataTableByCar(_car);
+      dgvRepair.DataSource = _repairList.ToDataTableByCar(_car);
       FormatDGVRepair();
     }
 
@@ -509,9 +513,9 @@ namespace BBAuto
 
       if (openAddEditDialog(invoice))
       {
-        invoiceList.Add(invoice);
+        _invoiceList.Add(invoice);
 
-        driverCarList.ReLoad();
+        _driverCarList.ReLoad();
 
         loadInvoice();
       }
@@ -521,7 +525,7 @@ namespace BBAuto
     {
       int idInvoice = Convert.ToInt32(_dgvInvoice.Rows[_dgvInvoice.SelectedCells[0].RowIndex].Cells[0].Value);
 
-      Invoice invoice = invoiceList.getItem(idInvoice);
+      Invoice invoice = _invoiceList.getItem(idInvoice);
 
       if ((e.ColumnIndex == 4) && (invoice.File != string.Empty))
         WorkWithFiles.OpenFile(invoice.File);
@@ -541,9 +545,9 @@ namespace BBAuto
           System.Windows.Forms.DialogResult.Yes)
       {
         int idInvoice = Convert.ToInt32(_dgvInvoice.Rows[_dgvInvoice.SelectedCells[0].RowIndex].Cells[0].Value);
-        invoiceList.Delete(idInvoice);
+        _invoiceList.Delete(idInvoice);
 
-        driverCarList.ReLoad();
+        _driverCarList.ReLoad();
 
         loadInvoice();
       }
@@ -563,7 +567,7 @@ namespace BBAuto
       {
         int idPolicy = Convert.ToInt32(_dgvPolicy.Rows[_dgvPolicy.SelectedCells[0].RowIndex].Cells[0].Value);
 
-        policyList.Delete(idPolicy);
+        _policyList.Delete(idPolicy);
 
         loadPolicy();
       }
@@ -573,7 +577,7 @@ namespace BBAuto
     {
       int idPolicy = Convert.ToInt32(_dgvPolicy.Rows[e.RowIndex].Cells[0].Value);
 
-      Policy policy = policyList.getItem(idPolicy);
+      Policy policy = _policyList.getItem(idPolicy);
 
       if ((e.ColumnIndex == 4) && (policy.File != string.Empty))
       {
@@ -596,7 +600,7 @@ namespace BBAuto
 
       if (dtpAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
       {
-        dtpList.Add(dtp);
+        _dtpList.Add(dtp);
 
         loadDTP();
       }
@@ -606,7 +610,7 @@ namespace BBAuto
     {
       int idDTP = Convert.ToInt32(_dgvDTP.Rows[e.RowIndex].Cells[0].Value);
 
-      DTP dtp = dtpList.getItem(idDTP);
+      DTP dtp = _dtpList.getItem(idDTP);
 
       DTP_AddEdit dtpAE = new DTP_AddEdit(dtp);
 
@@ -622,7 +626,7 @@ namespace BBAuto
 
       if (vAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
       {
-        violationList.Add(violation);
+        _violationList.Add(violation);
         loadViolation();
       }
     }
@@ -631,7 +635,7 @@ namespace BBAuto
     {
       int idViolation = Convert.ToInt32(_dgvViolation.Rows[e.RowIndex].Cells[0].Value);
 
-      Violation violation = violationList.getItem(idViolation);
+      Violation violation = _violationList.getItem(idViolation);
 
       if ((e.ColumnIndex == 6) && (violation.File != string.Empty))
         WorkWithFiles.OpenFile(violation.File);
@@ -652,7 +656,7 @@ namespace BBAuto
       {
         int idViolation = Convert.ToInt32(_dgvViolation.Rows[_dgvViolation.SelectedCells[0].RowIndex].Cells[0].Value);
 
-        violationList.Delete(idViolation);
+        _violationList.Delete(idViolation);
 
         loadViolation();
       }
@@ -660,7 +664,7 @@ namespace BBAuto
 
     private void loadViolation()
     {
-      _dgvViolation.DataSource = violationList.ToDataTable(_car);
+      _dgvViolation.DataSource = _violationList.ToDataTable(_car);
 
       FormatDGVViolation();
     }
@@ -681,7 +685,7 @@ namespace BBAuto
       DiagCard_AddEdit diagcardAE = new DiagCard_AddEdit(diagCard);
       if (diagcardAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
       {
-        diagCardList.Add(diagCard);
+        _diagCardList.Add(diagCard);
 
         loadDiagCard();
       }
@@ -691,7 +695,7 @@ namespace BBAuto
     {
       int idDiagCard = Convert.ToInt32(_dgvDiagCard.Rows[e.RowIndex].Cells[0].Value);
 
-      DiagCard diagCard = diagCardList.getItem(idDiagCard);
+      DiagCard diagCard = _diagCardList.getItem(idDiagCard);
 
 
       if ((e.ColumnIndex == 4) && (diagCard.File != string.Empty))
@@ -712,7 +716,7 @@ namespace BBAuto
       {
         int idDiagCard = Convert.ToInt32(_dgvDiagCard.Rows[_dgvDiagCard.SelectedCells[0].RowIndex].Cells[0].Value);
 
-        diagCardList.Delete(idDiagCard);
+        _diagCardList.Delete(idDiagCard);
 
         loadDiagCard();
       }
@@ -732,7 +736,7 @@ namespace BBAuto
 
       if (mAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
       {
-        mileageList.Add(mileage);
+        _mileageList.Add(mileage);
 
         loadMileage();
       }
@@ -742,7 +746,7 @@ namespace BBAuto
     {
       int idMileage = Convert.ToInt32(_dgvMileage.Rows[e.RowIndex].Cells[0].Value);
 
-      Mileage mileage = mileageList.getItem(idMileage);
+      Mileage mileage = _mileageList.getItem(idMileage);
 
       Mileage_AddEdit mAE = new Mileage_AddEdit(mileage);
 
@@ -830,7 +834,7 @@ namespace BBAuto
 
       if (repairAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
       {
-        repairList.Add(repair);
+        _repairList.Add(repair);
         loadRepair();
       }
     }
@@ -839,7 +843,7 @@ namespace BBAuto
     {
       int idRepair = Convert.ToInt32(dgvRepair.Rows[dgvRepair.SelectedCells[0].RowIndex].Cells[0].Value);
 
-      Repair repair = repairList.getItem(idRepair);
+      Repair repair = _repairList.getItem(idRepair);
 
       Repair_AddEdit repairAE = new Repair_AddEdit(repair);
 
@@ -854,7 +858,7 @@ namespace BBAuto
       {
         int idRepair = Convert.ToInt32(dgvRepair.Rows[dgvRepair.SelectedCells[0].RowIndex].Cells[0].Value);
 
-        repairList.Delete(idRepair);
+        _repairList.Delete(idRepair);
 
         loadRepair();
       }
@@ -871,7 +875,7 @@ namespace BBAuto
     {
       try
       {
-        Policy policy = policyList.getItem(_car, PolicyType.КАСКО);
+        Policy policy = _policyList.getItem(_car, PolicyType.КАСКО);
 
         WorkWithFiles.OpenFile(policy.File);
       }
@@ -897,7 +901,7 @@ namespace BBAuto
     {
       try
       {
-        WorkWithFiles.OpenFile(sts.File);
+        WorkWithFiles.OpenFile(_sts.File);
       }
       catch (Exception ex)
       {
@@ -907,9 +911,9 @@ namespace BBAuto
 
     private void driverLicenseToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      DTP dtp = dtpList.getItem(Convert.ToInt32(_dgvDTP.Rows[_dgvDTP.SelectedCells[0].RowIndex].Cells[0].Value));
+      DTP dtp = _dtpList.getItem(Convert.ToInt32(_dgvDTP.Rows[_dgvDTP.SelectedCells[0].RowIndex].Cells[0].Value));
 
-      Driver driver = driverCarList.GetDriver(dtp.Car, dtp.Date);
+      Driver driver = _driverCarList.GetDriver(dtp.Car, dtp.Date);
 
       LicenseList licencesList = LicenseList.getInstance();
       DriverLicense driverLicense = licencesList.getItem(driver);
@@ -922,7 +926,7 @@ namespace BBAuto
       int idDTP = 0;
       int.TryParse(_dgvDTP.Rows[_dgvDTP.SelectedCells[0].RowIndex].Cells[0].Value.ToString(), out idDTP);
 
-      DTP dtp = dtpList.getItem(idDTP);
+      DTP dtp = _dtpList.getItem(idDTP);
 
       CreateDocument doc = new CreateDocument(_car);
 
@@ -936,7 +940,7 @@ namespace BBAuto
       {
         int idDTP = Convert.ToInt32(_dgvDTP.Rows[_dgvDTP.SelectedCells[0].RowIndex].Cells[0].Value);
 
-        dtpList.Delete(idDTP);
+        _dtpList.Delete(idDTP);
 
         loadDTP();
       }
@@ -949,7 +953,7 @@ namespace BBAuto
       {
         int idMileage = Convert.ToInt32(_dgvMileage.Rows[_dgvMileage.SelectedCells[0].RowIndex].Cells[0].Value);
 
-        mileageList.Delete(idMileage);
+        _mileageList.Delete(idMileage);
 
         loadMileage();
       }
@@ -979,7 +983,7 @@ namespace BBAuto
 
     private void loadShipPart()
     {
-      dgvShipPart.DataSource = shipPartList.ToDataTable(_car);
+      dgvShipPart.DataSource = _shipPartList.ToDataTable(_car);
       FormatDGVShipPart();
     }
 
@@ -997,7 +1001,7 @@ namespace BBAuto
 
       if (shipPartAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
       {
-        shipPartList.Add(shipPart);
+        _shipPartList.Add(shipPart);
         loadShipPart();
       }
     }
@@ -1007,7 +1011,7 @@ namespace BBAuto
       int idShipPart = 0;
       int.TryParse(dgvShipPart.Rows[e.RowIndex].Cells[0].Value.ToString(), out idShipPart);
 
-      ShipPart shipPart = shipPartList.getItem(idShipPart);
+      ShipPart shipPart = _shipPartList.getItem(idShipPart);
       ShipPart_AddEdit shipPartAE = new ShipPart_AddEdit(shipPart);
 
       if (shipPartAE.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -1022,7 +1026,7 @@ namespace BBAuto
       if (MessageBox.Show("Удалить информацию об отправки запчастей?", "Удаление", MessageBoxButtons.YesNo,
             MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
       {
-        shipPartList.Delete(idShipPart);
+        _shipPartList.Delete(idShipPart);
         loadShipPart();
       }
     }
@@ -1067,15 +1071,15 @@ namespace BBAuto
     private void pic_Click(object sender, EventArgs e)
     {
       PictureBox pic = sender as PictureBox;
-      if ((pic.Name == "picPTS") && (!string.IsNullOrEmpty(pts.File)))
-        WorkWithFiles.OpenFile(pts.File);
-      else if ((pic.Name == "picSTS") && (!string.IsNullOrEmpty(sts.File)))
-        WorkWithFiles.OpenFile(sts.File);
+      if ((pic.Name == "picPTS") && (!string.IsNullOrEmpty(_pts.File)))
+        WorkWithFiles.OpenFile(_pts.File);
+      else if ((pic.Name == "picSTS") && (!string.IsNullOrEmpty(_sts.File)))
+        WorkWithFiles.OpenFile(_sts.File);
     }
 
     private void llDriver_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-      Driver driver = driverCarList.GetDriver(_car);
+      Driver driver = _driverCarList.GetDriver(_car);
 
       if (driver == null)
         return;

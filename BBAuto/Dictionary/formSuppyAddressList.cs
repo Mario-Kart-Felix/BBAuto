@@ -1,19 +1,20 @@
-using BBAuto.Domain.Common;
-using BBAuto.Domain.Lists;
 using System;
 using System.Windows.Forms;
+using BBAuto.App.AddEdit;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Lists;
 
-namespace BBAuto
+namespace BBAuto.App.Dictionary
 {
   public partial class formSuppyAddressList : Form
   {
-    SuppyAddressList suppyAddressList;
+    private readonly SuppyAddressList _suppyAddressList;
 
     public formSuppyAddressList()
     {
       InitializeComponent();
 
-      suppyAddressList = SuppyAddressList.getInstance();
+      _suppyAddressList = SuppyAddressList.getInstance();
     }
 
     private void formSuppyAddressList_Load(object sender, EventArgs e)
@@ -23,7 +24,7 @@ namespace BBAuto
 
     private void loadData()
     {
-      _dgvSuppyAddress.DataSource = suppyAddressList.ToDataTable();
+      _dgvSuppyAddress.DataSource = _suppyAddressList.ToDataTable();
       _dgvSuppyAddress.Columns[0].Visible = false;
       ResizeDGV();
     }
@@ -50,7 +51,7 @@ namespace BBAuto
       int.TryParse(_dgvSuppyAddress.Rows[_dgvSuppyAddress.CurrentCell.RowIndex].Cells[0].Value.ToString(),
         out idSuppyAddress);
 
-      suppyAddressList.Delete(idSuppyAddress);
+      _suppyAddressList.Delete(idSuppyAddress);
 
       loadData();
     }
@@ -61,7 +62,7 @@ namespace BBAuto
       int.TryParse(_dgvSuppyAddress.Rows[_dgvSuppyAddress.CurrentCell.RowIndex].Cells[0].Value.ToString(),
         out idSuppyAddress);
 
-      SuppyAddress suppyAddress = suppyAddressList.getItem(idSuppyAddress);
+      SuppyAddress suppyAddress = _suppyAddressList.getItem(idSuppyAddress);
 
       SuppyAddress_AddEdit aesuppyAddress = new SuppyAddress_AddEdit(suppyAddress);
 

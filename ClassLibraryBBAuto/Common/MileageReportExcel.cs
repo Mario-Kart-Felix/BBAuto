@@ -1,4 +1,4 @@
-namespace BBAuto.Domain.Common
+namespace BBAuto.Logic.Common
 {
   public class MileageReportExcel
   {

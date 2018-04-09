@@ -1,6 +1,6 @@
 using System.Data;
 
-namespace DataLayer
+namespace BBAuto.DataLayer.Transaction
 {
   public interface ITransaction
   {

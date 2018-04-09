@@ -1,6 +1,6 @@
 using System.Drawing;
 
-namespace BBAuto
+namespace BBAuto.App.GUI
 {
   public static class BBColors
   {

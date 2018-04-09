@@ -1,4 +1,4 @@
-﻿namespace BBAuto
+namespace BBAuto.App.AddEdit
 {
     partial class Car_Sale
     {

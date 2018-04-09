@@ -1,11 +1,11 @@
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Entities;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
 using System;
 using System.Data;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto.Domain.ForCar
+namespace BBAuto.Logic.ForCar
 {
   public class TempMove : MainDictionary
   {

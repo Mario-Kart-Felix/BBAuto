@@ -1,8 +1,9 @@
-using BBAuto.Domain.ForDriver;
 using System;
 using System.Windows.Forms;
+using BBAuto.App.Events;
+using BBAuto.Logic.ForDriver;
 
-namespace BBAuto
+namespace BBAuto.App.FormsForDriver.AddEdit
 {
   public partial class License_AddEdit : Form
   {

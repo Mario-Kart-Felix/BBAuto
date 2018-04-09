@@ -1,8 +1,8 @@
 using System;
 using System.Windows.Forms;
-using BBAuto.Domain.ForCar;
+using BBAuto.Logic.ForCar;
 
-namespace BBAuto
+namespace BBAuto.App.AddEdit
 {
   public partial class Car_Sale : Form
   {

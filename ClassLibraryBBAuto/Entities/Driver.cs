@@ -1,15 +1,15 @@
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Common;
-using BBAuto.Domain.Dictionary;
-using BBAuto.Domain.ForDriver;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.Tables;
 using System;
 using System.Data;
 using System.Linq;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Dictionary;
+using BBAuto.Logic.ForDriver;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
+using BBAuto.Logic.Tables;
 
-namespace BBAuto.Domain.Entities
+namespace BBAuto.Logic.Entities
 {
   public class Driver : MainDictionary
   {
@@ -166,7 +166,7 @@ namespace BBAuto.Domain.Entities
         UserAccessList userAccessList = UserAccessList.getInstance();
         UserAccess userAccess = userAccessList.getItem(ID);
 
-        return (RolesList) userAccess.RoleID;
+        return (RolesList) userAccess.RoleId;
       }
     }
 

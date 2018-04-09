@@ -1,12 +1,12 @@
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Common;
-using BBAuto.Domain.Entities;
-using BBAuto.Domain.Lists;
 using System;
 using System.Data;
 using System.Text;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.Lists;
 
-namespace BBAuto.Domain.ForCar
+namespace BBAuto.Logic.ForCar
 {
   public class DiagCard : MainDictionary
   {

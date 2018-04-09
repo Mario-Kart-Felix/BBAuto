@@ -7,8 +7,8 @@
     <ProjectGuid>{FD9CC9CD-4D38-44DD-A2B9-CF4D38A340B5}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BBAutoConsoleApplication</RootNamespace>
-    <AssemblyName>BBAutoConsoleApplication</AssemblyName>
+    <RootNamespace>BBAuto.ConsoleApp</RootNamespace>
+    <AssemblyName>BBAuto.ConsoleApp</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -78,13 +78,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibraryBBAuto\BBAuto.Domain.csproj">
+    <ProjectReference Include="..\ClassLibraryBBAuto\BBAuto.Logic.csproj">
       <Project>{76a9009c-fabc-4e23-a1a8-7d169666cd3d}</Project>
-      <Name>BBAuto.Domain</Name>
+      <Name>BBAuto.Logic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DataLayer\DataLayer.csproj">
+    <ProjectReference Include="..\DataLayer\BBAuto.DataLayer.csproj">
       <Project>{7fcef0ec-8651-4d9e-9a1d-7dc7c92c2436}</Project>
-      <Name>DataLayer</Name>
+      <Name>BBAuto.DataLayer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

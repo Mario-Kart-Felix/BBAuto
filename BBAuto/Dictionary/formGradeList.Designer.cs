@@ -1,4 +1,4 @@
-﻿namespace BBAuto
+namespace BBAuto.App.Dictionary
 {
     partial class formGradeList
     {

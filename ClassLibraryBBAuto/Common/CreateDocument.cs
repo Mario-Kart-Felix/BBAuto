@@ -1,17 +1,17 @@
-﻿using BBAuto.Domain.Dictionary;
-using BBAuto.Domain.Entities;
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.ForDriver;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.Tables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using BBAuto.Logic.Dictionary;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.ForCar;
+using BBAuto.Logic.ForDriver;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
+using BBAuto.Logic.Tables;
 
-namespace BBAuto.Domain.Common
+namespace BBAuto.Logic.Common
 {
   public class CreateDocument
   {

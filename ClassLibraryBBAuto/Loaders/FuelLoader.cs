@@ -1,12 +1,12 @@
-using BBAuto.Domain.Common;
-using BBAuto.Domain.ForDriver;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.Tables;
 using System;
 using System.Collections.Generic;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.ForDriver;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
+using BBAuto.Logic.Tables;
 
-namespace BBAuto.Domain.Loaders
+namespace BBAuto.Logic.Loaders
 {
   public class FuelLoader
   {

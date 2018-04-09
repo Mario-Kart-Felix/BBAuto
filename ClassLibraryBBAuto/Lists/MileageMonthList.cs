@@ -1,10 +1,10 @@
-using BBAuto.Domain.Common;
-using BBAuto.Domain.DataBase;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.DataBase;
 
-namespace BBAuto.Domain.Lists
+namespace BBAuto.Logic.Lists
 {
   public class MileageMonthList
   {

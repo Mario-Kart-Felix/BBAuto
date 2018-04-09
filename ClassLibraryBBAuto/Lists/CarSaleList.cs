@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.ForCar;
+using System.Linq;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.ForCar;
 
-namespace BBAuto.Domain.Lists
+namespace BBAuto.Logic.Lists
 {
   public class CarSaleList : MainList
   {
-    private static CarSaleList uniqueInstance;
+    private static CarSaleList _uniqueInstance;
     private List<CarSale> list;
 
     private CarSaleList()
@@ -21,10 +21,10 @@ namespace BBAuto.Domain.Lists
 
     public static CarSaleList getInstance()
     {
-      if (uniqueInstance == null)
-        uniqueInstance = new CarSaleList();
+      if (_uniqueInstance == null)
+        _uniqueInstance = new CarSaleList();
 
-      return uniqueInstance;
+      return _uniqueInstance;
     }
 
     protected override void loadFromSql()

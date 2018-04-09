@@ -1,12 +1,13 @@
-using BBAuto.Domain.Common;
-using PresentationControls;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using BBAuto.App.GUI;
+using BBAuto.Logic.Common;
+using PresentationControls;
 
-namespace BBAuto
+namespace BBAuto.App.Common
 {
   public class MyFilter
   {

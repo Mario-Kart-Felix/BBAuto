@@ -1,7 +1,7 @@
 using System;
-using DataLayer;
+using BBAuto.DataLayer;
 
-namespace BBAuto.Domain.DataBase
+namespace BBAuto.Logic.DataBase
 {
   public static class DataBase
   {

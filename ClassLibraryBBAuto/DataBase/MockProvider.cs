@@ -1,8 +1,8 @@
 using System;
 using System.Data;
-using DataLayer;
+using BBAuto.DataLayer;
 
-namespace BBAuto.Domain.DataBase
+namespace BBAuto.Logic.DataBase
 {
   public class MockProvider : IProvider
   {
@@ -10,7 +10,7 @@ namespace BBAuto.Domain.DataBase
 
     public MockProvider()
     {
-      IDataBase db = DataBase.GetDataBase();
+      IDataBase db = Logic.DataBase.DataBase.GetDataBase();
       _db = db as MockDataBase;
     }
 

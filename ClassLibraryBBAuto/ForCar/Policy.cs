@@ -1,14 +1,14 @@
 using System;
 using System.Data;
 using System.Text;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Common;
-using BBAuto.Domain.Dictionary;
-using BBAuto.Domain.Entities;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Dictionary;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto.Domain.ForCar
+namespace BBAuto.Logic.ForCar
 {
   public sealed class Policy : MainDictionary, IActual
   {
@@ -231,7 +231,7 @@ namespace BBAuto.Domain.ForCar
     {
       if (IsHaveAccountId(paymentNumber))
       {
-        var accountList = AccountList.getInstance();
+        var accountList = AccountList.GetInstance();
 
         var idAccount = paymentNumber == 1 ? _idAccount : _idAccount2;
 

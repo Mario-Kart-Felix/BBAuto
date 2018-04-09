@@ -1,4 +1,6 @@
-﻿namespace BBAuto
+using BBAuto.Logic;
+
+namespace BBAuto.App.FormsForDriver.AddEdit
 {
     partial class License_AddEdit
     {
@@ -35,7 +37,7 @@
             this.dateEnd = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
             this.mtbNumber = new System.Windows.Forms.MaskedTextBox();
-            this.ucFile = new BBAuto.Domain.FileOpenTextBox();
+            this.ucFile = new FileOpenTextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.dateBegin = new System.Windows.Forms.DateTimePicker();
             this.SuspendLayout();
@@ -166,7 +168,7 @@
         private System.Windows.Forms.DateTimePicker dateEnd;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.MaskedTextBox mtbNumber;
-        private BBAuto.Domain.FileOpenTextBox ucFile;
+        private FileOpenTextBox ucFile;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DateTimePicker dateBegin;
     }

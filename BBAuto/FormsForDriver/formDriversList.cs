@@ -1,12 +1,15 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.Entities;
-using BBAuto.Domain.ForDriver;
+using BBAuto.App.Common;
+using BBAuto.App.FormsForDriver.AddEdit;
+using BBAuto.App.GUI;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.ForDriver;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.FormsForDriver
 {
   public partial class formDriversList : Form
   {

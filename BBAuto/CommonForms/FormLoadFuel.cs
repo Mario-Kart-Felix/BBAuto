@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using BBAuto.Domain.Loaders;
-using BBAuto.Domain.Static;
+using BBAuto.Logic.Loaders;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.CommonForms
 {
   public partial class FormLoadFuel : Form
   {

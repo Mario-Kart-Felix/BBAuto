@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Data;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.ForCar;
+using System.Linq;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.ForCar;
 
-namespace BBAuto.Domain.Lists
+namespace BBAuto.Logic.Lists
 {
   public class ModelList : MainList
   {
@@ -73,7 +73,7 @@ namespace BBAuto.Domain.Lists
       dt.Columns.Add("id");
       dt.Columns.Add("Название");
 
-      foreach (Model model in list.Where(m => m.MarkID == idMark))
+      foreach (Model model in list.Where(m => m.MarkId == idMark))
       {
         dt.Rows.Add(model.getRow());
       }

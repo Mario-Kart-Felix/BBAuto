@@ -2,12 +2,15 @@ using System;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Common;
+using BBAuto.App.CommonForms;
+using BBAuto.App.Events;
+using BBAuto.App.FormsForCar.AddEdit;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.AddEdit
 {
   public partial class Account_AddEdit : Form
   {

@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.IO;
 
-namespace BBAuto.Domain.Common
+namespace BBAuto.Logic.Common
 {
   public static class WorkWithFiles
   {

@@ -1,8 +1,8 @@
 using System;
 using System.Windows.Forms;
-using BBAuto.Domain.Views;
+using BBAuto.Logic.Views;
 
-namespace BBAuto
+namespace BBAuto.App.AddEdit
 {
   public partial class Dictionary_AddEdit : Form, IViewDictionary
   {

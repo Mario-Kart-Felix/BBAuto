@@ -1,6 +1,6 @@
 using System.Data;
 
-namespace BBAuto.Domain.DataBase
+namespace BBAuto.Logic.DataBase
 {
   public interface IProvider
   {

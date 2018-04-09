@@ -1,8 +1,8 @@
-using BBAuto.Domain.Common;
 using System;
 using System.Windows.Forms;
+using BBAuto.Logic.Common;
 
-namespace BBAuto
+namespace BBAuto.App.CommonForms
 {
   public partial class TemplateAddEdit : Form
   {

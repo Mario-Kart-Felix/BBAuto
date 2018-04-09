@@ -1,10 +1,11 @@
-using BBAuto.Domain.Dictionary;
-using BBAuto.Domain.ForDriver;
-using BBAuto.Domain.Lists;
 using System;
 using System.Windows.Forms;
+using BBAuto.App.Events;
+using BBAuto.Logic.Dictionary;
+using BBAuto.Logic.ForDriver;
+using BBAuto.Logic.Lists;
 
-namespace BBAuto
+namespace BBAuto.App.AddEdit
 {
   public partial class FuelCard_AddEdit : Form
   {

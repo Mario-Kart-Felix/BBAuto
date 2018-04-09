@@ -1,8 +1,8 @@
-using BBAuto.Domain.Common;
-using BBAuto.Domain.ForCar;
 using System.Data;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.ForCar;
 
-namespace BBAuto.Domain.Dictionary
+namespace BBAuto.Logic.Dictionary
 {
   public class Culprits : MyDictionary
   {

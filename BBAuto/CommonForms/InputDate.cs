@@ -1,20 +1,21 @@
-using BBAuto.Domain.Common;
-using BBAuto.Domain.Entities;
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
 using System;
 using System.Windows.Forms;
+using BBAuto.App.GUI;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.CommonForms
 {
   public partial class InputDate : Form
   {
     private MainDGV _dgvMain;
-    private Actions _action;
+    private Logic.Static.Actions _action;
     private WayBillType _type;
 
-    public InputDate(MainDGV dgvMain, Actions action, WayBillType type)
+    public InputDate(MainDGV dgvMain, Logic.Static.Actions action, WayBillType type)
     {
       InitializeComponent();
 
@@ -47,13 +48,13 @@ namespace BBAuto
           continue;
         }
 
-        if (_action == Actions.Print)
+        if (_action == Logic.Static.Actions.Print)
           excelWayBill.Print();
         else
           excelWayBill.Show();
       }
 
-      if (_action == Actions.Print)
+      if (_action == Logic.Static.Actions.Print)
       {
         MyPrinter printer = new MyPrinter();
         MessageBox.Show("Документы отправлены на печать на принтер " + printer.GetDefaultPrinterName(), "Информация",

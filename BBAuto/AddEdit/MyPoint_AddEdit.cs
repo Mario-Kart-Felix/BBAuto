@@ -1,10 +1,11 @@
 using System;
 using System.Windows.Forms;
-using BBAuto.Domain.Tables;
-using BBAuto.Domain.Dictionary;
-using BBAuto.Domain.Static;
+using BBAuto.App.Events;
+using BBAuto.Logic.Dictionary;
+using BBAuto.Logic.Static;
+using BBAuto.Logic.Tables;
 
-namespace BBAuto
+namespace BBAuto.App.AddEdit
 {
   public partial class MyPoint_AddEdit : Form
   {

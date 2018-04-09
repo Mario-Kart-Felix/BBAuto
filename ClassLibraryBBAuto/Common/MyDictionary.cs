@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data;
-using BBAuto.Domain.DataBase;
+using System.Linq;
+using BBAuto.Logic.DataBase;
 
-namespace BBAuto.Domain.Common
+namespace BBAuto.Logic.Common
 {
   public abstract class MyDictionary
   {

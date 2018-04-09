@@ -1,8 +1,9 @@
-using BBAuto.Domain.ForCar;
 using System;
 using System.Windows.Forms;
+using BBAuto.App.Events;
+using BBAuto.Logic.ForCar;
 
-namespace BBAuto
+namespace BBAuto.App.AddEdit
 {
   public partial class Model_AddEdit : Form
   {

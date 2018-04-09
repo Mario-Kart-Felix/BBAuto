@@ -1,11 +1,11 @@
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
 using System;
 using System.Data;
 using System.Windows.Forms;
+using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.CommonForms
 {
   public partial class formPolicyList : Form
   {

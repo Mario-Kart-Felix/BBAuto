@@ -2,14 +2,23 @@ using System;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
-using BBAuto.Domain.Common;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.ForDriver;
-using BBAuto.Domain.Entities;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.ForCar;
+using BBAuto.App.Actions;
+using BBAuto.App.AddEdit;
+using BBAuto.App.Common;
+using BBAuto.App.ContextMenu;
+using BBAuto.App.Events;
+using BBAuto.App.FormsForCar;
+using BBAuto.App.FormsForCar.AddEdit;
+using BBAuto.App.FormsForDriver.AddEdit;
+using BBAuto.App.GUI;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.ForCar;
+using BBAuto.Logic.ForDriver;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App
 {
   public partial class mainForm : Form
   {
@@ -346,7 +355,7 @@ namespace BBAuto
         if (_dgvMain.GetID() == 0)
           return;
 
-        AccountList accountListList = AccountList.getInstance();
+        AccountList accountListList = AccountList.GetInstance();
         Account account = accountListList.getItem(_dgvMain.GetID());
 
         if ((_dgvCar.Columns[point.X].HeaderText == "Файл") && (!string.IsNullOrEmpty(account.File)))

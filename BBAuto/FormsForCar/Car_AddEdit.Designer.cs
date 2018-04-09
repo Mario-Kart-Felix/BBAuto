@@ -1,4 +1,6 @@
-﻿namespace BBAuto
+using BBAuto.Logic;
+
+namespace BBAuto.App.FormsForCar
 {
     partial class Car_AddEdit
     {
@@ -61,8 +63,8 @@
             this.label29 = new System.Windows.Forms.Label();
             this.llDriver = new System.Windows.Forms.LinkLabel();
             this.label28 = new System.Windows.Forms.Label();
-            this.ucFileSTS = new BBAuto.Domain.FileOpenTextBox();
-            this.ucFilePTS = new BBAuto.Domain.FileOpenTextBox();
+            this.ucFileSTS = new FileOpenTextBox();
+            this.ucFilePTS = new FileOpenTextBox();
             this.label25 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.dtpDateSTS = new System.Windows.Forms.DateTimePicker();
@@ -1644,8 +1646,8 @@
         private System.Windows.Forms.ToolStripMenuItem driverLicenseToolStripMenuItem;
         private System.Windows.Forms.Button btnDelDTP;
         private System.Windows.Forms.Button btnMileageDel;
-        private BBAuto.Domain.FileOpenTextBox ucFileSTS;
-        private BBAuto.Domain.FileOpenTextBox ucFilePTS;
+        private FileOpenTextBox ucFileSTS;
+        private FileOpenTextBox ucFilePTS;
         private System.Windows.Forms.TabPage tabShipParts;
         private System.Windows.Forms.Button btnDelShipPart;
         private System.Windows.Forms.Button btnAddShipPart;

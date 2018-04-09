@@ -1,24 +1,33 @@
-using BBAuto.Domain.Common;
-using BBAuto.Domain.Dictionary;
-using BBAuto.Domain.Entities;
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.ForDriver;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
 using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using BBAuto.App.Actions;
+using BBAuto.App.AddEdit;
+using BBAuto.App.Common;
+using BBAuto.App.CommonForms;
+using BBAuto.App.Dictionary;
+using BBAuto.App.FormsForCar;
+using BBAuto.App.FormsForCar.AddEdit;
+using BBAuto.App.FormsForDriver;
+using BBAuto.App.GUI;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Dictionary;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.ForCar;
+using BBAuto.Logic.ForDriver;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.ContextMenu
 {
   public class MyMenuItemFactory
   {
     private const string DOCUMENTS_PATH = @"\\bbmru08.bbmag.bbraun.com\Depts\Fleet INT\Автохозяйство\документы на авто";
 
-    private MainDGV _dgvMain;
+    private readonly MainDGV _dgvMain;
     private CarList _carList;
-    private MainStatus _mainStatus;
+    private readonly MainStatus _mainStatus;
 
     public MyMenuItemFactory(MainDGV dgvMain)
     {
@@ -440,7 +449,7 @@ namespace BBAuto
       ToolStripMenuItem item = CreateItem("Печать путевого листа");
       item.Click += delegate
       {
-        InputDate inputDate = new InputDate(_dgvMain, Actions.Print, WayBillType.Month);
+        InputDate inputDate = new InputDate(_dgvMain, Logic.Static.Actions.Print, WayBillType.Month);
         inputDate.ShowDialog();
       };
       return item;
@@ -451,7 +460,7 @@ namespace BBAuto
       ToolStripMenuItem item = CreateItem("Просмотр путевого листа");
       item.Click += delegate
       {
-        InputDate inputDate = new InputDate(_dgvMain, Actions.Show, WayBillType.Month);
+        InputDate inputDate = new InputDate(_dgvMain, Logic.Static.Actions.Show, WayBillType.Month);
         inputDate.ShowDialog();
       };
       return item;
@@ -948,7 +957,7 @@ namespace BBAuto
       ToolStripMenuItem item = CreateItem("Дилеры");
       item.Click += delegate
       {
-        formDillerList dList = new formDillerList();
+        FormDealerList dList = new FormDealerList();
         dList.ShowDialog();
       };
       return item;

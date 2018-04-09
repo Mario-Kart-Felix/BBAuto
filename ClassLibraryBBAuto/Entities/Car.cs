@@ -1,13 +1,13 @@
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Dictionary;
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.Tables;
 using System;
 using System.Data;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Dictionary;
+using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
+using BBAuto.Logic.Tables;
 
-namespace BBAuto.Domain.Entities
+namespace BBAuto.Logic.Entities
 {
   public class Car : MainDictionary
   {

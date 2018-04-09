@@ -1,20 +1,20 @@
-using BBAuto.Domain.Abstract;
 using System.Data;
+using BBAuto.Logic.Abstract;
 
-namespace BBAuto.Domain.ForCar
+namespace BBAuto.Logic.ForCar
 {
-  public class Diler : MainDictionary, IDictionaryMVC
+  public class Dealer : MainDictionary, IDictionaryMVC
   {
     public string Name { get; set; }
     public string Text { get; set; }
 
-    public Diler()
+    public Dealer()
     {
       ID = 0;
       Text = string.Empty;
     }
 
-    public Diler(DataRow row)
+    public Dealer(DataRow row)
     {
       int id;
       int.TryParse(row.ItemArray[0].ToString(), out id);

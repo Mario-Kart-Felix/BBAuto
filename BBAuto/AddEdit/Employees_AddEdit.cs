@@ -1,11 +1,12 @@
 using System;
 using System.Windows.Forms;
-using BBAuto.Domain.Common;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.Dictionary;
-using BBAuto.Domain.Lists;
+using BBAuto.App.Events;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Dictionary;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.AddEdit
 {
   public partial class Employees_AddEdit : Form
   {

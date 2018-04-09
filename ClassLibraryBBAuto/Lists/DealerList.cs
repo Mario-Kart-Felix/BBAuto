@@ -1,27 +1,27 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Data;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.ForCar;
+using System.Linq;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.ForCar;
 
-namespace BBAuto.Domain.Lists
+namespace BBAuto.Logic.Lists
 {
-  public class DilerList : MainList
+  public class DealerList : MainList
   {
-    private static DilerList uniqueInstance;
-    private List<Diler> list;
+    private static DealerList uniqueInstance;
+    private List<Dealer> list;
 
-    private DilerList()
+    private DealerList()
     {
-      list = new List<Diler>();
+      list = new List<Dealer>();
 
       loadFromSql();
     }
 
-    public static DilerList getInstance()
+    public static DealerList getInstance()
     {
       if (uniqueInstance == null)
-        uniqueInstance = new DilerList();
+        uniqueInstance = new DealerList();
 
       return uniqueInstance;
     }
@@ -32,12 +32,12 @@ namespace BBAuto.Domain.Lists
 
       foreach (DataRow row in dt.Rows)
       {
-        Diler diller = new Diler(row);
+        Dealer diller = new Dealer(row);
         Add(diller);
       }
     }
 
-    internal void Add(Diler diller)
+    internal void Add(Dealer diller)
     {
       if (list.Exists(item => item == diller))
         return;
@@ -47,14 +47,14 @@ namespace BBAuto.Domain.Lists
 
     public void Delete(int idDiller)
     {
-      Diler diller = getItem(idDiller);
+      Dealer diller = getItem(idDiller);
 
       list.Remove(diller);
 
       diller.Delete();
     }
 
-    public Diler getItem(int id)
+    public Dealer getItem(int id)
     {
       return list.FirstOrDefault(d => d.ID == id);
     }
@@ -73,7 +73,7 @@ namespace BBAuto.Domain.Lists
     {
       DataTable dt = createTable();
 
-      foreach (Diler diller in list)
+      foreach (Dealer diller in list)
         dt.Rows.Add(diller.getRow());
 
       return dt;

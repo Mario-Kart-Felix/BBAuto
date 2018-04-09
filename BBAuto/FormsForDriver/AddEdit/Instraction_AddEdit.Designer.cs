@@ -1,4 +1,6 @@
-﻿namespace BBAuto
+using BBAuto.Logic;
+
+namespace BBAuto.App.FormsForDriver.AddEdit
 {
     partial class Instraction_AddEdit
     {
@@ -34,7 +36,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.tbNumber = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.ucFile = new BBAuto.Domain.FileOpenTextBox();
+            this.ucFile = new FileOpenTextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -145,7 +147,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tbNumber;
         private System.Windows.Forms.Label label1;
-        private BBAuto.Domain.FileOpenTextBox ucFile;
+        private FileOpenTextBox ucFile;
         private System.Windows.Forms.Label label3;
     }
 }

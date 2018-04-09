@@ -1,13 +1,14 @@
-using BBAuto.Domain.ForCar;
 using System;
 using System.Data;
 using System.Windows.Forms;
+using BBAuto.App.Events;
+using BBAuto.Logic.ForCar;
 
-namespace BBAuto
+namespace BBAuto.App.FormsForCar.AddEdit
 {
   public partial class Mileage_AddEdit : Form
   {
-    private Mileage _mileage;
+    private readonly Mileage _mileage;
 
     private WorkWithForm _workWithForm;
 

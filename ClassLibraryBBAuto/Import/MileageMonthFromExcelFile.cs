@@ -1,9 +1,9 @@
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Common;
-using BBAuto.Domain.DataBase;
-using BBAuto.Domain.Logger;
 using System;
 using System.Runtime.InteropServices;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.DataBase;
+using BBAuto.Logic.Logger;
 
 namespace BBAuto.Domain.Senders
 {

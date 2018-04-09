@@ -1,17 +1,17 @@
-﻿using BBAuto.Domain.Dictionary;
-using BBAuto.Domain.Entities;
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Logger;
-using BBAuto.Domain.Static;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
+using BBAuto.Logic.Dictionary;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Logger;
+using BBAuto.Logic.Static;
 
-namespace BBAuto.Domain.Common
+namespace BBAuto.Logic.Common
 {
   public class EMail
   {

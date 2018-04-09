@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Entities;
+using System.Linq;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.Static;
 
-namespace BBAuto.Domain.Lists
+namespace BBAuto.Logic.Lists
 {
   public class CarList : MainList
   {
-    private static CarList uniqueInstance;
+    private static CarList _uniqueInstance;
     private List<Car> list;
 
     private CarList()
@@ -22,10 +22,10 @@ namespace BBAuto.Domain.Lists
 
     public static CarList getInstance()
     {
-      if (uniqueInstance == null)
-        uniqueInstance = new CarList();
+      if (_uniqueInstance == null)
+        _uniqueInstance = new CarList();
 
-      return uniqueInstance;
+      return _uniqueInstance;
     }
 
     protected override void loadFromSql()
@@ -158,7 +158,7 @@ namespace BBAuto.Domain.Lists
         case Status.ShipPart:
           return ShipPartList.getInstance().ToDataTable();
         case Status.Account:
-          return AccountList.getInstance().ToDataTable();
+          return AccountList.GetInstance().ToDataTable();
         case Status.AccountViolation:
           return ViolationList.getInstance().ToDataTableAccount();
         case Status.FuelCard:

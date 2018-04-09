@@ -1,9 +1,9 @@
-using BBAuto.Domain.Entities;
-using BBAuto.Domain.Lists;
 using System;
 using System.Windows.Forms;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.Lists;
 
-namespace BBAuto
+namespace BBAuto.App.FormsForDriver
 {
   public partial class formDriverCar : Form
   {

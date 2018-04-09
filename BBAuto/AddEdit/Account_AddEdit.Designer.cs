@@ -1,4 +1,6 @@
-﻿namespace BBAuto
+using BBAuto.Logic;
+
+namespace BBAuto.App.AddEdit
 {
     partial class Account_AddEdit
     {
@@ -49,7 +51,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.chbAgreed = new System.Windows.Forms.CheckBox();
             this.chbBusinessTrip = new System.Windows.Forms.CheckBox();
-            this.ucFile = new BBAuto.Domain.FileOpenTextBox();
+            this.ucFile = new FileOpenTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPolicy)).BeginInit();
             this.SuspendLayout();
             // 
@@ -329,7 +331,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox cbPayment;
         private System.Windows.Forms.Label lbPayment;
-        private BBAuto.Domain.FileOpenTextBox ucFile;
+        private FileOpenTextBox ucFile;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox chbAgreed;
         private System.Windows.Forms.CheckBox chbBusinessTrip;

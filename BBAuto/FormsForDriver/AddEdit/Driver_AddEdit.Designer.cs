@@ -1,4 +1,4 @@
-﻿namespace BBAuto
+namespace BBAuto.App.FormsForDriver.AddEdit
 {
     partial class Driver_AddEdit
     {

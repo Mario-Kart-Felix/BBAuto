@@ -1,12 +1,14 @@
-using BBAuto.Domain.Common;
-using BBAuto.Domain.Entities;
-using BBAuto.Domain.ForDriver;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
 using System;
 using System.Windows.Forms;
+using BBAuto.App.FormsForDriver.AddEdit;
+using BBAuto.App.GUI;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.ForDriver;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.FormsForDriver
 {
   public partial class formMedicalCertList : Form
   {

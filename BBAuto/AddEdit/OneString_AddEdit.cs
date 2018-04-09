@@ -1,8 +1,8 @@
 using System;
 using System.Windows.Forms;
-using BBAuto.Domain.Static;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.AddEdit
 {
   public partial class OneString_AddEdit : Form
   {

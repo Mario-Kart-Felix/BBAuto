@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace BBAuto
+namespace BBAuto.App.Common
 {
   public class MyStatusStrip
   {

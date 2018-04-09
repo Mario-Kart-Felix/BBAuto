@@ -1,4 +1,4 @@
-﻿namespace BBAuto
+namespace BBAuto.App.FormsForCar.AddEdit
 {
     partial class DTP_AddEdit
     {

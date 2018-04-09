@@ -1,14 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using BBAuto.Domain.Common;
+using BBAuto.Logic.Common;
 
-namespace BBAuto.Domain
+namespace BBAuto.Logic
 {
   public partial class FileOpenTextBox : UserControl
   {

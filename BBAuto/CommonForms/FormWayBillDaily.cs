@@ -1,14 +1,15 @@
-using BBAuto.Domain.Common;
-using BBAuto.Domain.Entities;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using BBAuto.App.GUI;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.CommonForms
 {
   public partial class FormWayBillDaily : Form
   {
@@ -92,37 +93,37 @@ namespace BBAuto
 
     private void btnOpenInExcelAllFields_Click(object sender, EventArgs e)
     {
-      CreateWayBill(list[index], Actions.Show, Fields.All);
+      CreateWayBill(list[index], Logic.Static.Actions.Show, Fields.All);
     }
 
     private void btnOpenInExcelSomeFields_Click(object sender, EventArgs e)
     {
-      CreateWayBill(list[index], Actions.Show, Fields.Some);
+      CreateWayBill(list[index], Logic.Static.Actions.Show, Fields.Some);
     }
 
     private void btnPrintAllFieldsCurrent_Click(object sender, EventArgs e)
     {
-      CreateWayBill(list[index], Actions.Print, Fields.All);
+      CreateWayBill(list[index], Logic.Static.Actions.Print, Fields.All);
     }
 
     private void btnPrintSomeFieldsCurrent_Click(object sender, EventArgs e)
     {
-      CreateWayBill(list[index], Actions.Print, Fields.Some);
+      CreateWayBill(list[index], Logic.Static.Actions.Print, Fields.Some);
     }
 
     private void btnPrintAllFieldsAll_Click(object sender, EventArgs e)
     {
       foreach (var car in list)
-        CreateWayBill(car, Actions.Print, Fields.All);
+        CreateWayBill(car, Logic.Static.Actions.Print, Fields.All);
     }
 
     private void btnPrintSomeFieldsAll_Click(object sender, EventArgs e)
     {
       foreach (var car in list)
-        CreateWayBill(car, Actions.Print, Fields.Some);
+        CreateWayBill(car, Logic.Static.Actions.Print, Fields.Some);
     }
 
-    private void CreateWayBill(Car car, Actions action, Fields fields)
+    private void CreateWayBill(Car car, Logic.Static.Actions action, Fields fields)
     {
       CreateDocument excelWayBill = new CreateDocument(car);
 
@@ -131,7 +132,7 @@ namespace BBAuto
         excelWayBill.createWaybill(dtpDate.Value, null);
         excelWayBill.AddRouteInWayBill(dtpDate.Value, fields);
 
-        if (action == Actions.Print)
+        if (action == Logic.Static.Actions.Print)
           excelWayBill.Print();
         else
           excelWayBill.Show();

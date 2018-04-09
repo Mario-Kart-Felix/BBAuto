@@ -1,10 +1,10 @@
 using System;
 using System.Data;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.DataBase;
-using BBAuto.Domain.Entities;
+using BBAuto.Logic.DataBase;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.Lists;
 
-namespace BBAuto.Domain.Common
+namespace BBAuto.Logic.Common
 {
   public class Tabel
   {

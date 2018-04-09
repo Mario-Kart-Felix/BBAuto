@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace BBAuto
+namespace BBAuto.App.GUI
 {
   internal static class DGVSpecialColumn
   {

@@ -1,8 +1,8 @@
 using System.Data;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Lists;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Lists;
 
-namespace BBAuto.Domain.Tables
+namespace BBAuto.Logic.Tables
 {
   public class Route : MainDictionary
   {

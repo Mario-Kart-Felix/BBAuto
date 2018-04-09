@@ -1,20 +1,15 @@
-using BBAuto.Domain.Static;
 using System;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.Events
 {
   public class StatusEventArgs : EventArgs
   {
-    private readonly Status _status;
-
     public StatusEventArgs(Status status)
     {
-      _status = status;
+      Status = status;
     }
 
-    public Status status
-    {
-      get { return _status; }
-    }
+    public Status Status { get; }
   }
 }

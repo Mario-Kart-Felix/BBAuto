@@ -1,8 +1,8 @@
 using System;
 using System.Data;
-using BBAuto.Domain.Abstract;
+using BBAuto.Logic.Abstract;
 
-namespace BBAuto.Domain.Tables
+namespace BBAuto.Logic.Tables
 {
   public class Region : MainDictionary
   {

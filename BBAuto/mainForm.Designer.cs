@@ -1,4 +1,4 @@
-﻿namespace BBAuto
+namespace BBAuto.App
 {
     partial class mainForm
     {

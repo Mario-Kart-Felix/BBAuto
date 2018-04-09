@@ -1,10 +1,10 @@
 using System;
 using System.Data;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Common;
-using BBAuto.Domain.Abstract;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Lists;
 
-namespace BBAuto.Domain.Tables
+namespace BBAuto.Logic.Tables
 {
   public class WayBillRoute : MainDictionary
   {

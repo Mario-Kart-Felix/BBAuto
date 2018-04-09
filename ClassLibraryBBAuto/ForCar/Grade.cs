@@ -1,10 +1,10 @@
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Tables;
 using System;
 using System.Data;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Tables;
 
-namespace BBAuto.Domain.ForCar
+namespace BBAuto.Logic.ForCar
 {
   public class Grade : MainDictionary
   {

@@ -2,12 +2,12 @@ using System;
 using Word = Microsoft.Office.Interop.Word;
 using Excel = Microsoft.Office.Interop.Excel;
 
-namespace BBAuto.Domain.Common
+namespace BBAuto.Logic.Common
 {
   internal class WordDoc : OfficeDoc, IDisposable
   {
-    private Word.Application wordApp;
-    private Word.Document wordDoc;
+    private Word.Application _wordApp;
+    private Word.Document _wordDoc;
 
     public WordDoc(string name) :
       base(name)
@@ -17,31 +17,31 @@ namespace BBAuto.Domain.Common
 
     private void Init()
     {
-      wordApp = new Word.Application();
-      wordDoc = wordApp.Documents.Open(name);
+      _wordApp = new Word.Application();
+      _wordDoc = _wordApp.Documents.Open(name);
     }
 
     public void Show()
     {
-      wordApp.Visible = true;
+      _wordApp.Visible = true;
     }
 
     public void Print()
     {
-      wordApp.PrintOut();
+      _wordApp.PrintOut();
 
       Dispose();
     }
 
     public void Dispose()
     {
-      wordApp.DisplayAlerts = Word.WdAlertLevel.wdAlertsNone;
+      _wordApp.DisplayAlerts = Word.WdAlertLevel.wdAlertsNone;
 
-      ((Word._Document) wordDoc).Close(Word.WdSaveOptions.wdDoNotSaveChanges, Word.WdOriginalFormat.wdWordDocument);
-      ((Word._Application) wordApp).Quit(Word.WdSaveOptions.wdDoNotSaveChanges, Word.WdOriginalFormat.wdWordDocument);
+      ((Word._Document) _wordDoc).Close(Word.WdSaveOptions.wdDoNotSaveChanges, Word.WdOriginalFormat.wdWordDocument);
+      ((Word._Application) _wordApp).Quit(Word.WdSaveOptions.wdDoNotSaveChanges, Word.WdOriginalFormat.wdWordDocument);
 
-      releaseObject(wordDoc);
-      releaseObject(wordApp);
+      releaseObject(_wordDoc);
+      releaseObject(_wordApp);
     }
 
     public void setValue(string search, string replace)
@@ -52,9 +52,9 @@ namespace BBAuto.Domain.Common
       object replaceWith = replace;
       object replaceType = Word.WdReplace.wdReplaceAll;
 
-      for (int i = 1; i <= wordApp.ActiveDocument.Sections.Count; i++)
+      for (int i = 1; i <= _wordApp.ActiveDocument.Sections.Count; i++)
       {
-        myRange = wordDoc.Sections[i].Range;
+        myRange = _wordDoc.Sections[i].Range;
 
         myRange.Find.Execute(ref textToFind, ref wMissing, ref wMissing, ref wMissing, ref wMissing, ref wMissing,
           ref wMissing, ref wMissing, ref wMissing,
@@ -64,7 +64,7 @@ namespace BBAuto.Domain.Common
 
     public void AddRowInTable(int tableIndex, params string[] Params)
     {
-      Word.Table wordTable = wordDoc.Tables[tableIndex];
+      Word.Table wordTable = _wordDoc.Tables[tableIndex];
       wordTable.Rows.Add();
 
       int i = 1;

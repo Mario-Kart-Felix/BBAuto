@@ -1,9 +1,10 @@
 using System;
 using System.Windows.Forms;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Common;
+using BBAuto.App.GUI;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Lists;
 
-namespace BBAuto
+namespace BBAuto.App.CommonForms
 {
   public partial class formTemplateList : Form
   {

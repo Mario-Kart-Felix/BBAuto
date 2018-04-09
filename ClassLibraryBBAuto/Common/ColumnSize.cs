@@ -1,12 +1,12 @@
 using System;
-using System.Linq;
 using System.Data;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Entities;
+using System.Linq;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto.Domain.Common
+namespace BBAuto.Logic.Common
 {
   public class ColumnSize : MainDictionary
   {

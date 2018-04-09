@@ -1,7 +1,7 @@
 using System;
 using System.Data;
 
-namespace DataLayer
+namespace BBAuto.DataLayer
 {
   public interface IDataBase
   {

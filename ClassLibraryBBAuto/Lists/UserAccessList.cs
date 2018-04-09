@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Data;
-using BBAuto.Domain.ForDriver;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Static;
+using System.Linq;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.ForDriver;
+using BBAuto.Logic.Static;
 
-namespace BBAuto.Domain.Lists
+namespace BBAuto.Logic.Lists
 {
   public class UserAccessList : MainList
   {
@@ -94,7 +94,7 @@ namespace BBAuto.Domain.Lists
     {
       int idRole = (int) role;
 
-      List<UserAccess> userAccesses = list.Where(item => item.RoleID == idRole).ToList();
+      List<UserAccess> userAccesses = list.Where(item => item.RoleId == idRole).ToList();
 
       return (userAccesses.Count() > 0) ? userAccesses : null;
     }

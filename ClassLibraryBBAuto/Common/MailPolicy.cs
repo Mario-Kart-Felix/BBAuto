@@ -1,8 +1,8 @@
-using BBAuto.Domain.Entities;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto.Domain.Common
+namespace BBAuto.Logic.Common
 {
   public static class MailPolicy
   {

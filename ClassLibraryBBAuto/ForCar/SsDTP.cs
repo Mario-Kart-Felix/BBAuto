@@ -1,10 +1,10 @@
 using System.Data;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Tables;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Dictionary;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Dictionary;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Tables;
 
-namespace BBAuto.Domain.ForCar
+namespace BBAuto.Logic.ForCar
 {
   public class SsDTP : MainDictionary
   {

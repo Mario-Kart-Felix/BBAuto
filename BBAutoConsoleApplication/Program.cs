@@ -1,11 +1,11 @@
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Import;
-using BBAuto.Domain.DataBase;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Senders;
-using BBAuto.Domain.Logger;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.DataBase;
+using BBAuto.Logic.Import;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Logger;
+using BBAuto.Logic.Senders;
 
-namespace BBAutoConsoleApplication
+namespace BBAuto.ConsoleApp
 {
   class Program
   {

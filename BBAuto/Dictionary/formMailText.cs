@@ -1,20 +1,21 @@
 using System;
 using System.Windows.Forms;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Common;
-using BBAuto.Domain.Presenter;
+using BBAuto.App.AddEdit;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Presenters;
 
-namespace BBAuto
+namespace BBAuto.App.Dictionary
 {
   public partial class formMailText : Form
   {
-    private MailTextList mailTextList;
+    private readonly MailTextList _mailTextList;
 
     public formMailText()
     {
       InitializeComponent();
 
-      mailTextList = MailTextList.getInstance();
+      _mailTextList = MailTextList.getInstance();
     }
 
     private void formMailText_Load(object sender, EventArgs e)
@@ -24,7 +25,7 @@ namespace BBAuto
 
     private void loadData()
     {
-      dgv.DataSource = mailTextList.ToDataTable();
+      dgv.DataSource = _mailTextList.ToDataTable();
       dgv.Columns[0].Visible = false;
       resizeDGV();
     }

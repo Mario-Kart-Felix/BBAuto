@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace BBAuto.Domain.Abstract
+namespace BBAuto.Logic.Abstract
 {
   public interface INotificationList
   {

@@ -1,10 +1,10 @@
 using System;
 using System.Data;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.ForDriver;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.ForDriver;
+using BBAuto.Logic.Lists;
 
-namespace BBAuto.Domain.Tables
+namespace BBAuto.Logic.Tables
 {
   public class Fuel : MainDictionary
   {

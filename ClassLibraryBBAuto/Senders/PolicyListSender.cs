@@ -1,14 +1,14 @@
-﻿using BBAuto.Domain.Common;
-using BBAuto.Domain.Entities;
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto.Domain.Senders
+namespace BBAuto.Logic.Senders
 {
   public class PolicyListSender
   {

@@ -1,15 +1,15 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Data;
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Entities;
+using System.Linq;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.ForCar;
 
-namespace BBAuto.Domain.Lists
+namespace BBAuto.Logic.Lists
 {
   public class CarDocList : MainList
   {
-    private static CarDocList uniqueInstance;
+    private static CarDocList _uniqueInstance;
     private List<CarDoc> list;
 
     private CarDocList()
@@ -21,10 +21,10 @@ namespace BBAuto.Domain.Lists
 
     public static CarDocList getInstance()
     {
-      if (uniqueInstance == null)
-        uniqueInstance = new CarDocList();
+      if (_uniqueInstance == null)
+        _uniqueInstance = new CarDocList();
 
-      return uniqueInstance;
+      return _uniqueInstance;
     }
 
     protected override void loadFromSql()

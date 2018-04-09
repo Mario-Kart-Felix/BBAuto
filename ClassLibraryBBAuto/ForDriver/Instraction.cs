@@ -1,11 +1,11 @@
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Common;
-using BBAuto.Domain.Entities;
-using BBAuto.Domain.Lists;
 using System;
 using System.Data;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.Lists;
 
-namespace BBAuto.Domain.ForDriver
+namespace BBAuto.Logic.ForDriver
 {
   public class Instraction : MainDictionary
   {
@@ -17,7 +17,7 @@ namespace BBAuto.Domain.ForDriver
 
     public string Date
     {
-      get { return date.ToShortDateString(); }
+      get => date.ToShortDateString();
       set
       {
         if (!DateTime.TryParse(value, out date))

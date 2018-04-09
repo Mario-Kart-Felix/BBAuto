@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBAuto", "BBAuto\BBAuto.csproj", "{248BB9B6-AA42-4B33-BAC4-E980246EBB98}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBAuto.App", "BBAuto\BBAuto.App.csproj", "{248BB9B6-AA42-4B33-BAC4-E980246EBB98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{7FCEF0EC-8651-4D9E-9A1D-7DC7C92C2436}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBAuto.DataLayer", "DataLayer\BBAuto.DataLayer.csproj", "{7FCEF0EC-8651-4D9E-9A1D-7DC7C92C2436}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBAuto.Domain", "ClassLibraryBBAuto\BBAuto.Domain.csproj", "{76A9009C-FABC-4E23-A1A8-7D169666CD3D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBAuto.Logic", "ClassLibraryBBAuto\BBAuto.Logic.csproj", "{76A9009C-FABC-4E23-A1A8-7D169666CD3D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckBoxComboBox", "CheckBoxComboBox\CheckBoxComboBox.csproj", "{70A25201-8EA4-48F8-A4A6-ED13ADF8823C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBAutoConsoleApplication", "BBAutoConsoleApplication\BBAutoConsoleApplication.csproj", "{FD9CC9CD-4D38-44DD-A2B9-CF4D38A340B5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBAuto.ConsoleApp", "BBAutoConsoleApplication\BBAuto.ConsoleApp.csproj", "{FD9CC9CD-4D38-44DD-A2B9-CF4D38A340B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

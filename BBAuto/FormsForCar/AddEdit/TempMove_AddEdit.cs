@@ -1,14 +1,15 @@
 using System;
 using System.Windows.Forms;
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
+using BBAuto.App.Events;
+using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.FormsForCar.AddEdit
 {
   public partial class TempMove_AddEdit : Form
   {
-    private TempMove _tempMove;
+    private readonly TempMove _tempMove;
 
     private WorkWithForm _workWithForm;
 

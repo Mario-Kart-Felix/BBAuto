@@ -1,12 +1,13 @@
 using System;
 using System.Windows.Forms;
-using BBAuto.Domain.ForCar;
+using BBAuto.App.Events;
+using BBAuto.Logic.ForCar;
 
-namespace BBAuto
+namespace BBAuto.App.FormsForCar.AddEdit
 {
   public partial class DTPFile_AddEdit : Form
   {
-    private DTPFile _dtpFile;
+    private readonly DTPFile _dtpFile;
 
     private WorkWithForm _workWithForm;
 

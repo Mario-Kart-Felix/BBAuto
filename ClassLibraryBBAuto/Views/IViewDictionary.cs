@@ -1,6 +1,6 @@
 using System;
 
-namespace BBAuto.Domain.Views
+namespace BBAuto.Logic.Views
 {
   public interface IViewDictionary
   {

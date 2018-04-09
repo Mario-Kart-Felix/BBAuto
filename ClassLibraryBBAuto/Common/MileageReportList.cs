@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace BBAuto.Domain.Common
+namespace BBAuto.Logic.Common
 {
   public class MileageReportList : IEnumerable
   {

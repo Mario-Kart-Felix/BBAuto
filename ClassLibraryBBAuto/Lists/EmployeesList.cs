@@ -1,12 +1,12 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Data;
-using BBAuto.Domain.Tables;
-using BBAuto.Domain.Common;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Dictionary;
+using System.Linq;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Dictionary;
+using BBAuto.Logic.Tables;
 
-namespace BBAuto.Domain.Lists
+namespace BBAuto.Logic.Lists
 {
   public class EmployeesList : MainList
   {

@@ -1,11 +1,12 @@
 using System;
 using System.Windows.Forms;
-using BBAuto.Domain.ForDriver;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Dictionary;
-using BBAuto.Domain.Entities;
+using BBAuto.App.Events;
+using BBAuto.Logic.Dictionary;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.ForDriver;
+using BBAuto.Logic.Lists;
 
-namespace BBAuto
+namespace BBAuto.App.AddEdit
 {
   public partial class UserAccess_AddEdit : Form
   {
@@ -25,7 +26,7 @@ namespace BBAuto
 
       if (_userAccess.Driver != null)
         cbDriver.SelectedValue = _userAccess.Driver.ID;
-      cbRole.SelectedValue = _userAccess.RoleID;
+      cbRole.SelectedValue = _userAccess.RoleId;
 
       _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
       _workWithForm.SetEditMode(_userAccess.ID == 0);
@@ -51,7 +52,7 @@ namespace BBAuto
       if (_workWithForm.IsEditMode())
       {
         _userAccess.Driver = DriverList.getInstance().getItem(Convert.ToInt32(cbDriver.SelectedValue));
-        _userAccess.RoleID = Convert.ToInt32(cbRole.SelectedValue);
+        _userAccess.RoleId = Convert.ToInt32(cbRole.SelectedValue);
         _userAccess.Save();
 
         DialogResult = System.Windows.Forms.DialogResult.OK;

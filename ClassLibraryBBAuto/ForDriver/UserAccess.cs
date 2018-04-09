@@ -1,38 +1,38 @@
 using System.Data;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Dictionary;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.Entities;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Dictionary;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto.Domain.ForDriver
+namespace BBAuto.Logic.ForDriver
 {
   public class UserAccess : MainDictionary
   {
-    public int RoleID { get; set; }
+    public int RoleId { get; set; }
 
     public Driver Driver
     {
-      get { return DriverList.getInstance().getItem(ID); }
-      set { ID = value.ID; }
+      get => DriverList.getInstance().getItem(ID);
+      set => ID = value.ID;
     }
 
     public string Role
     {
       get
       {
-        if (RoleID == 0)
+        if (RoleId == 0)
           return "Нет доступа";
 
-        Roles roles = Roles.getInstance();
-        return roles.getItem(RoleID);
+        var roles = Roles.getInstance();
+        return roles.getItem(RoleId);
       }
     }
 
     public UserAccess()
     {
       ID = 0;
-      RoleID = 0;
+      RoleId = 0;
     }
 
     internal UserAccess(DataRow row)
@@ -48,7 +48,7 @@ namespace BBAuto.Domain.ForDriver
 
       int idRole;
       int.TryParse(row.ItemArray[1].ToString(), out idRole);
-      RoleID = idRole;
+      RoleId = idRole;
     }
 
     internal override object[] getRow()
@@ -58,12 +58,12 @@ namespace BBAuto.Domain.ForDriver
 
     internal override void Delete()
     {
-      _provider.DoOther("exec UserAccess_Delete @p1, @p2", ID, RoleID);
+      _provider.DoOther("exec UserAccess_Delete @p1, @p2", ID, RoleId);
     }
 
     public override void Save()
     {
-      _provider.Insert("UserAccess", ID, RoleID);
+      _provider.Insert("UserAccess", ID, RoleId);
     }
   }
 }

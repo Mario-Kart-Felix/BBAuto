@@ -1,7 +1,7 @@
 using System;
-using BBAuto.Domain.Entities;
+using BBAuto.Logic.Entities;
 
-namespace BBAuto.Domain.Abstract
+namespace BBAuto.Logic.Abstract
 {
   public interface INotification
   {

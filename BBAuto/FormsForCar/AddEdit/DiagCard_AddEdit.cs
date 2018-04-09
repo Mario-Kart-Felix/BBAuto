@@ -1,12 +1,13 @@
-using BBAuto.Domain.ForCar;
 using System;
 using System.Windows.Forms;
+using BBAuto.App.Events;
+using BBAuto.Logic.ForCar;
 
-namespace BBAuto
+namespace BBAuto.App.FormsForCar.AddEdit
 {
   public partial class DiagCard_AddEdit : Form
   {
-    private DiagCard _diagCard;
+    private readonly DiagCard _diagCard;
 
     private WorkWithForm _workWithForm;
 

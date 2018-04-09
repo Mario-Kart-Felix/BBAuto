@@ -1,10 +1,10 @@
 using System;
 using System.IO;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.Entities;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Lists;
 
-namespace BBAuto.Domain.Common
+namespace BBAuto.Logic.Common
 {
   public class MileageFill
   {

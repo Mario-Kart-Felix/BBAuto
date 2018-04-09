@@ -1,10 +1,11 @@
-using BBAuto.Domain.Dictionary;
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.Lists;
 using System;
 using System.Windows.Forms;
+using BBAuto.App.Events;
+using BBAuto.Logic.Dictionary;
+using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Lists;
 
-namespace BBAuto
+namespace BBAuto.App.AddEdit
 {
   public partial class SsDTP_AddEdit : Form
   {

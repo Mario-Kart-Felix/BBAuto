@@ -1,8 +1,8 @@
-using System.Windows.Forms;
 using System.Drawing;
+using System.Windows.Forms;
 using PresentationControls;
 
-namespace BBAuto
+namespace BBAuto.App.GUI
 {
   internal class ControlsFactory
   {

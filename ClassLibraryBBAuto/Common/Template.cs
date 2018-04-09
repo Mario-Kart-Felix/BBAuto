@@ -1,7 +1,7 @@
-using BBAuto.Domain.Abstract;
 using System.Data;
+using BBAuto.Logic.Abstract;
 
-namespace BBAuto.Domain.Common
+namespace BBAuto.Logic.Common
 {
   public class Template : MainDictionary
   {

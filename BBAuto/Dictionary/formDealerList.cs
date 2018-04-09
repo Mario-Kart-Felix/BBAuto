@@ -1,20 +1,21 @@
 using System;
 using System.Windows.Forms;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.Presenter;
+using BBAuto.App.AddEdit;
+using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Presenters;
 
-namespace BBAuto
+namespace BBAuto.App.Dictionary
 {
-  public partial class formDillerList : Form
+  public partial class FormDealerList : Form
   {
-    private DilerList dillerList;
+    private readonly DealerList _dealerList;
 
-    public formDillerList()
+    public FormDealerList()
     {
       InitializeComponent();
 
-      dillerList = DilerList.getInstance();
+      _dealerList = DealerList.getInstance();
     }
 
     private void DillerList_Load(object sender, EventArgs e)
@@ -24,7 +25,7 @@ namespace BBAuto
 
     private void loadData()
     {
-      _dgv.DataSource = dillerList.ToDataTable();
+      _dgv.DataSource = _dealerList.ToDataTable();
       _dgv.Columns[0].Visible = false;
       resizeDGV();
     }
@@ -44,7 +45,7 @@ namespace BBAuto
 
     private void btnAdd_Click(object sender, EventArgs e)
     {
-      ShowAddEdit(new Diler());
+      ShowAddEdit(new Dealer());
     }
 
     private void _dgvDiller_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -52,13 +53,13 @@ namespace BBAuto
       int idDiller;
       int.TryParse(_dgv.Rows[_dgv.SelectedCells[0].RowIndex].Cells[0].Value.ToString(), out idDiller);
 
-      DilerList dillerList = DilerList.getInstance();
-      Diler diller = dillerList.getItem(idDiller);
+      DealerList dillerList = DealerList.getInstance();
+      Dealer diller = dillerList.getItem(idDiller);
 
       ShowAddEdit(diller);
     }
 
-    private void ShowAddEdit(Diler diller)
+    private void ShowAddEdit(Dealer diller)
     {
       Dictionary_AddEdit view = new Dictionary_AddEdit("Карточка \"Дилера\"");
       DictionaryPresenter presenter = new DictionaryPresenter(view, diller);
@@ -69,7 +70,7 @@ namespace BBAuto
     private void btnDel_Click(object sender, EventArgs e)
     {
       int idDiller = Convert.ToInt32(_dgv.Rows[_dgv.SelectedCells[0].RowIndex].Cells[0].Value);
-      dillerList.Delete(idDiller);
+      _dealerList.Delete(idDiller);
     }
   }
 }

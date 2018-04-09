@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Data;
-using BBAuto.Domain.Abstract;
-using BBAuto.Domain.ForDriver;
-using BBAuto.Domain.Entities;
+using System.Linq;
+using BBAuto.Logic.Abstract;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.ForDriver;
 
-namespace BBAuto.Domain.Lists
+namespace BBAuto.Logic.Lists
 {
   public class MedicalCertList : MainList, INotificationList
   {

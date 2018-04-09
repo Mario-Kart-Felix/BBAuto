@@ -1,20 +1,21 @@
 using System;
 using System.Windows.Forms;
-using BBAuto.Domain.Tables;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Common;
+using BBAuto.App.AddEdit;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Tables;
 
-namespace BBAuto
+namespace BBAuto.App.Dictionary
 {
   public partial class formEmployeesList : Form
   {
-    EmployeesList employeesList;
+    readonly EmployeesList _employeesList;
 
     public formEmployeesList()
     {
       InitializeComponent();
 
-      employeesList = EmployeesList.getInstance();
+      _employeesList = EmployeesList.getInstance();
     }
 
     private void formEmployeesList_Load(object sender, EventArgs e)
@@ -26,7 +27,7 @@ namespace BBAuto
 
     private void loadData()
     {
-      _dgvEmployees.DataSource = employeesList.ToDataTable();
+      _dgvEmployees.DataSource = _employeesList.ToDataTable();
       _dgvEmployees.Columns[0].Visible = false;
       _dgvEmployees.Columns[1].Visible = false;
     }
@@ -39,7 +40,7 @@ namespace BBAuto
 
       if (aeemployees.ShowDialog() == System.Windows.Forms.DialogResult.OK)
       {
-        employeesList.Add(employees);
+        _employeesList.Add(employees);
         loadData();
       }
     }
@@ -50,7 +51,7 @@ namespace BBAuto
 
       string EmployeesName = _dgvEmployees.Rows[_dgvEmployees.SelectedCells[0].RowIndex].Cells[3].Value.ToString();
 
-      Employees employees = employeesList.getItem(region, EmployeesName);
+      Employees employees = _employeesList.getItem(region, EmployeesName);
 
       Employees_AddEdit aeemployees = new Employees_AddEdit(employees);
 
@@ -66,7 +67,7 @@ namespace BBAuto
       int.TryParse(_dgvEmployees.Rows[_dgvEmployees.SelectedCells[0].RowIndex].Cells[1].Value.ToString(),
         out idEmployeesName);
 
-      employeesList.Delete(region, idEmployeesName);
+      _employeesList.Delete(region, idEmployeesName);
     }
 
     private Region getRegion()

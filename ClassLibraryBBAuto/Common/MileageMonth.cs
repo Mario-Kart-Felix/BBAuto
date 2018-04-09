@@ -1,6 +1,6 @@
-using BBAuto.Domain.DataBase;
+using BBAuto.Logic.DataBase;
 
-namespace BBAuto.Domain.Common
+namespace BBAuto.Logic.Common
 {
   public class MileageMonth
   {

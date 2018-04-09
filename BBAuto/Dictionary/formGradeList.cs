@@ -1,10 +1,11 @@
 using System;
 using System.Windows.Forms;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.ForCar;
+using BBAuto.App.AddEdit;
+using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.Dictionary
 {
   public partial class formGradeList : Form
   {

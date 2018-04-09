@@ -1,13 +1,14 @@
-using BBAuto.Domain.Common;
-using BBAuto.Domain.Dictionary;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.Tables;
 using System;
 using System.Data;
 using System.Windows.Forms;
+using BBAuto.App.Events;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Dictionary;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
+using BBAuto.Logic.Tables;
 
-namespace BBAuto
+namespace BBAuto.App.AddEdit
 {
   public partial class SuppyAddress_AddEdit : Form
   {

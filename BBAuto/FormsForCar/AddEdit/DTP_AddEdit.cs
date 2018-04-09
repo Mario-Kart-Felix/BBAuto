@@ -1,20 +1,23 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.ForCar;
-using BBAuto.Domain.Dictionary;
-using BBAuto.Domain.Static;
-using BBAuto.Domain.Common;
-using BBAuto.Domain.Entities;
+using BBAuto.App.Events;
+using BBAuto.App.FormsForDriver.AddEdit;
+using BBAuto.App.GUI;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.Dictionary;
+using BBAuto.Logic.Entities;
+using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Lists;
+using BBAuto.Logic.Static;
 
-namespace BBAuto
+namespace BBAuto.App.FormsForCar.AddEdit
 {
   public partial class DTP_AddEdit : Form
   {
-    private DTP _dtp;
+    private readonly DTP _dtp;
 
-    DTPFileList dtpFileList;
+    readonly DTPFileList _dtpFileList;
 
     private WorkWithForm _workWithForm;
 
@@ -22,7 +25,7 @@ namespace BBAuto
     {
       InitializeComponent();
 
-      dtpFileList = DTPFileList.getInstance();
+      _dtpFileList = DTPFileList.getInstance();
 
       _dtp = dtp;
     }
@@ -80,7 +83,7 @@ namespace BBAuto
 
     private void FillDgv()
     {
-      _dgvFile.DataSource = dtpFileList.ToDataTable(_dtp);
+      _dgvFile.DataSource = _dtpFileList.ToDataTable(_dtp);
 
       _dgvFile.Columns[0].Visible = false;
 
@@ -92,7 +95,7 @@ namespace BBAuto
         int id = 0;
         int.TryParse(row.Cells[0].Value.ToString(), out id);
 
-        DTPFile dtpFile = dtpFileList.getItem(id);
+        DTPFile dtpFile = _dtpFileList.getItem(id);
 
         if (dtpFile.File != string.Empty)
           row.DefaultCellStyle.BackColor = BBColors.bbGreen3;
@@ -171,7 +174,7 @@ namespace BBAuto
           dtpFile.File = file;
           dtpFile.Save();
 
-          dtpFileList.Add(dtpFile);
+          _dtpFileList.Add(dtpFile);
         }
 
         FillDgv();
@@ -185,7 +188,7 @@ namespace BBAuto
         int idDTPFile;
         int.TryParse(_dgvFile.Rows[e.RowIndex].Cells[0].Value.ToString(), out idDTPFile);
 
-        DTPFile dtpFile = dtpFileList.getItem(idDTPFile);
+        DTPFile dtpFile = _dtpFileList.getItem(idDTPFile);
 
         if ((e.ColumnIndex == 2) && (dtpFile.File != string.Empty))
           WorkWithFiles.OpenFile(dtpFile.File);
@@ -211,7 +214,7 @@ namespace BBAuto
         int idDTPFile = 0;
         int.TryParse(_dgvFile.Rows[_dgvFile.SelectedCells[0].RowIndex].Cells[0].Value.ToString(), out idDTPFile);
 
-        dtpFileList.Delete(idDTPFile);
+        _dtpFileList.Delete(idDTPFile);
 
         FillDgv();
       }

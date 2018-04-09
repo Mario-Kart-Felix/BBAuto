@@ -1,7 +1,7 @@
-using BBAuto.Domain.DataBase;
-using BBAuto.Domain.Common;
+using BBAuto.Logic.Common;
+using BBAuto.Logic.DataBase;
 
-namespace BBAuto.Domain.Abstract
+namespace BBAuto.Logic.Abstract
 {
   public abstract class MainDictionary
   {
