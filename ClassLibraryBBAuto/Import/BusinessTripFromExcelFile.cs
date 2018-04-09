@@ -1,170 +1,160 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.IO;
 using System.Linq;
-using System.Text;
-using BBAuto.Domain.Lists;
-using BBAuto.Domain.Tables;
-using BBAuto.Domain.ForDriver;
-using BBAuto.Domain.Entities;
 using BBAuto.Domain.Common;
 
 namespace BBAuto.Domain.Import
 {
-    public class BusinessTripFromExcelFile //: IExcelImporter
+  public class BusinessTripFromExcelFile //: IExcelImporter
+  {
+    public string FilePath { get; set; }
+
+    /* Excel не загружает, если из планировщика */
+    //public void StartImportExcel()
+    //{
+    //    try
+    //    {
+    //        using (ExcelDoc excel = new ExcelDoc(FilePath))
+    //        {
+    //            int i = 2;
+
+    //            string curCell = "C" + i;
+    //            while (excel.getValue(curCell) != null)
+    //            {
+    //                curCell = "A" + i;
+    //                if ((excel.getValue(curCell) == null) ||
+    //                    ((excel.getValue(curCell).ToString().ToUpper() != "AM") && (excel.getValue(curCell).ToString().ToUpper() != "АМ")))
+    //                {
+    //                    curCell = "C" + i;
+    //                    i++;
+    //                    continue;
+    //                }
+
+    //                curCell = "C" + i;
+    //                string number = excel.getValue(curCell).ToString();
+
+    //                curCell = "D" + i;
+    //                DateTime dateBegin;
+    //                DateTime.TryParse(excel.getValue1(curCell).ToString(), out dateBegin);
+
+    //                curCell = "E" + i;
+    //                DateTime dateEnd;
+    //                DateTime.TryParse(excel.getValue1(curCell).ToString(), out dateEnd);
+
+    //                for (DateTime date = dateBegin; date <= dateEnd; date = date.AddDays(1))
+    //                {
+    //                    Tabel tabel = new Tabel(number, date) { Comment = "businessTrip" };
+    //                    tabel.Save();
+    //                }
+
+    //                curCell = "C" + i;
+    //                i++;
+    //            }
+    //        }
+    //    }
+    //    catch (NullReferenceException ex)
+    //    {
+    //        LogManager.Logger.Error(ex, "Error in file {file}", FilePath);
+    //    }
+    //    catch (COMException ex)
+    //    {
+    //        LogManager.Logger.Error(ex, "Error in file {file}", FilePath);
+    //    }
+    //}
+
+    /* txt формат предыдущего файла */
+    public void StartImport()
     {
-        public string FilePath { get; set; }
+      try
+      {
+        string[] files = Directory.GetFiles(FilePath, "VygruzkaAvto_Braun_КК1.txt");
 
-        /* Excel не загружает, если из планировщика */
-        //public void StartImportExcel()
-        //{
-        //    try
-        //    {
-        //        using (ExcelDoc excel = new ExcelDoc(FilePath))
-        //        {
-        //            int i = 2;
 
-        //            string curCell = "C" + i;
-        //            while (excel.getValue(curCell) != null)
-        //            {
-        //                curCell = "A" + i;
-        //                if ((excel.getValue(curCell) == null) ||
-        //                    ((excel.getValue(curCell).ToString().ToUpper() != "AM") && (excel.getValue(curCell).ToString().ToUpper() != "АМ")))
-        //                {
-        //                    curCell = "C" + i;
-        //                    i++;
-        //                    continue;
-        //                }
+        string[] lines = File.ReadAllLines(files[0]);
 
-        //                curCell = "C" + i;
-        //                string number = excel.getValue(curCell).ToString();
-
-        //                curCell = "D" + i;
-        //                DateTime dateBegin;
-        //                DateTime.TryParse(excel.getValue1(curCell).ToString(), out dateBegin);
-
-        //                curCell = "E" + i;
-        //                DateTime dateEnd;
-        //                DateTime.TryParse(excel.getValue1(curCell).ToString(), out dateEnd);
-
-        //                for (DateTime date = dateBegin; date <= dateEnd; date = date.AddDays(1))
-        //                {
-        //                    Tabel tabel = new Tabel(number, date) { Comment = "businessTrip" };
-        //                    tabel.Save();
-        //                }
-
-        //                curCell = "C" + i;
-        //                i++;
-        //            }
-        //        }
-        //    }
-        //    catch (NullReferenceException ex)
-        //    {
-        //        LogManager.Logger.Error(ex, "Error in file {file}", FilePath);
-        //    }
-        //    catch (COMException ex)
-        //    {
-        //        LogManager.Logger.Error(ex, "Error in file {file}", FilePath);
-        //    }
-        //}
-
-        /* txt формат предыдущего файла */
-        public void StartImport()
+        for (int i = 1; i < lines.Count(); i++)
         {
-            try
-            {
-                string[] files = Directory.GetFiles(FilePath, "VygruzkaAvto_Braun_КК1.txt");
+          string[] fields = lines[i].Split(';');
 
-                
-                string[] lines = File.ReadAllLines(files[0]);
+          if (fields[0] != "АМ")
+          {
+            continue;
+          }
 
-                for (int i = 1; i < lines.Count(); i++)
-                {
-                    string[] fields = lines[i].Split(';');
+          string number = fields[2]; //табельный номер
 
-                    if (fields[0] != "АМ")
-                    {
-                        continue;
-                    }
+          DateTime dateBegin;
+          DateTime.TryParse(fields[3], out dateBegin);
+          DateTime dateEnd;
+          DateTime.TryParse(fields[4], out dateEnd);
 
-                    string number = fields[2]; //табельный номер
-
-                    DateTime dateBegin;
-                    DateTime.TryParse(fields[3], out dateBegin);
-                    DateTime dateEnd;
-                    DateTime.TryParse(fields[4], out dateEnd);
-
-                    for (DateTime date = dateBegin; date <= dateEnd; date = date.AddDays(1))
-                    {
-                        Tabel tabel = new Tabel(number, date) { Comment = "businessTrip" };
-                        tabel.Save();
-                    }
-
-                }
-
-                File.Move(files[0], FilePath + @"\processed\" + DateTime.Today.ToShortDateString() + " " + Path.GetFileName(files[0]));
-                
-            }
-            catch
-            {
-
-            }
+          for (DateTime date = dateBegin; date <= dateEnd; date = date.AddDays(1))
+          {
+            Tabel tabel = new Tabel(number, date) {Comment = "businessTrip"};
+            tabel.Save();
+          }
         }
 
-
-
-        /*Старый файл с командировками */
-        //public void StartImport2()
-        //{
-        //    try
-        //    {
-        //        using (ExcelDoc excel = new ExcelDoc(FilePath))
-        //        {
-        //            int i = 7;
-
-        //            string curCell = "H" + i;
-        //            while (excel.getValue(curCell) != null)
-        //            {
-        //                curCell = "A" + i;
-        //                if ((excel.getValue(curCell) == null) ||
-        //                    ((excel.getValue(curCell).ToString().ToUpper() != "AM") && (excel.getValue(curCell).ToString().ToUpper() != "АМ")))
-        //                {
-        //                    curCell = "H" + i;
-        //                    i++;
-        //                    continue;
-        //                }
-
-        //                curCell = "H" + i;
-        //                string number = excel.getValue(curCell).ToString();
-
-        //                curCell = "D" + i;
-        //                DateTime dateBegin;
-        //                DateTime.TryParse(excel.getValue1(curCell).ToString(), out dateBegin);
-
-        //                curCell = "E" + i;
-        //                DateTime dateEnd;
-        //                DateTime.TryParse(excel.getValue1(curCell).ToString(), out dateEnd);
-
-        //                for (DateTime date = dateBegin; date <= dateEnd; date = date.AddDays(1))
-        //                {
-        //                    Tabel tabel = new Tabel(number, date) { Comment = "businessTrip" };
-        //                    tabel.Save2();
-        //                }
-
-        //                curCell = "H" + i;
-        //                i++;
-        //            }
-        //        }
-        //    }
-        //    catch (NullReferenceException ex)
-        //    {
-        //        LogManager.Logger.Error(ex, "Error in file {file}", FilePath);
-        //    }
-        //    catch (COMException ex)
-        //    {
-        //        LogManager.Logger.Error(ex, "Error in file {file}", FilePath);
-        //    }
-        //}
-
+        File.Move(files[0],
+          FilePath + @"\processed\" + DateTime.Today.ToShortDateString() + " " + Path.GetFileName(files[0]));
+      }
+      catch
+      {
+      }
     }
+
+
+    /*Старый файл с командировками */
+    //public void StartImport2()
+    //{
+    //    try
+    //    {
+    //        using (ExcelDoc excel = new ExcelDoc(FilePath))
+    //        {
+    //            int i = 7;
+
+    //            string curCell = "H" + i;
+    //            while (excel.getValue(curCell) != null)
+    //            {
+    //                curCell = "A" + i;
+    //                if ((excel.getValue(curCell) == null) ||
+    //                    ((excel.getValue(curCell).ToString().ToUpper() != "AM") && (excel.getValue(curCell).ToString().ToUpper() != "АМ")))
+    //                {
+    //                    curCell = "H" + i;
+    //                    i++;
+    //                    continue;
+    //                }
+
+    //                curCell = "H" + i;
+    //                string number = excel.getValue(curCell).ToString();
+
+    //                curCell = "D" + i;
+    //                DateTime dateBegin;
+    //                DateTime.TryParse(excel.getValue1(curCell).ToString(), out dateBegin);
+
+    //                curCell = "E" + i;
+    //                DateTime dateEnd;
+    //                DateTime.TryParse(excel.getValue1(curCell).ToString(), out dateEnd);
+
+    //                for (DateTime date = dateBegin; date <= dateEnd; date = date.AddDays(1))
+    //                {
+    //                    Tabel tabel = new Tabel(number, date) { Comment = "businessTrip" };
+    //                    tabel.Save2();
+    //                }
+
+    //                curCell = "H" + i;
+    //                i++;
+    //            }
+    //        }
+    //    }
+    //    catch (NullReferenceException ex)
+    //    {
+    //        LogManager.Logger.Error(ex, "Error in file {file}", FilePath);
+    //    }
+    //    catch (COMException ex)
+    //    {
+    //        LogManager.Logger.Error(ex, "Error in file {file}", FilePath);
+    //    }
+    //}
+  }
 }

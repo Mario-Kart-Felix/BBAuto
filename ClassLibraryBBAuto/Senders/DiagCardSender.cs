@@ -10,81 +10,81 @@ using System.Text;
 
 namespace BBAuto.Domain.Senders
 {
-    public class DiagCardSender
+  public class DiagCardSender
+  {
+    private const int SEND_DAY = 5;
+    private const int MAILS_COUNT = 100;
+
+    public void SendNotification()
     {
-        private const int SEND_DAY = 5;
-        private const int MAILS_COUNT = 100;
+      if (DateTime.Today.Day != SEND_DAY)
+        return;
 
-        public void SendNotification()
+      DiagCardList diagCardList = DiagCardList.getInstance();
+      List<DiagCard> list = diagCardList.GetDiagCardEnds().ToList();
+
+      int begin = 0;
+      int end = 0;
+
+      if (!ListEmpty(list))
+      {
+        STSList stsList = STSList.getInstance();
+
+        while (end < list.Count)
         {
-            if (DateTime.Today.Day != SEND_DAY)
-                return;
+          begin = end;
+          end += ((end + MAILS_COUNT) < list.Count) ? MAILS_COUNT : (list.Count - end);
 
-            DiagCardList diagCardList = DiagCardList.getInstance();
-            List<DiagCard> list = diagCardList.GetDiagCardEnds().ToList();
+          List<DiagCard> listCut = new List<DiagCard>();
 
-            int begin = 0;
-            int end = 0;
+          for (int i = begin; i < end; i++)
+            listCut.Add(list[i]);
 
-            if (!ListEmpty(list))
-            {
-                STSList stsList = STSList.getInstance();
-                
-                while (end < list.Count)
-                {
-                    begin = end;
-                    end += ((end + MAILS_COUNT) < list.Count) ? MAILS_COUNT : (list.Count - end);
+          IEnumerable<Car> carList = diagCardList.GetCarListFromDiagCardList(listCut);
+          List<string> files = new List<string>();
 
-                    List<DiagCard> listCut = new List<DiagCard>();
+          foreach (Car car in carList)
+          {
+            STS sts = stsList.getItem(car);
+            if (sts.File != string.Empty)
+              files.Add(sts.File);
+          }
 
-                    for (int i = begin; i < end; i++)
-                        listCut.Add(list[i]);
+          string mailText = CreateMail(listCut);
 
-                    IEnumerable<Car> carList = diagCardList.GetCarListFromDiagCardList(listCut);
-                    List<string> files = new List<string>();
+          EMail email = new EMail();
 
-                    foreach (Car car in carList)
-                    {
-                        STS sts = stsList.getItem(car);
-                        if (sts.File != string.Empty)
-                            files.Add(sts.File);
-                    }
-
-                    string mailText = CreateMail(listCut);
-
-                    EMail email = new EMail();
-
-                    Driver employeeAutoDept = GetDriverForSending();
-                    email.SendNotification(employeeAutoDept, mailText, true, files);
-                }
-            }
+          Driver employeeAutoDept = GetDriverForSending();
+          email.SendNotification(employeeAutoDept, mailText, true, files);
         }
-
-        private bool ListEmpty(IEnumerable<DiagCard> list)
-        {
-            return list.Count() == 0;
-        }
-
-        private Driver GetDriverForSending()
-        {
-            DriverList driverList = DriverList.getInstance();
-
-            return driverList.GetDriverListByRole(RolesList.Editor).First();
-        }
-
-        private string CreateMail(IEnumerable<DiagCard> diagCards)
-        {
-            StringBuilder sb = new StringBuilder();
-
-            foreach (DiagCard diagCard in diagCards)
-            {
-                sb.AppendLine(diagCard.ToMail());
-            }
-
-            MailTextList mailTextList = MailTextList.getInstance();
-            MailText mailText = mailTextList.getItemByType(MailTextType.DiagCard);
-
-            return mailText == null ? "Шаблон текста письма не найден" : mailText.Text.Replace("List", sb.ToString());
-        }
+      }
     }
+
+    private bool ListEmpty(IEnumerable<DiagCard> list)
+    {
+      return list.Count() == 0;
+    }
+
+    private Driver GetDriverForSending()
+    {
+      DriverList driverList = DriverList.getInstance();
+
+      return driverList.GetDriverListByRole(RolesList.Editor).First();
+    }
+
+    private string CreateMail(IEnumerable<DiagCard> diagCards)
+    {
+      StringBuilder sb = new StringBuilder();
+
+      foreach (DiagCard diagCard in diagCards)
+      {
+        sb.AppendLine(diagCard.ToMail());
+      }
+
+      MailTextList mailTextList = MailTextList.getInstance();
+      MailText mailText = mailTextList.getItemByType(MailTextType.DiagCard);
+
+      return mailText == null ? "Шаблон текста письма не найден" : mailText.Text.Replace("List", sb.ToString());
+    }
+  }
 }

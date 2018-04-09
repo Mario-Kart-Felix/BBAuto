@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data;
+using System;
 using BBAuto.Domain.Entities;
 
 namespace BBAuto.Domain.Abstract
 {
-    public interface INotification
-    {
-        DateTime DateEnd { get; }
-        bool IsNotificationSent { get; }
-        void SendNotification();
-        Driver Driver { get; set; }
-    }
+  public interface INotification
+  {
+    DateTime DateEnd { get; }
+    bool IsNotificationSent { get; }
+    void SendNotification();
+    Driver Driver { get; set; }
+  }
 }

@@ -1,43 +1,37 @@
-﻿using BBAuto.Domain.Entities;
+using BBAuto.Domain.Entities;
 using BBAuto.Domain.Lists;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace BBAuto
 {
-    public partial class formViolationList : Form
+  public partial class formViolationList : Form
+  {
+    Driver driver;
+    ViolationList violationList;
+
+    public formViolationList(Driver driver)
     {
-        Driver driver;
-        ViolationList violationList;
+      InitializeComponent();
 
-        public formViolationList(Driver driver)
-        {
-            InitializeComponent();
+      this.driver = driver;
 
-            this.driver = driver;
-
-            violationList = ViolationList.getInstance();
-        }
-
-        private void ViolationList_Load(object sender, EventArgs e)
-        {
-            dgvViolation.DataSource = violationList.ToDataTable(driver);
-
-            if (dgvViolation.DataSource != null)
-                formatDGV();
-        }
-
-        private void formatDGV()
-        {
-            dgvViolation.Columns[0].Visible = false;
-            dgvViolation.Columns[1].Visible = false;
-            dgvViolation.Columns[5].Visible = false;
-        }
+      violationList = ViolationList.getInstance();
     }
+
+    private void ViolationList_Load(object sender, EventArgs e)
+    {
+      dgvViolation.DataSource = violationList.ToDataTable(driver);
+
+      if (dgvViolation.DataSource != null)
+        formatDGV();
+    }
+
+    private void formatDGV()
+    {
+      dgvViolation.Columns[0].Visible = false;
+      dgvViolation.Columns[1].Visible = false;
+      dgvViolation.Columns[5].Visible = false;
+    }
+  }
 }

@@ -1,29 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data;
 using BBAuto.Domain.Common;
 
 namespace BBAuto.Domain.Dictionary
 {
-    public class ServiceStantions : MyDictionary
+  public class ServiceStantions : MyDictionary
+  {
+    private static ServiceStantions uniqueInstance;
+
+    public static ServiceStantions getInstance()
     {
-        private static ServiceStantions uniqueInstance;
+      if (uniqueInstance == null)
+        uniqueInstance = new ServiceStantions();
 
-        public static ServiceStantions getInstance()
-        {
-            if (uniqueInstance == null)
-                uniqueInstance = new ServiceStantions();
-
-            return uniqueInstance;
-        }
-
-        protected override void loadFromSql()
-        {
-            DataTable dt = provider.Select("ServiceStantion");
-
-            fillList(dt);
-        }
+      return uniqueInstance;
     }
+
+    protected override void loadFromSql()
+    {
+      DataTable dt = provider.Select("ServiceStantion");
+
+      FillList(dt);
+    }
+  }
 }

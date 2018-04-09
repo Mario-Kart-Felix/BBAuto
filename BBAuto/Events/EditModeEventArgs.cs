@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System;
 
 namespace BBAuto
 {
-    public class EditModeEventArgs : EventArgs
+  public class EditModeEventArgs : EventArgs
+  {
+    private readonly bool _enabled;
+
+    public EditModeEventArgs(bool enabled)
     {
-        private readonly bool _enabled;
-
-        public EditModeEventArgs(bool enabled)
-        {
-            _enabled = enabled;
-        }
-
-        public bool Enabled { get { return _enabled; } }
+      _enabled = enabled;
     }
+
+    public bool Enabled
+    {
+      get { return _enabled; }
+    }
+  }
 }
