@@ -107,7 +107,8 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "DTPFile_AddEdit";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition
+                = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Файл ДТП";
             this.Load += new System.EventHandler(this.DTPFile_AddEdit_Load);
             this.ResumeLayout(false);

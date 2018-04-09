@@ -31,7 +31,7 @@ namespace BBAuto
             foreach (string email in list)
             {
                 if (sb.ToString() != string.Empty)
-                    sb.Append(", ");
+                    sb.Append("; ");
 
                 sb.Append(email);
             }

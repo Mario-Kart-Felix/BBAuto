@@ -176,6 +176,67 @@ namespace BBAuto.Domain.Common
 
             Owners owners = Owners.getInstance();
 
+            _excelDoc.setValue(6, 5, owners.getItem(Convert.ToInt32(_car.ownerID))); //страхователь
+            _excelDoc.setValue(7, 6, "а/я 34, 196128"); //почтовый адрес
+            _excelDoc.setValue(8, 7, "320-40-04"); //телефон
+
+            DriverCarList driverCarList = DriverCarList.getInstance();
+            Driver driver = driverCarList.GetDriver(_car, dtp.Date);
+
+            PassportList passportList = PassportList.getInstance();
+            Passport passport = passportList.getLastPassport(driver);
+
+            if (passport.Number != string.Empty)
+            {
+                string number = passport.Number;
+                string[] numbers = number.Split(' ');
+
+                _excelDoc.setValue(10, 3, numbers[0]); //серия
+                _excelDoc.setValue(10, 6, numbers[1]); //номер
+
+                _excelDoc.setValue(11, 3, passport.GiveOrg); //кем выдан
+                _excelDoc.setValue(12, 4, passport.GiveDate.ToShortDateString()); //дата выдачи
+            }
+
+            PolicyList policyList = PolicyList.getInstance();
+            Policy policy = policyList.getItem(_car, PolicyType.КАСКО);
+            _excelDoc.setValue(14, 6, policy.Number); //полис
+
+            _excelDoc.setValue(16, 6, string.Concat(_car.Mark.Name, " ", _car.info.Model)); //марка а/м
+            _excelDoc.setValue(18, 6, _car.Grz); //рег номер а/м
+            _excelDoc.setValue(20, 6, _car.vin); //вин
+                                   
+            _excelDoc.setValue(22, 6, dtp.Date.ToShortDateString()); //дата дтп
+
+            _excelDoc.setValue(27, 2, driver.GetName(NameType.Full)); //водитель фио
+
+            Regions regions = Regions.getInstance();
+
+            _excelDoc.setValue(29, 3, regions.getItem(Convert.ToInt32(dtp.IDRegion))); //город
+            _excelDoc.setValue(31, 14, dtp.Damage); //повреждения
+            _excelDoc.setValue(33, 2, dtp.Facts); //обстоятельства происшествия
+
+            //SsDTP ssDTP = SsDTPList.getInstance().getItem(_car.Mark);
+
+            //_excelDoc.setValue(63, 11, ssDTP.ServiceStantion);
+
+            //DateTime date = DateTime.Today;
+            //MyDateTime myDate = new MyDateTime(date.ToShortDateString());
+
+            //_excelDoc.setValue(71, 3, string.Concat("« ", date.Day.ToString(), " »"));
+            //_excelDoc.setValue(71, 4, myDate.MonthToStringGenitive());
+            //_excelDoc.setValue(71, 8, date.Year.ToString().Substring(2, 2));
+
+            _excelDoc.Show();
+        }
+
+        /* Старое извещение
+          public void showNotice(DTP dtp)
+        {
+            _excelDoc = openDocumentExcel("Извещение о страховом случае");
+
+            Owners owners = Owners.getInstance();
+
             _excelDoc.setValue(7, 4, owners.getItem(Convert.ToInt32(_car.ownerID)));
             _excelDoc.setValue(8, 5, "а/я 34, 196128");
             _excelDoc.setValue(9, 6, "320-40-04");
@@ -229,7 +290,9 @@ namespace BBAuto.Domain.Common
 
             _excelDoc.Show();
         }
-        
+         
+         */
+
         public void createWaybill(DateTime date, Driver driver = null)
         {
             date = new DateTime(date.Year, date.Month, 1);
@@ -267,6 +330,17 @@ namespace BBAuto.Domain.Common
             _excelDoc.setValue(6, 32, date.Year.ToString());
 
             _excelDoc.setValue(29, 35, _car.info.Grade.EngineType.ShortName);
+
+            MileageMonthList mml = new MileageMonthList(_car.ID, date.Year + "-" + date.Month + "-01");
+            /* Из файла Татьяны Мироновой пробег за месяц */
+            _excelDoc.setValue(19, 39, mml.PSN);
+            _excelDoc.setValue(33, 41, mml.Gas);
+            _excelDoc.setValue(35, 41, mml.GasBegin);
+            _excelDoc.setValue(36, 41, mml.GasEnd);
+            _excelDoc.setValue(37, 41, mml.GasNorm);
+            _excelDoc.setValue(38, 41, mml.GasNorm);
+            _excelDoc.setValue(43, 39, mml.PSK);
+            _excelDoc.setValue(41, 59, mml.Mileage);
 
             Owners owners = Owners.getInstance();
             string owner = owners.getItem(1);
@@ -466,11 +540,12 @@ namespace BBAuto.Domain.Common
         {
             WordDoc wordDoc = CreateProxyOnSTO();
 
-            wordDoc.setValue("до 31 декабря 2015 года", "до 31 декабря 2016 года");
+            wordDoc.setValue("до 31 декабря 2017 года", "до 31 декабря 2018 года");
 
             MyDateTime myDate = new MyDateTime(DateTime.Today.ToShortDateString());
-            wordDoc.setValue(myDate.ToLongString(), "01 февраля 2016");
+            wordDoc.setValue(myDate.ToLongString(), "01 января 2018");
 
+            //wordDoc.Show();
             wordDoc.Print();
         }
 
@@ -485,10 +560,17 @@ namespace BBAuto.Domain.Common
             MyDateTime myDate = new MyDateTime(DateTime.Today.ToShortDateString());
             wordDoc.setValue("текущая дата", myDate.ToLongString());
 
-            wordDoc.setValue("ФИО регионального представителя", driver.GetName(NameType.Full));
+            String fio = String.Empty;
+            if (driver != null)
+                fio = driver.GetName(NameType.Full);
+
+            wordDoc.setValue("ФИО регионального представителя", fio);
 
             PassportList passportList = PassportList.getInstance();
-            Passport passport = passportList.getLastPassport(driver);
+            
+            Passport passport = null;
+            if (driver != null)
+                passport = passportList.getLastPassport(driver);
 
             string passportToString = "нет данных";
 

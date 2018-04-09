@@ -57,5 +57,20 @@ namespace BBAuto.Domain.Lists
 
             return listNew.ToList();
         }
+
+        public Tabel getItem(string comm, Driver driver, DateTime date)
+        {
+            List<Tabel> tabels = _list.Where(t => t.Driver == driver && t.Comment == comm && t.Date.Year == date.Year && t.Date.Month == date.Month && t.Date.Day == date.Day).ToList();
+
+            return tabels.FirstOrDefault();
+        }
+
+        public List<Tabel> getItemWithoutDay(string comm, Driver driver, DateTime date)
+        {
+            List<Tabel> tabels = _list.Where(t => t.Driver == driver && t.Comment == comm && t.Date.Year == date.Year && t.Date.Month == date.Month).ToList();
+
+            return tabels;
+        }
+        
     }
 }

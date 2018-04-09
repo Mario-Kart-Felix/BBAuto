@@ -31,6 +31,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
@@ -56,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\MileageMonth.cs" />
     <Compile Include="Entities\Car.cs" />
     <Compile Include="Abstract\IExcelImporter.cs" />
     <Compile Include="Import\BusinessTripFromExcelFile.cs" />
@@ -81,7 +83,10 @@
     <Compile Include="Dictionary\CurrentStatusAfterDTPs.cs" />
     <Compile Include="Dictionary\FuelCardTypes.cs" />
     <Compile Include="Dictionary\Statuses.cs" />
+    <Compile Include="Lists\MileageMonthList.cs" />
     <Compile Include="Logger\LogManager.cs" />
+    <Compile Include="Senders\AccountSender.cs" />
+    <Compile Include="Import\MileageMonthFromExcelFile.cs" />
     <Compile Include="Static\MyExtension.cs" />
     <Compile Include="ForCar\CarInfo.cs" />
     <Compile Include="ForDriver\FuelCard.cs" />

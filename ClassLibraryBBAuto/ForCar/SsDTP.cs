@@ -54,7 +54,7 @@ namespace BBAuto.Domain.ForCar
 
         internal override object[] getRow()
         {
-            return new object[3] { Mark.ID, Mark, ServiceStantion };
+            return new object[3] { Mark.ID, Mark.Name, ServiceStantion };
         }
     }
 }

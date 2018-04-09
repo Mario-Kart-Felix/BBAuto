@@ -17,7 +17,7 @@ namespace BBAuto
 {
     public class MyMenuItemFactory
     {
-        private const string DOCUMENTS_PATH = @"\\bbmru08.bbmag.bbraun.com\Depts\Logistics\Автохозяйство\документы на авто";
+        private const string DOCUMENTS_PATH = @"\\bbmru08.bbmag.bbraun.com\Depts\Fleet INT\Автохозяйство\документы на авто";
 
         private MainDGV _dgvMain;
         private CarList _carList;
@@ -372,7 +372,7 @@ namespace BBAuto
 
         private ToolStripMenuItem CreateLotusMail()
         {
-            ToolStripMenuItem item = CreateItem("Создать письмо Lotus");
+            ToolStripMenuItem item = CreateItem("Создать письмо Outlook");
             item.Click += delegate
             {
                 Car car = _dgvMain.GetCar();
@@ -521,7 +521,7 @@ namespace BBAuto
 
         private ToolStripMenuItem CreatePrintProxyOnSTO()
         {
-            ToolStripMenuItem item = CreateItem("Печать доверенности на предоставление интересов на СТО (2016 год)");
+            ToolStripMenuItem item = CreateItem("Печать доверенности на предоставление интересов на СТО");
             item.Click += delegate
             {
                 foreach (DataGridViewCell cell in _dgvMain.SelectedCells)

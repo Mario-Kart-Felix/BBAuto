@@ -195,7 +195,8 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ShipPart_AddEdit";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition
+                = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Отправка запчастей";
             this.Load += new System.EventHandler(this.ShipPart_AddEdit_Load);
             this.ResumeLayout(false);

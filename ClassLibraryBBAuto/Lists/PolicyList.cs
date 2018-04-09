@@ -155,12 +155,12 @@ namespace BBAuto.Domain.Lists
 
             return policyList.Where(item => !item.IsNotificationSent);
         }
-
+        /*
         public IEnumerable<Policy> GetPolicyAccount()
         {
             return list.Where(p => p.DateCreate == DateTime.Today.AddDays(-1) && !p.IsAgreed(1));
         }
-        
+        */
         public List<Policy> GetPolicyList(DateTime date)
         {
             return list.Where(police => (police.DateEnd.Month == date.Month && police.DateEnd.Year == date.Year && !police.IsCarSale)).ToList();

@@ -2,6 +2,7 @@
 using BBAuto.Domain.Entities;
 using BBAuto.Domain.ForCar;
 using BBAuto.Domain.Lists;
+using BBAuto.Domain.Logger;
 using BBAuto.Domain.Static;
 using System;
 using System.Collections.Generic;
@@ -47,8 +48,10 @@ namespace BBAuto.Domain.Common
             
             List<Attachment> list = new List<Attachment>();
             list.Add(new Attachment(violation.File));
-
-            Send(drivers, new string[] { _authorEmail }, list);
+            Driver transportEmployee = DriverList.getInstance().GetDriverListByRole(RolesList.Editor).First();
+            
+            /* TO DO: добавила в копию Шелякову Марию */
+            Send(drivers, new string[] { _authorEmail, /*transportEmployee.email - не работает так, не отправляется*/ "maria.shelyakova@bbraun.com" }, list);
         }
         
         public void sendMailViolation(Violation violation)
@@ -322,17 +325,19 @@ namespace BBAuto.Domain.Common
                 Driver transportEmployee = DriverList.getInstance().GetDriverListByRole(RolesList.Editor).First();
                 copyEmails = new string[] { transportEmployee.email };
             }
-            
+
             var listAttachment = new List<Attachment>();
             if (fileNames != null)
                 fileNames.ForEach(item => listAttachment.Add(new Attachment(item)));
-
+                               
+            
             Send(new List<Driver> { driver }, copyEmails, listAttachment);
+            LogManager.Logger.Debug(message);    
         }
 
         internal void sendMailToAdmin(string message)
         {
-            Driver admin = DriverList.getInstance().getItem("maslparu");
+            Driver admin = DriverList.getInstance().getItem("kasytaru");
 
             if (admin == null)
                 return;

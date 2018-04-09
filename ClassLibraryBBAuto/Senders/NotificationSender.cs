@@ -20,7 +20,7 @@ namespace BBAuto.Domain.Senders
 
         public void SendNotification()
         {
-            List<INotification> list = GetList(DateTime.Today.AddMonths(1));
+            List<INotification> list = GetList(DateTime.Today.AddDays(31));
 
             foreach (INotification item in list)
             {
@@ -53,16 +53,44 @@ namespace BBAuto.Domain.Senders
             }
         }
 
+        static DateTime? Max(DateTime? a, DateTime? b)
+        {
+            if (!a.HasValue && !b.HasValue) return a;  // doesn't matter
+
+            if (!a.HasValue) return b;
+            if (!b.HasValue) return a;
+
+            return a.Value > b.Value ? a : b;
+        }
+
+        //НЕПРАВИЛЬНО!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //По 2 раза отправляются письма, тем, у кого нет справки (кого нет в list2)
         private List<INotification> GetListOverdue(DateTime date)
         {
             List<INotification> list = _list.ToList();
 
-            var list1 = (list.Where(item => (item.DateEnd < date))).ToList();
+            /* select driver_fio, max(MedicalCert_dateEnd) from [dbo].[MedicalCert] mc
+             * join Driver d on d.driver_id = mc.driver_id
+             * where MedicalCert_dateEnd < date//'2017-10-24'
+             * group by driver_fio
+             * order by driver_fio
+             */
+
+            var temp = (from item in list
+                        group item by item.Driver.ID into t
+                        orderby t.Key
+                        select t.OrderByDescending(y => y.DateEnd).FirstOrDefault()).ToList();
+            
+            /* тут будет несколько прошлогодних справок */
+            //var list1 = (list.Where(item => (item.DateEnd < date))).ToList();
             var list2 = (list.Where(item => (item.DateEnd >= date))).ToList();
 
+
+            
+            
             DriverList driverList = DriverList.getInstance();
 
-            return (from item1 in list1
+            return (from item1 in temp
                     join item2 in list2 on item1.Driver.ID equals item2.Driver.ID into table1
                     from item3 in table1.DefaultIfEmpty()
                     where item3 == null && (!driverList.getItem(item1.Driver.ID).NotificationStop)
@@ -114,7 +142,7 @@ namespace BBAuto.Domain.Senders
         private List<INotification> GetListWithoutFile()
         {
             DriverList driverList = DriverList.getInstance();
-            List<Driver> listDriver = driverList.ToList().Where(item => (!item.Fired && !item.Decret && !item.NotificationStop && item.IsDriver)).ToList();
+            List<Driver> listDriver = driverList.ToList().Where(item => (!item.Fired && !item.Decret && !item.NotificationStop  && item.IsDriver)).ToList();
 
             List<INotification> list = _list.ToList();
 

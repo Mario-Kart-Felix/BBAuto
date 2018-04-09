@@ -66,6 +66,8 @@ namespace BBAuto
             _workWithForm.EditModeChanged += SetNotEditableItems;
             _workWithForm.SetEditMode(_car.ID == 0 || (!_car.IsGet));
 
+
+            /*TODO: Столярова видит основную инфу */
             if (User.getDriver().UserRole == RolesList.AccountantWayBill)
             {
                 foreach (TabPage tab in tabControl1.TabPages)
@@ -74,6 +76,7 @@ namespace BBAuto
                 }
 
                 tabMileage.Parent = tabControl1;
+                tabMain.Parent = tabControl1;
             }
         }
                 
@@ -201,6 +204,9 @@ namespace BBAuto
             cbMark.SelectedValue = (_car.Mark != null) ? _car.Mark.ID.ToString() : "0";
             cbModel.SelectedValue = _car.ModelID;
             cbGrade.SelectedValue = _car.GradeID;
+            /* когда Audi не заполняется таблица с инфо о машине */
+            if (dgvCarInfo.DataSource == null)
+                ChangedGrade();
             cbColor.SelectedValue = _car.ColorID;
 
             tbBbNumber.Text = _car.BBNumber;
@@ -783,7 +789,8 @@ namespace BBAuto
             CarDocList carDocList = CarDocList.getInstance();
             dgvCarDoc.DataSource = carDocList.ToDataTableByCar(_car);
 
-            formatDGVCardDoc();
+            if (dgvCarDoc.DataSource != null)
+                formatDGVCardDoc();
         }
 
         private void formatDGVCardDoc()
@@ -1128,7 +1135,8 @@ namespace BBAuto
             if (_load)
             {
                 int id = 0;
-                int.TryParse(cbGrade.SelectedValue.ToString(), out id);
+                if (cbGrade.SelectedValue != null)
+                    int.TryParse(cbGrade.SelectedValue.ToString(), out id);
 
                 if (id == 0)
                     return;

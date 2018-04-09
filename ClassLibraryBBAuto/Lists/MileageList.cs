@@ -85,7 +85,7 @@ namespace BBAuto.Domain.Lists
         {
             DataTable dt = createTable();
 
-            var mileages = list.Where(item => item.Car.ID == car.ID).OrderBy(item => item.Date);
+            var mileages = list.Where(item => item.Car.ID == car.ID).OrderByDescending(item => item.Date);
 
             foreach (Mileage mileage in mileages)
                 dt.Rows.Add(mileage.getRow());
@@ -123,6 +123,8 @@ namespace BBAuto.Domain.Lists
                 return listCurrent.First() - listCurrent.Last();
             else if ((listCurrent.Count == 1) && (listPrev.Count == 0))
                 return listCurrent.First();
+            else if (listCurrent.Count == 0)
+                throw new NullReferenceException("Текущие показания одометра не найдены");
             else
                 return listCurrent.First() - listPrev.First();
         }
@@ -147,6 +149,8 @@ namespace BBAuto.Domain.Lists
                 return listCurrent.Last();
             else if ((listCurrent.Count == 1) && (listPrev.Count == 0))
                 return listCurrent.First();
+            else if (listCurrent.Count == 0)
+                throw new NullReferenceException("Текущие показания спидометра не найдены");
             else
                 return listPrev.First();
         }
@@ -171,6 +175,8 @@ namespace BBAuto.Domain.Lists
                 return listCurrent.First();
             else if ((listCurrent.Count == 1) && (listPrev.Count == 0))
                 return listCurrent.First();
+            else if (listCurrent.Count == 0)
+                throw new NullReferenceException("Текущие показания спидометра не найдены");
             else
                 return listCurrent.First();
         }

@@ -152,7 +152,8 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "TempMove_AddEdit";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition
+                = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Временное перемещение";
             this.Load += new System.EventHandler(this.TempMove_AddEdit_Load);
             this.ResumeLayout(false);

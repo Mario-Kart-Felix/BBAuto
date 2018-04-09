@@ -25,7 +25,17 @@ namespace BBAuto.Domain.Common
 
             provider = Provider.GetProvider();
         }
+
+        public Tabel(string comm, Driver driver, DateTime date)
+        {
+            Driver = driver;
+            Date = date;
+            Comment = comm;
+
+            provider = Provider.GetProvider();
+        }
         
+
         public Tabel(DataRow row)
         {
             int idDriver;
@@ -37,12 +47,20 @@ namespace BBAuto.Domain.Common
             DateTime.TryParse(row[1].ToString(), out date);
             Date = date;
 
-            Comment = string.Empty;
+            if (row[2] != null)
+                Comment = row[2].ToString();
+            else
+                Comment = string.Empty;
         }
 
         public void Save()
         {
             provider.Insert("Tabel", Driver.ID, Date, Comment);
+        }
+
+        public void Save2()
+        {
+            provider.Insert("Tabel_test", Driver.ID, Date, Comment);
         }
     }
 }

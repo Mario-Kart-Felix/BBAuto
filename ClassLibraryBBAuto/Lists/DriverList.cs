@@ -116,6 +116,14 @@ namespace BBAuto.Domain.Lists
             return drivers.FirstOrDefault();
         }
 
+        public Driver getItemByFullFIO(string fio)
+        {
+            List<Driver> drivers = _list.Where(item => item.GetName(NameType.Full).Replace(" ", "") == fio.Replace(" ", "") && item.IsDriver).ToList();
+
+            return drivers.FirstOrDefault();
+        }
+
+
         public List<Driver> GetDriverListByRole(RolesList role)
         {
             UserAccessList userAccessList = UserAccessList.getInstance();

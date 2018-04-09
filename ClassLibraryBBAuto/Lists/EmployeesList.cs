@@ -110,11 +110,12 @@ namespace BBAuto.Domain.Lists
             dt.Columns.Add("Должность");
             dt.Columns.Add("Фамилия");
 
+            /** Не работает ОШИБКА - должен быть реализован IComparable интерфейс* /
             var empList = from employee in list
-                          orderby employee.Region, employee.EmployeeName
+                          orderby employee.Region//, employee.EmployeeName
                           select employee;
-
-            foreach (Employees employees in empList.ToList())
+            */
+            foreach (Employees employees in list.ToList())//empList.ToList())
                 dt.Rows.Add(employees.getRow());
 
             return dt;

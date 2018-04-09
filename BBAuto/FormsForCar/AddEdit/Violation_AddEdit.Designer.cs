@@ -296,7 +296,8 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Violation_AddEdit";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition
+                = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Нарушение ПДД";
             this.Load += new System.EventHandler(this.Violation_AddEdit_Load);
             this.ResumeLayout(false);

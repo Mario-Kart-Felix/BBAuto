@@ -195,7 +195,8 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Repair_AddEdit";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition
+                = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Ремонт автомобиля";
             this.Load += new System.EventHandler(this.Repair_AddEdit_Load);
             this.ResumeLayout(false);

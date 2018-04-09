@@ -19,6 +19,8 @@ namespace BBAuto
         private int index;
         private WayBillDaily wayBillDaily;
         private FuelList fuelList;
+        private TabelList tabelList;
+        private Driver driverCurrent;
 
         public FormWayBillDaily(MainDGV dgv)
         {
@@ -29,6 +31,10 @@ namespace BBAuto
 
             foreach (DataGridViewCell cell in dgv.SelectedCells)
             {
+                string fio = dgv.GetFIO(cell.RowIndex);
+                DriverList dl = DriverList.getInstance();
+                driverCurrent = dl.getItemByFullFIO(fio);
+
                 int idCar = dgv.GetCarID(cell.RowIndex);
                 CarList carList = CarList.getInstance();
                 Car car = carList.getItem(idCar);
@@ -75,8 +81,10 @@ namespace BBAuto
         private void LoadWayBillCurrentWithoutCreate()
         {
             wayBillDaily = new WayBillDaily(list[index], dtpDate.Value);
-            
             dgv.DataSource = wayBillDaily.ToDataTable();
+            
+            /* Отметить дни командировки - цветом */
+            KomandByColor();
         }
 
         private void LoadFuel()
@@ -179,8 +187,46 @@ namespace BBAuto
         private void LoadWayBillCurrent()
         {
             LoadWayBillDaily(list[index]);
-
             dgv.DataSource = wayBillDaily.ToDataTable();
+
+            KomandByColor();
+        }
+
+        private void KomandByColor()
+        {
+            /* Отметить дни командировки - цветом */
+            tabelList = TabelList.GetInstance();
+            List<Tabel> tL = tabelList.getItemWithoutDay("businessTrip", driverCurrent, dtpDate.Value);
+            if (tL.Count != 0)
+            {
+                int i = 0;
+
+                foreach (DataGridViewRow row in dgv.Rows)
+                {
+                    DateTime date = Convert.ToDateTime(row.Cells[0].Value);
+                    if (tabelList.getItem("businessTrip", driverCurrent, date) != null)
+                    {
+                        row.DefaultCellStyle.BackColor = Color.FromArgb(115, 214, 186);
+                        tL = tL.Where(t => t.Date.Year == date.Year && t.Date.Month == date.Month && t.Date.Day != date.Day).ToList();
+                    }
+                }
+
+                if (tL.Count != 0)
+                {
+                    foreach (Tabel tab in tL)
+                    {
+                        while (dgv.Rows[i].DefaultCellStyle.BackColor == Color.FromArgb(115, 214, 186))
+                            i++;
+
+                        if (dgv.Rows[i].DefaultCellStyle.BackColor != Color.FromArgb(115, 214, 186))
+                        {
+                            dgv.Rows[i].Cells[0].Value = tab.Date;
+                            dgv.Rows[i].DefaultCellStyle.BackColor = Color.FromArgb(115, 214, 186);
+                        }
+                        i++;
+                    }
+                }
+            }
         }
 
         private void btnClear_Click(object sender, EventArgs e)

@@ -122,6 +122,7 @@ namespace BBAuto
         {
             Point point = new Point(e.ColumnIndex, e.RowIndex);
 
+            /*TO DO: для Столяровой открыть просмотр всех вкладок*/
             if (User.GetRole() == RolesList.AccountantWayBill)
             {
                 if (mainStatus.Get() == Status.Driver)
@@ -181,7 +182,7 @@ namespace BBAuto
                     }
                 }
             }
-        }
+        }        
 
         private void DoubleClickSale(Point point)
         {
@@ -485,7 +486,8 @@ namespace BBAuto
             if (car == null)
                 return;
 
-            if (User.getDriver().UserRole == RolesList.AccountantWayBill)
+            /*TODO: Столяровой доступ к информации про водителя и основную о машине */
+            if (User.getDriver().UserRole == RolesList.AccountantWayBill && _dgvCar.Columns[point.X].HeaderText != "Водитель")
             {
                 OpenCarAddEdit(car);
                 return;

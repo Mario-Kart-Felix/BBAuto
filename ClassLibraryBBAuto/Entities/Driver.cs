@@ -52,7 +52,12 @@ namespace BBAuto.Domain.Entities
                 if ((_mobile == null) || (_mobile == string.Empty))
                     return "(нет данных)";
                 else
-                    return string.Concat("+7 (", _mobile.Substring(0, 3), ") ", _mobile.Substring(3, 3), "-", _mobile.Substring(6, 2), "-", _mobile.Substring(8, 2));
+                {
+                    if (_mobile.Length == 10)
+                        return string.Concat("+7 (", _mobile.Substring(0, 3), ") ", _mobile.Substring(3, 3), "-", _mobile.Substring(6, 2), "-", _mobile.Substring(8, 2));
+                    else
+                        return _mobile;
+                }
             }
             set { _mobile = value.Replace("+7", "").Replace("(", "").Replace(")", "").Replace("-", "").Replace(" ", ""); }
         }
@@ -202,9 +207,10 @@ namespace BBAuto.Domain.Entities
             get { return (Fired) ? "Уволенный" : (Decret) ? "В декрете" : ((OwnerID < 3) && string.IsNullOrEmpty(_number)) ? "нет табельного" : ""; }
         }
         
+        /*TODO: проверять включена ли рассылка */
         public bool NotificationStop
         {
-            get { return _dateStopNotification.Year == 1 ? false : true; }
+            get { return _dateStopNotification.Year == 1 || _dateStopNotification <= DateTime.Today ? false : true; }
         }
 
         public DateTime DateStopNotification

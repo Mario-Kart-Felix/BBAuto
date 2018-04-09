@@ -52,11 +52,12 @@ namespace BBAuto
 
         private void SetEnable(Object sender, EditModeEventArgs e)
         {            
-            if (User.GetRole() == RolesList.AccountantWayBill)
-            {
-                this.Size = new System.Drawing.Size(410, 486);
-                _workWithForm.SetEnableValue(btnSave, true);
-            }
+            /*TODO: для Столяровй сделать видимой инфу про водителя*/
+            //if (User.GetRole() == RolesList.AccountantWayBill)
+            //{
+            //    this.Size = new System.Drawing.Size(410, 486);
+            //    _workWithForm.SetEnableValue(btnSave, true);
+            //}
             
             if (_workWithForm.IsEditMode())
             {

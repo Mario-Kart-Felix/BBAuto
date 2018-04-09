@@ -142,7 +142,8 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Mileage_AddEdit";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition
+                = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Пробег";
             this.Load += new System.EventHandler(this.Mileage_AddEdit_Load);
             this.groupBox1.ResumeLayout(false);

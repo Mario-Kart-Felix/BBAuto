@@ -322,7 +322,8 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Policy_AddEdit";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition
+                = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Полис";
             this.Load += new System.EventHandler(this.Policy_AddEdit_Load);
             this.ResumeLayout(false);

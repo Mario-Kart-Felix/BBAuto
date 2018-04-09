@@ -57,7 +57,7 @@ namespace BBAuto.Domain.Lists
         {
             var invoices = from invoice in list
                            where invoice.Car.ID == car.ID && invoice.DateMove != string.Empty
-                           orderby invoice.Date descending, invoice.Number descending
+                           orderby invoice.Date descending, Convert.ToInt32(invoice.Number) descending
                            select invoice;
 
             return invoices.FirstOrDefault();
@@ -66,7 +66,7 @@ namespace BBAuto.Domain.Lists
         public DataTable ToDataTable()
         {
             var invoices = from invoice in list
-                           orderby invoice.Date descending, invoice.Number descending
+                           orderby invoice.Date descending, Convert.ToInt32(invoice.Number) descending
                            select invoice;
 
             return createTable(invoices.ToList());
@@ -76,7 +76,7 @@ namespace BBAuto.Domain.Lists
         {
             var invoices = from invoice in list
                            where invoice.Car.ID == car.ID
-                           orderby invoice.Date descending, invoice.Number descending
+                           orderby invoice.Date descending, Convert.ToInt32(invoice.Number) descending
                            select invoice;
 
             return createTable(invoices.ToList());

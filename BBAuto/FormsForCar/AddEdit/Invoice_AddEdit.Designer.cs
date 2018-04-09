@@ -244,7 +244,8 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Invoice_AddEdit";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition
+                = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "--";
             this.Load += new System.EventHandler(this.Invoice_AddEdit_Load);
             this.ResumeLayout(false);

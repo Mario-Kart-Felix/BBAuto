@@ -89,5 +89,10 @@ namespace BBAuto.Domain.Lists
         {
             return list.Exists(item => item.Number == name);
         }
+
+        public IEnumerable<Account> GetAccountForAgree()
+        {
+            return list.Where(a => a.CanAgree());
+        }
     }
 }

@@ -29,7 +29,8 @@ namespace BBAuto
         {
             loadDictionary();
 
-            cbDriver.SelectedValue = _userAccess.Driver.ID;
+            if (_userAccess.Driver != null)
+                cbDriver.SelectedValue = _userAccess.Driver.ID;
             cbRole.SelectedValue = _userAccess.RoleID;
 
             _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
@@ -39,9 +40,11 @@ namespace BBAuto
         private void loadDictionary()
         {
             DriverList driverList = DriverList.getInstance();
+            cbDriver.SelectedIndexChanged -= cbDriver_SelectedIndexChanged;
             cbDriver.DataSource = driverList.ToDataTable(true);
             cbDriver.DisplayMember = "ФИО";
             cbDriver.ValueMember = "id";
+            cbDriver.SelectedIndexChanged += cbDriver_SelectedIndexChanged;
 
             Roles roles = Roles.getInstance();
             cbRole.DataSource = roles.ToDataTable();

@@ -64,12 +64,19 @@ namespace BBAuto.Domain.Lists
 
         public DataTable ToDataTableByCar(Car car)
         {
-            DataTable dt = createTable();
-            
-            foreach (CarDoc carDoc in list.Where(c => c.Car.ID == car.ID))
-                dt.Rows.Add(carDoc.getRow());
+            try
+            {
+                DataTable dt = createTable();
 
-            return dt;
+                foreach (CarDoc carDoc in list.Where(c => c.Car.ID == car.ID))
+                    dt.Rows.Add(carDoc.getRow());
+
+                return dt;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         private DataTable createTable()

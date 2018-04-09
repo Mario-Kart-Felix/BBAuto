@@ -83,11 +83,14 @@ namespace BBAuto.Domain.ForCar
             if (!int.TryParse(value.Replace(" ", ""), out count))
                 throw new InvalidCastException();
 
-            int prevCount;
-            int.TryParse(mileage.Count, out prevCount);
+            int prevCount = 0;
+            if (mileage != null)
+            {
+                int.TryParse(mileage.Count, out prevCount);
 
-            if ((count < prevCount) && (Date > mileage.Date))
-                throw new InvalidConstraintException();
+                if ((count < prevCount) && (Date > mileage.Date))
+                    throw new InvalidConstraintException();
+            }
 
             if (count >= 1000000)
                 throw new OverflowException();

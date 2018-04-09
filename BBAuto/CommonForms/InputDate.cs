@@ -36,7 +36,7 @@ namespace BBAuto
 
             foreach (DataGridViewCell cell in _dgvMain.SelectedCells)
             {
-                Car car = _dgvMain.GetCar();
+                Car car = _dgvMain.GetCar(cell);
 
                 DateTime date = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, 1);
 

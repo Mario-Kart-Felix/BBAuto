@@ -8,16 +8,17 @@ using System.Text;
 using System.Windows.Forms;
 using BBAuto.Domain;
 using BBAuto.Domain.Common;
+using BBAuto.Domain.Lists;
 
 namespace BBAuto
 {
     public partial class FormMileageFill : Form
     {
-        private const string REPORT_PATH = @"\\bbmru0021\data\aesculap\current reports";
-
+        private const string REPORT_PATH = @"\\bbmru08\Depts\Accounting Shared\Reports\Current Reports";//@"\\bbmru0021\data\aesculap\current reports";  
+        
         public FormMileageFill()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
 
         private void FormMileageFill_Load(object sender, EventArgs e)
@@ -28,7 +29,7 @@ namespace BBAuto
         private void btnOK_Click(object sender, EventArgs e)
         {
             try
-            {
+            {                
                 MileageFill mileageFill = new MileageFill(REPORT_PATH, dateTimePicker1.Value);
                 mileageFill.Begin();
 
