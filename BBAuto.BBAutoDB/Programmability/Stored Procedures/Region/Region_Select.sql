@@ -1,15 +1,25 @@
-CREATE PROCEDURE [dbo].[Region_Select]
-@all int = 0
-AS
-BEGIN
+create procedure [dbo].[Region_Select]
+  @all int = 0
+as
+begin
 	if (@all = 1)
-		SELECT region_id, region_name 'Название' FROM Region
-		UNION
-		SELECT 0, '(все)'
-		ORDER BY 'Название'
+		select
+      region_id,
+      region_name as 'Название'
+    from
+      Region
+		union
+		select
+      0,
+      '(все)'
+		order by
+      region_name
 	else
-		SELECT region_id, region_name 'Название'
-		FROM Region
-		ORDER BY 'Название'
-END
-GO
+		select
+      region_id,
+      region_name as 'Название'
+		from
+      Region
+		order by
+      region_name
+end

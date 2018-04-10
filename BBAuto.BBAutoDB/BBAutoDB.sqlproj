@@ -376,4 +376,7 @@
     <Build Include="Programmability\Stored Procedures\WayBillRoute\WayBillRoute_Insert.sql" />
     <Build Include="Programmability\Stored Procedures\WayBillRoute\WayBillRoute_Select.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="BBAutoDB.publish.xml" />
+  </ItemGroup>
 </Project>

@@ -1,25 +1,34 @@
-CREATE PROCEDURE [dbo].[Status_Insert]
-@id int,
-@Name varchar(50)
-AS
-BEGIN
+create procedure [dbo].[Status_Insert]
+  @id int,
+  @Name varchar(50)
+as
+begin
 	if (@id = 0)
 	begin
 		Declare @count int
-		SELECT @count=count(Status_id) FROM Status WHERE Status_name=@Name
+		select
+      @count=count(Status_id)
+    from
+      Status
+    where
+      Status_name=@Name
 	
 		if (@count = 0)
-		begin
-			INSERT INTO Status VALUES(@Name)
-			SELECT 'Добавлен'
-		end
-		else
-			SELECT 'Данный статус уже существует'
+    begin
+			insert into Status(Status_name) values(@Name)
+
+      select scope_identity(), @Name
+    end
 	end
 	else
 	begin
-		UPDATE Status SET Status_name=@Name WHERE Status_id=@id
-		SELECT 'Обновлен'
+		update
+      Status
+    set
+      Status_name=@Name
+    where
+      Status_id=@id
+		
+    select @id, @Name
 	end
-END
-GO
+end

@@ -1,17 +1,27 @@
-CREATE PROCEDURE [dbo].[Owner_Select]
-@all int = 0
-AS
-BEGIN
+create procedure [dbo].[Owner_Select]
+  @all int = 0
+as
+begin
 	if (@all = 1)
 	begin
-		SELECT owner_id, owner_name 'Название' FROM Owner
-		UNION
-		SELECT 0, '(все)'	
-		ORDER BY 'Название'
+		select
+      owner_id,
+      owner_name as 'Название'
+    from
+      Owner
+		union
+		select
+      0,
+      '(все)'	
+		order by
+      owner_name
 	end
 	else
 	begin
-		SELECT owner_id, owner_name 'Название' FROM Owner
+		select
+      owner_id,
+      owner_name as 'Название'
+    from
+      Owner
 	end
-END
-GO
+end
