@@ -1,4 +1,4 @@
-CREATE TABLE [dbo].[engineType](
+CREATE TABLE [dbo].[EngineType](
 	[engineType_id] [int] IDENTITY(1,1) NOT NULL,
 	[engineType_name] [varchar](50) NOT NULL,
 	[engineType_shortName] [varchar](50) NOT NULL,

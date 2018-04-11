@@ -124,6 +124,8 @@
     <Folder Include="Programmability\Stored Procedures\ViolationType" />
     <Folder Include="Programmability\Stored Procedures\WayBillDay" />
     <Folder Include="Programmability\Stored Procedures\WayBillRoute" />
+    <Folder Include="Deployment" />
+    <Folder Include="Deployment\Data" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Account.sql" />
@@ -138,14 +140,14 @@
     <Build Include="Tables\CurrentStatusAfterDTP.sql" />
     <Build Include="Tables\Dept.sql" />
     <Build Include="Tables\DiagCard.sql" />
-    <Build Include="Tables\Diller.sql" />
+    <Build Include="Tables\Dealer.sql" />
     <Build Include="Tables\Driver.sql" />
     <Build Include="Tables\DriverLicense.sql" />
     <Build Include="Tables\DTP.sql" />
     <Build Include="Tables\DtpFile.sql" />
     <Build Include="Tables\Employees.sql" />
     <Build Include="Tables\EmployeesName.sql" />
-    <Build Include="Tables\engineType.sql" />
+    <Build Include="Tables\EngineType.sql" />
     <Build Include="Tables\Fuel.sql" />
     <Build Include="Tables\FuelCard.sql" />
     <Build Include="Tables\FuelCardDriver.sql" />
@@ -183,7 +185,6 @@
     <Build Include="Tables\STS.sql" />
     <Build Include="Tables\SuppyAddress.sql" />
     <Build Include="Tables\Tabel.sql" />
-    <Build Include="Tables\Tabel_Test.sql" />
     <Build Include="Tables\Template.sql" />
     <Build Include="Tables\TempMove.sql" />
     <Build Include="Tables\UserAccess.sql" />
@@ -193,8 +194,8 @@
     <Build Include="Tables\WayBillRoute.sql" />
     <Build Include="Programmability\Functions\Function_DriverCar_Select.sql" />
     <Build Include="Programmability\Functions\DateTime_To_Date.sql" />
-    <Build Include="Programmability\Stored Procedures\Account\Account_Insert.sql" />
-    <Build Include="Programmability\Stored Procedures\Account\Account_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Account\UpsertAccount.sql" />
+    <Build Include="Programmability\Stored Procedures\Account\GetAccounts.sql" />
     <Build Include="Programmability\Stored Procedures\Car\Car_Delete.sql" />
     <Build Include="Programmability\Stored Procedures\Car\Car_Insert.sql" />
     <Build Include="Programmability\Stored Procedures\Car\Car_Select.sql" />
@@ -375,8 +376,20 @@
     <Build Include="Programmability\Stored Procedures\WayBillDay\WayBillDay_Select.sql" />
     <Build Include="Programmability\Stored Procedures\WayBillRoute\WayBillRoute_Insert.sql" />
     <Build Include="Programmability\Stored Procedures\WayBillRoute\WayBillRoute_Select.sql" />
+    <Build Include="Tables\DbVersion.sql" />
+    <Build Include="Deployment\ClearDatabase.sql" />
+    <Build Include="Deployment\Data\InsertRegions.sql" />
+    <Build Include="Deployment\Data\InsertPositions.sql" />
+    <Build Include="Deployment\Data\InsertDepts.sql" />
+    <Build Include="Deployment\Data\InsertOwners.sql" />
+    <Build Include="Deployment\Data\InsertColors.sql" />
+    <Build Include="Deployment\Data\InsertComps.sql" />
+    <Build Include="Deployment\Data\InsertCulprits.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BBAutoDB.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Deployment\PostDeploymentScript.sql" />
   </ItemGroup>
 </Project>

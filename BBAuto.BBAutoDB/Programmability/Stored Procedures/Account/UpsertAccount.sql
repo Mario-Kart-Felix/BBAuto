@@ -1,4 +1,4 @@
-CREATE PROCEDURE [dbo].[Account_Insert]
+CREATE PROCEDURE [dbo].[UpsertAccount]
 @idAccount int,
 @Number varchar(50),
 @Agreed int,

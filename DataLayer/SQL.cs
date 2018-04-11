@@ -8,9 +8,11 @@ namespace BBAuto.DataLayer
   {
     private const int Timeout = 600;
 
-    private readonly string _server = @"bbmru07";
-    private readonly string _database = "BBAuto_04042018";
-    private readonly bool _winAuth = false;
+    private const string Server = @"localhost";
+    private const string Database = "BBAuto";
+    //private const string Server = @"bbmru07";
+    //private const string Database = "BBAuto_04042018";
+    private const bool WinAuth = true;
     private readonly string _userId;
     private readonly string _password;
 
@@ -18,7 +20,7 @@ namespace BBAuto.DataLayer
 
     public Sql()
     {
-      if (_server == @"bbmru09")
+      if (Server == @"bbmru09")
       {
         _userId = "sa";
         _password = "gfdtk";
@@ -36,12 +38,12 @@ namespace BBAuto.DataLayer
     {
       var csb = new SqlConnectionStringBuilder
       {
-        DataSource = _server,
-        InitialCatalog = _database,
-        IntegratedSecurity = _winAuth
+        DataSource = Server,
+        InitialCatalog = Database,
+        IntegratedSecurity = WinAuth
       };
 
-      if (!_winAuth)
+      if (!WinAuth)
       {
         csb.UserID = _userId;
         csb.Password = _password;

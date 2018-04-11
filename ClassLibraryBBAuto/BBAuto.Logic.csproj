@@ -87,6 +87,11 @@
     <Compile Include="Logger\LogManager.cs" />
     <Compile Include="Senders\AccountSender.cs" />
     <Compile Include="Import\MileageMonthFromExcelFile.cs" />
+    <Compile Include="Services\Account\AccountModel.cs" />
+    <Compile Include="Services\Account\AccountRepository.cs" />
+    <Compile Include="Services\Account\AccountService.cs" />
+    <Compile Include="Services\Account\IAccountRepository.cs" />
+    <Compile Include="Services\Account\IAccountService.cs" />
     <Compile Include="Static\MyExtension.cs" />
     <Compile Include="ForCar\CarInfo.cs" />
     <Compile Include="ForDriver\FuelCard.cs" />
