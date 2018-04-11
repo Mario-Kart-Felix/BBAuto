@@ -126,6 +126,7 @@
     <Folder Include="Programmability\Stored Procedures\WayBillRoute" />
     <Folder Include="Deployment" />
     <Folder Include="Deployment\Data" />
+    <Folder Include="Programmability\Stored Procedures\Users" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Account.sql" />
@@ -228,9 +229,9 @@
     <Build Include="Programmability\Stored Procedures\DiagCard\DiagCard_Delete.sql" />
     <Build Include="Programmability\Stored Procedures\DiagCard\DiagCard_Insert.sql" />
     <Build Include="Programmability\Stored Procedures\DiagCard\DiagCard_Select.sql" />
-    <Build Include="Programmability\Stored Procedures\Dealer\Diller_Delete.sql" />
-    <Build Include="Programmability\Stored Procedures\Dealer\Diller_Insert.sql" />
-    <Build Include="Programmability\Stored Procedures\Dealer\Diller_Select.sql" />
+    <Build Include="Programmability\Stored Procedures\Dealer\DeleteDealer.sql" />
+    <Build Include="Programmability\Stored Procedures\Dealer\UpsertDealer.sql" />
+    <Build Include="Programmability\Stored Procedures\Dealer\GetDealers.sql" />
     <Build Include="Programmability\Stored Procedures\Driver\Driver_Insert.sql" />
     <Build Include="Programmability\Stored Procedures\Driver\Driver_Select.sql" />
     <Build Include="Programmability\Stored Procedures\Driver\DriverCar_Select.sql" />
@@ -385,8 +386,12 @@
     <Build Include="Deployment\Data\InsertColors.sql" />
     <Build Include="Deployment\Data\InsertComps.sql" />
     <Build Include="Deployment\Data\InsertCulprits.sql" />
+    <Build Include="Deployment\Data\InsertUsers.sql" />
+    <Build Include="Tables\Users.sql" />
+    <Build Include="Programmability\Stored Procedures\Users\GetUsers.sql" />
   </ItemGroup>
   <ItemGroup>
+    <RefactorLog Include="BBAutoDB.refactorlog" />
     <None Include="BBAutoDB.publish.xml" />
   </ItemGroup>
   <ItemGroup>

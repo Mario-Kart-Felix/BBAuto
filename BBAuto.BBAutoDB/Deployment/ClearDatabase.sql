@@ -5,13 +5,8 @@ as
     dbcc checkident ('dbo.Account', reseed, 0);
   
   delete from dbo.CarBuy
-  if ident_current('dbo.CarBuy') > 1
-    dbcc checkident ('dbo.CarBuy', reseed, 0);
-
   delete from dbo.CarSale
-  if ident_current('dbo.CarSale') > 1
-    dbcc checkident ('dbo.CarSale', reseed, 0);
-
+  
   delete from dbo.CarDoc
   if ident_current('dbo.CarDoc') > 1
     dbcc checkident ('dbo.CarDoc', reseed, 0);
@@ -37,9 +32,7 @@ as
     dbcc checkident ('dbo.Color', reseed, 0);
 
   delete from dbo.ColumnSize
-  if ident_current('dbo.ColumnSize') > 1
-    dbcc checkident ('dbo.ColumnSize', reseed, 0);
-
+  
   delete from dbo.Comp
   if ident_current('dbo.Comp') > 1
     dbcc checkident ('dbo.Comp', reseed, 0);
@@ -81,9 +74,7 @@ as
     dbcc checkident ('dbo.DtpFile', reseed, 0);
 
   delete from dbo.Employees
-  if ident_current('dbo.Employees') > 1
-    dbcc checkident ('dbo.Employees', reseed, 0);
-
+  
   delete from dbo.EmployeesName
   if ident_current('dbo.EmployeesName') > 1
     dbcc checkident ('dbo.EmployeesName', reseed, 0);
@@ -129,9 +120,7 @@ as
     dbcc checkident ('dbo.MailText', reseed, 0);
 
   delete from dbo.MainPoint
-  if ident_current('dbo.MainPoint') > 1
-    dbcc checkident ('dbo.MainPoint', reseed, 0);
-
+  
   delete from dbo.Mark
   if ident_current('dbo.Mark') > 1
     dbcc checkident ('dbo.Mark', reseed, 0);
@@ -181,9 +170,7 @@ as
     dbcc checkident ('dbo.ProxyType', reseed, 0);
 
   delete from dbo.PTS
-  if ident_current('dbo.PTS') > 1
-    dbcc checkident ('dbo.PTS', reseed, 0);
-
+  
   delete from dbo.Repair
   if ident_current('dbo.Repair') > 1
     dbcc checkident ('dbo.Repair', reseed, 0);
@@ -209,9 +196,7 @@ as
     dbcc checkident ('dbo.ShipPart', reseed, 0);
 
   delete from dbo.ssDTP
-  if ident_current('dbo.ssDTP') > 1
-    dbcc checkident ('dbo.ssDTP', reseed, 0);
-
+  
   delete from dbo.Status
   if ident_current('dbo.Status') > 1
     dbcc checkident ('dbo.Status', reseed, 0);
@@ -221,17 +206,9 @@ as
     dbcc checkident ('dbo.StatusAfterDTP', reseed, 0);
 
   delete from dbo.STS
-  if ident_current('dbo.STS') > 1
-    dbcc checkident ('dbo.STS', reseed, 0);
-
   delete from dbo.SuppyAddress
-  if ident_current('dbo.SuppyAddress') > 1
-    dbcc checkident ('dbo.SuppyAddress', reseed, 0);
-
   delete from dbo.Tabel
-  if ident_current('dbo.Tabel') > 1
-    dbcc checkident ('dbo.Tabel', reseed, 0);
-
+  
   delete from dbo.Template
   if ident_current('dbo.Template') > 1
     dbcc checkident ('dbo.Template', reseed, 0);
@@ -241,9 +218,7 @@ as
     dbcc checkident ('dbo.TempMove', reseed, 0);
 
   delete from dbo.UserAccess
-  if ident_current('dbo.UserAccess') > 1
-    dbcc checkident ('dbo.UserAccess', reseed, 0);
-
+  
   delete from dbo.Violation
   if ident_current('dbo.Violation') > 1
     dbcc checkident ('dbo.Violation', reseed, 0);
@@ -259,4 +234,8 @@ as
   delete from dbo.WayBillRoute
   if ident_current('dbo.WayBillRoute') > 1
     dbcc checkident ('dbo.WayBillRoute', reseed, 0);
+
+  delete from dbo.Users
+  if ident_current('dbo.Users') > 1
+    dbcc checkident ('dbo.Users', reseed, 0);
 go

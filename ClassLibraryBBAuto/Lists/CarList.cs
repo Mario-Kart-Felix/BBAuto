@@ -59,7 +59,7 @@ namespace BBAuto.Logic.Lists
       if (User.GetRole() == RolesList.Employee)
       {
         DriverCarList driverCarList = DriverCarList.getInstance();
-        Car myCar = driverCarList.GetCar(User.getDriver());
+        Car myCar = driverCarList.GetCar(User.GetDriver());
 
         cars = list.Where(car => car == myCar).ToList();
       }

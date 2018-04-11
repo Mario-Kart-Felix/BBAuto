@@ -68,7 +68,7 @@ namespace BBAuto.App
 
     private void SetWindowHeaderText(Object sender, StatusEventArgs e)
     {
-      this.Text = string.Concat("BBAuto пользователь: ", User.getDriver().GetName(NameType.Short), " Справочник: ",
+      this.Text = string.Concat("BBAuto пользователь: ", User.GetDriver().GetName(NameType.Short), " Справочник: ",
         mainStatus.ToString());
     }
 
@@ -493,7 +493,7 @@ namespace BBAuto.App
         return;
 
       /*TODO: Столяровой доступ к информации про водителя и основную о машине */
-      if (User.getDriver().UserRole == RolesList.AccountantWayBill && _dgvCar.Columns[point.X].HeaderText != "Водитель")
+      if (User.GetDriver().UserRole == RolesList.AccountantWayBill && _dgvCar.Columns[point.X].HeaderText != "Водитель")
       {
         OpenCarAddEdit(car);
         return;
@@ -600,7 +600,7 @@ namespace BBAuto.App
 
     private ColumnSize GetColumnSize()
     {
-      Driver driver = User.getDriver();
+      Driver driver = User.GetDriver();
 
       ColumnSizeList columnSizeList = ColumnSizeList.getInstance();
       return columnSizeList.getItem(driver, mainStatus.Get());

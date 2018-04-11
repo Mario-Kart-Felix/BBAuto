@@ -67,7 +67,7 @@ namespace BBAuto.App.FormsForCar
 
 
       /*TODO: Столярова видит основную инфу */
-      if (User.getDriver().UserRole == RolesList.AccountantWayBill)
+      if (User.GetDriver().UserRole == RolesList.AccountantWayBill)
       {
         foreach (TabPage tab in tabControl1.TabPages)
         {

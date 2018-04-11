@@ -29,7 +29,7 @@ namespace BBAuto.Logic.Common
 
     public EMail()
     {
-      var driver = User.getDriver();
+      var driver = User.GetDriver();
       var driverList = DriverList.getInstance();
       var employeeTransport = driverList.GetDriverListByRole(RolesList.Editor).First();
       _authorEmail = driver == null ? employeeTransport == null ? RobotEmail : employeeTransport.email : driver.email;
@@ -96,8 +96,8 @@ namespace BBAuto.Logic.Common
               "Информирую Вас о том, что пришло постановление о штрафе за нарушения ПДД.\n" +
               "Оплатить штраф можно самостоятельно и в течении 5 дней предоставить документ об оплате.\n" +
               "После указанного срока штраф автоматически уйдет в оплату в бухгалтерию без возможности льготной оплаты 50%\n" +
-              $"Документ об оплате штрафа следует присылать на эл. почту {User.getDriver().GetName(NameType.Genetive)} в виде вложенного файла.\n" +
-              $"Если есть возражения по данному штрафу, то необходимо сообщить об этом {User.getDriver().GetName(NameType.Short)}.\n" +
+              $"Документ об оплате штрафа следует присылать на эл. почту {User.GetDriver().GetName(NameType.Genetive)} в виде вложенного файла.\n" +
+              $"Если есть возражения по данному штрафу, то необходимо сообщить об этом {User.GetDriver().GetName(NameType.Short)}.\n" +
               "Скан копия постановления во вложении.";
     }
 
@@ -113,9 +113,9 @@ namespace BBAuto.Logic.Common
       sb.AppendLine("Постановление в приложении.");
       sb.AppendLine("");
       sb.AppendLine("С уважением,");
-      sb.AppendLine(User.getDriver().GetName(NameType.Full));
-      sb.AppendLine(User.getDriver().Position);
-      sb.AppendLine(User.getDriver().Mobile);
+      sb.AppendLine(User.GetDriver().GetName(NameType.Full));
+      sb.AppendLine(User.GetDriver().Position);
+      sb.AppendLine(User.GetDriver().Mobile);
 
       _body = sb.ToString();
     }
@@ -151,9 +151,9 @@ namespace BBAuto.Logic.Common
           ", прошу проинформировать меня о его получении."));
       sb.AppendLine("");
       sb.AppendLine("С уважением,");
-      sb.AppendLine(User.getDriver().GetName(NameType.Full));
-      sb.AppendLine(User.getDriver().Position);
-      sb.AppendLine(User.getDriver().Mobile);
+      sb.AppendLine(User.GetDriver().GetName(NameType.Full));
+      sb.AppendLine(User.GetDriver().Position);
+      sb.AppendLine(User.GetDriver().Mobile);
 
       _body = sb.ToString();
     }
@@ -252,10 +252,10 @@ namespace BBAuto.Logic.Common
 
       sb.AppendLine("");
       sb.AppendLine("С уважением,");
-      sb.AppendLine(User.getDriver().GetName(NameType.Full));
-      sb.AppendLine(User.getDriver().Position);
-      sb.AppendLine(User.getDriver().Dept);
-      sb.AppendLine(User.getDriver().Mobile);
+      sb.AppendLine(User.GetDriver().GetName(NameType.Full));
+      sb.AppendLine(User.GetDriver().Position);
+      sb.AppendLine(User.GetDriver().Dept);
+      sb.AppendLine(User.GetDriver().Mobile);
 
       _body = sb.ToString();
     }
