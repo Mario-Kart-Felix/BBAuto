@@ -655,13 +655,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BBAuto.Logic\BBAuto.Logic.csproj">
+      <Project>{76A9009C-FABC-4E23-A1A8-7D169666CD3D}</Project>
+      <Name>BBAuto.Logic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CheckBoxComboBox\CheckBoxComboBox.csproj">
       <Project>{70a25201-8ea4-48f8-a4a6-ed13adf8823c}</Project>
       <Name>CheckBoxComboBox</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ClassLibraryBBAuto\BBAuto.Logic.csproj">
-      <Project>{76a9009c-fabc-4e23-a1a8-7d169666cd3d}</Project>
-      <Name>BBAuto.Logic</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
