@@ -389,6 +389,9 @@
     <Build Include="Deployment\Data\InsertUsers.sql" />
     <Build Include="Tables\Users.sql" />
     <Build Include="Programmability\Stored Procedures\Users\GetUsers.sql" />
+    <Build Include="Deployment\Data\InsertRoles.sql" />
+    <Build Include="Deployment\Data\InsertDrivers.sql" />
+    <Build Include="Deployment\Data\InsertStatuses.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="BBAutoDB.refactorlog" />

@@ -14,7 +14,7 @@ declare @curver varchar(max)
 select @curver = Id from dbo.DbVersion
 
 declare @dbVer nvarchar(8)
-select @dbVer = DbVersion from crm.DbVersion
+select @dbVer = DbVersion from dbo.DbVersion
 
 if @curver is null
 	set @curver = ''
@@ -28,7 +28,11 @@ if @curver <= ''
 begin
   print N'Refilling database...'
   exec dbo.ClearDatabase
-
+  
+  exec dbo.InsertRoles
+  exec dbo.InsertUsers
+    
+  exec dbo.InsertStatuses
   exec dbo.InsertRegions
   exec dbo.InsertPositions
   exec dbo.InsertDepts
@@ -36,4 +40,6 @@ begin
   exec dbo.InsertColors
   exec dbo.InsertComps
   exec dbo.InsertCulprits
+
+  exec dbo.InsertDrivers
 end

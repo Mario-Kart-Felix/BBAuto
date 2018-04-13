@@ -178,11 +178,7 @@ as
   delete from dbo.RepairType
   if ident_current('dbo.RepairType') > 1
     dbcc checkident ('dbo.RepairType', reseed, 0);
-
-  delete from dbo.Role
-  if ident_current('dbo.Role') > 1
-    dbcc checkident ('dbo.Role', reseed, 0);
-
+    
   delete from dbo.Route
   if ident_current('dbo.Route') > 1
     dbcc checkident ('dbo.Route', reseed, 0);
@@ -238,4 +234,8 @@ as
   delete from dbo.Users
   if ident_current('dbo.Users') > 1
     dbcc checkident ('dbo.Users', reseed, 0);
+
+  delete from dbo.Role
+  if ident_current('dbo.Role') > 1
+    dbcc checkident ('dbo.Role', reseed, 0);
 go

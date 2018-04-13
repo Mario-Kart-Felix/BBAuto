@@ -10,14 +10,12 @@ CREATE TABLE [dbo].[CarBuy](
 	[carBuy_cost] [float] NULL,
 	[carBuy_dop] [varchar](100) NULL,
 	[carBuy_events] [varchar](500) NULL,
-	[diller_id] [int] NULL
+	[dealerId] [int] NULL
 ) ON [PRIMARY]
 GO
 
 ALTER TABLE [dbo].[CarBuy]  WITH CHECK ADD  CONSTRAINT [FK_CarBuy_Car] FOREIGN KEY([car_id])
 REFERENCES [dbo].[Car] ([car_id])
-ON UPDATE CASCADE
-ON DELETE CASCADE
 GO
 
 ALTER TABLE [dbo].[CarBuy] CHECK CONSTRAINT [FK_CarBuy_Car]

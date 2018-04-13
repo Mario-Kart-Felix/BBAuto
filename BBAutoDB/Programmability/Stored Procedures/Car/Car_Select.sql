@@ -5,7 +5,7 @@ BEGIN
 		mark_id, g.model_id, c.grade_id, color_id,
 		owner_id, region_id_buy, region_id_using,
 		driver_id, carBuy_dateOrder, carBuy_isGet, carBuy_dateGet, carBuy_cost, carBuy_dop,
-		carBuy_events, diller_id, car_lisingDate, car_InvertoryNumber
+		carBuy_events, dealerId, car_lisingDate, car_InvertoryNumber
 	FROM Car c
 		join Grade g ON g.grade_id=c.grade_id
 		join Model ON Model.model_id=g.model_id

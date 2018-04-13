@@ -1,0 +1,17 @@
+create procedure dbo.InsertStatuses
+as
+  insert into dbo.Status values(N'Автомобили, покупка', 2)
+  insert into dbo.Status values(N'Автомобили, на ходу', 1)
+  insert into dbo.Status values(N'Сервисное обслуживание', 9)
+  insert into dbo.Status values(N'Автомобили, продажа', 10)
+  insert into dbo.Status values(N'Передача', 3)
+  insert into dbo.Status values(N'Страховые полисы', 5)
+  insert into dbo.Status values(N'ДТП', 7)
+  insert into dbo.Status values(N'Нарушения ПДД', 6)
+  insert into dbo.Status values(N'Диагностические карты', 8)
+  insert into dbo.Status values(N'Временные перемещения', 4)
+  insert into dbo.Status values(N'Отправка запчастей', 11)
+  insert into dbo.Status values(N'Согласование', 12)
+  insert into dbo.Status values(N'Топливные карты', 13)
+  insert into dbo.Status values(N'Водители', 14)
+  insert into dbo.Status values(N'Согласование нарушения ПДД', 15)

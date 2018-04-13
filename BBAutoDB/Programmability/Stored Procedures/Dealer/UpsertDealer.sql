@@ -11,5 +11,5 @@ begin
     update Dealer
     set [Name] = @Name,
         Contacts = @Contacts
-    where dealer_id = @id
+    where Id = @id
 end
