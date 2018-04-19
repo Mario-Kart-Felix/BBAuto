@@ -2,7 +2,7 @@ using BBAuto.Logic;
 
 namespace BBAuto.App.FormsForCar
 {
-    partial class Car_AddEdit
+    partial class CarForm
     {
         /// <summary>
         /// Required designer variable.
@@ -832,7 +832,7 @@ namespace BBAuto.App.FormsForCar
             this.cbDealer.Name = "cbDealer";
             this.cbDealer.Size = new System.Drawing.Size(285, 21);
             this.cbDealer.TabIndex = 35;
-            this.cbDealer.SelectedIndexChanged += new System.EventHandler(this.cbDiller_SelectedIndexChanged);
+            this.cbDealer.SelectedIndexChanged += new System.EventHandler(this.CbDiller_SelectedIndexChanged);
             // 
             // label14
             // 
@@ -1507,7 +1507,7 @@ namespace BBAuto.App.FormsForCar
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnSave);
-            this.Name = "Car_AddEdit";
+            this.Name = "CarAddEditForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Карточка автомобиля";
             this.Load += new System.EventHandler(this.Car_AddEdit_Load);

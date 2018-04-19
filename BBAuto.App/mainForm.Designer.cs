@@ -1,6 +1,6 @@
 namespace BBAuto.App
 {
-    partial class mainForm
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -133,7 +133,7 @@ namespace BBAuto.App
             this.Controls.Add(this._dgvCar);
             this.Controls.Add(this.statusStrip1);
             this.DoubleBuffered = true;
-            this.Name = "mainForm";
+            this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "BBAuto";
             this.Load += new System.EventHandler(this.mainForm_Load);

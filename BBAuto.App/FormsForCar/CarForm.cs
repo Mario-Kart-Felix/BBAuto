@@ -1,5 +1,8 @@
 using System;
 using System.Data;
+using System.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using BBAuto.App.Events;
 using BBAuto.App.FormsForCar.AddEdit;
@@ -10,38 +13,45 @@ using BBAuto.Logic.Entities;
 using BBAuto.Logic.ForCar;
 using BBAuto.Logic.ForDriver;
 using BBAuto.Logic.Lists;
+using BBAuto.Logic.Services.Dealer;
 using BBAuto.Logic.Static;
 using BBAuto.Logic.Tables;
 
 namespace BBAuto.App.FormsForCar
 {
-  public partial class Car_AddEdit : Form
+  public partial class CarForm : Form, ICarForm
   {
     private System.Drawing.Point _curPosition;
-    private readonly Car _car;
+    private Car _car;
     private STS _sts;
     private PTS _pts;
 
     private bool _load;
 
-    private readonly DiagCardList _diagCardList;
-    private readonly DriverCarList _driverCarList;
-    private readonly DriverList _driverList;
-    private readonly DTPList _dtpList;
-    private readonly InvoiceList _invoiceList;
-    private readonly MileageList _mileageList;
-    private readonly PolicyList _policyList;
-    private readonly RepairList _repairList;
-    private readonly ViolationList _violationList;
-    private readonly ShipPartList _shipPartList;
+    private DiagCardList _diagCardList;
+    private DriverCarList _driverCarList;
+    private DriverList _driverList;
+    private DTPList _dtpList;
+    private InvoiceList _invoiceList;
+    private MileageList _mileageList;
+    private PolicyList _policyList;
+    private RepairList _repairList;
+    private ViolationList _violationList;
+    private ShipPartList _shipPartList;
 
     private WorkWithForm _workWithForm;
 
-    public Car_AddEdit(Car car)
-    {
-      InitializeComponent();
+    private readonly IDealerService _dealerService;
 
+    public CarForm(IDealerService dealerService)
+    {
+      _dealerService = dealerService;
+    }
+
+    public DialogResult ShowDialog(Car car)
+    {
       _car = car;
+      InitializeComponent();
 
       _diagCardList = DiagCardList.getInstance();
       _driverCarList = DriverCarList.getInstance();
@@ -53,11 +63,13 @@ namespace BBAuto.App.FormsForCar
       _repairList = RepairList.getInstance();
       _violationList = ViolationList.getInstance();
       _shipPartList = ShipPartList.getInstance();
+
+      return ShowDialog();
     }
 
     private void Car_AddEdit_Load(object sender, EventArgs e)
     {
-      LoadData();
+      LoadDataAsync();
 
       SetWindowHeader();
 
@@ -79,7 +91,7 @@ namespace BBAuto.App.FormsForCar
       }
     }
 
-    private void LoadData()
+    private async Task LoadDataAsync()
     {
       _load = false;
       loadOneStringDictionary(cbMark, "Mark");
@@ -90,8 +102,12 @@ namespace BBAuto.App.FormsForCar
       loadOneStringDictionary(cbRegionBuy, "Region");
       loadOneStringDictionary(cbRegionUsing, "Region");
       loadOneStringDictionary(cbOwner, "Owner");
-      loadOneStringDictionary(cbDealer, "Diller");
 
+      var list = await _dealerService.GetDealersAsync();
+      cbDealer.DataSource = list;
+      cbDealer.DisplayMember = "Name";
+      cbDealer.ValueMember = "Id";
+      
       var region = GetRegion();
 
       cbDriver.DataSource = _driverList.ToDataTableByRegion(region);
@@ -254,7 +270,7 @@ namespace BBAuto.App.FormsForCar
       if (mileage != null)
         lbMileage.Text = mileage.ToString();
 
-      changeDiler(_car.idDiller);
+      ChangeDealer(_car.idDiller);
 
       if (_car.Lising == string.Empty)
       {
@@ -273,19 +289,20 @@ namespace BBAuto.App.FormsForCar
       tbInvertoryNumber.Text = _car.InvertoryNumber;
     }
 
-    private void cbDiller_SelectedIndexChanged(object sender, EventArgs e)
+    private void CbDiller_SelectedIndexChanged(object sender, EventArgs e)
     {
-      if ((_load) && (cbDealer.SelectedValue != null))
-        changeDiler(Convert.ToInt32(cbDealer.SelectedValue));
+      if (!_load || cbDealer.SelectedValue == null)
+        return;
+      
+      ChangeDealer(Convert.ToInt32(cbDealer.SelectedValue));
     }
 
-    private void changeDiler(int idDiler)
+    private void ChangeDealer(int idDealer)
     {
-      DealerList dilerList = DealerList.getInstance();
-      Dealer diller = dilerList.getItem(idDiler);
+      var dealer = _dealerService.GetDealersAsync().Result.FirstOrDefault(d => d.Id == idDealer);
 
-      if (diller != null)
-        tbDealerContacts.Text = diller.Text;
+      if (dealer != null)
+        tbDealerContacts.Text = dealer.Contacts;
     }
 
     private void model_SelectedIndexChanged(object sender, EventArgs e)

@@ -18,13 +18,18 @@ namespace BBAuto.App
       Application.SetCompatibleTextRenderingDefault(false);
 
       AutoMapperConfiguration.Initialize();
-      
+
+      WindsorConfiguration.Register();
 
       DataBase.InitDataBase();
       Provider.InitSQLProvider();
 
+      var container = WindsorConfiguration.Container;
+
+      var form = container.Resolve<IForm>();
+
       if (User.Login())
-        Application.Run(new mainForm());
+        Application.Run((Form)form);
       else
         MessageBox.Show("У вас недостаточно прав для работы с программой", "Доступ заблокирован", MessageBoxButtons.OK,
           MessageBoxIcon.Warning);

@@ -1,11 +1,16 @@
 using System;
+using System.Configuration;
 using System.Windows.Forms;
+using BBAuto.App.config;
 using BBAuto.App.Events;
 using BBAuto.App.FormsForDriver.AddEdit;
 using BBAuto.Logic.Common;
 using BBAuto.Logic.Dictionary;
 using BBAuto.Logic.ForCar;
+using BBAuto.Logic.Services.Dealer;
 using BBAuto.Logic.Static;
+using BBAuto.Repositories;
+using Castle.Windsor;
 
 namespace BBAuto.App.FormsForCar.AddEdit
 {
@@ -155,7 +160,7 @@ namespace BBAuto.App.FormsForCar.AddEdit
 
     private void Send()
     {
-      EMail mail = new EMail();
+      var mail = new EMail();
       mail.SendMailViolation(_violation);
     }
 
@@ -167,8 +172,10 @@ namespace BBAuto.App.FormsForCar.AddEdit
 
     private void llCar_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-      Car_AddEdit carAE = new Car_AddEdit(_violation.Car);
-      carAE.ShowDialog();
+      var container = WindsorConfiguration.Container;
+
+      var carForm = new CarForm(container.Resolve<IDealerService>());
+      carForm.ShowDialog(_violation.Car);
     }
   }
 }

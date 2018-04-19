@@ -1,9 +1,11 @@
 using System;
+using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using BBAuto.App.Actions;
 using BBAuto.App.AddEdit;
+using BBAuto.App.config;
 using BBAuto.App.Common;
 using BBAuto.App.CommonForms;
 using BBAuto.App.Dictionary;
@@ -17,7 +19,9 @@ using BBAuto.Logic.Entities;
 using BBAuto.Logic.ForCar;
 using BBAuto.Logic.ForDriver;
 using BBAuto.Logic.Lists;
+using BBAuto.Logic.Services.Dealer;
 using BBAuto.Logic.Static;
+using BBAuto.Repositories;
 
 namespace BBAuto.App.ContextMenu
 {
@@ -680,19 +684,21 @@ namespace BBAuto.App.ContextMenu
       item.Click += delegate { Process.Start(DOCUMENTS_PATH); };
       return item;
     }
-
+    
     private ToolStripMenuItem CreateNewCar()
     {
       ToolStripMenuItem item = CreateItem("Покупка автомобиля");
       item.Click += delegate
       {
-        Car_AddEdit aeCar = new Car_AddEdit(new Car());
-        if (aeCar.ShowDialog() == DialogResult.OK)
+        var container = WindsorConfiguration.Container;
+        var carForm = new CarForm(container.Resolve<IDealerService>());
+
+        if (carForm.ShowDialog(new Car()) == DialogResult.OK)
           _mainStatus.Set(_mainStatus.Get());
       };
       return item;
     }
-
+    
     private ToolStripMenuItem CreateNewAccount()
     {
       ToolStripMenuItem item = CreateItem("Добавить счёт");
