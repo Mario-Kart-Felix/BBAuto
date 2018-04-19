@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[Culprit](
 	[culprit_id] [int] IDENTITY(1,1) NOT NULL,
-	[culprit_name] [varchar](50) NOT NULL,
+	[culprit_name] NVARCHAR(50) NOT NULL,
  CONSTRAINT [PK_Culprit] PRIMARY KEY CLUSTERED 
 (
 	[culprit_id] ASC

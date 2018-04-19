@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[Proxy](
 	[proxy_id] [int] IDENTITY(1,1) NOT NULL,
-	[proxy_number] [varchar](50) NOT NULL,
+	[proxy_number] NVARCHAR(50) NOT NULL,
 	[proxy_date] [datetime] NOT NULL,
 	[proxyType_id] [int] NOT NULL,
 	[driver_id] [int] NOT NULL,

@@ -1,7 +1,7 @@
 CREATE TABLE [dbo].[CarSale](
 	[car_id] [int] NOT NULL,
 	[carSale_date] [datetime] NULL,
-	[carSale_comm] [varchar](100) NULL,
+	[carSale_comm] NVARCHAR(100) NULL,
  CONSTRAINT [PK_CarSale] PRIMARY KEY CLUSTERED 
 (
 	[car_id] ASC

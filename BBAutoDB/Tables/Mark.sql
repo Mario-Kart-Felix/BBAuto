@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[Mark](
 	[mark_id] [int] IDENTITY(1,1) NOT NULL,
-	[mark_name] [varchar](50) NOT NULL,
+	[mark_name] NVARCHAR(50) NOT NULL,
  CONSTRAINT [PK_Mark] PRIMARY KEY CLUSTERED 
 (
 	[mark_id] ASC

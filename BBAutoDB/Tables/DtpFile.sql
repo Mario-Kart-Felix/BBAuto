@@ -1,8 +1,8 @@
 CREATE TABLE [dbo].[dtpFile](
 	[dtpFile_id] [int] IDENTITY(1,1) NOT NULL,
 	[dtp_id] [int] NOT NULL,
-	[dtpFile_name] [varchar](100) NULL,
-	[dtpFile_file] [varchar](300) NOT NULL,
+	[dtpFile_name] NVARCHAR(100) NULL,
+	[dtpFile_file] NVARCHAR(300) NOT NULL,
  CONSTRAINT [PK_dtpFile] PRIMARY KEY CLUSTERED 
 (
 	[dtpFile_id] ASC

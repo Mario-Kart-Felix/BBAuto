@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[Comp](
 	[comp_id] [int] IDENTITY(1,1) NOT NULL,
-	[comp_name] [varchar](50) NOT NULL,
+	[comp_name] NVARCHAR(50) NOT NULL,
  CONSTRAINT [PK_Company] PRIMARY KEY CLUSTERED 
 (
 	[comp_id] ASC

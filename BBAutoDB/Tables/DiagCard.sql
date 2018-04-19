@@ -1,9 +1,9 @@
 CREATE TABLE [dbo].[diagCard](
 	[diagCard_id] [int] IDENTITY(1,1) NOT NULL,
 	[car_id] [int] NOT NULL,
-	[diagCard_number] [varchar](50) NOT NULL,
+	[diagCard_number] NVARCHAR(50) NOT NULL,
 	[diagCard_date] [datetime] NOT NULL,
-	[diagCard_file] [varchar](200) NULL,
+	[diagCard_file] NVARCHAR(200) NULL,
 	[diagCard_notificationSent] [int] NULL,
  CONSTRAINT [PK_diagCard] PRIMARY KEY CLUSTERED 
 (

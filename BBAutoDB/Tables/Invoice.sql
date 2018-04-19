@@ -8,7 +8,7 @@ CREATE TABLE [dbo].[Invoice](
 	[invoice_dateMove] [datetime] NULL,
 	[region_id_From] [int] NULL,
 	[region_id_To] [int] NULL,
-	[invoice_file] [varchar](500) NULL,
+	[invoice_file] NVARCHAR(500) NULL,
  CONSTRAINT [PK_Invoice] PRIMARY KEY CLUSTERED 
 (
 	[invoice_id] ASC

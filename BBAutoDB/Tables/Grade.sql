@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[Grade](
 	[grade_id] [int] IDENTITY(1,1) NOT NULL,
-	[grade_name] [varchar](50) NOT NULL,
+	[grade_name] NVARCHAR(50) NOT NULL,
 	[grade_epower] [int] NOT NULL,
 	[grade_evol] [int] NOT NULL,
 	[grade_maxLoad] [int] NOT NULL,

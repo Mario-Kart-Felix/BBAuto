@@ -1,18 +1,18 @@
 create procedure dbo.InsertRoles
 as
   insert into dbo.Role
-    values ('Администратор')
+    values (N'Администратор')
   insert into dbo.Role
-    values ('Сотрудник транспортного отдела')
+    values (N'Сотрудник транспортного отдела')
   insert into dbo.Role
-    values ('Начальник транспортного отдела')
+    values (N'Начальник транспортного отдела')
   insert into dbo.Role
-    values ('Просмотр')
+    values (N'Просмотр')
   insert into dbo.Role
-    values ('Бухгалтер (Путевые листы)')
+    values (N'Бухгалтер (Путевые листы)')
   insert into dbo.Role
-    values ('Бухгалтер ББраун')
+    values (N'Бухгалтер ББраун')
   insert into dbo.Role
-    values ('Бухгалтер Гематек')
+    values (N'Бухгалтер Гематек')
   insert into dbo.Role
-    values ('Заместитель начальника транспортного отдела')
+    values (N'Заместитель начальника транспортного отдела')

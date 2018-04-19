@@ -1,9 +1,9 @@
 CREATE TABLE [dbo].[Instraction](
 	[Instraction_id] [int] IDENTITY(1,1) NOT NULL,
-	[Instraction_number] [varchar](50) NOT NULL,
+	[Instraction_number] NVARCHAR(50) NOT NULL,
 	[Instraction_date] [datetime] NOT NULL,
 	[driver_id] [int] NOT NULL,
-	[instraction_file] [varchar](100) NULL,
+	[instraction_file] NVARCHAR(100) NULL,
  CONSTRAINT [PK_Instraction] PRIMARY KEY CLUSTERED 
 (
 	[Instraction_id] ASC

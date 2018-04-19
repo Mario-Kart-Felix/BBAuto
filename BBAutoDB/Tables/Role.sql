@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[Role](
 	[role_id] [int] IDENTITY(1,1) NOT NULL,
-	[role_name] [varchar](50) NOT NULL,
+	[role_name] NVARCHAR(50) NOT NULL,
  CONSTRAINT [PK_Role] PRIMARY KEY CLUSTERED 
 (
 	[role_id] ASC

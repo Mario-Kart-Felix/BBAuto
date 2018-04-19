@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[Color](
 	[color_id] [int] IDENTITY(1,1) NOT NULL,
-	[color_name] [varchar](50) NOT NULL,
+	[color_name] NVARCHAR(50) NOT NULL,
  CONSTRAINT [PK_Color] PRIMARY KEY CLUSTERED 
 (
 	[color_id] ASC

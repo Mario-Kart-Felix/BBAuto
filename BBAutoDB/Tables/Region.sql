@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[Region](
 	[region_id] [int] IDENTITY(1,1) NOT NULL,
-	[region_name] [varchar](50) NOT NULL,
+	[region_name] NVARCHAR(50) NOT NULL,
  CONSTRAINT [PK_Region] PRIMARY KEY CLUSTERED 
 (
 	[region_id] ASC

@@ -1,12 +1,12 @@
 CREATE TABLE [dbo].[Account](
 	[account_id] [int] IDENTITY(1,1) NOT NULL,
-	[account_number] [varchar](50) NOT NULL,
+	[account_number] NVARCHAR(50) NOT NULL,
 	[account_agreed] [int] NOT NULL,
 	[policyType_id] [int] NOT NULL,
 	[owner_id] [int] NOT NULL,
 	[account_paymentNumber] [int] NOT NULL,
 	[account_businessTrip] [int] NOT NULL,
-	[account_file] [varchar](100) NULL,
+	[account_file] NVARCHAR(100) NULL,
  CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED 
 (
 	[account_id] ASC

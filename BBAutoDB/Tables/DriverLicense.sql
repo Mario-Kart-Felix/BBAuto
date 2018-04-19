@@ -1,10 +1,10 @@
 CREATE TABLE [dbo].[DriverLicense](
 	[DriverLicense_id] [int] IDENTITY(1,1) NOT NULL,
-	[DriverLicense_number] [varchar](50) NOT NULL,
+	[DriverLicense_number] NVARCHAR(50) NOT NULL,
 	[DriverLicense_dateBegin] [datetime] NULL,
 	[DriverLicense_dateEnd] [datetime] NULL,
 	[driver_id] [int] NOT NULL,
-	[DriverLicense_file] [varchar](100) NULL,
+	[DriverLicense_file] NVARCHAR(100) NULL,
 	[DriverLicense_notificationSent] [int] NULL,
  CONSTRAINT [PK_License] PRIMARY KEY CLUSTERED 
 (

@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[CurrentStatusAfterDTP](
 	[CurrentStatusAfterDTP_id] [int] IDENTITY(1,1) NOT NULL,
-	[CurrentStatusAfterDTP_name] [varchar](100) NOT NULL,
+	[CurrentStatusAfterDTP_name] NVARCHAR(100) NOT NULL,
  CONSTRAINT [PK_CurrentStatusAfterDTP] PRIMARY KEY CLUSTERED 
 (
 	[CurrentStatusAfterDTP_id] ASC

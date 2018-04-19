@@ -1,7 +1,7 @@
 CREATE TABLE [dbo].[Tabel](
 	[driver_id] [int] NOT NULL,
 	[tabel_date] [datetime] NOT NULL,
-	[tabel_comment] [varchar](50) NULL,
+	[tabel_comment] NVARCHAR(50) NULL,
  CONSTRAINT [PK_Tabel_1] PRIMARY KEY CLUSTERED 
 (
 	[driver_id] ASC,

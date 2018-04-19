@@ -1,10 +1,10 @@
 CREATE TABLE [dbo].[MedicalCert](
 	[MedicalCert_id] [int] IDENTITY(1,1) NOT NULL,
-	[MedicalCert_number] [varchar](50) NOT NULL,
+	[MedicalCert_number] NVARCHAR(50) NOT NULL,
 	[MedicalCert_dateBegin] [datetime] NOT NULL,
 	[MedicalCert_dateEnd] [datetime] NOT NULL,
 	[driver_id] [int] NOT NULL,
-	[MedicalCert_file] [varchar](500) NULL,
+	[MedicalCert_file] NVARCHAR(500) NULL,
 	[MedicalCert_notificationSent] [int] NULL,
  CONSTRAINT [PK_MedicalCert] PRIMARY KEY CLUSTERED 
 (

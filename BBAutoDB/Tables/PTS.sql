@@ -1,9 +1,9 @@
 CREATE TABLE [dbo].[PTS](
 	[car_id] [int] NOT NULL,
-	[pts_number] [varchar](50) NOT NULL,
+	[pts_number] NVARCHAR(50) NOT NULL,
 	[pts_date] [datetime] NOT NULL,
-	[pts_giveOrg] [varchar](100) NULL,
-	[pts_file] [varchar](200) NULL,
+	[pts_giveOrg] NVARCHAR(100) NULL,
+	[pts_file] NVARCHAR(200) NULL,
  CONSTRAINT [PK_PTS] PRIMARY KEY CLUSTERED 
 (
 	[car_id] ASC

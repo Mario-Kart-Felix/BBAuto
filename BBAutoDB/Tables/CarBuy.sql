@@ -8,8 +8,8 @@ CREATE TABLE [dbo].[CarBuy](
 	[carBuy_isGet] [int] NOT NULL,
 	[carBuy_dateGet] [datetime] NULL,
 	[carBuy_cost] [float] NULL,
-	[carBuy_dop] [varchar](100) NULL,
-	[carBuy_events] [varchar](500) NULL,
+	[carBuy_dop] NVARCHAR(100) NULL,
+	[carBuy_events] NVARCHAR(500) NULL,
 	[dealerId] [int] NULL
 ) ON [PRIMARY]
 GO

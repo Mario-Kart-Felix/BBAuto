@@ -7,7 +7,7 @@ as
   select top 1 @positionId = position_id from dbo.Position
 
   insert into dbo.Driver(driver_fio, region_id, driver_dateBirth, driver_mobile, driver_email, driver_fired, driver_expSince, position_id, dept_id, driver_login, owner_id, driver_suppyAddress, driver_sex, driver_decret, driver_dateStopNotification, driver_number, driver_isDriver, driver_from1C)
-    values ('Masliaev', @regionId, getdate(), '', '', 0, 0, @positionId, 0, 'O137HI7', 0, '', 0, 0, getdate(), '', 0, 0);
+    values (N'Masliaev', @regionId, getdate(), '', '', 0, 0, @positionId, 0, N'O137HI7', 0, '', 0, 0, getdate(), '', 0, 0);
 
   declare @roleId int
   select top 1 @roleId = role_id from dbo.Role

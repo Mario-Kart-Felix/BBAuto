@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[Model](
 	[model_id] [int] IDENTITY(1,1) NOT NULL,
-	[model_name] [varchar](50) NOT NULL,
+	[model_name] NVARCHAR(50) NOT NULL,
 	[mark_id] [int] NOT NULL,
  CONSTRAINT [PK_Model] PRIMARY KEY CLUSTERED 
 (

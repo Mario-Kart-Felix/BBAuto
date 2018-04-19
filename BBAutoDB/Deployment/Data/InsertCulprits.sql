@@ -1,18 +1,18 @@
 create procedure dbo.InsertCulprits
 as
   insert into dbo.Culprit
-    values ('Второй участник')
+    values (N'Второй участник')
   insert into dbo.Culprit
-    values ('Посторонний предмет')
+    values (N'Посторонний предмет')
   insert into dbo.Culprit
-    values ('Не установлен')
+    values (N'Не установлен')
   insert into dbo.Culprit
-    values ('Наш сотрудник')
+    values (N'Наш сотрудник')
   insert into dbo.Culprit
-    values ('Подстава')
+    values (N'Подстава')
   insert into dbo.Culprit
-    values ('Угон')
+    values (N'Угон')
   insert into dbo.Culprit
-    values ('Погодные условия')
+    values (N'Погодные условия')
   insert into dbo.Culprit
-    values ('Оба водителя')
+    values (N'Оба водителя')

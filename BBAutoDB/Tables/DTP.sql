@@ -7,11 +7,11 @@ CREATE TABLE [dbo].[DTP](
 	[dtp_dateCallInsure] [datetime] NULL,
 	[culprit_id] [int] NULL,
 	[StatusAfterDTP_id] [int] NOT NULL,
-	[dtp_numberLoss] [varchar](50) NULL,
+	[dtp_numberLoss] NVARCHAR(50) NULL,
 	[dtp_sum] [float] NULL,
-	[dtp_damage] [varchar](300) NULL,
-	[dtp_facts] [varchar](500) NULL,
-	[dtp_comm] [varchar](100) NULL,
+	[dtp_damage] NVARCHAR(300) NULL,
+	[dtp_facts] NVARCHAR(500) NULL,
+	[dtp_comm] NVARCHAR(100) NULL,
 	[CurrentStatusAfterDTP_id] [int] NULL,
  CONSTRAINT [PK_dtp] PRIMARY KEY CLUSTERED 
 (

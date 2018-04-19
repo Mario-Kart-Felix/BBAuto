@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[FuelCardType](
 	[FuelCardType_id] [int] IDENTITY(1,1) NOT NULL,
-	[FuelCardType_name] [varchar](50) NOT NULL,
+	[FuelCardType_name] NVARCHAR(50) NOT NULL,
  CONSTRAINT [PK_FuelCardType] PRIMARY KEY CLUSTERED 
 (
 	[FuelCardType_id] ASC

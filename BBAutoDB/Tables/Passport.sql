@@ -1,14 +1,14 @@
 CREATE TABLE [dbo].[Passport](
 	[passport_id] [int] IDENTITY(1,1) NOT NULL,
 	[driver_id] [int] NOT NULL,
-	[passport_firstName] [varchar](50) NOT NULL,
-	[passport_lastName] [varchar](50) NOT NULL,
-	[passport_secondName] [varchar](50) NOT NULL,
-	[passport_number] [varchar](12) NOT NULL,
-	[passport_GiveOrg] [varchar](200) NOT NULL,
+	[passport_firstName] NVARCHAR(50) NOT NULL,
+	[passport_lastName] NVARCHAR(50) NOT NULL,
+	[passport_secondName] NVARCHAR(50) NOT NULL,
+	[passport_number] NVARCHAR(12) NOT NULL,
+	[passport_GiveOrg] NVARCHAR(200) NOT NULL,
 	[passport_GiveDate] [datetime] NOT NULL,
-	[passport_address] [varchar](200) NOT NULL,
-	[passport_file] [varchar](100) NULL,
+	[passport_address] NVARCHAR(200) NOT NULL,
+	[passport_file] NVARCHAR(100) NULL,
  CONSTRAINT [PK_Passport] PRIMARY KEY CLUSTERED 
 (
 	[passport_id] ASC

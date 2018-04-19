@@ -1,8 +1,8 @@
 CREATE TABLE [dbo].[carDoc](
 	[carDoc_id] [int] IDENTITY(1,1) NOT NULL,
 	[car_id] [int] NOT NULL,
-	[carDoc_name] [varchar](50) NOT NULL,
-	[carDoc_file] [varchar](200) NOT NULL,
+	[carDoc_name] NVARCHAR(50) NOT NULL,
+	[carDoc_file] NVARCHAR(200) NOT NULL,
  CONSTRAINT [PK_carDoc] PRIMARY KEY CLUSTERED 
 (
 	[carDoc_id] ASC

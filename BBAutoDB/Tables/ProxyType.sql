@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[proxyType](
 	[proxyType_id] [int] IDENTITY(1,1) NOT NULL,
-	[proxyType_name] [varchar](50) NOT NULL,
+	[proxyType_name] NVARCHAR(50) NOT NULL,
  CONSTRAINT [PK_proxyType] PRIMARY KEY CLUSTERED 
 (
 	[proxyType_id] ASC

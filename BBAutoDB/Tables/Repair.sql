@@ -5,7 +5,7 @@ CREATE TABLE [dbo].[Repair](
 	[ServiceStantion_id] [int] NOT NULL,
 	[repair_date] [datetime] NOT NULL,
 	[repair_cost] [float] NOT NULL,
-	[repair_file] [varchar](200) NULL,
+	[repair_file] NVARCHAR(200) NULL,
  CONSTRAINT [PK_Repair] PRIMARY KEY CLUSTERED 
 (
 	[repair_id] ASC

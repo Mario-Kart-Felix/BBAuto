@@ -1,10 +1,10 @@
 CREATE TABLE [dbo].[History](
 	[his_id] [int] IDENTITY(1,1) NOT NULL,
-	[his_comment] [varchar](50) NOT NULL,
+	[his_comment] NVARCHAR(50) NOT NULL,
 	[id] [int] NOT NULL,
 	[his_date] [datetime] NOT NULL,
-	[his_event] [varchar](50) NOT NULL,
-	[his_file] [varchar](max) NULL,
+	[his_event] NVARCHAR(50) NOT NULL,
+	[his_file] NVARCHAR(MAX) NULL,
  CONSTRAINT [PK_History] PRIMARY KEY CLUSTERED 
 (
 	[his_id] ASC

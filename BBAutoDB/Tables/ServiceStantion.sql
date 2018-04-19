@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[ServiceStantion](
 	[ServiceStantion_id] [int] IDENTITY(1,1) NOT NULL,
-	[ServiceStantion_name] [varchar](200) NOT NULL,
+	[ServiceStantion_name] NVARCHAR(200) NOT NULL,
  CONSTRAINT [PK_ServiceStantion] PRIMARY KEY CLUSTERED 
 (
 	[ServiceStantion_id] ASC

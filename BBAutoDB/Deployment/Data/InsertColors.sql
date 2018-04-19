@@ -1,62 +1,62 @@
 create procedure dbo.InsertColors
 as
   insert into dbo.Color
-    values ('(Не определен)')
+    values (N'(Не определен)')
   insert into dbo.Color
-    values ('Черный')
+    values (N'Черный')
   insert into dbo.Color
-    values ('Красный')
+    values (N'Красный')
   insert into dbo.Color
-    values ('Синий')
+    values (N'Синий')
   insert into dbo.Color
-    values ('Светло-серый')
+    values (N'Светло-серый')
   insert into dbo.Color
-    values ('Бежевый')
+    values (N'Бежевый')
   insert into dbo.Color
-    values ('Бронзовый')
+    values (N'Бронзовый')
   insert into dbo.Color
-    values ('Коричневый')
+    values (N'Коричневый')
   insert into dbo.Color
-    values ('Светло-серо-голубой')
+    values (N'Светло-серо-голубой')
   insert into dbo.Color
-    values ('Серебристый')
+    values (N'Серебристый')
   insert into dbo.Color
-    values ('Серо-голубой')
+    values (N'Серо-голубой')
   insert into dbo.Color
-    values ('Серо-зеленый')
+    values (N'Серо-зеленый')
   insert into dbo.Color
-    values ('Серо-сиреневый')
+    values (N'Серо-сиреневый')
   insert into dbo.Color
-    values ('Серый')
+    values (N'Серый')
   insert into dbo.Color
-    values ('Сине-голубой')
+    values (N'Сине-голубой')
   insert into dbo.Color
-    values ('Темно-серый')
+    values (N'Темно-серый')
   insert into dbo.Color
-    values ('Темно-синий')
+    values (N'Темно-синий')
   insert into dbo.Color
-    values ('Бежево-серый')
+    values (N'Бежево-серый')
   insert into dbo.Color
-    values ('Голубой')
+    values (N'Голубой')
   insert into dbo.Color
-    values ('Серебристый металлик')
+    values (N'Серебристый металлик')
   insert into dbo.Color
-    values ('Серо-бежевый')
+    values (N'Серо-бежевый')
   insert into dbo.Color
-    values ('Серо-синий')
+    values (N'Серо-синий')
   insert into dbo.Color
-    values ('Темно-бордовый')
+    values (N'Темно-бордовый')
   insert into dbo.Color
-    values ('Темно-красный')
+    values (N'Темно-красный')
   insert into dbo.Color
-    values ('Темно-серый металлик')
+    values (N'Темно-серый металлик')
   insert into dbo.Color
-    values ('Черный металлик')
+    values (N'Черный металлик')
   insert into dbo.Color
-    values ('Белый')
+    values (N'Белый')
   insert into dbo.Color
-    values ('Темно-коричневый')
+    values (N'Темно-коричневый')
   insert into dbo.Color
-    values ('Оранжевый')
+    values (N'Оранжевый')
   insert into dbo.Color
-    values ('Белый (перламутр)')
+    values (N'Белый (перламутр)')

@@ -1,17 +1,17 @@
 CREATE TABLE [dbo].[Car](
 	[car_id] [int] IDENTITY(1,1) NOT NULL,
 	[car_bbnumber] [int] NOT NULL,
-	[car_grz] [varchar](50) NULL,
-	[car_vin] [varchar](17) NULL,
+	[car_grz] NVARCHAR(50) NULL,
+	[car_vin] NVARCHAR(17) NULL,
 	[car_year] [int] NULL,
-	[car_enumber] [varchar](50) NULL,
-	[car_bodynumber] [varchar](50) NULL,
+	[car_enumber] NVARCHAR(50) NULL,
+	[car_bodynumber] NVARCHAR(50) NULL,
 	[pts_id] [int] NULL,
 	[sts_id] [int] NULL,
 	[grade_id] [int] NULL,
 	[color_id] [int] NULL,
 	[car_lisingDate] [datetime] NULL,
-	[car_invertoryNumber] [varchar](50) NULL,
+	[car_invertoryNumber] NVARCHAR(50) NULL,
  CONSTRAINT [PK_Car] PRIMARY KEY CLUSTERED 
 (
 	[car_id] ASC

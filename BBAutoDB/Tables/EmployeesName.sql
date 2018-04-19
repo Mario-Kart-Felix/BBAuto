@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[EmployeesName](
 	[employeesName_id] [int] IDENTITY(1,1) NOT NULL,
-	[employeesName_name] [varchar](50) NOT NULL,
+	[employeesName_name] NVARCHAR(MAX) NOT NULL,
  CONSTRAINT [PK_employeesName] PRIMARY KEY CLUSTERED 
 (
 	[employeesName_id] ASC

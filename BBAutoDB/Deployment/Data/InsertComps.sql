@@ -1,8 +1,8 @@
 create procedure [dbo].[InsertComps]
 as
   insert into dbo.Comp
-    values ('Регион')
+    values (N'Регион')
   insert into dbo.Comp
-    values ('Ингосстрах')
+    values (N'Ингосстрах')
   insert into dbo.Comp
-    values ('РЕСО гарантия')
+    values (N'РЕСО гарантия')

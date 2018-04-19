@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[RepairType](
 	[repairType_id] [int] IDENTITY(1,1) NOT NULL,
-	[repairType_name] [varchar](50) NOT NULL,
+	[repairType_name] NVARCHAR(50) NOT NULL,
  CONSTRAINT [PK_RepairType] PRIMARY KEY CLUSTERED 
 (
 	[repairType_id] ASC

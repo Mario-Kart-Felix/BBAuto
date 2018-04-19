@@ -1,7 +1,7 @@
 CREATE TABLE [dbo].[Dealer](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [varchar](100) NOT NULL,
-	[Contacts] [varchar](500) NULL,
+	[Name] NVARCHAR(100) NOT NULL,
+	[Contacts] NVARCHAR(500) NULL,
  CONSTRAINT [PK_Dealer] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

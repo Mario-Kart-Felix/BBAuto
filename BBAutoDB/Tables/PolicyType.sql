@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[policyType](
 	[policyType_id] [int] IDENTITY(1,1) NOT NULL,
-	[policyType_name] [varchar](50) NOT NULL,
+	[policyType_name] NVARCHAR(50) NOT NULL,
  CONSTRAINT [PK_InsuranceType] PRIMARY KEY CLUSTERED 
 (
 	[policyType_id] ASC
