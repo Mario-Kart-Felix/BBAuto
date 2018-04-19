@@ -35,8 +35,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -143,6 +145,7 @@
     <Compile Include="CommonForms\FormWayBillDaily.Designer.cs">
       <DependentUpon>FormWayBillDaily.cs</DependentUpon>
     </Compile>
+    <Compile Include="config\AutoMapperConfiguration.cs" />
     <Compile Include="FormsForDriver\AddNewDriver.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -662,6 +665,10 @@
     <ProjectReference Include="..\CheckBoxComboBox\CheckBoxComboBox.csproj">
       <Project>{70a25201-8ea4-48f8-a4a6-ed13adf8823c}</Project>
       <Name>CheckBoxComboBox</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{CCEFEC04-1E5E-4971-AB56-9EEC7E6B7C40}</Project>
+      <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

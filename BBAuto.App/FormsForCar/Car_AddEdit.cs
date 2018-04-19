@@ -57,13 +57,13 @@ namespace BBAuto.App.FormsForCar
 
     private void Car_AddEdit_Load(object sender, EventArgs e)
     {
-      loadData();
+      LoadData();
 
       SetWindowHeader();
 
       _workWithForm = new WorkWithForm(this.Controls, btnSave, btnClose);
       _workWithForm.EditModeChanged += SetNotEditableItems;
-      _workWithForm.SetEditMode(_car.Id == 0 || (!_car.IsGet));
+      _workWithForm.SetEditMode(_car.Id == 0 || !_car.IsGet);
 
 
       /*TODO: Столярова видит основную инфу */
@@ -79,7 +79,7 @@ namespace BBAuto.App.FormsForCar
       }
     }
 
-    private void loadData()
+    private void LoadData()
     {
       _load = false;
       loadOneStringDictionary(cbMark, "Mark");
@@ -92,7 +92,7 @@ namespace BBAuto.App.FormsForCar
       loadOneStringDictionary(cbOwner, "Owner");
       loadOneStringDictionary(cbDealer, "Diller");
 
-      Region region = getRegion();
+      var region = GetRegion();
 
       cbDriver.DataSource = _driverList.ToDataTableByRegion(region);
       cbDriver.DisplayMember = "ФИО";
@@ -104,11 +104,10 @@ namespace BBAuto.App.FormsForCar
       loadCarDoc();
     }
 
-    private Region getRegion()
+    private Region GetRegion()
     {
-      int idRegion = 0;
-      int.TryParse(cbRegionUsing.SelectedValue.ToString(), out idRegion);
-      RegionList regionList = RegionList.getInstance();
+      int.TryParse(cbRegionUsing.SelectedValue.ToString(), out int idRegion);
+      var regionList = RegionList.getInstance();
       return regionList.getItem(idRegion);
     }
 
@@ -395,7 +394,7 @@ namespace BBAuto.App.FormsForCar
     {
       if ((_load) && (cbRegionUsing.SelectedValue != null))
       {
-        Region region = getRegion();
+        Region region = GetRegion();
 
         cbDriver.DataSource = _driverList.ToDataTableByRegion(region);
       }

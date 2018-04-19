@@ -56,11 +56,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DbContext.cs" />
     <Compile Include="Entities\DbAccount.cs" />
+    <Compile Include="Entities\DbDealer.cs" />
+    <Compile Include="IDbContext.cs" />
     <Compile Include="Interfaces\IDbAccount.cs" />
+    <Compile Include="Interfaces\IDbDealer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{CCEFEC04-1E5E-4971-AB56-9EEC7E6B7C40}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

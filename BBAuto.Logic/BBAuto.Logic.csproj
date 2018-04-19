@@ -34,6 +34,15 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Serilog, Version=1.5.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\packages\Serilog.1.5.14\lib\net45\Serilog.dll</HintPath>
@@ -45,6 +54,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
@@ -92,6 +102,10 @@
     <Compile Include="Services\Account\AccountService.cs" />
     <Compile Include="Services\Account\IAccountRepository.cs" />
     <Compile Include="Services\Account\IAccountService.cs" />
+    <Compile Include="Services\Dealer\DealerMappingProfile.cs" />
+    <Compile Include="Services\Dealer\DealerModel.cs" />
+    <Compile Include="Services\Dealer\DealerService.cs" />
+    <Compile Include="Services\Dealer\IDealerService.cs" />
     <Compile Include="Static\MyExtension.cs" />
     <Compile Include="ForCar\CarInfo.cs" />
     <Compile Include="ForDriver\FuelCard.cs" />
@@ -227,6 +241,7 @@
     <Compile Include="Tables\Route.cs" />
     <Compile Include="Tables\WayBillRoute.cs" />
     <Compile Include="Views\IViewDictionary.cs" />
+    <Compile Include="WindsorInstaller.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">
@@ -302,6 +317,14 @@
     <ProjectReference Include="..\BBAuto.DataLayer\BBAuto.DataLayer.csproj">
       <Project>{7FCEF0EC-8651-4D9E-9A1D-7DC7C92C2436}</Project>
       <Name>BBAuto.DataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BBAuto.Repositories\BBAuto.Repositories.csproj">
+      <Project>{f9dfd2cd-0149-4df4-8a87-aab468eeb52d}</Project>
+      <Name>BBAuto.Repositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{ccefec04-1e5e-4971-ab56-9eec7e6b7c40}</Project>
+      <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

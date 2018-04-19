@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using BBAuto.App.config;
 using BBAuto.Logic.DataBase;
 using BBAuto.Logic.Static;
 
@@ -15,6 +16,9 @@ namespace BBAuto.App
     {
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
+
+      AutoMapperConfiguration.Initialize();
+      
 
       DataBase.InitDataBase();
       Provider.InitSQLProvider();
