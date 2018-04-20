@@ -26,20 +26,9 @@ print N'Current version is: ' + @curver
 
 if @curver <= '' 
 begin
-  print N'Refilling database...'
+  print N'Clear database...'
   exec dbo.ClearDatabase
   
-  exec dbo.InsertRoles
-  exec dbo.InsertUsers
-    
-  exec dbo.InsertStatuses
-  exec dbo.InsertRegions
-  exec dbo.InsertPositions
-  exec dbo.InsertDepts
-  exec dbo.InsertOwners
-  exec dbo.InsertColors
-  exec dbo.InsertComps
-  exec dbo.InsertCulprits
-
-  exec dbo.InsertDrivers
+  print N'Fill database...'
+  exec dbo.FillDatabase
 end

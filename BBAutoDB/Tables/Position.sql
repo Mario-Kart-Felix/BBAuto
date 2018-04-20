@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[Position](
 	[position_id] [int] IDENTITY(1,1) NOT NULL,
-	[position_name] NVARCHAR(100) NOT NULL,
+	[position_name] NVARCHAR(256) NOT NULL,
  CONSTRAINT [PK_Position] PRIMARY KEY CLUSTERED 
 (
 	[position_id] ASC
