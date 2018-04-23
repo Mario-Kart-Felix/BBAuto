@@ -6,16 +6,16 @@ namespace BBAuto.Logic.Presenters
 {
   public class DictionaryPresenter
   {
-    private IDictionaryMvc _dictionary;
-    private IViewDictionary _view;
-
+    private readonly IDictionaryMvc _dictionary;
+    private readonly IViewDictionary _view;
+    
     public DictionaryPresenter(IViewDictionary view, IDictionaryMvc dictionary)
     {
       _view = view;
       _dictionary = dictionary;
 
-      _view.SaveClick += new EventHandler<EventArgs>(OnClickSave);
-      _view.LoadData += new EventHandler<EventArgs>(OnLoad);
+      _view.SaveClick += OnClickSave;
+      _view.LoadData += OnLoad;
     }
 
     private void OnSetName(object sender, EventArgs e)

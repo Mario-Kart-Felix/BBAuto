@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
@@ -69,7 +70,7 @@ namespace BBAuto.App.FormsForCar
 
     private void Car_AddEdit_Load(object sender, EventArgs e)
     {
-      LoadDataAsync();
+      LoadData();
 
       SetWindowHeader();
 
@@ -91,7 +92,7 @@ namespace BBAuto.App.FormsForCar
       }
     }
 
-    private async Task LoadDataAsync()
+    private void LoadData()
     {
       _load = false;
       loadOneStringDictionary(cbMark, "Mark");
@@ -103,7 +104,7 @@ namespace BBAuto.App.FormsForCar
       loadOneStringDictionary(cbRegionUsing, "Region");
       loadOneStringDictionary(cbOwner, "Owner");
 
-      var list = await _dealerService.GetDealersAsync();
+      var list = _dealerService.GetDealers();
       cbDealer.DataSource = list;
       cbDealer.DisplayMember = "Name";
       cbDealer.ValueMember = "Id";
@@ -297,10 +298,10 @@ namespace BBAuto.App.FormsForCar
       ChangeDealer(Convert.ToInt32(cbDealer.SelectedValue));
     }
 
-    private void ChangeDealer(int idDealer)
+    private void ChangeDealer(int selectedId)
     {
-      var dealer = _dealerService.GetDealersAsync().Result.FirstOrDefault(d => d.Id == idDealer);
-
+      var dealer = (DealerModel)cbDealer.Items[selectedId];
+      
       if (dealer != null)
         tbDealerContacts.Text = dealer.Contacts;
     }

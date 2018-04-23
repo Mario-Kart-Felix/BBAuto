@@ -2,18 +2,18 @@ CREATE PROCEDURE [dbo].[Violation_Insert]
 @idViolation int,
 @idCar int,
 @date datetime,
-@number varchar(50),
-@file varchar(200),
-@datePay varchar(50),
-@filePay varchar(200),
+@number nvarchar(50),
+@file nvarchar(200),
+@datePay nvarchar(50),
+@filePay nvarchar(200),
 @idViolationType int,
 @sum int,
 @sent int,
 @noDeduction int,
-@agreed varchar(5) = 'False'
+@agreed nvarchar(5) = 'False'
 AS
 BEGIN
-	declare @event varchar(50)
+	declare @event nvarchar(50)
 
 	if (@datePay = '')
 		SET @datePay = NULL

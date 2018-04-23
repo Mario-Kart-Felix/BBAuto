@@ -3,7 +3,7 @@ CREATE PROCEDURE [dbo].[FuelCardDriver_Insert]
 @idFuelCard int,
 @idDriver int,
 @dateBegin datetime,
-@dateEndText varchar(50)
+@dateEndText nvarchar(50)
 AS
 BEGIN
 	Declare @dateEnd datetime

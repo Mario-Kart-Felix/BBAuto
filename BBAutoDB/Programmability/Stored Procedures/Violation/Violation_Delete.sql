@@ -2,7 +2,7 @@ CREATE PROCEDURE [dbo].[Violation_Delete]
 @idViolation int
 AS
 BEGIN
-	declare @filePay varchar(MAX)
+	declare @filePay nvarchar(MAX)
 	
 	SELECT @filePay = violation_filePay FROM Violation WHERE violation_id=@idViolation
 

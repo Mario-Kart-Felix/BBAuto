@@ -76,6 +76,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IDictionaryWithTextModel.cs" />
+    <Compile Include="Abstract\IDictionaryWithTextService.cs" />
     <Compile Include="Common\MileageMonth.cs" />
     <Compile Include="Entities\Car.cs" />
     <Compile Include="Abstract\IExcelImporter.cs" />

@@ -5,12 +5,12 @@ CREATE PROCEDURE [dbo].[DTP_Insert]
 @idRegion int,
 @dateCallInsure datetime,
 @idCulprit int,
-@idStatusAfterDTP varchar(50),
-@numberLoss varchar(50),
+@idStatusAfterDTP nvarchar(50),
+@numberLoss nvarchar(50),
 @sum float,
-@damage varchar(300),
-@facts varchar(500),
-@comm varchar(100),
+@damage nvarchar(300),
+@facts nvarchar(500),
+@comm nvarchar(100),
 @idCurrentStatusAfterDTP int
 AS
 BEGIN		

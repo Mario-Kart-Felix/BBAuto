@@ -1,6 +1,6 @@
 create procedure [dbo].[Status_Insert]
   @id int,
-  @Name varchar(50)
+  @Name nvarchar(50)
 as
 begin
 	if (@id = 0)

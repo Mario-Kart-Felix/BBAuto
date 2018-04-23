@@ -5,10 +5,10 @@ CREATE PROCEDURE [dbo].[Invoice_Insert]
 @idDriverFrom int,
 @idDriverTo int,
 @date datetime,
-@dateMoveText varchar(50),
+@dateMoveText nvarchar(50),
 @idRegionFrom int,
 @idRegionTo int,
-@file varchar(500)
+@file nvarchar(500)
 AS
 BEGIN	
 	Declare @dateMove datetime

@@ -1,7 +1,7 @@
 create procedure [dbo].[UpsertDealer]
   @id int,
-  @Name varchar(100),
-  @Contacts varchar(500)
+  @Name nvarchar(100),
+  @Contacts nvarchar(500)
 as
 begin
   if (@id = 0)

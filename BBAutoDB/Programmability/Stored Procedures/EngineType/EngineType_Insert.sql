@@ -1,7 +1,7 @@
 CREATE PROCEDURE [dbo].[EngineType_Insert]
 @id int,
-@Name varchar(50),
-@ShortName varchar(50)
+@Name nvarchar(50),
+@ShortName nvarchar(50)
 AS
 BEGIN
 	if (@id = 0)

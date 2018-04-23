@@ -3,5 +3,5 @@ create procedure dbo.DeleteDealer
 as
 begin
   delete from dbo.Dealer
-  where id = @id
+  where Id = @id
 end

@@ -1,10 +1,10 @@
 CREATE PROCEDURE [dbo].[MedicalCert_Insert]
 @id int,
 @idDriver int,
-@number varchar(50),
+@number nvarchar(50),
 @dateBegin datetime,
 @dateEnd datetime,
-@file varchar(500),
+@file nvarchar(500),
 @notificationSent int
 AS
 BEGIN

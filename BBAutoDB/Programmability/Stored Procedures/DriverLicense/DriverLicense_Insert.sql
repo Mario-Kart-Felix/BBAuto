@@ -1,10 +1,10 @@
 CREATE PROCEDURE [dbo].[DriverLicense_Insert]
 @idDriverLicense int,
 @idDriver int,
-@number varchar(50),
+@number nvarchar(50),
 @dateBegin datetime,
 @dateEnd datetime,
-@file varchar(100),
+@file nvarchar(100),
 @notificationSent int
 AS
 BEGIN

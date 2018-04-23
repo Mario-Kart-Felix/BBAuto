@@ -1,7 +1,7 @@
 CREATE PROCEDURE [dbo].[CarSale_Insert]
 @idCar int,
-@comm varchar(100) = '',
-@date varchar(50) = ''
+@comm nvarchar(100) = '',
+@date nvarchar(50) = ''
 AS
 BEGIN
 	Declare @count int

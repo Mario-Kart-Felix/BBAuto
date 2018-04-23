@@ -1,8 +1,8 @@
 CREATE PROCEDURE [dbo].[History_Insert]
-@Comment varchar(50),
+@Comment nvarchar(50),
 @id int,
-@Event varchar(50),
-@file varchar(MAX)
+@Event nvarchar(50),
+@file nvarchar(MAX)
 AS
 BEGIN
 	if (@file = '')

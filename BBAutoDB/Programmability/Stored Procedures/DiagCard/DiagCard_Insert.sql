@@ -1,9 +1,9 @@
 CREATE PROCEDURE [dbo].[DiagCard_Insert]
 @idDiagCard int,
 @idCar int,
-@number varchar(50),
+@number nvarchar(50),
 @date datetime,
-@file varchar(200),
+@file nvarchar(200),
 @notificationSent int
 AS
 BEGIN

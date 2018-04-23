@@ -15,7 +15,7 @@ BEGIN
 	end
 	else
 	begin
-		SELECT 'Удаление невозможно. Надено зависимых записей: ' + CAST(@count as Varchar(50)) + ' шт'
+		SELECT 'Удаление невозможно. Надено зависимых записей: ' + CAST(@count as nvarchar(50)) + ' шт'
 	end
 END
 GO

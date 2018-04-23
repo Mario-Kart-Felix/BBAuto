@@ -1,7 +1,7 @@
 CREATE PROCEDURE [dbo].[MyPoint_Insert]
 @id int,
 @idRegion int,
-@name varchar(100)
+@name nvarchar(100)
 AS
 BEGIN
 	if (@id = 0)

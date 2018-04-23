@@ -2,10 +2,10 @@ CREATE PROCEDURE [dbo].[ShipPart_Insert]
 @id int,
 @idCar int,
 @idDriver int,
-@name varchar(50),
-@dateRequestText varchar(50),
-@dateSentText varchar(50),
-@file varchar(500)
+@name nvarchar(50),
+@dateRequestText nvarchar(50),
+@dateSentText nvarchar(50),
+@file nvarchar(500)
 AS
 BEGIN
 	Declare @dateRequest datetime

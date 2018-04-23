@@ -963,7 +963,8 @@ namespace BBAuto.App.ContextMenu
       ToolStripMenuItem item = CreateItem("Дилеры");
       item.Click += delegate
       {
-        FormDealerList dList = new FormDealerList();
+        var container = WindsorConfiguration.Container;
+        var dList = new DealerListForm(container.Resolve<IDealerService>());
         dList.ShowDialog();
       };
       return item;

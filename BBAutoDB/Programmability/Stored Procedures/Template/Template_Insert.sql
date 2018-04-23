@@ -1,7 +1,7 @@
 CREATE PROCEDURE [dbo].[Template_Insert]
 @idTemplate int,
-@name varchar(50),
-@path varchar(200)
+@name nvarchar(50),
+@path nvarchar(200)
 AS
 BEGIN
 	if (@idTemplate = 0)

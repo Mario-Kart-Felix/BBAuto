@@ -1,16 +1,16 @@
 CREATE PROCEDURE [dbo].[Car_Insert]
 @idCar int,
 @bbNumber int,
-@grz varchar(50),
-@vin varchar(17),
+@grz nvarchar(50),
+@vin nvarchar(17),
 @year int,
-@eNumber varchar(50),
-@bodyNumber varchar(50),
+@eNumber nvarchar(50),
+@bodyNumber nvarchar(50),
 @idGrade int,
 @idColor int,
 @isLising int,
 @LisingDate datetime,
-@InvertoryNumber varchar(50)
+@InvertoryNumber nvarchar(50)
 AS
 BEGIN
 	if (@idColor = 0)

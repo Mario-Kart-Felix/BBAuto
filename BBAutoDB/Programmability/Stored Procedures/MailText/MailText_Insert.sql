@@ -1,7 +1,7 @@
 CREATE PROCEDURE [dbo].[MailText_Insert]
 @id int,
-@name varchar(50),
-@text varchar(500)
+@name nvarchar(50),
+@text nvarchar(500)
 AS
 BEGIN
 	if (@id = 0)

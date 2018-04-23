@@ -64,6 +64,12 @@
     <Compile Include="AddEdit\Account_AddEdit.Designer.cs">
       <DependentUpon>Account_AddEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddEdit\DealerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddEdit\DealerForm.Designer.cs">
+      <DependentUpon>DealerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="AddEdit\Employees_AddEdit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -157,6 +163,7 @@
     <Compile Include="config\AutoMapperConfiguration.cs" />
     <Compile Include="config\WindsorConfiguration.cs" />
     <Compile Include="config\WindsorFormInstaller.cs" />
+    <Compile Include="Dictionary\IDealerListForm.cs" />
     <Compile Include="FormsForCar\ICarForm.cs" />
     <Compile Include="FormsForDriver\AddNewDriver.cs">
       <SubType>Form</SubType>
@@ -331,11 +338,11 @@
     <Compile Include="FormsForCar\AddEdit\Invoice_AddEdit.Designer.cs">
       <DependentUpon>Invoice_AddEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dictionary\FormDealerList.cs">
+    <Compile Include="Dictionary\DealerListForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dictionary\FormDealerList.Designer.cs">
-      <DependentUpon>FormDealerList.cs</DependentUpon>
+    <Compile Include="Dictionary\DealerListForm.Designer.cs">
+      <DependentUpon>DealerListForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FormsForDriver\formDriversList.cs">
       <SubType>Form</SubType>
@@ -461,6 +468,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AddEdit\Account_AddEdit.resx">
       <DependentUpon>Account_AddEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddEdit\DealerForm.resx">
+      <DependentUpon>DealerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AddEdit\Employees_AddEdit.resx">
       <DependentUpon>Employees_AddEdit.cs</DependentUpon>
@@ -592,8 +602,8 @@
     <EmbeddedResource Include="FormsForCar\AddEdit\Invoice_AddEdit.resx">
       <DependentUpon>Invoice_AddEdit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dictionary\FormDealerList.resx">
-      <DependentUpon>FormDealerList.cs</DependentUpon>
+    <EmbeddedResource Include="Dictionary\DealerListForm.resx">
+      <DependentUpon>DealerListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormsForDriver\formDriversList.resx">
       <DependentUpon>formDriversList.cs</DependentUpon>

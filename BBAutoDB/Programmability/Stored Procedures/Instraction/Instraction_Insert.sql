@@ -1,9 +1,9 @@
 CREATE PROCEDURE [dbo].[Instraction_Insert]
 @id int,
 @idDriver int,
-@number varchar(50),
+@number nvarchar(50),
 @date datetime,
-@file varchar(100)
+@file nvarchar(100)
 AS
 BEGIN
 	if (@id = 0)

@@ -5,7 +5,7 @@ CREATE PROCEDURE [dbo].[Repair_Insert]
 @idServiceStantion int,
 @date datetime,
 @cost float,
-@file varchar(200)
+@file nvarchar(200)
 AS
 BEGIN
 	if (@idRepair = 0)

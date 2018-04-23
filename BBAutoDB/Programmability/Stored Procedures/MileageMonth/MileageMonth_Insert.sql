@@ -1,6 +1,6 @@
 CREATE PROCEDURE [dbo].[MileageMonth_Insert]
 	
-@carNumber varchar(50), 
+@carNumber nvarchar(50), 
 @date datetime,
 @gasCount	float, 
 @gasBegin	float, 

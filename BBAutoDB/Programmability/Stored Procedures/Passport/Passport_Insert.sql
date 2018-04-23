@@ -1,14 +1,14 @@
 CREATE PROCEDURE [dbo].[Passport_Insert]
 @idPassport int,
 @idDriver int,
-@firstName varchar(50),
-@lastName varchar(50),
-@secondName varchar(50),
-@number varchar(12),
-@giveOrg varchar(200),
+@firstName nvarchar(50),
+@lastName nvarchar(50),
+@secondName nvarchar(50),
+@number nvarchar(12),
+@giveOrg nvarchar(200),
 @giveDate datetime,
-@address varchar(200),
-@file varchar(100)
+@address nvarchar(200),
+@file nvarchar(100)
 AS
 BEGIN
 	if (@idPassport = 0)

@@ -1,10 +1,15 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace BBAuto.Logic.Services.Dealer
 {
   public interface IDealerService
   {
-    Task<IList<DealerModel>> GetDealersAsync();
+    DealerModel Save(DealerModel model);
+
+    IList<DealerModel> GetDealers();
+
+    DealerModel GetDealer(int id);
+
+    void Delete(int id);
   }
 }

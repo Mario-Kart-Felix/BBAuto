@@ -1,6 +1,6 @@
 CREATE PROCEDURE [dbo].[CurrentStatusAfterDTP_Insert]
 @id int,
-@name varchar(100)
+@name nvarchar(100)
 AS
 BEGIN
 	if (@id = 0)

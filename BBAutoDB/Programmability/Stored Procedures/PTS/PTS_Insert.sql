@@ -1,9 +1,9 @@
 CREATE PROCEDURE [dbo].[PTS_Insert]
 @idCar int,
-@number varchar(50),
+@number nvarchar(50),
 @date datetime,
-@giveOrg varchar(100),
-@file varchar(200)
+@giveOrg nvarchar(100),
+@file nvarchar(200)
 AS
 BEGIN
 	if (@idCar = 0)

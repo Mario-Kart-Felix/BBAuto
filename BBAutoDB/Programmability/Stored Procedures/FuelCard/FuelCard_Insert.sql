@@ -1,12 +1,12 @@
 CREATE PROCEDURE [dbo].[FuelCard_Insert]
 @idFuelCard int,
 @idFuelCardType int,
-@number varchar(50),
-@dateEndText varchar(50),
+@number nvarchar(50),
+@dateEndText nvarchar(50),
 @idRegion int,
-@pin varchar(4),
+@pin nvarchar(4),
 @lost int,
-@comment varchar(100)
+@comment nvarchar(100)
 AS
 BEGIN
 	Declare @dateEnd datetime

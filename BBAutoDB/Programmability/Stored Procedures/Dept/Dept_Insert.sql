@@ -1,6 +1,6 @@
 CREATE PROCEDURE [dbo].[Dept_Insert]
 @id int,
-@Name varchar(100)
+@Name nvarchar(100)
 AS
 BEGIN
 	if (@id = 0)

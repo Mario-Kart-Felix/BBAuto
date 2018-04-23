@@ -1,8 +1,8 @@
 CREATE PROCEDURE [dbo].[CarDoc_Insert]
 @idCarDoc int,
 @idCar int,
-@name varchar(50),
-@file varchar(200)
+@name nvarchar(50),
+@file nvarchar(200)
 AS
 BEGIN
 	BEGIN TRANSACTION

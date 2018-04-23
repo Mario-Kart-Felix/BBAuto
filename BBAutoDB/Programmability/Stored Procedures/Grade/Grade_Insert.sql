@@ -1,6 +1,6 @@
 CREATE PROCEDURE [dbo].[Grade_Insert]
 @id int,
-@Name varchar(50),
+@Name nvarchar(50),
 @ePower int,
 @eVol int,
 @maxLoad int,

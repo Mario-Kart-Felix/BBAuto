@@ -393,6 +393,7 @@
     <Build Include="Deployment\Data\InsertStatuses.sql" />
     <Build Include="Deployment\FillDatabase.sql" />
     <Build Include="Deployment\Data\InsertDealers.sql" />
+    <Build Include="Programmability\Stored Procedures\Dealer\GetDealerById.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="BBAutoDB.refactorlog" />

@@ -9,21 +9,15 @@ namespace BBAuto.App.AddEdit
     public event EventHandler<EventArgs> SaveClick;
     public event EventHandler<EventArgs> LoadData;
 
-    public string InputText
-    {
-      get { return tbText.Text; }
-    }
+    public string InputText => tbText.Text;
 
-    public string InputName
-    {
-      get { return tbName.Text; }
-    }
+    public string InputName => tbName.Text;
 
-    public Dictionary_AddEdit(string Text)
+    public Dictionary_AddEdit(string text)
     {
       InitializeComponent();
 
-      this.Text = Text;
+      Text = text;
     }
 
     private void Diller_AddEdit_Load(object sender, EventArgs e)

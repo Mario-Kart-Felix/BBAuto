@@ -3,10 +3,10 @@ as
 begin
   select
     Id,
-    [Name],
+    Name,
     Contacts
   from
     Dealer
   order by
-    [Name]
+    Name
 end

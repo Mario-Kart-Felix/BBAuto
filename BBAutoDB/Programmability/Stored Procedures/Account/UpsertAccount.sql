@@ -1,12 +1,12 @@
 CREATE PROCEDURE [dbo].[UpsertAccount]
 @idAccount int,
-@Number varchar(50),
+@Number nvarchar(50),
 @Agreed int,
 @idPolicyType int,
 @idOwner int,
 @paymentNumber int,
 @businessTrip int,
-@file varchar(100)
+@file nvarchar(100)
 AS
 BEGIN
 	if (@idAccount = 0)

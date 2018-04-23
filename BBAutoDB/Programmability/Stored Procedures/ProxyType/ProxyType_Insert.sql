@@ -1,6 +1,6 @@
 CREATE PROCEDURE [dbo].[ProxyType_Insert]
 @id int,
-@Name varchar(50)
+@Name nvarchar(50)
 AS
 BEGIN
 	if (@id = 0)

@@ -1,7 +1,7 @@
 CREATE PROCEDURE [dbo].[Tabel_Insert]
 @idDriver int,
 @date datetime,
-@comment varchar(50) = NULL
+@comment nvarchar(50) = NULL
 AS
 BEGIN
 	Declare @count int

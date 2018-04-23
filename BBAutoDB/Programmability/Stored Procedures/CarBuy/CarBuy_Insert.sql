@@ -6,10 +6,10 @@ CREATE PROCEDURE [dbo].[CarBuy_Insert]
 @idDriver int,
 @dateOrder datetime,
 @isGet int,
-@dateGet varchar(50),
+@dateGet nvarchar(50),
 @cost float,
-@dop varchar(100),
-@events varchar(500),
+@dop nvarchar(100),
+@events nvarchar(500),
 @idDealer int
 AS
 BEGIN

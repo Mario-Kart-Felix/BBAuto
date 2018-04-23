@@ -6,22 +6,22 @@ using BBAuto.Logic.ForCar;
 
 namespace BBAuto.Logic.Lists
 {
-  public class DealerList : MainList
+  public class DealerList2 : MainList
   {
-    private static DealerList uniqueInstance;
+    private static DealerList2 uniqueInstance;
     private List<Dealer> list;
 
-    private DealerList()
+    private DealerList2()
     {
       list = new List<Dealer>();
 
       LoadFromSql();
     }
 
-    public static DealerList getInstance()
+    public static DealerList2 getInstance()
     {
       if (uniqueInstance == null)
-        uniqueInstance = new DealerList();
+        uniqueInstance = new DealerList2();
 
       return uniqueInstance;
     }

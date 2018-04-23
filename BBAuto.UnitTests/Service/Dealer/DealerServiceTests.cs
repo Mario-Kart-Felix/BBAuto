@@ -32,7 +32,7 @@ namespace BBAuto.UnitTests.Service.Dealer
     }
 
     [Test]
-    public async Task ShouldSuccessGetDealers()
+    public void ShouldSuccessGetDealers()
     {
       //Given
       var dealerId = _fixture.Create<int>();
@@ -50,13 +50,13 @@ namespace BBAuto.UnitTests.Service.Dealer
         _fixture.Create<DbDealer>()
       };
 
-      _dbContextMock.Setup(c => c.Dealer.GetDealersAsync())
-        .ReturnsAsync(dealers);
+      _dbContextMock.Setup(c => c.Dealer.GetDealers())
+        .Returns(dealers);
 
       var sut = GetSut();
 
       //When
-      var resultDealerList = await sut.GetDealersAsync();
+      var resultDealerList = sut.GetDealers();
 
       //Then
       resultDealerList.Should().NotBeNull();

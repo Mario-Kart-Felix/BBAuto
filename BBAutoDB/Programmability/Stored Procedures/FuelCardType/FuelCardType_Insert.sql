@@ -1,6 +1,6 @@
 CREATE PROCEDURE [dbo].[FuelCardType_Insert]
 @idFuelCardType int,
-@name varchar(50)
+@name nvarchar(50)
 AS
 BEGIN
 	if (@idFuelCardType = 0)

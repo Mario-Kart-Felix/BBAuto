@@ -1,3 +1,4 @@
+using BBAuto.App.Dictionary;
 using BBAuto.App.FormsForCar;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
@@ -15,6 +16,10 @@ namespace BBAuto.App.config
 
       container.Register(Component.For<ICarForm>()
         .ImplementedBy<CarForm>()
+        .LifestyleTransient());
+
+      container.Register(Component.For<IDealerListForm>()
+        .ImplementedBy<DealerListForm>()
         .LifestyleTransient());
     }
   }

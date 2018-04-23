@@ -10,7 +10,7 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 print N'Begin post deployment process.'
-declare @curver varchar(max)
+declare @curver nvarchar(max)
 select @curver = Id from dbo.DbVersion
 
 declare @dbVer nvarchar(8)

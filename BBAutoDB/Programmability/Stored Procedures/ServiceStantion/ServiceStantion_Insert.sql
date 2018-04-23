@@ -1,6 +1,6 @@
 CREATE PROCEDURE [dbo].[ServiceStantion_Insert]
 @idServiceStantion int,
-@name varchar(200)
+@name nvarchar(200)
 AS
 BEGIN
 	if (@idServiceStantion = 0)

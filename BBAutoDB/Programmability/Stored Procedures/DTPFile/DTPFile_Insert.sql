@@ -1,8 +1,8 @@
 CREATE PROCEDURE [dbo].[DTPFile_Insert]
 @idDtpFile int,
 @idDtp int,
-@name varchar(100),
-@file varchar(300)
+@name nvarchar(100),
+@file nvarchar(300)
 AS
 BEGIN
 	if (@idDtpFile = 0)

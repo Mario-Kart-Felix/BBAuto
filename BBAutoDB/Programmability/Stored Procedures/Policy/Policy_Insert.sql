@@ -4,16 +4,16 @@ CREATE PROCEDURE [dbo].[Policy_Insert]
 @idCar int,
 @idOwner int,
 @idComp int,
-@Number varchar(50),
+@Number nvarchar(50),
 @dateBegin datetime,
 @dateEnd datetime,
 @pay1 float,
 @cost float,
 @pay2 float,
-@pay2DateText varchar(50),
-@file varchar(100),
+@pay2DateText nvarchar(50),
+@file nvarchar(100),
 @notificationSent int,
-@comment varchar(100)
+@comment nvarchar(100)
 AS
 BEGIN
 	Declare @pay2Date datetime
